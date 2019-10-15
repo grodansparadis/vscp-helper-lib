@@ -34,4 +34,4 @@
 dist/*
 
 Makefile
-vscpworks/Makefile
+vscphelperlib/Makefile

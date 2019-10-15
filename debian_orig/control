@@ -1,4 +1,4 @@
-Source: vscpworks
+Source: vscphelperlib
 Section: utils
 Priority: optional
 Maintainer: Ake Hedman <akhe@grodansparadis.com>
@@ -8,7 +8,7 @@ Homepage: https://www.vscp.org
 Vcs-Browser: https://github.com/grodansparadis/vscpl2drv-logger
 Vcs-Git: https://github.com/grodansparadis/vscpl2drv-logger.git
 
-Package: vscpworks
+Package: vscphelperlib
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libc6-dev, libexpat (>= 2),
  libssl-dev (>= 1.1), libwxgtk3.0-dev (>=3.0)

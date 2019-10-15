@@ -1,21 +1,21 @@
 // web_template.h
 //
-// This file is part of the VSCP (http://www.vscp.org) 
+// This file is part of the VSCP (http://www.vscp.org)
 //
 // The MIT License (MIT)
-// 
+//
 // Copyright (c) 2000-2018 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -119,7 +119,7 @@
                            "             <a href=\"http://www.vscp.org/docs/vscpd/doku.php\" target=\"moon\">VSCP Daemon</a>"\
                            "         </li>"\
                            "         <li>"\
-                           "             <a href=\"http://www.vscp.org/docs/vscpworks/doku.php\" target=\"moon\">VSCP Works</a>"\
+                           "             <a href=\"http://www.vscp.org/docs/vscphelperlib/doku.php\" target=\"moon\">VSCP Works</a>"\
                            "         </li>"\
                            "         <li>"\
                            "             <a href=\"http://www.vscp.org/docs/vscphelper/doku.php\" target=\"moon\">VSCP Helper lib</a>"\
@@ -136,7 +136,7 @@
 
 // Common head up to <body>
 // Contains three string insert points for printf
-// 1. Page title 
+// 1. Page title
 #define WEB_COMMON_HEAD "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \
 \"http://www.w3.org/TR/html4/strict.dtd\"><html><head>\
 <meta content=\"text/html; charset=utf8\" http-equiv=\"\
@@ -148,7 +148,7 @@ content-type\" /><title>%s</title>"
 #define WEB_COMMON_END "<br><br><br><br><div id=\"footer\"> %s \
 </div></body></html>"
 
-// List navigation - 
+// List navigation -
 // Action url           - string
 // First shown record   - integer
 // Last shown record    - integer
@@ -205,7 +205,7 @@ content-type\" /><title>%s</title>"
 // Place before common end
 #define WEB_DMEDIT_TABLE_END "</tbody></table>"
 
-// DM-Edit post - 
+// DM-Edit post -
 #define WEB_DMEDIT_SUBMIT "<br><div style=\"text-align:center\">\
                             <button type=\"submit\" value=\"btnsave\" \
                             name=\"btnsave\">save</button><br></div>"
@@ -399,7 +399,7 @@ content-type\" /><title>%s</title>"
 //                              Variable
 //////////////////////////////////////////////////////////////////////////////
 
-//  Variable-New step1 submit 
+//  Variable-New step1 submit
 #define WEB_VARNEW_SUBMIT "<br><div style=\"text-align:center\">\
                             <button type=\"submit\" value=\"btnnext\" \
                             name=\"btnnext\">next</button><br></div>"
@@ -416,14 +416,14 @@ content-type\" /><title>%s</title>"
  * };
  */
 
-//  Common (Variable/zone/subzone/guid)-Edit submit 
+//  Common (Variable/zone/subzone/guid)-Edit submit
 #define WEB_COMMON_SUBMIT "<br><div style=\"text-align:center\">\
                             <button type=\"submit\" \
                                onclick=\"DoNav(%s);\" name=\"btnsave\">Save</button> \
                             <button type=\"reset\" value=\"reset\">Reset</button> \
                             <button type=\"submit\" value=\"true\" name=\"btncancel\" >Cancel</button>\
                             <br></div>"
- 
+
 // onclick=\"javascript:alert('hi');window.location='varlist';\"
 //  <button type=\"cancel\" onclick=\"javascript:window.location='%s';\">Cancel</button>\
 
@@ -446,12 +446,12 @@ content-type\" /><title>%s</title>"
 // Table head
 #define WEB_LOG_TR_HEAD "<tr> <th>Date</th> <th>Type</th> <th>Level</th> <th>Message</th> </tr>"
 
-//  Log pre step submit 
+//  Log pre step submit
 #define WEB_LOG_SUBMIT "<br><div style=\"text-align:center\">\
                             <button type=\"submit\" value=\"btnnext\" \
                             name=\"btnnext\">next</button><br></div>"
 
-// List navigation - 
+// List navigation -
 // Action url           - string
 // First shown record   - integer
 // Last shown record    - integer
@@ -516,7 +516,7 @@ content-type\" /><title>%s</title>"
 
 #define WEB_TABLEVALUELIST_TD_GUID "<td id=\"tdguid\">"
 
-// Tablevalue navigation - 
+// Tablevalue navigation -
 // Action url           - string
 // First shown record   - integer
 // Last shown record    - integer

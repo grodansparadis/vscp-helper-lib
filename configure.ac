@@ -1,15 +1,15 @@
-dnl Autoconf settings for vscpworks
+dnl Autoconf settings for vscphelperlib
 dnl $Id: configure.in,v 1.5 2017/10/13 11:22:06 akhe Exp $
 
 dnl Get version
 m4_builtin([include], VERSION.m4)
 
-AC_INIT( [vscpworks], [package_version], [akhe@grodansparadis.com])
+AC_INIT( [vscphelperlib], [package_version], [akhe@grodansparadis.com])
 
 AC_CONFIG_MACRO_DIR(m4)
 
 AC_PREREQ(2.57)
-AC_CONFIG_SRCDIR([vscpworks/bootdevice.cpp])
+AC_CONFIG_SRCDIR([vscphelperlib/bootdevice.cpp])
 AC_CONFIG_AUX_DIR(autotools)
 AC_CONFIG_HEADERS([config.h])
 
@@ -141,7 +141,7 @@ dnl
 dnl Project Sub directories
 dnl
 
-PROJ_SUBDIRS="vscpworks "
+PROJ_SUBDIRS="vscphelperlib "
 
 AC_SUBST(PROJ_SUBDIRS)
 
@@ -220,7 +220,7 @@ dnl
 
 AC_CONFIG_FILES([Makefile
          m4/Makefile
-         vscpworks/Makefile
+         vscphelperlib/Makefile
 ])
 
 dnl Generate makefiles
@@ -258,7 +258,7 @@ echo   "PROJ_SUBDIRS  : ${PROJ_SUBDIRS}"
 printf "
  use --enable-debug to build a debug version; release is default.
 
- \"make\" -- builds vscpworks.
- \"make install\" -- builds vscpworks and installs.
+ \"make\" -- builds vscphelperlib.
+ \"make install\" -- builds vscphelperlib and installs.
 "
 dnl vi: set et sts=4 sw=4 com=\:dnl

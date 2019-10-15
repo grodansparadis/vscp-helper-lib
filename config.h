@@ -273,13 +273,13 @@
 #define PACKAGE_BUGREPORT "akhe@grodansparadis.com"
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME "vscpworks"
+#define PACKAGE_NAME "vscphelperlib"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "vscpworks 13.2.0"
+#define PACKAGE_STRING "vscphelperlib 13.2.0"
 
 /* Define to the one symbol short name of this package. */
-#define PACKAGE_TARNAME "vscpworks"
+#define PACKAGE_TARNAME "vscphelperlib"
 
 /* Define to the home page for this package. */
 #define PACKAGE_URL ""
