@@ -9,7 +9,7 @@ AC_INIT( [vscphelperlib], [package_version], [akhe@grodansparadis.com])
 AC_CONFIG_MACRO_DIR(m4)
 
 AC_PREREQ(2.57)
-AC_CONFIG_SRCDIR([vscphelperlib/bootdevice.cpp])
+AC_CONFIG_SRCDIR([linux/libvscphelper.cpp])
 AC_CONFIG_AUX_DIR(autotools)
 AC_CONFIG_HEADERS([config.h])
 
@@ -84,17 +84,7 @@ AS_IF([test "$ac_cv_sizeof_long" -eq 8],
     [AC_DEFINE([OSBIT], 64, [Define to the size of a long in bits.])],
     [AC_DEFINE([OSBIT], 32, [Define to the size of a long in bits.])])
 
-AC_SUBST(WXLIBS)
 AC_SUBST(EXTRALIBS)
-AC_SUBST(WXBASE_CPPFLAGS)
-AC_SUBST(WXBASE_CXXFLAGS)
-AC_SUBST(WXBASE_CFLAGS)
-AC_SUBST(WXBASE_LIBS)
-AC_SUBST(WXGTK_CPPFLAGS)
-AC_SUBST(WXGTK_CXXFLAGS)
-AC_SUBST(WXGTK_CFLAGS)
-AC_SUBST(WXGTK_LIBS)
-AC_SUBST(WXGTK_STATIC_LIBS)
 AC_SUBST(DESTDIR)
 AC_SUBST(STATIC)
 AC_SUBST(MAJOR_VERSION)
@@ -141,7 +131,7 @@ dnl
 dnl Project Sub directories
 dnl
 
-PROJ_SUBDIRS="vscphelperlib "
+PROJ_SUBDIRS="linux "
 
 AC_SUBST(PROJ_SUBDIRS)
 
@@ -150,68 +140,7 @@ dnl  openssl version
 dnl
 
 
-dnl
-dnl  wxWindows module
-dnl
 
-AM_OPTIONS_WXCONFIG
-reqwx=3.0.0
-
-if test "${ax_enable_debug}" = yes ; then
-    echo 'checking for debug unicode wx-libs ...'
-    AM_PATH_WXCONFIG($reqwx, [wxWin=1], [wxWin=0], --unicode=yes --debug=yes)
-else
-    echo 'checking for unicode wx-libs ...'
-    AM_PATH_WXCONFIG($reqwx, [wxWin=1], [wxWin=0], --unicode=yes --debug=no)
-fi
-if test "$wxWin" != 1; then
-    AC_MSG_ERROR([
-        wxWidgets must be installed on your system.
-
-        Please check that wx-config is in path, the directory
-        where wxWidgets libraries are installed (returned by
-        'wx-config --libs' or 'wx-config --static --libs' command)
-        is in LD_LIBRARY_PATH or equivalent variable and
-        wxWidgets version is $reqwx or above.
-    ])
-fi
-
-dnl CPPFLAGS="$CPPFLAGS $WX_CPPFLAGS"
-dnl CXXFLAGS="$CXXFLAGS $WX_CXXFLAGS_ONLY"
-dnl CFLAGS="$CFLAGS $WX_CFLAGS_ONLY"
-dnl LIBS="$LIBS $WX_LIBS"
-
-WX_BASENAME=`$WX_CONFIG_WITH_ARGS --basename`
-vscp_gui=no
-AC_MSG_CHECKING([for wx_gtk2* or wx_gtk3* wxWidgets libs])
-if sh -c "$WX_CONFIG_WITH_ARGS --basename" 2>/dev/null | grep -e wx_gtk2 -e wx_gtk3 >/dev/null; then
-    dnl wxGTK is installed, build the GUI applications also
-    PROJ_SUBDIRS="$PROJ_SUBDIRS $PROJ_SUBDIRS_GUI"
-    vscp_gui=yes
-    AC_MSG_RESULT([Found; building GUI apps])
-fi
-
-EXTRALIBS="${EXTRALIBS} ${LIBS}"
-
-if test "${vscp_debug}" = yes ; then
-WXBASE_CPPFLAGS=`$WX_CONFIG_WITH_ARGS -debug --cppflags base`
-WXBASE_CXXFLAGS=`$WX_CONFIG_WITH_ARGS --debug --cxxflags base`
-WXBASE_CFLAGS=`$WX_CONFIG_WITH_ARGS --debug --cflags base`
-WXBASE_LIBS=`$WX_CONFIG_WITH_ARGS --debug --libs base xml net`
-WXGTK_CPPFLAGS=`$WX_CONFIG_WITH_ARGS -debug --cppflags`
-WXGTK_CXXFLAGS=`$WX_CONFIG_WITH_ARGS --debug --cxxflags`
-WXGTK_CFLAGS=`$WX_CONFIG_WITH_ARGS --debug --cflags`
-WXGTK_LIBS=`$WX_CONFIG_WITH_ARGS --debug --libs`
-else
-WXBASE_CPPFLAGS=`$WX_CONFIG_WITH_ARGS --cppflags base`
-WXBASE_CXXFLAGS=`$WX_CONFIG_WITH_ARGS --cxxflags base`
-WXBASE_CFLAGS=`$WX_CONFIG_WITH_ARGS --cflags base`
-WXBASE_LIBS=`$WX_CONFIG_WITH_ARGS --libs base xml net`
-WXGTK_CPPFLAGS=`$WX_CONFIG_WITH_ARGS --cppflags`
-WXGTK_CXXFLAGS=`$WX_CONFIG_WITH_ARGS --cxxflags`
-WXGTK_CFLAGS=`$WX_CONFIG_WITH_ARGS --cflags`
-WXGTK_LIBS=`$WX_CONFIG_WITH_ARGS  --libs`
-fi
 
 
 dnl
@@ -220,7 +149,7 @@ dnl
 
 AC_CONFIG_FILES([Makefile
          m4/Makefile
-         vscphelperlib/Makefile
+         linux/Makefile
 ])
 
 dnl Generate makefiles
@@ -247,13 +176,12 @@ else
 fi
 
 dnl Output some debugging information
-echo   "LIBS          : ${LIBS}"
-echo   "WXLIBS        : ${WXBASE_LIBS} ${WXGTK_LIBS}"
-echo   "EXTRALIBS     : ${EXTRALIBS}"
-echo   "EXTRACPPFLAGS : ${CPPFLAGS}"
-echo   "EXTRACXXFLAGS : ${CXXFLAGS}"
-echo   "EXTRACFLAGS   : ${CFLAGS}"
-echo   "PROJ_SUBDIRS  : ${PROJ_SUBDIRS}"
+echo   "LIBS                  : ${LIBS}"
+echo   "EXTRALIBS             : ${EXTRALIBS}"
+echo   "EXTRACPPFLAGS         : ${CPPFLAGS}"
+echo   "EXTRACXXFLAGS         : ${CXXFLAGS}"
+echo   "EXTRACFLAGS           : ${CFLAGS}"
+echo   "PROJ_SUBDIRS          : ${PROJ_SUBDIRS}"
 
 printf "
  use --enable-debug to build a debug version; release is default.
