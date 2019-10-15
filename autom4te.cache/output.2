@@ -715,8 +715,7 @@ YACC
 YFLAGS
 CC
 CFLAGS
-CPP
-DESTDIR'
+CPP'
 
 
 # Initialize some variables set by options.
@@ -1356,7 +1355,6 @@ Some influential environment variables:
   CC          C compiler command
   CFLAGS      C compiler flags
   CPP         C preprocessor
-  DESTDIR     Set base folder for installation (/srv/vscp)
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -6551,14 +6549,6 @@ echo "openssl 1.0 libs will be used."
 CFLAGS+=" -DOPENSSL_API_1_0"
 fi
 
-
-
-if test "${DESTDIR+set}" = set; then
-  echo "variable \$DESTDIR is set to: $DESTDIR"
-else
-  DESTDIR="/srv/vscp/"
-  echo "variable \$DESTDIR is set to: $DESTDIR"
-fi
 
 
 PROJ_SUBDIRS="linux "

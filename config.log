@@ -67,20 +67,20 @@ PATH: /home/akhe/local/x-tools/arm-unknown-linux-gnueabi/bin
 ## Core tests. ##
 ## ----------- ##
 
-configure:2454: checking whether to enable debugging
-configure:2491: result: no
-configure:2575: checking for g++
-configure:2591: found /usr/bin/g++
-configure:2602: result: g++
-configure:2629: checking for C++ compiler version
-configure:2638: g++ --version >&5
+configure:2452: checking whether to enable debugging
+configure:2489: result: no
+configure:2573: checking for g++
+configure:2589: found /usr/bin/g++
+configure:2600: result: g++
+configure:2627: checking for C++ compiler version
+configure:2636: g++ --version >&5
 g++ (Ubuntu 8.3.0-6ubuntu1) 8.3.0
 Copyright (C) 2018 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:2649: $? = 0
-configure:2638: g++ -v >&5
+configure:2647: $? = 0
+configure:2636: g++ -v >&5
 Using built-in specs.
 COLLECT_GCC=g++
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper
@@ -90,63 +90,63 @@ Target: x86_64-linux-gnu
 Configured with: ../src/configure -v --with-pkgversion='Ubuntu 8.3.0-6ubuntu1' --with-bugurl=file:///usr/share/doc/gcc-8/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --program-suffix=-8 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
 Thread model: posix
 gcc version 8.3.0 (Ubuntu 8.3.0-6ubuntu1) 
-configure:2649: $? = 0
-configure:2638: g++ -V >&5
+configure:2647: $? = 0
+configure:2636: g++ -V >&5
 g++: error: unrecognized command line option '-V'
 g++: fatal error: no input files
 compilation terminated.
-configure:2649: $? = 1
-configure:2638: g++ -qversion >&5
+configure:2647: $? = 1
+configure:2636: g++ -qversion >&5
 g++: error: unrecognized command line option '-qversion'; did you mean '--version'?
 g++: fatal error: no input files
 compilation terminated.
-configure:2649: $? = 1
-configure:2669: checking whether the C++ compiler works
-configure:2691: g++    conftest.cpp  >&5
-configure:2695: $? = 0
-configure:2743: result: yes
-configure:2746: checking for C++ compiler default output file name
-configure:2748: result: a.out
-configure:2754: checking for suffix of executables
-configure:2761: g++ -o conftest    conftest.cpp  >&5
-configure:2765: $? = 0
-configure:2787: result: 
-configure:2809: checking whether we are cross compiling
-configure:2817: g++ -o conftest    conftest.cpp  >&5
-configure:2821: $? = 0
-configure:2828: ./conftest
-configure:2832: $? = 0
-configure:2820: result: no
-configure:2825: checking for suffix of object files
-configure:2847: g++ -c   conftest.cpp >&5
-configure:2851: $? = 0
-configure:2872: result: o
-configure:2876: checking whether we are using the GNU C++ compiler
-configure:2895: g++ -c   conftest.cpp >&5
-configure:2895: $? = 0
-configure:2904: result: yes
-configure:2913: checking whether g++ accepts -g
-configure:2933: g++ -c -g  conftest.cpp >&5
-configure:2933: $? = 0
-configure:2974: result: yes
-configure:3001: checking for gawk
-configure:3017: found /usr/bin/gawk
-configure:3028: result: gawk
-configure:3043: checking for bison
-configure:3059: found /usr/bin/bison
-configure:3070: result: bison -y
-configure:3130: checking for gcc
-configure:3146: found /usr/bin/gcc
-configure:3157: result: gcc
-configure:3386: checking for C compiler version
-configure:3395: gcc --version >&5
+configure:2647: $? = 1
+configure:2667: checking whether the C++ compiler works
+configure:2689: g++    conftest.cpp  >&5
+configure:2693: $? = 0
+configure:2741: result: yes
+configure:2744: checking for C++ compiler default output file name
+configure:2746: result: a.out
+configure:2752: checking for suffix of executables
+configure:2759: g++ -o conftest    conftest.cpp  >&5
+configure:2763: $? = 0
+configure:2785: result: 
+configure:2807: checking whether we are cross compiling
+configure:2815: g++ -o conftest    conftest.cpp  >&5
+configure:2819: $? = 0
+configure:2826: ./conftest
+configure:2830: $? = 0
+configure:2818: result: no
+configure:2823: checking for suffix of object files
+configure:2845: g++ -c   conftest.cpp >&5
+configure:2849: $? = 0
+configure:2870: result: o
+configure:2874: checking whether we are using the GNU C++ compiler
+configure:2893: g++ -c   conftest.cpp >&5
+configure:2893: $? = 0
+configure:2902: result: yes
+configure:2911: checking whether g++ accepts -g
+configure:2931: g++ -c -g  conftest.cpp >&5
+configure:2931: $? = 0
+configure:2972: result: yes
+configure:2999: checking for gawk
+configure:3015: found /usr/bin/gawk
+configure:3026: result: gawk
+configure:3041: checking for bison
+configure:3057: found /usr/bin/bison
+configure:3068: result: bison -y
+configure:3128: checking for gcc
+configure:3144: found /usr/bin/gcc
+configure:3155: result: gcc
+configure:3384: checking for C compiler version
+configure:3393: gcc --version >&5
 gcc (Ubuntu 8.3.0-6ubuntu1) 8.3.0
 Copyright (C) 2018 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:3406: $? = 0
-configure:3395: gcc -v >&5
+configure:3404: $? = 0
+configure:3393: gcc -v >&5
 Using built-in specs.
 COLLECT_GCC=gcc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/8/lto-wrapper
@@ -156,38 +156,38 @@ Target: x86_64-linux-gnu
 Configured with: ../src/configure -v --with-pkgversion='Ubuntu 8.3.0-6ubuntu1' --with-bugurl=file:///usr/share/doc/gcc-8/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++ --prefix=/usr --with-gcc-major-version-only --program-suffix=-8 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
 Thread model: posix
 gcc version 8.3.0 (Ubuntu 8.3.0-6ubuntu1) 
-configure:3406: $? = 0
-configure:3395: gcc -V >&5
+configure:3404: $? = 0
+configure:3393: gcc -V >&5
 gcc: error: unrecognized command line option '-V'
 gcc: fatal error: no input files
 compilation terminated.
-configure:3406: $? = 1
-configure:3395: gcc -qversion >&5
+configure:3404: $? = 1
+configure:3393: gcc -qversion >&5
 gcc: error: unrecognized command line option '-qversion'; did you mean '--version'?
 gcc: fatal error: no input files
 compilation terminated.
-configure:3406: $? = 1
-configure:3410: checking whether we are using the GNU C compiler
-configure:3429: gcc -c   conftest.c >&5
-configure:3429: $? = 0
-configure:3438: result: yes
-configure:3447: checking whether gcc accepts -g
-configure:3467: gcc -c -g  conftest.c >&5
-configure:3467: $? = 0
-configure:3508: result: yes
-configure:3525: checking for gcc option to accept ISO C89
-configure:3588: gcc  -c   conftest.c >&5
-configure:3588: $? = 0
-configure:3601: result: none needed
-configure:3626: checking how to run the C preprocessor
-configure:3657: gcc -E  conftest.c
-configure:3657: $? = 0
-configure:3671: gcc -E  conftest.c
+configure:3404: $? = 1
+configure:3408: checking whether we are using the GNU C compiler
+configure:3427: gcc -c   conftest.c >&5
+configure:3427: $? = 0
+configure:3436: result: yes
+configure:3445: checking whether gcc accepts -g
+configure:3465: gcc -c -g  conftest.c >&5
+configure:3465: $? = 0
+configure:3506: result: yes
+configure:3523: checking for gcc option to accept ISO C89
+configure:3586: gcc  -c   conftest.c >&5
+configure:3586: $? = 0
+configure:3599: result: none needed
+configure:3624: checking how to run the C preprocessor
+configure:3655: gcc -E  conftest.c
+configure:3655: $? = 0
+configure:3669: gcc -E  conftest.c
 conftest.c:10:10: fatal error: ac_nonexistent.h: No such file or directory
  #include <ac_nonexistent.h>
           ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:3671: $? = 1
+configure:3669: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -199,15 +199,15 @@ configure: failed program was:
 | #define NDEBUG /**/
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:3696: result: gcc -E
-configure:3716: gcc -E  conftest.c
-configure:3716: $? = 0
-configure:3730: gcc -E  conftest.c
+configure:3694: result: gcc -E
+configure:3714: gcc -E  conftest.c
+configure:3714: $? = 0
+configure:3728: gcc -E  conftest.c
 conftest.c:10:10: fatal error: ac_nonexistent.h: No such file or directory
  #include <ac_nonexistent.h>
           ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:3730: $? = 1
+configure:3728: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -219,23 +219,23 @@ configure: failed program was:
 | #define NDEBUG /**/
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:3763: checking for flex
-configure:3779: found /usr/bin/flex
-configure:3790: result: flex
-configure:3828: flex conftest.l
-configure:3832: $? = 0
-configure:3834: checking lex output file root
-configure:3848: result: lex.yy
-configure:3853: checking lex library
-configure:3867: gcc -o conftest    conftest.c   >&5
-/usr/bin/ld: /tmp/ccRdHdtt.o: in function `yylex':
+configure:3761: checking for flex
+configure:3777: found /usr/bin/flex
+configure:3788: result: flex
+configure:3826: flex conftest.l
+configure:3830: $? = 0
+configure:3832: checking lex output file root
+configure:3846: result: lex.yy
+configure:3851: checking lex library
+configure:3865: gcc -o conftest    conftest.c   >&5
+/usr/bin/ld: /tmp/cclWq1FM.o: in function `yylex':
 conftest.c:(.text+0x76e): undefined reference to `yywrap'
-/usr/bin/ld: /tmp/ccRdHdtt.o: in function `input':
+/usr/bin/ld: /tmp/cclWq1FM.o: in function `input':
 conftest.c:(.text+0x1280): undefined reference to `yywrap'
-/usr/bin/ld: /tmp/ccRdHdtt.o: in function `main':
+/usr/bin/ld: /tmp/cclWq1FM.o: in function `main':
 conftest.c:(.text+0x1f59): undefined reference to `yywrap'
 collect2: error: ld returned 1 exit status
-configure:3867: $? = 1
+configure:3865: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -2026,124 +2026,124 @@ configure: failed program was:
 | {
 |   return ! yylex () + ! yywrap ();
 | }
-configure:3867: gcc -o conftest    conftest.c -lfl  >&5
-configure:3867: $? = 0
-configure:3877: result: -lfl
-configure:3883: checking whether yytext is a pointer
-configure:3900: gcc -o conftest    conftest.c -lfl  >&5
-configure:3900: $? = 0
-configure:3908: result: yes
-configure:3845: checking for a BSD-compatible install
-configure:3913: result: /usr/bin/install -c
-configure:3924: checking whether ln -s works
-configure:3928: result: yes
-configure:3935: checking whether make sets $(MAKE)
-configure:3957: result: yes
-configure:4009: checking for ranlib
-configure:4025: found /usr/bin/ranlib
-configure:4036: result: ranlib
-configure:4060: checking for dlsym in -ldl
-configure:4085: gcc -o conftest    conftest.c -ldl   >&5
-configure:4085: $? = 0
-configure:4094: result: yes
-configure:4105: checking for pthread_create in -lpthread
-configure:4130: gcc -o conftest    conftest.c -lpthread  -ldl  >&5
-configure:4130: $? = 0
-configure:4139: result: yes
-configure:4150: checking for MD5_Init in -lcrypto
-configure:4175: gcc -o conftest    conftest.c -lcrypto  -lpthread -ldl  >&5
-configure:4175: $? = 0
-configure:4184: result: yes
-configure:4195: checking for sin in -lm
-configure:4220: gcc -o conftest    conftest.c -lm  -lcrypto -lpthread -ldl  >&5
+configure:3865: gcc -o conftest    conftest.c -lfl  >&5
+configure:3865: $? = 0
+configure:3875: result: -lfl
+configure:3881: checking whether yytext is a pointer
+configure:3898: gcc -o conftest    conftest.c -lfl  >&5
+configure:3898: $? = 0
+configure:3906: result: yes
+configure:3843: checking for a BSD-compatible install
+configure:3911: result: /usr/bin/install -c
+configure:3922: checking whether ln -s works
+configure:3926: result: yes
+configure:3933: checking whether make sets $(MAKE)
+configure:3955: result: yes
+configure:4007: checking for ranlib
+configure:4023: found /usr/bin/ranlib
+configure:4034: result: ranlib
+configure:4058: checking for dlsym in -ldl
+configure:4083: gcc -o conftest    conftest.c -ldl   >&5
+configure:4083: $? = 0
+configure:4092: result: yes
+configure:4103: checking for pthread_create in -lpthread
+configure:4128: gcc -o conftest    conftest.c -lpthread  -ldl  >&5
+configure:4128: $? = 0
+configure:4137: result: yes
+configure:4148: checking for MD5_Init in -lcrypto
+configure:4173: gcc -o conftest    conftest.c -lcrypto  -lpthread -ldl  >&5
+configure:4173: $? = 0
+configure:4182: result: yes
+configure:4193: checking for sin in -lm
+configure:4218: gcc -o conftest    conftest.c -lm  -lcrypto -lpthread -ldl  >&5
 conftest.c:21:6: warning: conflicting types for built-in function 'sin' [-Wbuiltin-declaration-mismatch]
  char sin ();
       ^~~
-configure:4220: $? = 0
-configure:4229: result: yes
-configure:4240: checking for clock_gettime in -lrt
-configure:4265: gcc -o conftest    conftest.c -lrt  -lm -lcrypto -lpthread -ldl  >&5
-configure:4265: $? = 0
-configure:4274: result: yes
-configure:4285: checking for gzopen in -lz
-configure:4310: gcc -o conftest    conftest.c -lz  -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:4310: $? = 0
-configure:4319: result: yes
-configure:4330: checking for SSL_free in -lssl
-configure:4355: gcc -o conftest    conftest.c -lssl  -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:4355: $? = 0
-configure:4364: result: yes
-configure:4375: checking for XML_ParserCreate in -lexpat
-configure:4400: gcc -o conftest    conftest.c -lexpat  -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:4400: $? = 0
-configure:4409: result: yes
-configure:4425: checking for dirent.h that defines DIR
-configure:4444: gcc -c   conftest.c >&5
-configure:4444: $? = 0
-configure:4452: result: yes
-configure:4465: checking for library containing opendir
-configure:4496: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:4496: $? = 0
-configure:4513: result: none required
-configure:4581: checking for grep that handles long lines and -e
-configure:4639: result: /bin/grep
-configure:4644: checking for egrep
-configure:4706: result: /bin/grep -E
-configure:4711: checking for ANSI C header files
-configure:4731: gcc -c   conftest.c >&5
-configure:4731: $? = 0
-configure:4804: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:4804: $? = 0
-configure:4804: ./conftest
-configure:4804: $? = 0
-configure:4815: result: yes
-configure:4823: checking for sys/wait.h that is POSIX.1 compatible
-configure:4849: gcc -c   conftest.c >&5
-configure:4849: $? = 0
-configure:4856: result: yes
-configure:4869: checking for sys/types.h
-configure:4869: gcc -c   conftest.c >&5
-configure:4869: $? = 0
-configure:4869: result: yes
-configure:4869: checking for sys/stat.h
-configure:4869: gcc -c   conftest.c >&5
-configure:4869: $? = 0
-configure:4869: result: yes
-configure:4869: checking for stdlib.h
-configure:4869: gcc -c   conftest.c >&5
-configure:4869: $? = 0
-configure:4869: result: yes
-configure:4869: checking for string.h
-configure:4869: gcc -c   conftest.c >&5
-configure:4869: $? = 0
-configure:4869: result: yes
-configure:4869: checking for memory.h
-configure:4869: gcc -c   conftest.c >&5
-configure:4869: $? = 0
-configure:4869: result: yes
-configure:4869: checking for strings.h
-configure:4869: gcc -c   conftest.c >&5
-configure:4869: $? = 0
-configure:4869: result: yes
-configure:4869: checking for inttypes.h
-configure:4869: gcc -c   conftest.c >&5
-configure:4869: $? = 0
-configure:4869: result: yes
-configure:4869: checking for stdint.h
-configure:4869: gcc -c   conftest.c >&5
-configure:4869: $? = 0
-configure:4869: result: yes
-configure:4869: checking for unistd.h
-configure:4869: gcc -c   conftest.c >&5
-configure:4869: $? = 0
-configure:4869: result: yes
-configure:4884: checking OS.h usability
-configure:4884: gcc -c   conftest.c >&5
+configure:4218: $? = 0
+configure:4227: result: yes
+configure:4238: checking for clock_gettime in -lrt
+configure:4263: gcc -o conftest    conftest.c -lrt  -lm -lcrypto -lpthread -ldl  >&5
+configure:4263: $? = 0
+configure:4272: result: yes
+configure:4283: checking for gzopen in -lz
+configure:4308: gcc -o conftest    conftest.c -lz  -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:4308: $? = 0
+configure:4317: result: yes
+configure:4328: checking for SSL_free in -lssl
+configure:4353: gcc -o conftest    conftest.c -lssl  -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:4353: $? = 0
+configure:4362: result: yes
+configure:4373: checking for XML_ParserCreate in -lexpat
+configure:4398: gcc -o conftest    conftest.c -lexpat  -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:4398: $? = 0
+configure:4407: result: yes
+configure:4423: checking for dirent.h that defines DIR
+configure:4442: gcc -c   conftest.c >&5
+configure:4442: $? = 0
+configure:4450: result: yes
+configure:4463: checking for library containing opendir
+configure:4494: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:4494: $? = 0
+configure:4511: result: none required
+configure:4579: checking for grep that handles long lines and -e
+configure:4637: result: /bin/grep
+configure:4642: checking for egrep
+configure:4704: result: /bin/grep -E
+configure:4709: checking for ANSI C header files
+configure:4729: gcc -c   conftest.c >&5
+configure:4729: $? = 0
+configure:4802: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:4802: $? = 0
+configure:4802: ./conftest
+configure:4802: $? = 0
+configure:4813: result: yes
+configure:4821: checking for sys/wait.h that is POSIX.1 compatible
+configure:4847: gcc -c   conftest.c >&5
+configure:4847: $? = 0
+configure:4854: result: yes
+configure:4867: checking for sys/types.h
+configure:4867: gcc -c   conftest.c >&5
+configure:4867: $? = 0
+configure:4867: result: yes
+configure:4867: checking for sys/stat.h
+configure:4867: gcc -c   conftest.c >&5
+configure:4867: $? = 0
+configure:4867: result: yes
+configure:4867: checking for stdlib.h
+configure:4867: gcc -c   conftest.c >&5
+configure:4867: $? = 0
+configure:4867: result: yes
+configure:4867: checking for string.h
+configure:4867: gcc -c   conftest.c >&5
+configure:4867: $? = 0
+configure:4867: result: yes
+configure:4867: checking for memory.h
+configure:4867: gcc -c   conftest.c >&5
+configure:4867: $? = 0
+configure:4867: result: yes
+configure:4867: checking for strings.h
+configure:4867: gcc -c   conftest.c >&5
+configure:4867: $? = 0
+configure:4867: result: yes
+configure:4867: checking for inttypes.h
+configure:4867: gcc -c   conftest.c >&5
+configure:4867: $? = 0
+configure:4867: result: yes
+configure:4867: checking for stdint.h
+configure:4867: gcc -c   conftest.c >&5
+configure:4867: $? = 0
+configure:4867: result: yes
+configure:4867: checking for unistd.h
+configure:4867: gcc -c   conftest.c >&5
+configure:4867: $? = 0
+configure:4867: result: yes
+configure:4882: checking OS.h usability
+configure:4882: gcc -c   conftest.c >&5
 conftest.c:64:10: fatal error: OS.h: No such file or directory
  #include <OS.h>
           ^~~~~~
 compilation terminated.
-configure:4884: $? = 1
+configure:4882: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -2209,14 +2209,14 @@ configure: failed program was:
 | # include <unistd.h>
 | #endif
 | #include <OS.h>
-configure:4884: result: no
-configure:4884: checking OS.h presence
-configure:4884: gcc -E  conftest.c
+configure:4882: result: no
+configure:4882: checking OS.h presence
+configure:4882: gcc -E  conftest.c
 conftest.c:31:10: fatal error: OS.h: No such file or directory
  #include <OS.h>
           ^~~~~~
 compilation terminated.
-configure:4884: $? = 1
+configure:4882: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -2249,194 +2249,194 @@ configure: failed program was:
 | #define HAVE_UNISTD_H 1
 | /* end confdefs.h.  */
 | #include <OS.h>
-configure:4884: result: no
-configure:4884: checking for OS.h
-configure:4884: result: no
-configure:4884: checking arpa/inet.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking arpa/inet.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for arpa/inet.h
-configure:4884: result: yes
-configure:4884: checking fcntl.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking fcntl.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for fcntl.h
-configure:4884: result: yes
-configure:4884: checking for inttypes.h
-configure:4884: result: yes
-configure:4884: checking limits.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking limits.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for limits.h
-configure:4884: result: yes
-configure:4884: checking locale.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking locale.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for locale.h
-configure:4884: result: yes
-configure:4884: checking netdb.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking netdb.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for netdb.h
-configure:4884: result: yes
-configure:4884: checking netinet/in.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking netinet/in.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for netinet/in.h
-configure:4884: result: yes
-configure:4884: checking sgtty.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking sgtty.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for sgtty.h
-configure:4884: result: yes
-configure:4884: checking stddef.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking stddef.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for stddef.h
-configure:4884: result: yes
-configure:4884: checking for stdint.h
-configure:4884: result: yes
-configure:4884: checking for stdlib.h
-configure:4884: result: yes
-configure:4884: checking for string.h
-configure:4884: result: yes
-configure:4884: checking for strings.h
-configure:4884: result: yes
-configure:4884: checking sys/file.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking sys/file.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for sys/file.h
-configure:4884: result: yes
-configure:4884: checking sys/ioctl.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking sys/ioctl.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for sys/ioctl.h
-configure:4884: result: yes
-configure:4884: checking sys/socket.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking sys/socket.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for sys/socket.h
-configure:4884: result: yes
-configure:4884: checking sys/time.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking sys/time.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for sys/time.h
-configure:4884: result: yes
-configure:4884: checking sys/timeb.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking sys/timeb.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for sys/timeb.h
-configure:4884: result: yes
-configure:4884: checking syslog.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking syslog.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for syslog.h
-configure:4884: result: yes
-configure:4884: checking termios.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking termios.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for termios.h
-configure:4884: result: yes
-configure:4884: checking for unistd.h
-configure:4884: result: yes
-configure:4884: checking openssl/md5.h usability
-configure:4884: gcc -c   conftest.c >&5
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking openssl/md5.h presence
-configure:4884: gcc -E  conftest.c
-configure:4884: $? = 0
-configure:4884: result: yes
-configure:4884: checking for openssl/md5.h
-configure:4884: result: yes
-configure:4896: checking for stdbool.h that conforms to C99
-configure:4963: gcc -c   conftest.c >&5
-configure:4963: $? = 0
-configure:4970: result: yes
-configure:4972: checking for _Bool
-configure:4972: gcc -c   conftest.c >&5
-configure:4972: $? = 0
-configure:4972: gcc -c   conftest.c >&5
+configure:4882: result: no
+configure:4882: checking for OS.h
+configure:4882: result: no
+configure:4882: checking arpa/inet.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking arpa/inet.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for arpa/inet.h
+configure:4882: result: yes
+configure:4882: checking fcntl.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking fcntl.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for fcntl.h
+configure:4882: result: yes
+configure:4882: checking for inttypes.h
+configure:4882: result: yes
+configure:4882: checking limits.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking limits.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for limits.h
+configure:4882: result: yes
+configure:4882: checking locale.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking locale.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for locale.h
+configure:4882: result: yes
+configure:4882: checking netdb.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking netdb.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for netdb.h
+configure:4882: result: yes
+configure:4882: checking netinet/in.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking netinet/in.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for netinet/in.h
+configure:4882: result: yes
+configure:4882: checking sgtty.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking sgtty.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for sgtty.h
+configure:4882: result: yes
+configure:4882: checking stddef.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking stddef.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for stddef.h
+configure:4882: result: yes
+configure:4882: checking for stdint.h
+configure:4882: result: yes
+configure:4882: checking for stdlib.h
+configure:4882: result: yes
+configure:4882: checking for string.h
+configure:4882: result: yes
+configure:4882: checking for strings.h
+configure:4882: result: yes
+configure:4882: checking sys/file.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking sys/file.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for sys/file.h
+configure:4882: result: yes
+configure:4882: checking sys/ioctl.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking sys/ioctl.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for sys/ioctl.h
+configure:4882: result: yes
+configure:4882: checking sys/socket.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking sys/socket.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for sys/socket.h
+configure:4882: result: yes
+configure:4882: checking sys/time.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking sys/time.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for sys/time.h
+configure:4882: result: yes
+configure:4882: checking sys/timeb.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking sys/timeb.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for sys/timeb.h
+configure:4882: result: yes
+configure:4882: checking syslog.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking syslog.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for syslog.h
+configure:4882: result: yes
+configure:4882: checking termios.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking termios.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for termios.h
+configure:4882: result: yes
+configure:4882: checking for unistd.h
+configure:4882: result: yes
+configure:4882: checking openssl/md5.h usability
+configure:4882: gcc -c   conftest.c >&5
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking openssl/md5.h presence
+configure:4882: gcc -E  conftest.c
+configure:4882: $? = 0
+configure:4882: result: yes
+configure:4882: checking for openssl/md5.h
+configure:4882: result: yes
+configure:4894: checking for stdbool.h that conforms to C99
+configure:4961: gcc -c   conftest.c >&5
+configure:4961: $? = 0
+configure:4968: result: yes
+configure:4970: checking for _Bool
+configure:4970: gcc -c   conftest.c >&5
+configure:4970: $? = 0
+configure:4970: gcc -c   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:89:20: error: expected expression before ')' token
  if (sizeof ((_Bool)))
                     ^
-configure:4972: $? = 1
+configure:4970: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -2531,24 +2531,24 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:4972: result: yes
-configure:4989: checking for an ANSI C-conforming const
-configure:5055: gcc -c   conftest.c >&5
-configure:5055: $? = 0
-configure:5062: result: yes
-configure:5070: checking for inline
-configure:5086: gcc -c   conftest.c >&5
-configure:5086: $? = 0
-configure:5094: result: inline
-configure:5112: checking for mode_t
-configure:5112: gcc -c   conftest.c >&5
-configure:5112: $? = 0
-configure:5112: gcc -c   conftest.c >&5
+configure:4970: result: yes
+configure:4987: checking for an ANSI C-conforming const
+configure:5053: gcc -c   conftest.c >&5
+configure:5053: $? = 0
+configure:5060: result: yes
+configure:5068: checking for inline
+configure:5084: gcc -c   conftest.c >&5
+configure:5084: $? = 0
+configure:5092: result: inline
+configure:5110: checking for mode_t
+configure:5110: gcc -c   conftest.c >&5
+configure:5110: $? = 0
+configure:5110: gcc -c   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:91:21: error: expected expression before ')' token
  if (sizeof ((mode_t)))
                      ^
-configure:5112: $? = 1
+configure:5110: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -2645,16 +2645,16 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:5112: result: yes
-configure:5123: checking for off_t
-configure:5123: gcc -c   conftest.c >&5
-configure:5123: $? = 0
-configure:5123: gcc -c   conftest.c >&5
+configure:5110: result: yes
+configure:5121: checking for off_t
+configure:5121: gcc -c   conftest.c >&5
+configure:5121: $? = 0
+configure:5121: gcc -c   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:91:20: error: expected expression before ')' token
  if (sizeof ((off_t)))
                     ^
-configure:5123: $? = 1
+configure:5121: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -2751,16 +2751,16 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:5123: result: yes
-configure:5134: checking for pid_t
-configure:5134: gcc -c   conftest.c >&5
-configure:5134: $? = 0
-configure:5134: gcc -c   conftest.c >&5
+configure:5121: result: yes
+configure:5132: checking for pid_t
+configure:5132: gcc -c   conftest.c >&5
+configure:5132: $? = 0
+configure:5132: gcc -c   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:91:20: error: expected expression before ')' token
  if (sizeof ((pid_t)))
                     ^
-configure:5134: $? = 1
+configure:5132: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -2857,16 +2857,16 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:5134: result: yes
-configure:5145: checking for size_t
-configure:5145: gcc -c   conftest.c >&5
-configure:5145: $? = 0
-configure:5145: gcc -c   conftest.c >&5
+configure:5132: result: yes
+configure:5143: checking for size_t
+configure:5143: gcc -c   conftest.c >&5
+configure:5143: $? = 0
+configure:5143: gcc -c   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:91:21: error: expected expression before ')' token
  if (sizeof ((size_t)))
                      ^
-configure:5145: $? = 1
+configure:5143: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -2963,26 +2963,26 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:5145: result: yes
-configure:5156: checking whether time.h and sys/time.h may both be included
-configure:5176: gcc -c   conftest.c >&5
-configure:5176: $? = 0
-configure:5183: result: yes
-configure:5191: checking whether struct tm is in sys/time.h or time.h
-configure:5211: gcc -c   conftest.c >&5
-configure:5211: $? = 0
-configure:5218: result: time.h
-configure:5226: checking for working volatile
-configure:5245: gcc -c   conftest.c >&5
-configure:5245: $? = 0
-configure:5252: result: yes
-configure:5265: checking vfork.h usability
-configure:5265: gcc -c   conftest.c >&5
+configure:5143: result: yes
+configure:5154: checking whether time.h and sys/time.h may both be included
+configure:5174: gcc -c   conftest.c >&5
+configure:5174: $? = 0
+configure:5181: result: yes
+configure:5189: checking whether struct tm is in sys/time.h or time.h
+configure:5209: gcc -c   conftest.c >&5
+configure:5209: $? = 0
+configure:5216: result: time.h
+configure:5224: checking for working volatile
+configure:5243: gcc -c   conftest.c >&5
+configure:5243: $? = 0
+configure:5250: result: yes
+configure:5263: checking vfork.h usability
+configure:5263: gcc -c   conftest.c >&5
 conftest.c:89:10: fatal error: vfork.h: No such file or directory
  #include <vfork.h>
           ^~~~~~~~~
 compilation terminated.
-configure:5265: $? = 1
+configure:5263: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -3073,14 +3073,14 @@ configure: failed program was:
 | # include <unistd.h>
 | #endif
 | #include <vfork.h>
-configure:5265: result: no
-configure:5265: checking vfork.h presence
-configure:5265: gcc -E  conftest.c
+configure:5263: result: no
+configure:5263: checking vfork.h presence
+configure:5263: gcc -E  conftest.c
 conftest.c:56:10: fatal error: vfork.h: No such file or directory
  #include <vfork.h>
           ^~~~~~~~~
 compilation terminated.
-configure:5265: $? = 1
+configure:5263: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -3138,75 +3138,75 @@ configure: failed program was:
 | #define TIME_WITH_SYS_TIME 1
 | /* end confdefs.h.  */
 | #include <vfork.h>
-configure:5265: result: no
-configure:5265: checking for vfork.h
-configure:5265: result: no
-configure:5278: checking for fork
-configure:5278: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:5263: result: no
+configure:5263: checking for vfork.h
+configure:5263: result: no
+configure:5276: checking for fork
+configure:5276: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:79:6: warning: conflicting types for built-in function 'fork' [-Wbuiltin-declaration-mismatch]
  char fork ();
       ^~~~
-configure:5278: $? = 0
-configure:5278: result: yes
-configure:5278: checking for vfork
-configure:5278: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:5278: $? = 0
-configure:5278: result: yes
-configure:5288: checking for working fork
-configure:5310: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:5310: $? = 0
-configure:5310: ./conftest
-configure:5310: $? = 0
-configure:5320: result: yes
-configure:5341: checking for working vfork
-configure:5451: result: yes
-configure:5477: checking whether gcc needs -traditional
-configure:5511: result: no
-configure:5520: checking for stdlib.h
-configure:5520: result: yes
-configure:5530: checking for GNU libc compatible malloc
-configure:5554: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:5554: $? = 0
-configure:5554: ./conftest
-configure:5554: $? = 0
-configure:5564: result: yes
-configure:5585: checking for working memcmp
-configure:5628: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:5628: $? = 0
-configure:5628: ./conftest
-configure:5628: $? = 0
-configure:5638: result: yes
-configure:5649: checking for stdlib.h
-configure:5649: result: yes
-configure:5659: checking for GNU libc compatible realloc
-configure:5683: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:5683: $? = 0
-configure:5683: ./conftest
-configure:5683: $? = 0
-configure:5693: result: yes
-configure:5717: checking sys/select.h usability
-configure:5717: gcc -c   conftest.c >&5
-configure:5717: $? = 0
-configure:5717: result: yes
-configure:5717: checking sys/select.h presence
-configure:5717: gcc -E  conftest.c
-configure:5717: $? = 0
-configure:5717: result: yes
-configure:5717: checking for sys/select.h
-configure:5717: result: yes
-configure:5717: checking for sys/socket.h
-configure:5717: result: yes
-configure:5727: checking types of arguments for select
-configure:5755: gcc -c   conftest.c >&5
-configure:5755: $? = 0
-configure:5766: result: int,fd_set *,struct timeval *
-configure:5796: checking return type of signal handlers
-configure:5814: gcc -c   conftest.c >&5
+configure:5276: $? = 0
+configure:5276: result: yes
+configure:5276: checking for vfork
+configure:5276: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:5276: $? = 0
+configure:5276: result: yes
+configure:5286: checking for working fork
+configure:5308: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:5308: $? = 0
+configure:5308: ./conftest
+configure:5308: $? = 0
+configure:5318: result: yes
+configure:5339: checking for working vfork
+configure:5449: result: yes
+configure:5475: checking whether gcc needs -traditional
+configure:5509: result: no
+configure:5518: checking for stdlib.h
+configure:5518: result: yes
+configure:5528: checking for GNU libc compatible malloc
+configure:5552: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:5552: $? = 0
+configure:5552: ./conftest
+configure:5552: $? = 0
+configure:5562: result: yes
+configure:5583: checking for working memcmp
+configure:5626: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:5626: $? = 0
+configure:5626: ./conftest
+configure:5626: $? = 0
+configure:5636: result: yes
+configure:5647: checking for stdlib.h
+configure:5647: result: yes
+configure:5657: checking for GNU libc compatible realloc
+configure:5681: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:5681: $? = 0
+configure:5681: ./conftest
+configure:5681: $? = 0
+configure:5691: result: yes
+configure:5715: checking sys/select.h usability
+configure:5715: gcc -c   conftest.c >&5
+configure:5715: $? = 0
+configure:5715: result: yes
+configure:5715: checking sys/select.h presence
+configure:5715: gcc -E  conftest.c
+configure:5715: $? = 0
+configure:5715: result: yes
+configure:5715: checking for sys/select.h
+configure:5715: result: yes
+configure:5715: checking for sys/socket.h
+configure:5715: result: yes
+configure:5725: checking types of arguments for select
+configure:5753: gcc -c   conftest.c >&5
+configure:5753: $? = 0
+configure:5764: result: int,fd_set *,struct timeval *
+configure:5794: checking return type of signal handlers
+configure:5812: gcc -c   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:75:10: error: void value not ignored as it ought to be
  return *(signal (0, 0)) (0) == 1;
          ~^~~~~~~~~~~~~~~~~~
-configure:5814: $? = 1
+configure:5812: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -3286,45 +3286,45 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:5821: result: void
-configure:5829: checking whether lstat correctly handles trailing slash
-configure:5855: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:5855: $? = 0
-configure:5855: ./conftest
-configure:5855: $? = 0
-configure:5872: result: yes
-configure:5891: checking whether stat accepts an empty string
-configure:5911: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:5911: $? = 0
-configure:5911: ./conftest
-configure:5911: $? = 0
-configure:5921: result: no
-configure:5939: checking for strftime
-configure:5939: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:5819: result: void
+configure:5827: checking whether lstat correctly handles trailing slash
+configure:5853: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:5853: $? = 0
+configure:5853: ./conftest
+configure:5853: $? = 0
+configure:5870: result: yes
+configure:5889: checking whether stat accepts an empty string
+configure:5909: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:5909: $? = 0
+configure:5909: ./conftest
+configure:5909: $? = 0
+configure:5919: result: no
+configure:5937: checking for strftime
+configure:5937: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:94:6: warning: conflicting types for built-in function 'strftime' [-Wbuiltin-declaration-mismatch]
  char strftime ();
       ^~~~~~~~
-configure:5939: $? = 0
-configure:5939: result: yes
-configure:5992: checking for working strtod
-configure:6033: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6033: $? = 0
-configure:6033: ./conftest
-configure:6033: $? = 0
-configure:6043: result: yes
-configure:6107: checking for vprintf
-configure:6107: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:5937: $? = 0
+configure:5937: result: yes
+configure:5990: checking for working strtod
+configure:6031: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6031: $? = 0
+configure:6031: ./conftest
+configure:6031: $? = 0
+configure:6041: result: yes
+configure:6105: checking for vprintf
+configure:6105: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:95:6: warning: conflicting types for built-in function 'vprintf' [-Wbuiltin-declaration-mismatch]
  char vprintf ();
       ^~~~~~~
-configure:6107: $? = 0
-configure:6107: result: yes
-configure:6113: checking for _doprnt
-configure:6113: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-/usr/bin/ld: /tmp/cc8Tv0cW.o: in function `main':
+configure:6105: $? = 0
+configure:6105: result: yes
+configure:6111: checking for _doprnt
+configure:6111: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+/usr/bin/ld: /tmp/cc70WLt6.o: in function `main':
 conftest.c:(.text+0xa): undefined reference to `_doprnt'
 collect2: error: ld returned 1 exit status
-configure:6113: $? = 1
+configure:6111: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -3436,43 +3436,43 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:6113: result: no
-configure:6127: checking for alarm
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for bzero
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6111: result: no
+configure:6125: checking for alarm
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for bzero
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:97:6: warning: conflicting types for built-in function 'bzero' [-Wbuiltin-declaration-mismatch]
  char bzero ();
       ^~~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for dup2
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for floor
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for dup2
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for floor
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:99:6: warning: conflicting types for built-in function 'floor' [-Wbuiltin-declaration-mismatch]
  char floor ();
       ^~~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for gethostbyname
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for gethostname
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for gethrtime
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-/usr/bin/ld: /tmp/cceRRz7H.o: in function `main':
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for gethostbyname
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for gethostname
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for gethrtime
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+/usr/bin/ld: /tmp/ccgYWrCj.o: in function `main':
 conftest.c:(.text+0xa): undefined reference to `gethrtime'
 collect2: error: ld returned 1 exit status
-configure:6127: $? = 1
+configure:6125: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -3590,143 +3590,143 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:6127: result: no
-configure:6127: checking for gettimeofday
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for inet_ntoa
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for memchr
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: result: no
+configure:6125: checking for gettimeofday
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for inet_ntoa
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for memchr
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:104:6: warning: conflicting types for built-in function 'memchr' [-Wbuiltin-declaration-mismatch]
  char memchr ();
       ^~~~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for memmove
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for memmove
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:105:6: warning: conflicting types for built-in function 'memmove' [-Wbuiltin-declaration-mismatch]
  char memmove ();
       ^~~~~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for memset
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for memset
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:106:6: warning: conflicting types for built-in function 'memset' [-Wbuiltin-declaration-mismatch]
  char memset ();
       ^~~~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for mkfifo
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for pow
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for mkfifo
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for pow
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:108:6: warning: conflicting types for built-in function 'pow' [-Wbuiltin-declaration-mismatch]
  char pow ();
       ^~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for select
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for setlocale
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for socket
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for sqrt
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for select
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for setlocale
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for socket
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for sqrt
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:112:6: warning: conflicting types for built-in function 'sqrt' [-Wbuiltin-declaration-mismatch]
  char sqrt ();
       ^~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for strcasecmp
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for strcasecmp
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:113:6: warning: conflicting types for built-in function 'strcasecmp' [-Wbuiltin-declaration-mismatch]
  char strcasecmp ();
       ^~~~~~~~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for strchr
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for strchr
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:114:6: warning: conflicting types for built-in function 'strchr' [-Wbuiltin-declaration-mismatch]
  char strchr ();
       ^~~~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for strcspn
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for strcspn
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:115:6: warning: conflicting types for built-in function 'strcspn' [-Wbuiltin-declaration-mismatch]
  char strcspn ();
       ^~~~~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for strdup
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for strdup
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:116:6: warning: conflicting types for built-in function 'strdup' [-Wbuiltin-declaration-mismatch]
  char strdup ();
       ^~~~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for strerror
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for strncasecmp
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for strerror
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for strncasecmp
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:118:6: warning: conflicting types for built-in function 'strncasecmp' [-Wbuiltin-declaration-mismatch]
  char strncasecmp ();
       ^~~~~~~~~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for strpbrk
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for strpbrk
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:119:6: warning: conflicting types for built-in function 'strpbrk' [-Wbuiltin-declaration-mismatch]
  char strpbrk ();
       ^~~~~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for strrchr
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for strrchr
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:120:6: warning: conflicting types for built-in function 'strrchr' [-Wbuiltin-declaration-mismatch]
  char strrchr ();
       ^~~~~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for strspn
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for strspn
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:121:6: warning: conflicting types for built-in function 'strspn' [-Wbuiltin-declaration-mismatch]
  char strspn ();
       ^~~~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for strstr
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for strstr
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
 conftest.c:122:6: warning: conflicting types for built-in function 'strstr' [-Wbuiltin-declaration-mismatch]
  char strstr ();
       ^~~~~~
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for strtol
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6127: checking for strtoul
-configure:6127: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6127: $? = 0
-configure:6127: result: yes
-configure:6137: checking whether byte ordering is bigendian
-configure:6152: gcc -c   conftest.c >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for strtol
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6125: checking for strtoul
+configure:6125: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6125: $? = 0
+configure:6125: result: yes
+configure:6135: checking whether byte ordering is bigendian
+configure:6150: gcc -c   conftest.c >&5
 conftest.c:103:9: error: unknown type name 'not'
          not a universal capable compiler
          ^~~
@@ -3734,7 +3734,7 @@ conftest.c:103:15: error: expected '=', ',', ';', 'asm' or '__attribute__' befor
          not a universal capable compiler
                ^~~~~~~~~
 conftest.c:103:15: error: unknown type name 'universal'
-configure:6152: $? = 1
+configure:6150: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -3842,9 +3842,9 @@ configure: failed program was:
 | 	     #endif
 | 	     typedef int dummy;
 | 
-configure:6197: gcc -c   conftest.c >&5
-configure:6197: $? = 0
-configure:6215: gcc -c   conftest.c >&5
+configure:6195: gcc -c   conftest.c >&5
+configure:6195: $? = 0
+configure:6213: gcc -c   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:109:4: error: unknown type name 'not'; did you mean 'ino_t'?
     not big endian
@@ -3853,7 +3853,7 @@ conftest.c:109:4: error: unknown type name 'not'; did you mean 'ino_t'?
 conftest.c:109:12: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'endian'
     not big endian
             ^~~~~~
-configure:6215: $? = 1
+configure:6213: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "vscphelperlib"
@@ -3969,14 +3969,14 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:6343: result: no
-configure:6369: checking size of long
-configure:6374: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
-configure:6374: $? = 0
-configure:6374: ./conftest
-configure:6374: $? = 0
-configure:6388: result: 8
-configure:6566: creating ./config.status
+configure:6341: result: no
+configure:6367: checking size of long
+configure:6372: gcc -o conftest    conftest.c -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl  >&5
+configure:6372: $? = 0
+configure:6372: ./conftest
+configure:6372: $? = 0
+configure:6386: result: 8
+configure:6556: creating ./config.status
 
 ## ---------------------- ##
 ## Running config.status. ##
@@ -4023,8 +4023,6 @@ ac_cv_env_CXXFLAGS_set=
 ac_cv_env_CXXFLAGS_value=
 ac_cv_env_CXX_set=
 ac_cv_env_CXX_value=
-ac_cv_env_DESTDIR_set=
-ac_cv_env_DESTDIR_value=
 ac_cv_env_LDFLAGS_set=
 ac_cv_env_LDFLAGS_value=
 ac_cv_env_LIBS_set=
@@ -4167,7 +4165,7 @@ CPPFLAGS=''
 CXX='g++'
 CXXFLAGS=''
 DEFS='-DHAVE_CONFIG_H'
-DESTDIR='/srv/vscp/'
+DESTDIR=''
 ECHO_C=''
 ECHO_N='-n'
 ECHO_T=''

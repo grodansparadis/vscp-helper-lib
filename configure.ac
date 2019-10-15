@@ -119,14 +119,6 @@ dnl
 dnl Project base installation folder
 dnl
 
-AC_ARG_VAR(DESTDIR, Set base folder for installation (/srv/vscp) )
-if test "${DESTDIR+set}" = set; then
-  echo "variable \$DESTDIR is set to: $DESTDIR"
-else
-  DESTDIR="/srv/vscp/"
-  echo "variable \$DESTDIR is set to: $DESTDIR"
-fi
-
 dnl
 dnl Project Sub directories
 dnl
