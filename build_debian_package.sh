@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # Package version
-MAJOR_VERSION=`head -n4  VERSION.m4 |  grep major_version | tr -d "m4_define[major_version], ()"`
-MINOR_VERSION=`head -n4  VERSION.m4 |  grep minor_version | tr -d "m4_define[minor_version], ()"`
-RELEASE_VERSION=`head -n4  VERSION.m4 |  grep release_version | tr -d "m4_define[release_version], ()"`
-BUILD_VERSION=`head -n4  VERSION.m4 |  grep build_version | tr -d "m4_define[build_version], ()"`
+MAJOR_VERSION=`head -n4  VERSION.m4 |  grep major_version | cut -c30- | tr -d "[]()"`
+MINOR_VERSION=`head -n4  VERSION.m4 |  grep minor_version | cut -c30- | tr -d "[]()"`
+RELEASE_VERSION=`head -n4  VERSION.m4 |  grep release_version | cut -c30- | tr -d "[]()"`
+BUILD_VERSION=`head -n4  VERSION.m4 |  grep build_version | cut -c30- | tr -d "[]()"`
 
 NAME_PLUS_VER=vscphelperlib-$MAJOR_VERSION.$MINOR_VERSION.$RELEASE_VERSION
 BUILD_FOLDER=/tmp/__build__/`date +vscp_build_%y%m%d_%H%M%S`

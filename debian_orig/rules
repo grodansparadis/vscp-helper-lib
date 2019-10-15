@@ -3,6 +3,3 @@
 %:
 	dh $@ --with autoreconf
 
-override_dh_auto_install:
-	strip vscphelperlib/vscphelperlib
-	install -D -m 0755 vscphelperlib/vscphelperlib $$(pwd)/debian/vscphelperlib/usr/bin/vscphelperlib
