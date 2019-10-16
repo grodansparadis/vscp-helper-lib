@@ -6,7 +6,7 @@ MINOR_VERSION=`head -n4  VERSION.m4 |  grep minor_version | cut -c30- | tr -d "[
 RELEASE_VERSION=`head -n4  VERSION.m4 |  grep release_version | cut -c30- | tr -d "[]()"`
 BUILD_VERSION=`head -n4  VERSION.m4 |  grep build_version | cut -c30- | tr -d "[]()"`
 
-NAME_PLUS_VER=vscphelperlib-$MAJOR_VERSION.$MINOR_VERSION.$RELEASE_VERSION
+NAME_PLUS_VER=libvscphelper-$MAJOR_VERSION.$MINOR_VERSION.$RELEASE_VERSION
 BUILD_FOLDER=/tmp/__build__/`date +vscp_build_%y%m%d_%H%M%S`
 
 echo ---$NAME_PLUS_VER
@@ -31,6 +31,7 @@ mkdir $NAME_PLUS_VER/
 cd $NAME_PLUS_VER/
 mkdir debian
 tar -zxvf ../$NAME_PLUS_VER.tar.gz
+cp -r ../debian_orig/* debian/
 dh_make --single --defaultless -f ../$NAME_PLUS_VER.tar.gz -a -s -c mit -y
 cp -r ../debian_orig/* debian/
 #ls

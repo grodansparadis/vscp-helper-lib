@@ -1,26 +1,27 @@
-Source: vscphelperlib
+Source: libvscphelper
 Section: libs
 Priority: optional
 Maintainer: Ake Hedman <akhe@grodansparadis.com>
-Build-Depends: debhelper (>= 10.2), autotools-dev
+Build-Depends: debhelper (>= 11), autotools-dev
 Standards-Version: 4.1.3
 Homepage: https://www.vscp.org
 Vcs-Browser: https://github.com/grodansparadis/vscpl2drv-logger
 Vcs-Git: https://github.com/grodansparadis/vscpl2drv-logger.git
 
-Package: vscphelperlib-dev
+Package: libvscphelper-dev
 Section: libdevel
 Architecture: any
 Multi-Arch: same
-Depends: ${shlibs:Depends}, ${misc:Depends}, libc6-dev, libexpat (>= 2),
+Depends: ${shlibs:Depends}, ${misc:Depends}, libc6-dev, libexpat (>= 1.6),
  libssl-dev (>= 1.1)
 Description: VSCP Helper library
  This library contains development functionality for VSCP.
 
-Package: vscphelperlib
+Package: libvscphelper
+Section: libs
 Architecture: any
 Multi-Arch: same
-Depends: ${shlibs:Depends}, ${misc:Depends}, libc6-dev, libexpat (>= 2),
+Depends: ${shlibs:Depends}, ${misc:Depends}, libc6-dev, libexpat (>= 1.6),
  libssl-dev (>= 1.1)
 Description: VSCP Helper library runtime
  This library contains development runtime functionality for VSCP.

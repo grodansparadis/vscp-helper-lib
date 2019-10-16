@@ -65,6 +65,7 @@ LIB_SONAME = "libvscphelper.so.$(LIB_MAJOR_VERSION)"
 
 VSCPHELPER_OBJECTS =  libvscphelper.o \
 	vscphelperlib.o \
+	vscpdatetime.o\
 	vscpremotetcpif.o \
 	vscphelper.o \
 	sockettcp.o \
@@ -81,11 +82,11 @@ VSCPHELPER_OBJECTS =  libvscphelper.o \
 all: $(LIB_PLUS_VER) test
 
 test:	test.o $(PROJOBJS)
-	$(CXX) -I../_vscp_common -I../_vscp_common_general -o $@ test.o $(PROJOBJS) $(LDFLAGS) -L$(LIBDIRNAME) $(LIBS) $(EXTRALIBS)
+	$(CXX) -I../_vscp_common -I../_vscp_common_general -o $@ test.o $(PROJOBJS) $(LDFLAGS)  $(LIBS) $(EXTRALIBS)
 
 # Build the Linux DL
 $(LIB_PLUS_VER): $(VSCPHELPER_OBJECTS)
-	$(CXX) -Wl,-soname,$(LIB_SONAME) -o  $@ $(VSCPHELPER_OBJECTS) $(DLFLAGS) -L$(LIBDIRNAME) $(LIBS) $(EXTRALIBS)
+	$(CXX) -Wl,-soname,$(LIB_SONAME) -o  $@ $(VSCPHELPER_OBJECTS) $(DLFLAGS)  $(LIBS) $(EXTRALIBS)
 	ar rcs libvscphelper.a $(VSCPHELPER_OBJECTS)
 
 libvscphelper.o: libvscphelper.cpp libvscphelper.h
@@ -96,6 +97,9 @@ vscphelperlib.o: ../vscphelperlib.cpp ../vscphelperlib.h
 
 vscpremotetcpif.o: ../_vscp_common/vscpremotetcpif.cpp ../_vscp_common/vscpremotetcpif.h
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../_vscp_common/vscpremotetcpif.cpp -o $@
+
+vscpdatetime.o: ../_vscp_common/vscpdatetime.cpp ../_vscp_common/vscpdatetime.h
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../_vscp_common/vscpdatetime.cpp -o $@
 
 vscphelper.o: ../_vscp_common/vscphelper.cpp ../_vscp_common/vscphelper.h
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../_vscp_common/vscphelper.cpp -o $@
@@ -124,7 +128,7 @@ fastpbkdf2.o: ../_vscp_common_general/fastpbkdf2.c ../_vscp_common_general/fastp
 vscpmd5.o: ../_vscp_common_general/vscpmd5.c ../_vscp_common_general/vscpmd5.h
 	$(CC) $(CFLAGS) -c ../_vscp_common_general/vscpmd5.c -o $@
 
-install: all
+install:
 	$(INSTALL_DIR) $(DESTDIR)$(libdir)
 	$(STRIP) $(LIB_PLUS_VER)
 	$(INSTALL_PROGRAM) $(LIB_PLUS_VER) $(DESTDIR)$(libdir)

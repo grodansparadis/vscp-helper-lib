@@ -1,1 +1,0 @@
-install -D -m 0755 linux/libvscphelper.so.14.0.0 $$(pwd)/debian/vscphelperlib/usr/lib
