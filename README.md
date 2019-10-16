@@ -8,10 +8,10 @@ Helper functionality for VSCP packed in a library
 
 Full documentation is [here](https://grodansparadis.gitbooks.io/the-vscp-helper-library/).
 
-The code for the VSCP helper library is being moved from the [main source repository](https://github.com/grodansparadis/vscp) to it's own repository (this). This is work in progress (high priority).
 
 ## How to install on Linux
-Either install using debian package in release section of this repository or build/install following the build instructions below.
+
+> sudo dpkg -i vscpworks-14.0.0.deb
 
 ## How to install on Windows
 Install using the windows installation script available in the release section och this repository.

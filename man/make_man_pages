@@ -1,6 +1,8 @@
 #!/bin/bash
 
-pandoc -s -t man vscphelperlib.3.md -o vscphelperlib.3
-sudo cp vscphelperlib.3 /usr/share/man/man3/
+pandoc -s -t man libvscphelper.3.md -o libvscphelper.3
+sudo cp libvscphelper.3 /usr/share/man/man3/
+pandoc -s -t man libvscphelper-dev.3.md -o libvscphelper-dev.3
+sudo cp libvscphelper-dev.3 /usr/share/man/man3/
 
 mandb
