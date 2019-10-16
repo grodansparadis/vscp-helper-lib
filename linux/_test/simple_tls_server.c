@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <openssl/ssl.h>
@@ -38,8 +39,8 @@ int create_socket(int port)
 }
 
 void init_openssl()
-{ 
-    SSL_load_error_strings();	
+{
+    SSL_load_error_strings();
     OpenSSL_add_ssl_algorithms();
 }
 
@@ -126,4 +127,3 @@ int main(int argc, char **argv)
     SSL_CTX_free(ctx);
     cleanup_openssl();
 }
-
