@@ -5,7 +5,7 @@
 //
 // The MIT License (MIT)
 //
-// Copyright (c) 2000-2017 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
+// Copyright (c) 2000-2019 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,7 @@ extern "C" {
 
 #ifdef WIN32
 
-#define DllExport   __declspec( dllexport )   
+#define DllExport   __declspec( dllexport )
 
 // * * * * *  W I N D O W S  * * * * *
 
@@ -121,14 +121,14 @@ DllExport int WINAPI EXPORT vscphlp_getRemoteVariableDouble( long handle, const 
 DllExport int WINAPI EXPORT vscphlp_setRemoteVariableDouble( long handle, const char *pName, double value );
 
 DllExport int WINAPI EXPORT vscphlp_getRemoteVariableMeasurement( long handle,
-                                                const char *pName, 
+                                                const char *pName,
                                                 double *pvalue,
                                                 int *punit,
                                                 int *psensoridx,
                                                 int *pzone,
                                                 int *psubzone );
 DllExport int WINAPI EXPORT vscphlp_setRemoteVariableMeasurement( long handle,
-                                                const char *pName, 
+                                                const char *pName,
                                                 double value,
                                                 int unit,
                                                 int sensoridx,
@@ -275,7 +275,7 @@ DllExport int WINAPI EXPORT vscphlp_writeVscpDataToString( const vscpEvent *pEve
                                                     size_t len,
                                                     int bUseHtmlBreak );
 DllExport int WINAPI EXPORT vscphlp_writeVscpDataWithSizeToString( const unsigned char *pData,
-                                                                    const unsigned short sizeData,                                                                    
+                                                                    const unsigned short sizeData,
                                                                     char *pStr,
                                                                     size_t len,
                                                                     int bUseHtmlBreak,
@@ -397,7 +397,7 @@ int vscphlp_isDataAvailable( long handle, unsigned int *pCount );
 int vscphlp_getStatus( long handle, VSCPStatus *pStatus );
 int vscphlp_getStatistics( long handle, VSCPStatistics *pStatistics );
 int vscphlp_setFilter( long handle, const vscpEventFilter *pFilter );
-int vscphlp_getVersion( long handle, 
+int vscphlp_getVersion( long handle,
                             unsigned char *pMajorVer,
                             unsigned char *pMinorVer,
                             unsigned char *pSubMinorVer );
@@ -428,7 +428,7 @@ int vscphlp_saveRemoteVariablesToDisk( long handle,
                                             const int select,
                                             const char *pRegExp );
 
-int vscphlp_loadRemoteVariablesFromDisk( long handle, 
+int vscphlp_loadRemoteVariablesFromDisk( long handle,
                                             const char *pPath );
 
 int vscphlp_getRemoteVariableValue( long handle, const char *pName, char *pvalue, size_t len );
@@ -449,15 +449,15 @@ int vscphlp_setRemoteVariableLong( long handle, const char *pName, long value );
 int vscphlp_getRemoteVariableDouble( long handle, const char *pName, double *value );
 int vscphlp_setRemoteVariableDouble( long handle, const char *pName, double value );
 
-int vscphlp_getRemoteVariableMeasurement( long handle, 
-                                                const char *pName, 
+int vscphlp_getRemoteVariableMeasurement( long handle,
+                                                const char *pName,
                                                 double *pvalue,
                                                 int *punit,
                                                 int *psensoridx,
                                                 int *pzone,
                                                 int *psubzone );
-int vscphlp_setRemoteVariableMeasurement( long handle, 
-                                                const char *pName, 
+int vscphlp_setRemoteVariableMeasurement( long handle,
+                                                const char *pName,
                                                 double value,
                                                 int unit,
                                                 int sensoridx,
@@ -606,7 +606,7 @@ int vscphlp_writeVscpDataToString( const vscpEvent *pEvent,
                                         size_t len,
                                         int bUseHtmlBreak );
 int vscphlp_writeVscpDataWithSizeToString( const unsigned char *pData,
-                                                const unsigned short sizeData,                                                
+                                                const unsigned short sizeData,
                                                 char *pStr,
                                                 size_t len,
                                                 int bUseHtmlBreak,
@@ -664,14 +664,14 @@ int vscphlp_getMeasurementSubZone( const vscpEvent *pEvent );
 int vscphlp_isMeasurement( const vscpEvent *pEvent );
 int vscphlp_convertLevel1MeasuremenToLevel2Double( vscpEvent *pEventLevel1 );
 int vscphlp_convertLevel1MeasuremenToLevel2String( vscpEvent *pEventLevel1 );
-int vscphlp_makeLevel2FloatMeasurementEvent( vscpEvent *pEvent, 
+int vscphlp_makeLevel2FloatMeasurementEvent( vscpEvent *pEvent,
                                                 uint16_t type,
                                                 double value,
                                                 uint8_t unit,
                                                 uint8_t sensoridx,
                                                 uint8_t zone,
                                                 uint8_t subzone );
-int vscphlp_makeLevel2StringMeasurementEvent( vscpEvent *pEvent, 
+int vscphlp_makeLevel2StringMeasurementEvent( vscpEvent *pEvent,
                                                 uint16_t type,
                                                 double value,
                                                 uint8_t unit,
@@ -708,15 +708,15 @@ int vscphlp_setEventExToNow( vscpEventEx *pEventEx );
 int vscphlp_getEncryptionCodeFromToken( const char *pToken, int *pEncryptionCode );
 int vscphlp_getEncryptionTokenFromCode( int nEncryptionCode, char *pEncryptionToken, size_t len );
 
-int vscphlp_encryptVscpUdpFrame( unsigned char *output, 
-                                unsigned char *input, 
+int vscphlp_encryptVscpUdpFrame( unsigned char *output,
+                                unsigned char *input,
                                 size_t len,
                                 const unsigned char *key,
                                 const unsigned char *iv,
                                 unsigned char nAlgorithm );
 
-int vscphlp_decryptVscpUdpFrame( unsigned char *output, 
-                                    unsigned char *input, 
+int vscphlp_decryptVscpUdpFrame( unsigned char *output,
+                                    unsigned char *input,
                                     size_t len,
                                     const unsigned char *key,
                                     const unsigned char *iv,
@@ -725,14 +725,14 @@ int vscphlp_decryptVscpUdpFrame( unsigned char *output,
 size_t vscphlp_getUDpFrameSizeFromEvent( vscpEvent *pEvent );
 size_t vscphlp_getUDpFrameSizeFromEventEx( vscpEvent *pEventEx );
 
-int vscphlp_writeEventToUdpFrame( unsigned char *frame, 
-                                        size_t len, 
-                                        unsigned char pkttype, 
+int vscphlp_writeEventToUdpFrame( unsigned char *frame,
+                                        size_t len,
+                                        unsigned char pkttype,
                                         const vscpEvent *pEvent );
 
-int vscphlp_writeEventExToUdpFrame( unsigned char *frame, 
-                                        size_t len, 
-                                        unsigned char pkttype, 
+int vscphlp_writeEventExToUdpFrame( unsigned char *frame,
+                                        size_t len,
+                                        unsigned char pkttype,
                                         const vscpEventEx *pEventEx );
 
 #endif
@@ -743,7 +743,3 @@ int vscphlp_writeEventExToUdpFrame( unsigned char *frame,
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-    

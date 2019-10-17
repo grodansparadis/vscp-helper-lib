@@ -135,8 +135,15 @@ install:
 	ln -fs $(libdir)/$(LIB_PLUS_VER) $(DESTDIR)$(libdir)/libvscphelper.so
 	ln -fs $(libdir)/$(LIB_PLUS_VER) $(DESTDIR)$(libdir)/libvscphelper.so.$(LIB_MAJOR_VERSION)
 	ln -fs $(libdir)/$(LIB_PLUS_VER) $(DESTDIR)$(libdir)/libvscphelper.so.$(LIB_MAJOR_VERSION).$(LIB_MINOR_VERSION)
+	$(INSTALL_PROGRAM) ../_vscp_common/canal.h $(DESTDIR)$(includedir)
+	$(INSTALL_PROGRAM) ../_vscp_common/canal_macro.h $(DESTDIR)$(includedir)
+	$(INSTALL_PROGRAM) ../_vscp_common/canaldlldef.h $(DESTDIR)$(includedir)
+	$(INSTALL_PROGRAM) ../_vscp_common/vscp.h $(DESTDIR)$(includedir)
+	$(INSTALL_PROGRAM) ../_vscp_common/vscp_class.h $(DESTDIR)$(includedir)
+	$(INSTALL_PROGRAM) ../_vscp_common/vscp_type.h $(DESTDIR)$(includedir)
 	$(INSTALL_PROGRAM) ../vscphelperlib.h $(DESTDIR)$(includedir)
 	$(INSTALL_PROGRAM) libvscphelper.a $(DESTDIR)$(libdir)
+
 
 uninstall:
 	rm -f  $(DESTDIR)$(libdir)/libvscphelper.so

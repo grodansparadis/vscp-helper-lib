@@ -46,8 +46,6 @@ typedef int BOOL;
 #define FALSE 0
 #endif
 
-#define VSCP_DLL_SONAME "libvscphelper.1.3"
-
 // This is the version info for this DLL - Change to your own value
 #define VSCP_DLL_VERSION 3
 
