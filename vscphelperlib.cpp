@@ -34,9 +34,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <vscp.h>
+#include <canal.h>
+#include <canaldlldef.h>
 #include <vscpdatetime.h>
 #include <vscphelper.h>
 #include <vscpremotetcpif.h>
+#include <vscpcanaldeviceif.h>
 #ifdef WIN32
 #include "dlldrvobj.h"
 #include "vscphelperdll.h"
@@ -48,8 +52,14 @@
 #define DllExport __declspec(dllexport)
 #endif
 
+struct vscphlpobj {
+
+    VscpRemoteTcpIf *m_pvscpif;
+    VscpCanalDeviceIf *m_pcanalif;
+};
+
 //-----------------------------------------------------------------------------
-//                  T C P / I P  I N T E R F A C E
+//                     T C P / I P  I N T E R F A C E
 //-----------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------

@@ -179,6 +179,6 @@ removeDriverObject(long h)
         }
         g_ifMap.erase(it);
     }
-    
+
     UNLOCK_MUTEX(g_mapMutex);
 }
