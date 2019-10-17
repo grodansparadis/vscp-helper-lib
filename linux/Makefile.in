@@ -152,6 +152,13 @@ uninstall:
 	rm -f  $(DESTDIR)$(libdir)/libvscphelper.so.$(LIB_MAJOR_VERSION).$(LIB_MINOR_VERSION)
 	rm -f  $(DESTDIR)$(includedir)/vscphelperlib.h
 	rm -f  $(DESTDIR)$(libdir)/libvscphelper.a
+	rm -f  $(DESTDIR)$(includedir)/canal.h
+	rm -f  $(DESTDIR)$(includedir)/canal_macro.h
+	rm -f  $(DESTDIR)$(includedir)/canaldlldef.h
+	rm -f  $(DESTDIR)$(includedir)/vscp.h
+	rm -f  $(DESTDIR)$(includedir)/vscp_class.h
+	rm -f  $(DESTDIR)$(includedir)/vscp_type.h
+	rm -f  $(DESTDIR)$(includedir)/vscphelperlib.h
 
 install-strip: install
 

@@ -35,3 +35,15 @@ dist/*
 
 Makefile
 vscphelperlib/Makefile
+
+linux/test
+linux/*.so.14.0.0
+linux/*.so
+linux/*.a
+linux/_test/bigtest
+linux/_test/example1
+linux/_test/send_perodic
+linux/_test/send1
+linux/_test/simple_tls_client
+linux/_test/simple_tls_server
+linux/_test/stcptest

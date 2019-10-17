@@ -39,9 +39,10 @@
 #include <string>
 #include <map>
 
-#include "stdio.h"
-#include "stdlib.h"
-#include "semaphore.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <semaphore.h>
+#include <syslog.h>
 
 #include <canal.h>
 #include <canal_macro.h>
@@ -66,7 +67,8 @@ static pthread_mutex_t g_mapMutex;
 
 void
 _init()
-{   
+{
+    openlog("vscphelperlib", LOG_PERROR, 0 );
     pthread_mutex_init(&g_mapMutex, NULL);
 }
 
@@ -77,30 +79,32 @@ _init()
 void
 _fini()
 {
-    // If empty - nothing to do
-    if (g_ifMap.empty()) return;
+    // Clear up orphans if not empty
+    if (!g_ifMap.empty()) {
 
-    // Remove orphan objects
+        // Remove orphan objects
 
-    LOCK_MUTEX(g_mapMutex);
+        LOCK_MUTEX(g_mapMutex);
 
-    for (std::map<long, VscpRemoteTcpIf *>::iterator it = g_ifMap.begin();
-         it != g_ifMap.end();
-         ++it) {
-        // std::cout << it->first << " => " << it->second << '\n';
+        for (std::map<long, VscpRemoteTcpIf *>::iterator it = g_ifMap.begin();
+             it != g_ifMap.end();
+             ++it) {
 
-        VscpRemoteTcpIf *pvscpif = it->second;
-        if (NULL != pvscpif) {
-            pvscpif->doCmdClose();
-            delete pvscpif;
-            pvscpif = NULL;
+            VscpRemoteTcpIf *pvscpif = it->second;
+            if (NULL != pvscpif) {
+                pvscpif->doCmdClose();
+                delete pvscpif;
+                pvscpif = NULL;
+            }
         }
+
+        g_ifMap.clear(); // Remove all items
+
+        UNLOCK_MUTEX(g_mapMutex);
     }
 
-    g_ifMap.clear();    // Remove all items
-
-    UNLOCK_MUTEX(g_mapMutex);
     pthread_mutex_destroy(&g_mapMutex);
+    closelog();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -113,19 +117,20 @@ addDriverObject(VscpRemoteTcpIf *pvscpif)
     std::map<long, VscpRemoteTcpIf *>::iterator it;
     long h = 0;
 
+    syslog(LOG_INFO, "addDriverObject<");
     LOCK_MUTEX(g_mapMutex);
-
+    syslog(LOG_INFO, "addDriverObject" );
     // Find free handle
-    while (true ) {
+    while ( !g_ifMap.empty() ) {
         if ( g_ifMap.end() != ( it = g_ifMap.find(h) ) ) break;
         h++;
     };
-
+    syslog(LOG_INFO, "addDriverObject-2");
     g_ifMap[h] = pvscpif;
     h += 1681;
 
     UNLOCK_MUTEX(g_mapMutex);
-
+    syslog(LOG_INFO, "addDriverObject>");
     return h;
 }
 
@@ -164,6 +169,7 @@ removeDriverObject(long h)
     if (idx < 0) return;
 
     LOCK_MUTEX(g_mapMutex);
+
     it = g_ifMap.find(idx);
     if (it != g_ifMap.end()) {
         VscpRemoteTcpIf *pObj = it->second;
@@ -173,5 +179,6 @@ removeDriverObject(long h)
         }
         g_ifMap.erase(it);
     }
+    
     UNLOCK_MUTEX(g_mapMutex);
 }
