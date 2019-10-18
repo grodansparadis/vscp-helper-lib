@@ -31,8 +31,16 @@
 #include <canaldlldef.h>
 
 // Format code for object data
-#define CANAL_FORMAT_XML    0
-#define CANAL_FORMAT_JSON   1
+#define CANAL_FORMAT_XML 0
+#define CANAL_FORMAT_JSON 1
+
+// USed by send XML parser
+typedef struct comboMsg
+{
+    bool bCan; // True if CAN message
+    canalMsg msg;
+    vscpEvent ev;
+} comboMsg;
 
 class VscpCanalDeviceIf
 {
@@ -43,6 +51,42 @@ class VscpCanalDeviceIf
 
     /// Destructor
     virtual ~VscpCanalDeviceIf();
+
+    // Setters
+    void setPath(std::string path) { m_strPath = path; };
+    void setParameter(std::string param) { m_strParameter = param; };
+    void setFlags(uint32_t flags) { m_deviceFlags = flags; };
+    void setbAsync(bool bAsync) { m_bAsync = bAsync; };
+
+    /*!
+        Construct CANAL message from XML or JSON format message/event
+        @param pmsg Pointer to CANAL message that will get data.
+        @param strObj XML or JSON data object
+        @param nFormat Format for the data object
+        @return CANAL_ERROR_SUCCESS on success, CANAL error code on failure
+    */
+    int
+    constructCanalMsg( canalMsg *pmsg,
+                        std::string& strObj,
+                        uint8_t nFormat = CANAL_FORMAT_XML );
+
+    /*!
+        Make formated data from CANAL message
+
+        @param str String that will get formatted data
+        @param pmsg CANAL message wor work on
+        @param nFormat Wanted foremat. 0=XML, 1=JSON
+        @return true on success, false on failure.
+    */
+    bool CanalToFormatedEvent( std::string& str,
+                                canalMsg *pmsg,
+                                uint8_t nFormat = CANAL_FORMAT_XML );
+
+    /*!
+        Initialize driver
+        @return CANAL_ERROR_SUCCESS on success, CANAL error code on failure
+    */
+    int init(void);
 
     /*!
         Initialize driver
@@ -63,15 +107,23 @@ class VscpCanalDeviceIf
         Initialize driver with JSON data
 
         @param jsonInit Init data as a JSON object
+        XML format
+        ----------
+        <init path="path"
+            config="config"
+            flags="flags"
+            basync= "true|false" />
+        JSON format
+        -----------
         {
             "path"   : "path to CANAL driver",
             "config" : "CANAL configuration string",
             "flags"  : 12345
-            "bAsync" : true|false
+            "basync" : true|false
         }
         @return CANAL_ERROR_SUCCESS on success, CANAL error code on failure
     */
-    int init(std::string jsonInit);
+    int init(std::string objInit, uint8_t nFormat = CANAL_FORMAT_XML);
 
     /*!
         CanalOpen
@@ -89,61 +141,71 @@ class VscpCanalDeviceIf
         @param pCanMsg Pointer to CANAL message to send
         @return CANAL_ERROR_SUCCESS on success, CANAL error code on failure
     */
-    int
-    CanalSend(const PCANALMSG pCanMsg);
+    int CanalSend(const PCANALMSG pCanMsg);
 
     /*!
         Send CAN message
 
         @param strJSON CAN msg to send on XML/JSON format
-        {
-            "can" : {
-                "flags"     : 1234
-                "obid"      : 1234
-                "id"        : 1234
-                "data"      : [1,2,3]
-                "timestamp" : 1234
-            }
 
-            "vscp"      : {
-                “head”:0,
-                “vscpclass”: 10,
-                “vscptype”: 6,
-                "guid": "ff:ee:dd:cc:bb:aa:99:88:77:66:55:44:33:22:11:00",
-                "timestamp": 1234567,
-                "datetime": "2018-03-03T12:01:40",
-                "data":[1,2,3,4],
-                “unit”: 0,
-                “sensorindex”: 0,
-                “coding”: 0,
-                “value”: 1.2345,
-            }
+        XML format
+        ----------
+        <msg>
+            <can flags="1234"
+                    obid="1234"
+                    id="1234"
+                    data="1,2,3,4.."
+            />
+            <vscp head=""
+                vscpclass=""
+                vscptype=""
+                data="1,2,3..."
+            />
+        </msg>
+
+        JSON format
+        ------------
+        {
+            "can_flags"     : 1234
+            "can_obid"      : 1234
+            "can_id"        : 1234
+            "can_data"      : [1,2,3]
+
+            “vscp_head”     : 0,
+            "vscp_obid"     : 0,
+            "vscp_guid"     : "00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"
+            “vscp_class”    : 10,
+            “vscp_type”     : 6,
+            "vscp_data"     : [1,2,3,4],
         }
         @param nFormat Format for the data. XML=0 (default), JSON=1
         @return CANAL_ERROR_SUCCESS on success, CANAL error code on failure
     */
-    int CanalSend(std::string strJSON, uint8_t nFormat=CANAL_FORMAT_XML);
+    int CanalSend(std::string& strJSON, uint8_t nFormat = CANAL_FORMAT_XML);
 
     /*!
         Send CAN message
 
         @param pCanMsg Pointer to CANAL message to send
-        @param timeout timeout - Timeout in milliseconds. 0 (default) to wait forever.
+        @param timeout timeout - Timeout in milliseconds. 0 (default) to wait
+       forever.
         @return CANAL_ERROR_SUCCESS on success, CANAL error code on failure
     */
-    int CanalBlockingSend(const PCANALMSG pCanMsg, uint32_t timeout = CANAL_BLOCK_FOREVER);
+    int CanalBlockingSend(const PCANALMSG pCanMsg,
+                          uint32_t timeout = CANAL_BLOCK_FOREVER);
 
     /*!
         Send CAN message, block
 
         @param strJSON CAN msg to send on XML/JSON format
-        @param timeout timeout - Timeout in milliseconds. 0 (default) to wait forever.
+        @param timeout timeout - Timeout in milliseconds. 0 (default) to wait
+       forever.
         @param nFormat Format for the data. XML=0 (default), JSON=1
         @return CANAL_ERROR_SUCCESS on success, CANAL error code on failure
     */
-    int CanalBlockingSend( std::string &strCanMsg,
-                            uint32_t timeout = CANAL_BLOCK_FOREVER,
-                            uint8_t nFormat=CANAL_FORMAT_XML );
+    int CanalBlockingSend(std::string &strCanMsg,
+                          uint32_t timeout = CANAL_BLOCK_FOREVER,
+                          uint8_t nFormat  = CANAL_FORMAT_XML);
 
     /*!
         Receive CANAL message
@@ -161,30 +223,34 @@ class VscpCanalDeviceIf
         @param nFormat Format for the data. XML=0 (default), JSON=1
         @return CANAL_ERROR_SUCCESS on success, CANAL error code on failure
     */
-    int CanalReceive(std::string& strCanMsg, uint8_t nFormat=CANAL_FORMAT_XML );
+    int CanalReceive(std::string &strCanMsg,
+                     uint8_t nFormat = CANAL_FORMAT_XML);
 
     /*!
         CanalBlockingReceive
 
         @param pCanMsg Pointer to CANAL message structure that will get received
         CAN message.
-        @param timeout timeout - Timeout in milliseconds. 0 (default) to wait forever.
+        @param timeout timeout - Timeout in milliseconds. 0 (default) to wait
+       forever.
         @return CANAL_ERROR_SUCCESS on success, CANAL error code on failure
     */
-    int CanalBlockingReceive(PCANALMSG pCanMsg, uint32_t timeout = CANAL_BLOCK_FOREVER);
+    int CanalBlockingReceive(PCANALMSG pCanMsg,
+                             uint32_t timeout = CANAL_BLOCK_FOREVER);
 
     /*!
         CanalBlockingReceive
 
         @param pCanMsg Pointer to CANAL message structure that will get received
         CAN message on XML/JSON format. See CanalSend for XML/JSON format.
-        @param timeout timeout - Timeout in milliseconds. 0 (default) to wait forever.
+        @param timeout timeout - Timeout in milliseconds. 0 (default) to wait
+       forever.
         @param nFormat Format for the data. XML=0 (default), JSON=1
         @return CANAL_ERROR_SUCCESS on success, CANAL error code on failure
     */
-    int CanalBlockingReceive( std::string &strCanMsg,
-                                uint32_t timeout = CANAL_BLOCK_FOREVER,
-                                uint8_t nFormat=CANAL_FORMAT_XML );
+    int CanalBlockingReceive(std::string &strCanMsg,
+                             uint32_t timeout = CANAL_BLOCK_FOREVER,
+                             uint8_t nFormat  = CANAL_FORMAT_XML);
 
     /*!
         CanalDataAvailable
@@ -214,7 +280,8 @@ class VscpCanalDeviceIf
         @return CANAL_ERROR_SUCCESS on success, CANAL error code on failure
     */
 
-    int CanalGetStatus(std::string &objStatus, uint8_t nFormat=CANAL_FORMAT_XML);
+    int CanalGetStatus(std::string &objStatus,
+                       uint8_t nFormat = CANAL_FORMAT_XML);
 
     /*!
         Get CANAL channel statistics
@@ -241,7 +308,8 @@ class VscpCanalDeviceIf
         @param format Format for the data. XML=0 (default), JSON=1
         @return CANAL_ERROR_SUCCESS on success, CANAL error code on failure
     */
-    int CanalGetStatistics(std::string &jsonStatistics, uint8_t nFormat=CANAL_FORMAT_XML);
+    int CanalGetStatistics(std::string &jsonStatistics,
+                           uint8_t nFormat = CANAL_FORMAT_XML);
 
     /*!
         CanalSetFilter
@@ -280,7 +348,8 @@ class VscpCanalDeviceIf
         @param format Format for the data. XML=0 (default), JSON=1
         @return CANAL_ERROR_SUCCESS on success, CANAL error code on failure
     */
-    int VscpSetFilter(std::string& vscpfilterJson, uint8_t nFormat=CANAL_FORMAT_XML);
+    int VscpSetFilter(std::string &vscpfilterJson,
+                      uint8_t nFormat = CANAL_FORMAT_XML);
 
     /*!
         Set a new baudrate
@@ -331,6 +400,9 @@ class VscpCanalDeviceIf
     // Device flags for CANAL DLL open
     uint32_t m_deviceFlags;
 
+    // True if asynchronous operation
+    bool m_bAsync;
+
     // DLL handle
     void *m_hdll;
 
@@ -367,25 +439,26 @@ class VscpCanalDeviceIf
 //    <canal ....  />
 //    <event ....  />.
 // </msg>
-#define CANAL_XML_EVENT_TEMPLATE "<msg>"\
-    "<canal "\
-    "flags=\"%d\" "\
-    "id=\"%ld\" "\
-    "obid=\"%ld\" "\
-    "dataSize=\"%d\" "\
-    "data=\"%s\" "\
-    "timestamp=\"%s\" "\
-    "/>"\
-    "<event "\
-    "head=\"%d\" "\
-    "obid=\"%lu\" "\
-    "datetime=\"%s\" "\
-    "timestamp=\"%lu\" "\
-    "class=\"%d\" "\
-    "type=\"%d\" "\
-    "guid=\"%s\" "\
-    "sizedata=\"%d\" "\
-    "data=\"%s\" "\
+#define CANAL_XML_EVENT_TEMPLATE                                               \
+    "<msg>"                                                                    \
+    "<canal "                                                                  \
+    "flags=\"%ld\" "                                                            \
+    "id=\"%ld\" "                                                              \
+    "obid=\"%ld\" "                                                            \
+    "dataSize=\"%d\" "                                                         \
+    "data=\"%s\" "                                                             \
+    "timestamp=\"%s\" "                                                        \
+    "/>"                                                                       \
+    "<event "                                                                  \
+    "head=\"%d\" "                                                             \
+    "obid=\"%lu\" "                                                            \
+    "datetime=\"%s\" "                                                         \
+    "timestamp=\"%lu\" "                                                       \
+    "class=\"%d\" "                                                            \
+    "type=\"%d\" "                                                             \
+    "guid=\"%s\" "                                                             \
+    "sizedata=\"%d\" "                                                         \
+    "data=\"%s\" "                                                             \
     "/></msg>"
 
 //{
@@ -396,47 +469,49 @@ class VscpCanalDeviceIf
 //        ....
 //    }
 //}
-#define CANAL_JSON_EVENT_TEMPLATE "{ \"canal\": {"\
-    "\"flags\": %d,\n"\
-    "\"id\": %d,\n"\
-    "\"obid\": %d,\n"\
-    "\"sizeData\": %d,\n"\
-    "\"data\": [%s],\n"\
-    "\"timestamp\": %d,\n"\
-    "},"\
-    "vscp\": {\n"\
-    "\"head\": %d,\n"\
-    "\"obid\":  %lu,\n"\
-    "\"datetime\": \"%s\",\n"\
-    "\"timestamp\": %lu,\n"\
-    "\"vscpclass\": %d,\n"\
-    "\"vscptype\": %d,\n"\
-    "\"data\": [%s],\n"\
-    "\"unit\": %d,\n"\
-    "\"sensorindex\": %d,\n"\
-    "\"coding\": %d,\n"\
-    "\"value\": %f,\n"\
-"}}"
+#define CANAL_JSON_EVENT_TEMPLATE                                              \
+    "{ \"canal\": {"                                                           \
+    "\"flags\": %d,\n"                                                         \
+    "\"id\": %d,\n"                                                            \
+    "\"obid\": %d,\n"                                                          \
+    "\"sizeData\": %d,\n"                                                      \
+    "\"data\": [%s],\n"                                                        \
+    "\"timestamp\": %d,\n"                                                     \
+    "},"                                                                       \
+    "vscp\": {\n"                                                              \
+    "\"head\": %d,\n"                                                          \
+    "\"obid\":  %lu,\n"                                                        \
+    "\"datetime\": \"%s\",\n"                                                  \
+    "\"timestamp\": %lu,\n"                                                    \
+    "\"vscpclass\": %d,\n"                                                     \
+    "\"vscptype\": %d,\n"                                                      \
+    "\"data\": [%s],\n"                                                        \
+    "\"unit\": %d,\n"                                                          \
+    "\"sensorindex\": %d,\n"                                                   \
+    "\"coding\": %d,\n"                                                        \
+    "\"value\": %f,\n"                                                         \
+    "}}"
 
-#define CANAL_XML_FILTER_TEMPLATE  "<filter mask_priority=\"%d\" \n"\
-"mask_class=\"%d\" \n"\
-    "mask_type=\"%d\" \n"\
-    "mask_id=\"%d\" \n"\
-    "filter_priority=\"%d\" \n"\
-    "filter_class=\"%d\" \n"\
-    "filter_type=\"%d\" \n"\
+#define CANAL_XML_FILTER_TEMPLATE                                              \
+    "<filter mask_priority=\"%d\" \n"                                          \
+    "mask_class=\"%d\" \n"                                                     \
+    "mask_type=\"%d\" \n"                                                      \
+    "mask_id=\"%d\" \n"                                                        \
+    "filter_priority=\"%d\" \n"                                                \
+    "filter_class=\"%d\" \n"                                                   \
+    "filter_type=\"%d\" \n"                                                    \
     "filter_id=\"%d\" />"
 
-#define CANAL_JSON_FILTER_TEMPLATE "{\n"\
-    "\"mask_priority\": %d,\n"\
-    "\"mask_class\": %d,\n"\
-    "\"mask_type\": %d,\n"\
-    "\"mask_id\": %d,\n"\
-    "\"filter_priority\": %d,\n"\
-    "\"filter_class\": %d,\n"\
-    "\"filter_type\": %d,\n"\
-    "\"filter_id\": %d,\n"\
+#define CANAL_JSON_FILTER_TEMPLATE                                             \
+    "{\n"                                                                      \
+    "\"mask_priority\": %d,\n"                                                 \
+    "\"mask_class\": %d,\n"                                                    \
+    "\"mask_type\": %d,\n"                                                     \
+    "\"mask_id\": %d,\n"                                                       \
+    "\"filter_priority\": %d,\n"                                               \
+    "\"filter_class\": %d,\n"                                                  \
+    "\"filter_type\": %d,\n"                                                   \
+    "\"filter_id\": %d,\n"                                                     \
     "}"
-
 
 #endif // include protection
