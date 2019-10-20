@@ -339,7 +339,7 @@ endInitXMLParser(void *data, const char *name)
 int
 VscpCanalDeviceIf::init(std::string objInit, uint8_t nFormat)
 {
-    if (CANAL_FORMAT_XML == nFormat) {
+    if (CANAL_FORMAT_CAN_XML == nFormat) {
 
         XML_Parser xmlParser = XML_ParserCreate("UTF-8");
         XML_SetUserData(xmlParser, this);
@@ -358,7 +358,7 @@ VscpCanalDeviceIf::init(std::string objInit, uint8_t nFormat)
 
         XML_ParserFree(xmlParser);
 
-    } else if (CANAL_FORMAT_JSON == nFormat) {
+    } else if (CANAL_FORMAT_CAN_JSON == nFormat) {
         try {
             auto j = json::parse(objInit.c_str());
 
@@ -385,7 +385,8 @@ VscpCanalDeviceIf::init(std::string objInit, uint8_t nFormat)
         } catch (...) {
             return CANAL_ERROR_INIT_FAIL;
         }
-    } else {
+    }
+    else {
         return CANAL_ERROR_NOT_SUPPORTED;
     }
 
@@ -498,156 +499,177 @@ void recursive_iterate(const json& j, UnaryFunction f)
     }
 }
 
-//-------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
-int
+/*
+<canal flags="1234"
+            id="1234"
+            obid="1234"
+            dataSize="1234"
+            data="1,2,3,4..."
+            timestamp="1234"  />
+*/
+
+int depth_canal_parser = 0;
+
+static void
+startCanalXMLParser(void *data, const char *name, const char **attr)
+{
+    canalMsg *pmsg = (canalMsg *)data;
+    if (NULL == pmsg) return;
+
+    if ((0 == strcmp(name, "canal")) && (0 == depth_canal_parser)) {
+
+        for (int i = 0; attr[i]; i += 2) {
+
+            std::string attribute = attr[i + 1];
+            if (0 == strcmp(attr[i], "flags")) {
+                pmsg->flags = vscp_readStringValue(attribute);
+            } else if (0 == strcmp(attr[i], "id")) {
+                pmsg->id = vscp_readStringValue(attribute);
+            } else if (0 == strcmp(attr[i], "obid")) {
+                pmsg->obid = vscp_readStringValue(attribute);
+            } else if (0 == strcmp(attr[i], "timestamp")) {
+                pmsg->timestamp = vscp_readStringValue(attribute);
+            } else if (0 == strcmp(attr[i], "dataSize")) {
+                pmsg->sizeData = vscp_readStringValue(attribute);
+                pmsg->sizeData = MIN(pmsg->sizeData,8);
+            } else if (0 == strcmp(attr[i], "data")) {
+                std::string str = attribute;
+                uint16_t sz;
+                uint8_t buf[VSCP_MAX_DATA];
+                memset(buf, 0, sizeof(buf));
+                vscp_setVscpDataArrayFromString(buf, &sz, str);
+                memcpy( pmsg->data, buf, pmsg->sizeData );
+            }
+        }
+    }
+
+    depth_canal_parser++;
+
+}
+
+static void
+endCanalXMLParser(void *data, const char *name)
+{
+    depth_canal_parser--;
+}
+
+//-----------------------------------------------------------------------------
+
+///////////////////////////////////////////////////////////////////////////////
+// constructCanalMsg
+//
+// Construct CANAL msg from CANAL XML/JSON or VSCP XML/JSON
+//
+
+bool
 VscpCanalDeviceIf::constructCanalMsg( canalMsg *pmsg,
                                         std::string& strObj,
                                         uint8_t nFormat )
 {
-    canalMsg msg;
     vscpEventEx ex;
 
     if ( NULL == pmsg ) {
         return CANAL_ERROR_PARAMETER;
     }
 
-    memset(&msg, 0, sizeof(canalMsg) );
-    memset(&ex, 0, sizeof(vscpEventEx) );
+    memset( pmsg, 0, sizeof(canalMsg) );
+    memset( &ex, 0, sizeof(vscpEventEx) );
 
-    if (CANAL_FORMAT_XML == nFormat) {
+    if (CANAL_FORMAT_CAN_XML == nFormat) {
 
-        if ( !vscp_convertXMLToEventEx(strObj, &ex) ) {
-            return CANAL_ERROR_PARAMETER;
+        XML_Parser xmlParser = XML_ParserCreate("UTF-8");
+        XML_SetUserData(xmlParser, pmsg);
+        XML_SetElementHandler(
+          xmlParser, startCanalXMLParser, endCanalXMLParser);
+
+        int bytes_read;
+        void *buf = XML_GetBuffer(xmlParser, XML_BUFF_SIZE);
+
+        strncpy((char *)buf, strObj.c_str(), strObj.length());
+
+        bytes_read = strObj.length();
+        if (!XML_ParseBuffer(xmlParser, bytes_read, bytes_read == 0)) {
+            return false;
         }
 
-        msg.sizeData = MIN( ex.sizeData, 8 );
-        memcpy( msg.data, ex.data, msg.sizeData );
+        XML_ParserFree(xmlParser);
 
-        msg.flags |= CANAL_IDFLAG_EXTENDED;
-        msg.id = vscp_getCANALidFromVSCPeventEx(&ex);
-        msg.id = ex.obid;
-
-        // Send the CANAL messsage
-        return CanalSend(&msg);
-
-    } else if (CANAL_FORMAT_JSON == nFormat) {
+    } else if (CANAL_FORMAT_CAN_JSON == nFormat) {
         try {
             bool bVSCP = false;
             auto j = json::parse(strObj.c_str());
 
-            // !!!! DO NOPT REMOVE !!!!
+            // !!!! DO NOT REMOVE !!!!
             //recursive_iterate(j, [](json::const_iterator it) {
             //    std::cout << *it << std::endl;
             //});
 
             // can_flags
-            if (j.find("can_flags") != j.end()) {
-                msg.flags = j.at("can_flags").get<unsigned long>();
+            if (j.find("flags") != j.end()) {
+                pmsg->flags = j.at("flags").get<unsigned long>();
             }
 
-            // can_obid
-            if (j.find("can_obid") != j.end()) {
-                msg.obid = j.at("can_obid").get<unsigned long>();
+            // obid
+            if (j.find("obid") != j.end()) {
+                pmsg->obid = j.at("obid").get<unsigned long>();
             }
 
-            // can_id
-            if (j.find("can_id") != j.end()) {
-                msg.id = j.at("can_id").get<unsigned long>();
+            // id
+            if (j.find("id") != j.end()) {
+                pmsg->id = j.at("id").get<unsigned long>();
             }
 
-            // can_data
-            if (j.find("can_data") != j.end()) {
-                std::string strData = j.at("can_data").get<std::string>();
-                if ( !vscp_setVscpEventExDataFromString(&ex, strData) ) {
-                    return CANAL_ERROR_PARAMETER;
+            // timestamp
+            if (j.find("timestamp") != j.end()) {
+                pmsg->timestamp = j.at("timestamp").get<unsigned long>();
+            }
+
+            // sizeData
+            if (j.find("sizeData") != j.end()) {
+                pmsg->sizeData = j.at("sizeData").get<uint8_t>();
+            }
+
+            // data
+            if (j.find("data") != j.end()) {
+                std::vector<uint8_t> vecData = j.at("data").get<std::vector<uint8_t>>();
+                pmsg->sizeData =  MIN( ex.sizeData, 8 );
+                for (int i=0; i<8;i++) {
+                    pmsg->data[i] = vecData[i];
                 }
-                msg.sizeData =  MIN( ex.sizeData, 8 );
-                memcpy(msg.data, ex.data, msg.sizeData );
             }
-
-            // vscp_head
-            if (j.find("vscp_head") != j.end()) {
-                bVSCP = true;
-                ex.head = j.at("vscp_head").get<uint16_t>();
-            }
-
-            // vscp_obid
-            if (j.find("vscp_obid") != j.end()) {
-                bVSCP = true;
-                msg.obid = j.at("vscp_obid").get<uint32_t>();
-            }
-
-            // “vscp_class”
-            if (j.find("vscp_class") != j.end()) {
-                bVSCP = true;
-                ex.vscp_class = j.at("vscp_class").get<uint16_t>();
-            }
-
-            // vscp_type
-            if (j.find("vscp_type") != j.end()) {
-                bVSCP = true;
-                ex.vscp_type = j.at("vscp_type").get<uint16_t>();
-            }
-
-            // vscp_data
-            if (j.find("vscp_data") != j.end()) {
-                std::string strData = j.at("vscp_data").get<std::string>();
-                if ( !vscp_setVscpEventExDataFromString(&ex, strData) ) {
-                    return CANAL_ERROR_PARAMETER;
-                }
-                msg.sizeData =  MIN( ex.sizeData, 8 );
-                memcpy(msg.data,ex.data, msg.sizeData );
-            }
-
-            // If VSCP event do the conversion.
-            if ( bVSCP) {
-                msg.flags |= CANAL_IDFLAG_EXTENDED;
-                msg.id = vscp_getCANALidFromVSCPeventEx(&ex);
-            }
-
-            // Path
-            if (j.find("path") != j.end()) {
-                m_strPath = j.at("path").get<std::string>();
-            }
-
-            // config
-            if (j.find("path") != j.end()) {
-                m_strPath = j.at("path").get<std::string>();
-            }
-
-            // flags
-            if (j.find("path") != j.end()) {
-                m_strParameter = j.at("path").get<uint32_t>();
-            }
-
-            // bAsync
-            if (j.find("path") != j.end()) {
-                m_bAsync = j.at("path").get<bool>();
-            }
-
-            return CANAL_ERROR_SUCCESS;
 
         } catch (...) {
-            return CANAL_ERROR_PARAMETER;
+            return false;
         }
     }
+    else if ( CANAL_FORMAT_VSCP_XML == nFormat ) {
 
-    return CANAL_ERROR_PARAMETER;
+        if ( !vscp_convertXMLToEventEx(strObj, &ex) ) {
+            return false;
+        }
+
+    }
+    else if ( CANAL_FORMAT_VSCP_JSON == nFormat ) {
+
+        if ( !vscp_convertJSONToEventEx(strObj, &ex) ) {
+            return false;
+        }
+
+    }
+
+    return true;
 }
 
 int
 VscpCanalDeviceIf::CanalSend(std::string& strObj, uint8_t nFormat)
 {
     canalMsg msg;
-    vscpEventEx ex;
-
     memset(&msg, 0, sizeof(canalMsg) );
-    memset(&ex, 0, sizeof(vscpEventEx) );
 
-    int rv = constructCanalMsg( &msg, strObj, nFormat );
-    if (CANAL_ERROR_SUCCESS != rv) {
-        return rv;
+    if ( !constructCanalMsg( &msg, strObj, nFormat ) ) {
+        return CANAL_ERROR_PARAMETER;
     }
 
     return m_proc_CanalSend(m_openHandle, &msg);
@@ -658,8 +680,8 @@ VscpCanalDeviceIf::CanalSend(std::string& strObj, uint8_t nFormat)
 //
 
 int
-VscpCanalDeviceIf::CanalBlockingSend(canalMsg *pmsg,
-                                     uint32_t timeout )
+VscpCanalDeviceIf::CanalBlockingSend( canalMsg *pmsg,
+                                        uint32_t timeout )
 {
     // Check pointer
     if ( NULL == pmsg ) {
@@ -680,11 +702,12 @@ VscpCanalDeviceIf::CanalBlockingSend(canalMsg *pmsg,
 }
 
 int
-VscpCanalDeviceIf::CanalBlockingSend(std::string &strObj,
+VscpCanalDeviceIf::CanalBlockingSend( std::string &strObj,
                                         uint32_t timeout,
                                         uint8_t nFormat)
 {
-    canalMsg CanMsg;
+    canalMsg msg;
+    memset(&msg, 0, sizeof(canalMsg) );;
 
     // Check if generation 2
     if (NULL == m_proc_CanalBlockingSend) {
@@ -696,16 +719,15 @@ VscpCanalDeviceIf::CanalBlockingSend(std::string &strObj,
         return CANAL_ERROR_NOT_OPEN;
     }
 
-    int rv = constructCanalMsg( &CanMsg, strObj, nFormat );
-    if (CANAL_ERROR_SUCCESS != rv) {
-        return rv;
+    if ( !constructCanalMsg( &msg, strObj, nFormat ) ) {
+        return CANAL_ERROR_PARAMETER;
     }
 
-    return m_proc_CanalBlockingSend(m_openHandle, &CanMsg, timeout);
+    return m_proc_CanalBlockingSend(m_openHandle, &msg, timeout);
 }
 
 
-bool VscpCanalDeviceIf::CanalToFormatedEvent( std::string& str,
+bool VscpCanalDeviceIf::CanalToFormatedEvent( std::string& strObj,
                                                 canalMsg *pmsg,
                                                 uint8_t nFormat )
 {
@@ -716,19 +738,57 @@ bool VscpCanalDeviceIf::CanalToFormatedEvent( std::string& str,
         strdata.append(vscp_str_format("%d",pmsg->data[i]));
     }
 
-    if ( CANAL_FORMAT_XML == nFormat ) {
+    if ( CANAL_FORMAT_CAN_XML == nFormat ) {
         sprintf( buf,
-                    CANAL_XML_EVENT_TEMPLATE,
+                    CANAL_XML_MSG_TEMPLATE,
+                    /* CAN */
                     pmsg->flags,
                     pmsg->id,
                     pmsg->obid,
                     pmsg->sizeData,
-                    strdata,
-                    pmsg->timestamp,
-                    1,2,"",1,1,1,1,"",1,""
-        );
-    } else if ( CANAL_FORMAT_JSON == nFormat ) {
+                    strdata.c_str(),
+                    pmsg->timestamp );
+        strObj = buf;
+    } else if ( CANAL_FORMAT_CAN_JSON == nFormat ) {
+        sprintf( buf,
+                    CANAL_JSON_MSG_TEMPLATE,
+                    /* CAN */
+                    pmsg->flags,
+                    pmsg->id,
+                    pmsg->obid,
+                    pmsg->sizeData,
+                    strdata.c_str(),
+                    pmsg->timestamp );
+        strObj = buf;
+    }
+    else if ( CANAL_FORMAT_VSCP_XML == nFormat ) {
+        vscpEventEx ex;
 
+        uint8_t guid[15];
+        memset( guid, 0, 16 );
+
+        if ( !vscp_convertCanalToEventEx( &ex, pmsg, guid ) ) {
+            return false;
+        }
+
+        if ( !vscp_convertEventExToXML( &ex, strObj) ) {
+            return false;
+        }
+
+    }
+    else if ( CANAL_FORMAT_VSCP_JSON == nFormat ) {
+        vscpEventEx ex;
+
+        uint8_t guid[15];
+        memset( guid, 0, 16 );
+
+        if ( !vscp_convertCanalToEventEx( &ex, pmsg, guid ) ) {
+            return false;
+        }
+
+        if ( !vscp_convertEventExToJSON( &ex, strObj) ) {
+            return false;
+        }
     }
     else {
         return false;
@@ -848,20 +908,55 @@ VscpCanalDeviceIf::CanalDataAvailable()
 // CanalGetStatus
 //
 
+#define CANAL_STATUS_XML_TEMPLATE \
+    "<canal_statatus channel_status=\"%lu\" " \
+        "lasterrorcode=\"%lu\" " \
+        "lasterrorsubcode=\"%lu\" " \
+        "lasterrorstr=\"%s\"  />"
+
+#define CANAL_STATUS_JSON_TEMPLATE \
+    "{ " \
+    "channel_status       : %lu " \
+    "lasterrorcode        : %lu " \
+    "lasterrorsubcode     : %lu " \
+    "lasterrorstr         : %s " \
+    "}"
+
 int
-VscpCanalDeviceIf::CanalGetStatus(std::string &jsonStatus, uint8_t nFormat)
+VscpCanalDeviceIf::CanalGetStatus(std::string &objStatus, uint8_t nFormat)
 {
-    canalStatus CanStatus;
+    canalStatus status;
 
     // Must be open
     if (0 == m_openHandle) {
         return CANAL_ERROR_NOT_OPEN;
     }
 
-    int rv = m_proc_CanalGetStatus(m_openHandle, &CanStatus);
+    int rv = m_proc_CanalGetStatus(m_openHandle, &status);
     if (CANAL_ERROR_SUCCESS != rv) {
         return rv;
     }
+
+    char buf[512];
+    if ( CANAL_FORMAT_CAN_JSON == nFormat ) {
+        sprintf( buf,
+                    CANAL_STATUS_JSON_TEMPLATE,
+                    status.channel_status,
+                    status.lasterrorcode,
+                    status.lasterrorsubcode,
+                    status.lasterrorstr  );
+        objStatus = buf;
+    }
+    else {  // XML-format for everything else
+        sprintf( buf,
+                    CANAL_STATUS_XML_TEMPLATE,
+                    status.channel_status,
+                    status.lasterrorcode,
+                    status.lasterrorsubcode,
+                    status.lasterrorstr );
+        objStatus = buf;
+    }
+
     return CANAL_ERROR_SUCCESS;
 }
 
@@ -869,9 +964,29 @@ VscpCanalDeviceIf::CanalGetStatus(std::string &jsonStatus, uint8_t nFormat)
 // CanalGetStatistics
 //
 
+#define CANAL_STATISTICS_XML_TEMPLATE \
+    "<canal_statistics cntReceiveFrames=\"%lu\" " \
+        "cntTransmittFrames=\"%lu\" " \
+        "cntReceiveData=\"%lu\" " \
+        "cntTransmittData=\"%lu\" " \
+        "cntOverruns=\"%lu\" " \
+        "cntBusWarnings=\"%lu\" " \
+        "cntBusOff=\"%lu\" />"
+
+#define CANAL_STATISTICS_JSON_TEMPLATE \
+    "{ " \
+    "cntReceiveFrames   : %lu " \
+    "cntTransmittFrames : %lu " \
+    "cntReceiveData     : %lu " \
+    "cntTransmittData   : %lu " \
+    "cntOverruns        : %lu " \
+    "cntBusWarnings     : %lu " \
+    "cntBusOff          : %lu "\
+    "}"
+
 int
-VscpCanalDeviceIf::CanalGetStatistics(std::string &jsonStatistics,
-                                      uint8_t nFormat)
+VscpCanalDeviceIf::CanalGetStatistics( std::string& objStatistics,
+                                        uint8_t nFormat)
 {
     canalStatistics CanalStatistics;
 
@@ -884,6 +999,33 @@ VscpCanalDeviceIf::CanalGetStatistics(std::string &jsonStatistics,
     if (CANAL_ERROR_SUCCESS != rv) {
         return rv;
     }
+
+    char buf[512];
+    if ( CANAL_FORMAT_CAN_JSON == nFormat ) {
+        sprintf( buf,
+                    CANAL_STATISTICS_JSON_TEMPLATE,
+                    CanalStatistics.cntReceiveFrames,
+                    CanalStatistics.cntTransmitFrames,
+                    CanalStatistics.cntReceiveData,
+                    CanalStatistics.cntTransmitData,
+                    CanalStatistics.cntTransmitData,
+                    CanalStatistics.cntBusWarnings,
+                    CanalStatistics.cntBusOff );
+        objStatistics = buf;
+    }
+    else {  // XML-format for everything else
+        sprintf( buf,
+                    CANAL_STATISTICS_XML_TEMPLATE,
+                    CanalStatistics.cntReceiveFrames,
+                    CanalStatistics.cntTransmitFrames,
+                    CanalStatistics.cntReceiveData,
+                    CanalStatistics.cntTransmitData,
+                    CanalStatistics.cntTransmitData,
+                    CanalStatistics.cntBusWarnings,
+                    CanalStatistics.cntBusOff );
+        objStatistics = buf;
+    }
+
     return CANAL_ERROR_SUCCESS;
 }
 

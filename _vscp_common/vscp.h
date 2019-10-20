@@ -36,6 +36,7 @@
 #ifndef _VSCP_H_
 #define _VSCP_H_
 
+
 #include <vscp_class.h>
 #include <vscp_type.h>
 #include <canal.h>

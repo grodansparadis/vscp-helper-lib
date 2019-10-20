@@ -23,7 +23,6 @@ LIB_RELEASE_VERSION = @RELEASE_VERSION@
 STATIC=@STATIC@
 VSCP_PROJ_BASE_DIR=@VSCPDIR@
 
-
 prefix = @prefix@
 exec_prefix = @exec_prefix@
 STRIP = strip
@@ -41,7 +40,6 @@ CPPFLAGS = -shared -fPIC @CPPFLAGS@ -fno-var-tracking-assignments -I. -I.. -I../
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 EXTRALIBS = @EXTRALIBS@
-
 
 DLFLAGS = -g -shared -fPIC
 STRIP = strip
