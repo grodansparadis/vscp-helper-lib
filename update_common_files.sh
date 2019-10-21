@@ -42,4 +42,5 @@ cp ${VSCP_PATH}/src/vscp/common/vscphelper.h .
 cp ${VSCP_PATH}/src/vscp/common/vscpdatetime.cpp .
 cp ${VSCP_PATH}/src/vscp/common/vscpdatetime.h .
 cp ${VSCP_PATH}/src/vscp/common/mdf.h .
+cp ${VSCP_PATH}/src/vscp/common/vscpcanaldeviceif.* .
 cd ..

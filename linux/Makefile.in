@@ -97,8 +97,8 @@ vscphelperlib.o: ../vscphelperlib.cpp ../vscphelperlib.h
 vscpremotetcpif.o: ../_vscp_common/vscpremotetcpif.cpp ../_vscp_common/vscpremotetcpif.h
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../_vscp_common/vscpremotetcpif.cpp -o $@
 
-vscpcanaldeviceif.o: ../vscpcanaldeviceif.cpp ../vscpcanaldeviceif.h
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../vscpcanaldeviceif.cpp -o $@
+vscpcanaldeviceif.o: ../_vscp_common/vscpcanaldeviceif.cpp ../_vscp_common/vscpcanaldeviceif.h
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../_vscp_common/vscpcanaldeviceif.cpp -o $@
 
 vscpdatetime.o: ../_vscp_common/vscpdatetime.cpp ../_vscp_common/vscpdatetime.h
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../_vscp_common/vscpdatetime.cpp -o $@
