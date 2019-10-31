@@ -19,10 +19,6 @@ LIB_MAJOR_VERSION = @MAJOR_VERSION@
 LIB_MINOR_VERSION = @MINOR_VERSION@
 LIB_RELEASE_VERSION = @RELEASE_VERSION@
 
-# STATIC = yes if a static build is requested.
-STATIC=@STATIC@
-VSCP_PROJ_BASE_DIR=@VSCPDIR@
-
 prefix = @prefix@
 exec_prefix = @exec_prefix@
 STRIP = strip

@@ -43,4 +43,13 @@ cp ${VSCP_PATH}/src/vscp/common/vscpdatetime.cpp .
 cp ${VSCP_PATH}/src/vscp/common/vscpdatetime.h .
 cp ${VSCP_PATH}/src/vscp/common/mdf.h .
 cp ${VSCP_PATH}/src/vscp/common/vscpcanaldeviceif.* .
+cp ${VSCP_PATH}/src/vscp/common/vscp_bootloader.h .
+cp ${VSCP_PATH}/src/vscp/common/vscp_bootloader.cpp .
+cp ${VSCP_PATH}/src/vscp/common/vscp_bootdevice.h .
+cp ${VSCP_PATH}/src/vscp/common/vscp_bootdevice.cpp .
+cp ${VSCP_PATH}/src/vscp/common/vscp_bootdevice_pic1.h .
+cp ${VSCP_PATH}/src/vscp/common/vscp_bootdevice_pic1.cpp .
+cp ${VSCP_PATH}/src/vscp/common/vscp_bootdevice_vscp.h .
+cp ${VSCP_PATH}/src/vscp/common/vscp_bootdevice_vscp.cpp .
+cp ${VSCP_PATH}/src/vscp/common/vscp_bootdevice_vscp_defs.h .
 cd ..

@@ -36,12 +36,10 @@
 #ifndef _VSCP_H_
 #define _VSCP_H_
 
-
 #include <vscp_class.h>
 #include <vscp_type.h>
 #include <canal.h>
 #include <inttypes.h>
-
 
 #define	VSCP_DEFAULT_UDP_PORT               33333
 #define	VSCP_DEFAULT_TCP_PORT               9598
@@ -85,7 +83,7 @@ extern "C" {
         /* ----- CRC should be calculated from here to end + data block ----  */
 
         uint16_t head;          /* Bit 15   GUID is IP v.6 address. */
-	                        /* Bit 14   This is a dumb node. No MDF, register, nothing. */
+	                            /* Bit 14   This is a dumb node. No MDF, register, nothing. */
                                 /* Bit 8-13 = Reserved */
                                 /* bit 765  priority, Priority 0-7 where 0 is highest. */
                                 /* bit 4 = hard coded, true for a hard coded device. */
