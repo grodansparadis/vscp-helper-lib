@@ -35,7 +35,6 @@
                 "/usr/include/x86_64-linux-gnu",
                 "/usr/include",
                 "${workspaceRoot}",
-                "/usr/include/wx-3.0",
                 "/home/akhe/development/VSCP/vscp/src/common/",
                 "/home/akhe/development/VSCP/vscp/src/vscp/common/",
                 "/home/akhe/development/VSCP/vscp/src/vscp/helperlib/linux",

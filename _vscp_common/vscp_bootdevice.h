@@ -106,13 +106,13 @@ class CBootDevice
             Intel HEX8, HEX6, HEX32, SRECORD etc
         @return true on success
     */
-    virtual bool loadBinaryFile(const wxString &path, uint16_t type) = 0;
+    virtual bool loadBinaryFile(const std::string &path, uint16_t type) = 0;
 
     /*!
         Show info for hex file
         @param Pointer to HTML window that will receive information.
     */
-    virtual void showInfo(wxHtmlWindow *phtmlWnd) = 0;
+    virtual void showInfo(std::string *phtmlWnd) = 0;
 
     /*!
         Set a device in bootmode

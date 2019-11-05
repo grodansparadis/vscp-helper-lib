@@ -80,13 +80,10 @@ PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
 VERSION = @VERSION@
-WXLIBS = @WXLIBS@
-WX_CONFIG = @WX_CONFIG@
 YACC = @YACC@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
-top_wxbuilddir = @top_wxbuilddir@
 NULL =
 
 EXTRA_DIST = \
