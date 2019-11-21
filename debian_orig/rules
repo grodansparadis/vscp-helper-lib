@@ -3,7 +3,6 @@
 %:
 	dh $@ --with autoreconf
 
-override_dh_shlibdeps:
-	dpkg-shlibdeps -Tdebian/libvscphelper.substvars $$(pwd)/debian/libvscphelper/usr/lib/$(DEB_BUILD_GNU_CPU)-$(DEB_BUILD_GNU_SYSTEM)/libvscphelper.so.14.0.0
-	dpkg-shlibdeps -Tdebian/libvscphelper-dev.substvars $$(pwd)/debian/libvscphelper/usr/lib/$(DEB_BUILD_GNU_CPU)-$(DEB_BUILD_GNU_SYSTEM)/libvscphelper.so.14.0.0
-
+#override_dh_shlibdeps:
+#	dpkg-shlibdeps -Tdebian/libvscphelper%MAJOR-VERSION.substvars $$(pwd)/debian/libvscphelper%MAJOR-VERSION/usr/lib/%SUBFOLDER/libvscphelper.so.%MAJOR-VERSION.%MINOR-VERSION.%RELEASE-VERSION
+#	dpkg-shlibdeps -Tdebian/libvscphelper%MAJOR-VERSION-dev.substvars $$(pwd)/debian/libvscphelper%MAJOR-VERSION/usr/lib/%SUBFOLDER/libvscphelper.so.%MAJOR-VERSION.%MINOR-VERSION.%RELEASE-VERSION

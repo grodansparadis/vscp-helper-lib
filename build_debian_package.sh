@@ -5,50 +5,169 @@ MAJOR_VERSION=`head -n4  VERSION.m4 |  grep major_version | cut -c30- | tr -d "[
 MINOR_VERSION=`head -n4  VERSION.m4 |  grep minor_version | cut -c30- | tr -d "[]()"`
 RELEASE_VERSION=`head -n4  VERSION.m4 |  grep release_version | cut -c30- | tr -d "[]()"`
 BUILD_VERSION=`head -n4  VERSION.m4 |  grep build_version | cut -c30- | tr -d "[]()"`
+RELEASE_DEBIAN=`head -n4  VERSION.m4 |  grep release_debian | tr -d "m4_define[release_debian], ()"`
 
-NAME_PLUS_VER=libvscphelper-$MAJOR_VERSION.$MINOR_VERSION.$RELEASE_VERSION
-BUILD_FOLDER=/tmp/__build__/`date +vscp_build_%y%m%d_%H%M%S`
+NAME_PLUS_VER=libvscphelper$MAJOR_VERSION-$MAJOR_VERSION.$MINOR_VERSION.$RELEASE_VERSION
+#BUILD_FOLDER="dist/`date +vscp_build_%y%m%d_%H%M%S`"
+BUILD_FOLDER="dist"
 
-echo ---$NAME_PLUS_VER
+# Debian compability 10 on Raspberry
+# relevant for 'control' and 'compat'
+COMPAT="11"
+
+# makes correct /usr/lib subfolder (/usr/lib/x86_64-linux-gnu/), none on Raspberry
+# relevant for 'install' and 'links'
+#SUBFOLDER='$(DEB_BUILD_GNU_CPU)-$(DEB_BUILD_GNU_SYSTEM)'
+SUBFOLDER="x86_64-linux-gnu"
+
+# dependencies for control
+DEPENDENCY="libc6-dev (>= 2.14), libstdc++6 (>= 5.2), libgcc1 (>= 1:3.0), libssl-dev (>=1.0) libexpat1 (>= 2.0)"
+
+# Get OS and version
+if [ -f /etc/os-release ]; then
+    # freedesktop.org and systemd
+    . /etc/os-release
+    OS=$NAME
+    VER=$VERSION_ID
+elif type lsb_release >/dev/null 2>&1; then
+    # linuxbase.org
+    OS=$(lsb_release -si)
+    VER=$(lsb_release -sr)
+elif [ -f /etc/lsb-release ]; then
+    # For some versions of Debian/Ubuntu without lsb_release command
+    . /etc/lsb-release
+    OS=$DISTRIB_ID
+    VER=$DISTRIB_RELEASE
+elif [ -f /etc/debian_version ]; then
+    # Older Debian/Ubuntu/etc.
+    OS=Debian
+    VER=$(cat /etc/debian_version)
+elif [ -f /etc/SuSe-release ]; then
+    # Older SuSE/etc.
+    ...
+elif [ -f /etc/redhat-release ]; then
+    # Older Red Hat, CentOS, etc.
+    ...
+else
+    # Fall back to uname, e.g. "Linux <version>", also works for BSD, etc.
+    OS=$(uname -s)
+    VER=$(uname -r)
+fi
+
+echo "OS=${OS} VER=${VER}"
+
+# Get acitecture
+case $(uname -m) in
+x86_64)
+    BITS=64
+    SUBFOLDER="x86_64-linux-gnu"
+    ;;
+i*86)
+    BITS=32
+    SUBFOLDER="i386-linux-gnu"
+    ;;
+armv6l)
+    BITS=32
+    SUBFOLDER=""
+    ;; 
+armv7l)
+    BITS=64
+    SUBFOLDER=""
+    ;;       
+*)
+    BITS=?
+    ;;
+esac
+
+# Get word width
+echo "BITS=${BITS}"
+
+case $(uname -m) in
+x86_64)
+    ARCH=x64  # or AMD64 or Intel64 or whatever
+    ;;
+i*86)
+    ARCH=x86  # or IA32 or Intel32 or whatever
+    ;;
+*)
+    # leave   armv6l/armv7l
+    ARCH=`uname -m`
+    ;;
+esac
+
+echo "ARCH=${ARCH}"
+
+case $OS in
+Debian)
+    echo "11"
+    echo "22"
+    ;;
+Ubuntu)
+    echo "11"
+    echo "22"
+    ;;
+Raspian)
+    echo "111"
+    echo "222"
+    ;;
+esac
+
+echo "***   ---$NAME_PLUS_VER"
 
 # Create the build folder
-echo "---Creating build folder:"$BUILD_FOLDER
+echo "***   ---Creating build folder:"$BUILD_FOLDER
 mkdir -p $BUILD_FOLDER
 
 # Clean project
 make clean
-rm dist/*
+rm -rf dist/*
+vscp/clean_for_dist
 ./clean_for_dist
 
 echo "---Copying Debian_orig to destination folder"
-cp -r debian_orig $BUILD_FOLDER
+cp -r debian_orig/ $BUILD_FOLDER
 
-echo "---making tar"
+echo "***   ---making tar"
 tar -zcf $BUILD_FOLDER/$NAME_PLUS_VER.tar.gz *
-echo $NAME_PLUS_VER.tgz created.
+
+echo "***   $NAME_PLUS_VER.tgz created."
 cd $BUILD_FOLDER
 mkdir $NAME_PLUS_VER/
 cd $NAME_PLUS_VER/
-mkdir debian
 tar -zxvf ../$NAME_PLUS_VER.tar.gz
-cp -r ../debian_orig/* debian/
+
+echo "***   Making 'debian' folder"
+mkdir debian
+cp -r debian_orig/* debian
+
+echo "***   Rename files to match MAJOR_VERSION"
+mv debian/libvscphelper-dev.dirs "debian/libvscphelper${MAJOR_VERSION}-dev.dirs"
+mv debian/libvscphelper-dev.install "debian/libvscphelper${MAJOR_VERSION}-dev.install"
+mv debian/libvscphelper-dev.manpages "debian/libvscphelper${MAJOR_VERSION}-dev.manpages"
+mv debian/libvscphelper-dev.substvars "debian/libvscphelper${MAJOR_VERSION}-dev.substvars"
+
+mv debian/libvscphelper.dirs "debian/libvscphelper${MAJOR_VERSION}.dirs"
+mv debian/libvscphelper.install "debian/libvscphelper${MAJOR_VERSION}.install"
+mv debian/libvscphelper.links "debian/libvscphelper${MAJOR_VERSION}.links"
+mv debian/libvscphelper.manpages "debian/libvscphelper${MAJOR_VERSION}.manpages"
+mv debian/libvscphelper.substvars "debian/libvscphelper${MAJOR_VERSION}.substvars"
+
+echo "***   Running dh_make"
 dh_make --single --defaultless -f ../$NAME_PLUS_VER.tar.gz -a -s -c mit -y
-cp -r ../debian_orig/* debian/
-#ls
-echo "---Now do 'dpkg-buildpackage -us -uc' or 'dpkg-buildpackage -b'"
+
+echo "***   Do variable substitution"
+sed -i "s/%MAJOR-VERSION/${MAJOR_VERSION}/g" debian/*
+sed -i "s/%MINOR-VERSION/${MINOR_VERSION}/g" debian/*
+sed -i "s/%RELEASE-VERSION/${RELEASE_VERSION}/g" debian/*
+sed -i "s/%BUILD-VERSION/${BUILD_VERSION}/g" debian/*
+sed -i "s/%RELEASE-DEBIAN/${RELEASE_DEBIAN}/g" debian/*
+sed -i "s/%COMPAT/${COMPAT}/g" debian/*
+sed -i "s/%SUBFOLDER/${SUBFOLDER}/g" debian/*
+
+echo "***   ---Now do 'dpkg-buildpackage -us -uc' or 'dpkg-buildpackage -b'"
 
 #cd $NAME_PLUS_VER
 #debuild clean
 debuild -us -uc
 
-echo "If all is alright check /tmp/__BUILD__/ for Debian package "
-
-#cp -r vscpl2drv-socketcan /tmp/__build__/vscpl2drv-socketcan-${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}
-#cd /tmp/__build__
-#tar czvf vscpl2drv-socketcan_${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}.tar.gz vscpl2drv-socketcan_${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}
-#rm -rf vscpl2drv-socketcan_${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}vscpl2drv-socketcan_${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}
-#tar xzvf vscpl2drv-socketcan_${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}.tar.gz
-#cd vscpl2drv-socketcan-${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}
-#dh_make -f ../vscpl2drv-socketcan_${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}.tar.gz
-#cp -r debian_orig/* debian
-#debuild -us -uc
+echo "***   If all is alright check dist folder for Debian package "

@@ -34,7 +34,7 @@ uninstall:
 	@for d in $(PROJ_SUBDIRS); do (echo "====================================================" &&\
 	echo "Building in dir " $$d && echo "====================================================" && cd $$d && $(MAKE) uninstall); done
 
-man:
+man: all
 	@for d in $(PROJ_SUBDIRS); do (echo "====================================================" &&\
 	echo "Building in dir " $$d && echo "====================================================" && cd $$d && $(MAKE) man); done
 

@@ -34,11 +34,12 @@
                 "/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed",
                 "/usr/include/x86_64-linux-gnu",
                 "/usr/include",
+                "/usr/local/include",
                 "${workspaceRoot}",
-                "/home/akhe/development/VSCP/vscp/src/common/",
-                "/home/akhe/development/VSCP/vscp/src/vscp/common/",
-                "/home/akhe/development/VSCP/vscp/src/vscp/helperlib/linux",
-                "/home/akhe/development/VSCP/vscp/src/vscp/helperlib/linux"
+                "${workspaceFolder}/vscp/src/common/nlohmann",
+                "${workspaceFolder}/vscp/src/common",
+                "${workspaceFolder}/vscp/src/vscp/common",
+                "${workspaceFolder}/linux"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",
@@ -52,7 +53,12 @@
                     "/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed",
                     "/usr/include/x86_64-linux-gnu",
                     "/usr/include",
-                    "${workspaceRoot}"
+                    "/usr/local/include",
+                    "${workspaceRoot}",
+                    "${workspaceFolder}/vscp/src/common/nlohmann",
+                    "${workspaceFolder}/vscp/src/common",
+                    "${workspaceFolder}/vscp/src/vscp/common",
+                    "${workspaceFolder}/linux"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
@@ -83,5 +89,5 @@
             }
         }
     ],
-    "version": 3
+    "version": 4
 }

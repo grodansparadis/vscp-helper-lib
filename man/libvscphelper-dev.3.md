@@ -1,4 +1,4 @@
-% libvscphelper-dev (3) VSCP Helper Library
+% libvscphelper-dev(3) Version %MAJOR-VERSION.%MINOR-VERSION.%RELEASE-VERSION  | VSCP Helper Library
 % Åke Hedman, Grodans Paradis AB
 % October 16, 2019
 

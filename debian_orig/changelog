@@ -1,4 +1,4 @@
-libvscphelper (14.0.0-1) stable; urgency=medium
+libvscphelper%MAJOR-VERSION (%MAJOR-VERSION.%MINOR-VERSION.%RELEASE-VERSION-%RELEASE-DEBIAN) stable; urgency=medium
 
   * Initial release
 

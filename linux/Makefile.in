@@ -31,9 +31,17 @@ top_builddir = @top_builddir@
 CC = @CC@
 CXX = @CXX@
 
+WARNINGS_HARD = -Werror -Wall -Wextra -pedantic -Wcast-align -Wcast-qual \
+  -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self \
+  -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast \
+  -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo \
+  -Wstrict-null-sentinel -Wstrict-overflow=5 -Wundef -Wno-unused \
+  -Wno-variadic-macros -Wno-parentheses -fdiagnostics-show-option
+WARNINGS_MEDIUM = -Wformat-security -Wformat=2
+
 CFLAGS = -std=c11 -shared -fPIC -D__LINUX__ @CFLAGS@  -DCBC -I. -I.. -I../vscp/src/vscp/common -I../vscp/src/common
-CXXFLAGS = -std=c++11 -shared -fPIC  @CXXFLAGS@
-CPPFLAGS = -shared -fPIC @CPPFLAGS@ -fno-var-tracking-assignments -I. -I.. -I@include@ -I../common \
+CXXFLAGS = -std=c++11 -shared -fPIC  @CXXFLAGS@  $(WARNINGS_HARD)
+CPPFLAGS = -shared -fPIC @CPPFLAGS@ $(WARNINGS_HARD) -fno-var-tracking-assignments -I. -I.. \
 	-I../vscp/src/common -I../vscp/src/vscp/common \
 	-I../vscp/src/common/nlohmann \
 	$(VERSION_DEFS)
@@ -79,7 +87,7 @@ VSCPHELPER_OBJECTS =  libvscphelper.o \
 
 ### Targets: ###
 
-all: $(LIB_PLUS_VER) test
+all: $(LIB_PLUS_VER) test man
 
 test:	test.o $(PROJOBJS)
 	$(CXX) -I../vscp/src/vscp/common -I../vscp/src/common -o $@ test.o $(PROJOBJS) $(LDFLAGS)  $(LIBS) $(EXTRALIBS)
@@ -165,8 +173,9 @@ uninstall:
 
 install-strip: install
 
-man: ../man/libvscphelper.3.md
+man: ../man/libvscphelper.3.md ../man/libvscphelper-dev.3.md
 	pandoc -s -t man ../man/libvscphelper.3.md -o ../man/libvscphelper.3
+	pandoc -s -t man ../man/libvscphelper-dev.3.md -o ../man/libvscphelper-dev.3
 
 deb:    all
 	echo "\n" | ./builddist.sh
