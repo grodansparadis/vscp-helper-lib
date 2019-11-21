@@ -18,6 +18,8 @@ DESTDIR=@DESTDIR@
 LIB_MAJOR_VERSION = @MAJOR_VERSION@
 LIB_MINOR_VERSION = @MINOR_VERSION@
 LIB_RELEASE_VERSION = @RELEASE_VERSION@
+VERSION_DEFS = -DMAJOR_VERSION=$(MAJOR_VERSION) -DMINOR_VERSION=$(MINOR_VERSION) \
+	-DRELEASE_VERSION=$(RELEASE_VERSION) -DBUILD_VERSION=$(BUILD_VERSION)
 
 prefix = @prefix@
 exec_prefix = @exec_prefix@
@@ -29,9 +31,12 @@ top_builddir = @top_builddir@
 CC = @CC@
 CXX = @CXX@
 
-CFLAGS = -std=c11 -shared -fPIC -D__LINUX__ @CFLAGS@  -DCBC -I. -I.. -I../_vscp_common -I../_vscp_common_general
+CFLAGS = -std=c11 -shared -fPIC -D__LINUX__ @CFLAGS@  -DCBC -I. -I.. -I../vscp/src/vscp/common -I../vscp/src/common
 CXXFLAGS = -std=c++11 -shared -fPIC  @CXXFLAGS@
-CPPFLAGS = -shared -fPIC @CPPFLAGS@ -fno-var-tracking-assignments -I. -I.. -I../_vscp_common -I../_vscp_common_general
+CPPFLAGS = -shared -fPIC @CPPFLAGS@ -fno-var-tracking-assignments -I. -I.. -I@include@ -I../common \
+	-I../vscp/src/common -I../vscp/src/vscp/common \
+	-I../vscp/src/common/nlohmann \
+	$(VERSION_DEFS)
 
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
@@ -77,7 +82,7 @@ VSCPHELPER_OBJECTS =  libvscphelper.o \
 all: $(LIB_PLUS_VER) test
 
 test:	test.o $(PROJOBJS)
-	$(CXX) -I../_vscp_common -I../_vscp_common_general -o $@ test.o $(PROJOBJS) $(LDFLAGS)  $(LIBS) $(EXTRALIBS)
+	$(CXX) -I../vscp/src/vscp/common -I../vscp/src/common -o $@ test.o $(PROJOBJS) $(LDFLAGS)  $(LIBS) $(EXTRALIBS)
 
 # Build the Linux DL
 $(LIB_PLUS_VER): $(VSCPHELPER_OBJECTS)
@@ -90,41 +95,41 @@ libvscphelper.o: libvscphelper.cpp libvscphelper.h
 vscphelperlib.o: ../vscphelperlib.cpp ../vscphelperlib.h
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../vscphelperlib.cpp -o $@
 
-vscpremotetcpif.o: ../_vscp_common/vscpremotetcpif.cpp ../_vscp_common/vscpremotetcpif.h
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../_vscp_common/vscpremotetcpif.cpp -o $@
+vscpremotetcpif.o: ../vscp/src/vscp/common/vscpremotetcpif.cpp ../vscp/src/vscp/common/vscpremotetcpif.h
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../vscp/src/vscp/common/vscpremotetcpif.cpp -o $@
 
-vscpcanaldeviceif.o: ../_vscp_common/vscpcanaldeviceif.cpp ../_vscp_common/vscpcanaldeviceif.h
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../_vscp_common/vscpcanaldeviceif.cpp -o $@
+vscpcanaldeviceif.o: ../vscp/src/vscp/common/vscpcanaldeviceif.cpp ../vscp/src/vscp/common/vscpcanaldeviceif.h
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../vscp/src/vscp/common/vscpcanaldeviceif.cpp -o $@
 
-vscpdatetime.o: ../_vscp_common/vscpdatetime.cpp ../_vscp_common/vscpdatetime.h
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../_vscp_common/vscpdatetime.cpp -o $@
+vscpdatetime.o: ../vscp/src/vscp/common/vscpdatetime.cpp ../vscp/src/vscp/common/vscpdatetime.h
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../vscp/src/vscp/common/vscpdatetime.cpp -o $@
 
-vscphelper.o: ../_vscp_common/vscphelper.cpp ../_vscp_common/vscphelper.h
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../_vscp_common/vscphelper.cpp -o $@
+vscphelper.o: ../vscp/src/vscp/common/vscphelper.cpp ../vscp/src/vscp/common/vscphelper.h
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../vscp/src/vscp/common/vscphelper.cpp -o $@
 
-sockettcp.o: ../_vscp_common_general/sockettcp.c ../_vscp_common_general/sockettcp.h
-	        $(CC) $(CFLAGS) $(CPPFLAGS) -c ../_vscp_common_general/sockettcp.c -o $@
+sockettcp.o: ../vscp/src/common/sockettcp.c ../vscp/src/common/sockettcp.h
+	        $(CC) $(CFLAGS) $(CPPFLAGS) -c ../vscp/src/common/sockettcp.c -o $@
 
-guid.o: ../_vscp_common/guid.cpp ../_vscp_common/guid.h
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../_vscp_common/guid.cpp -o $@
+guid.o: ../vscp/src/vscp/common/guid.cpp ../vscp/src/vscp/common/guid.h
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ../vscp/src/vscp/common/guid.cpp -o $@
 
-vscp_aes.o: ../_vscp_common_general/vscp_aes.c ../_vscp_common_general/vscp_aes.h
-	$(CC) $(CFLAGS) -c ../_vscp_common_general/vscp_aes.c -o $@
+vscp_aes.o: ../vscp/src/common/vscp_aes.c ../vscp/src/common/vscp_aes.h
+	$(CC) $(CFLAGS) -c ../vscp/src/common/vscp_aes.c -o $@
 
-crc.o: ../_vscp_common_general/crc.c ../_vscp_common_general/crc.h
-	$(CC) $(CFLAGS) -c ../_vscp_common_general/crc.c -o $@
+crc.o: ../vscp/src/common/crc.c ../vscp/src/common/crc.h
+	$(CC) $(CFLAGS) -c ../vscp/src/common/crc.c -o $@
 
-crc8.o: ../_vscp_common_general/crc8.c ../_vscp_common_general/crc8.h
-	$(CC) $(CFLAGS) -c ../_vscp_common_general/crc8.c -o $@
+crc8.o: ../vscp/src/common/crc8.c ../vscp/src/common/crc8.h
+	$(CC) $(CFLAGS) -c ../vscp/src/common/crc8.c -o $@
 
-vscpbase64.o: ../_vscp_common_general/vscpbase64.c ../_vscp_common_general/vscpbase64.h
-	$(CC) $(CFLAGS) -c ../_vscp_common_general/vscpbase64.c -o $@
+vscpbase64.o: ../vscp/src/common/vscpbase64.c ../vscp/src/common/vscpbase64.h
+	$(CC) $(CFLAGS) -c ../vscp/src/common/vscpbase64.c -o $@
 
-fastpbkdf2.o: ../_vscp_common_general/fastpbkdf2.c ../_vscp_common_general/fastpbkdf2.h
-	$(CC) $(CFLAGS) -c ../_vscp_common_general/fastpbkdf2.c -o $@
+fastpbkdf2.o: ../vscp/src/common/fastpbkdf2.c ../vscp/src/common/fastpbkdf2.h
+	$(CC) $(CFLAGS) -c ../vscp/src/common/fastpbkdf2.c -o $@
 
-vscpmd5.o: ../_vscp_common_general/vscpmd5.c ../_vscp_common_general/vscpmd5.h
-	$(CC) $(CFLAGS) -c ../_vscp_common_general/vscpmd5.c -o $@
+vscpmd5.o: ../vscp/src/common/vscpmd5.c ../vscp/src/common/vscpmd5.h
+	$(CC) $(CFLAGS) -c ../vscp/src/common/vscpmd5.c -o $@
 
 install:
 	$(INSTALL_DIR) $(DESTDIR)$(libdir)
@@ -133,12 +138,12 @@ install:
 	ln -fs $(libdir)/$(LIB_PLUS_VER) $(DESTDIR)$(libdir)/libvscphelper.so
 	ln -fs $(libdir)/$(LIB_PLUS_VER) $(DESTDIR)$(libdir)/libvscphelper.so.$(LIB_MAJOR_VERSION)
 	ln -fs $(libdir)/$(LIB_PLUS_VER) $(DESTDIR)$(libdir)/libvscphelper.so.$(LIB_MAJOR_VERSION).$(LIB_MINOR_VERSION)
-	$(INSTALL_PROGRAM) ../_vscp_common/canal.h $(DESTDIR)$(includedir)
-	$(INSTALL_PROGRAM) ../_vscp_common/canal_macro.h $(DESTDIR)$(includedir)
-	$(INSTALL_PROGRAM) ../_vscp_common/canaldlldef.h $(DESTDIR)$(includedir)
-	$(INSTALL_PROGRAM) ../_vscp_common/vscp.h $(DESTDIR)$(includedir)
-	$(INSTALL_PROGRAM) ../_vscp_common/vscp_class.h $(DESTDIR)$(includedir)
-	$(INSTALL_PROGRAM) ../_vscp_common/vscp_type.h $(DESTDIR)$(includedir)
+	$(INSTALL_PROGRAM) ../vscp/src/vscp/common/canal.h $(DESTDIR)$(includedir)
+	$(INSTALL_PROGRAM) ../vscp/src/vscp/common/canal_macro.h $(DESTDIR)$(includedir)
+	$(INSTALL_PROGRAM) ../vscp/src/vscp/common/canaldlldef.h $(DESTDIR)$(includedir)
+	$(INSTALL_PROGRAM) ../vscp/src/vscp/common/vscp.h $(DESTDIR)$(includedir)
+	$(INSTALL_PROGRAM) ../vscp/src/vscp/common/vscp_class.h $(DESTDIR)$(includedir)
+	$(INSTALL_PROGRAM) ../vscp/src/vscp/common/vscp_type.h $(DESTDIR)$(includedir)
 	$(INSTALL_PROGRAM) ../vscphelperlib.h $(DESTDIR)$(includedir)
 	$(INSTALL_PROGRAM) libvscphelper.a $(DESTDIR)$(libdir)
 
@@ -173,9 +178,9 @@ clean:
 	rm -f ./*.o
 	rm -f ./*.a
 	rm -f ../common/*.o
-	rm -f ../_vscp_common/*.o
-	rm -f ../_vscp_common_general/*.o
-	rm -f ../../_vscp_common_general/*.o
+	rm -f ../vscp/src/vscp/common/*.o
+	rm -f ../vscp/src/common/*.o
+	rm -f ../../vscp/src/common/*.o
 	rm -f *.so
 	rm -f libvscphelper.so
 	rm -f libvscphelper.so.$(LIB_MAJOR_VERSION)

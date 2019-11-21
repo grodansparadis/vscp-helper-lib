@@ -11,7 +11,7 @@ Full documentation is [here](https://grodansparadis.gitbooks.io/the-vscp-helper-
 
 ## How to install on Linux
 
-> sudo dpkg -i vscpworks-14.0.0.deb
+> sudo dpkg -i libvscphelper14-14.0.0.deb
 
 ## How to install on Windows
 Install using the windows installation script available in the release section och this repository.
@@ -21,6 +21,7 @@ The VSCP helper lib is built using a standard autoconf build
 
 ```bash
 ./configure
+git submodule foreach git pull origin master
 make
 make install
 ```

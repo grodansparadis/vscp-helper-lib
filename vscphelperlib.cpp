@@ -4001,7 +4001,7 @@ vscphlp_writeVscpEventToString(vscpEvent *pEvent, char *p, size_t len)
 
     std::string str;
     ;
-    if ((rv = vscp_writeVscpEventToString(pEvent, str))) {
+    if ((rv = vscp_writeVscpEventToString(str,pEvent))) {
         memset(p, 0, len);
         strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
     }
@@ -4024,7 +4024,7 @@ vscphlp_writeVscpEventExToString(vscpEventEx *pEvent, char *p, size_t len)
     bool rv;
 
     std::string str;
-    if ((rv = vscp_writeVscpEventExToString(pEvent, str))) {
+    if ((rv = vscp_writeVscpEventExToString(str,pEvent))) {
         memset(p, 0, len);
         strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
     }
@@ -4460,7 +4460,7 @@ vscphlp_convertEventToJSON(vscpEvent *pEvent, char *p, size_t len)
     std::string str;
 
     // Do the conversion
-    vscp_convertEventToJSON(pEvent, str);
+    vscp_convertEventToJSON(str,pEvent);
 
     // Check if there is room for the JSON string
     if (len <= strlen(str.c_str())) return VSCP_ERROR_BUFFER_TO_SMALL;
@@ -4487,7 +4487,7 @@ vscphlp_convertEventExToJSON(vscpEventEx *pEventEx, char *p, size_t len)
     std::string str;
 
     // Do the conversion
-    vscp_convertEventExToJSON(pEventEx, str);
+    vscp_convertEventExToJSON(str,pEventEx);
 
     // Check if there is room for the JSON string
     if (len <= strlen(str.c_str())) return VSCP_ERROR_BUFFER_TO_SMALL;
@@ -4514,7 +4514,7 @@ vscphlp_convertEventToXML(vscpEvent *pEvent, char *p, size_t len)
     std::string str;
 
     // Do the conversion
-    vscp_convertEventToXML(pEvent, str);
+    vscp_convertEventToXML(str,pEvent);
 
     // Check if there is room for the XML string
     if (len <= strlen(str.c_str())) return VSCP_ERROR_BUFFER_TO_SMALL;
@@ -4541,7 +4541,7 @@ vscphlp_convertEventExToXML(vscpEventEx *pEventEx, char *p, size_t len)
     std::string str;
 
     // Do the conversion
-    vscp_convertEventExToXML(pEventEx, str);
+    vscp_convertEventExToXML(str,pEventEx);
 
     // Check if there is room for the XML string
     if (len <= strlen(str.c_str())) return VSCP_ERROR_BUFFER_TO_SMALL;
@@ -4568,7 +4568,7 @@ vscphlp_convertEventToHTML(vscpEvent *pEvent, char *p, size_t len)
     std::string str;
 
     // Do the conversion
-    vscp_convertEventToHTML(pEvent, str);
+    vscp_convertEventToHTML(str,pEvent);
 
     // Check if there is room for the HTML string
     if (len <= strlen(str.c_str())) return VSCP_ERROR_BUFFER_TO_SMALL;
@@ -4595,7 +4595,7 @@ vscphlp_convertEventExToHTML(vscpEventEx *pEventEx, char *p, size_t len)
     std::string str;
 
     // Do the conversion
-    vscp_convertEventExToHTML(pEventEx, str);
+    vscp_convertEventExToHTML(str,pEventEx);
 
     // Check if there is room for the HTML string
     if (len <= strlen(str.c_str())) return VSCP_ERROR_BUFFER_TO_SMALL;
