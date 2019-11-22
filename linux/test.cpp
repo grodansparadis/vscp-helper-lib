@@ -7,7 +7,7 @@
 //
 // This file is part of the VSCP (http://www.vscp.org)
 //
-// Copyright (C) 2014-2018 Ake Hedman, Grodans Paradis AB <akhe@grodandparadis.com>
+// Copyright (C) 2014-2019 Ake Hedman, Grodans Paradis AB <akhe@grodandparadis.com>
 //
 // This file is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -65,8 +65,10 @@ static	LPFNDLL_CANALGETVERSION        CanalGetVersion_P;
 static	LPFNDLL_CANALGETDLLVERSION     CanalGetDllVersion_P;
 static	LPFNDLL_CANALGETVENDORSTRING   CanalGetVendorString_P;
 // Generation 2
-static	LPFNDLL_CANALBLOCKINGSEND      CanalBlockingSend_P;
-static	LPFNDLL_CANALBLOCKINGRECEIVE   CanalBlockingReceive_P;
+ __attribute__((unused)) static	LPFNDLL_CANALBLOCKINGSEND      CanalBlockingSend_P;
+ __attribute__((unused)) static	LPFNDLL_CANALBLOCKINGRECEIVE   CanalBlockingReceive_P;
+
+
 
 void displayErrorAndExit(const char* funcName)
 {
@@ -117,7 +119,7 @@ void initLib(void)
 
     // * * * * CANAL DATA AVAILABLE * * * *
     if ( 0 == ( CanalDataAvailable_P = (LPFNDLL_CANALDATAAVAILABLE)dlsym( handle,
-										CanalDataAvailable_Name ) ) )
+                                       CanalDataAvailable_Name ) ) )
     {
         displayErrorAndExit(CanalDataAvailable_Name);
     }
@@ -130,7 +132,7 @@ void initLib(void)
 
     // * * * * CANAL GET STATISTICS * * * *
     if ( 0 == ( CanalGetStatistics_P = (LPFNDLL_CANALGETSTATISTICS)dlsym( handle,
-										CanalGetStatistics_Name ) ) )
+                                       CanalGetStatistics_Name ) ) )
     {
         displayErrorAndExit(CanalGetStatistics_Name);
     }
@@ -161,14 +163,14 @@ void initLib(void)
 
     // * * * * CANAL GET DLL VERSION * * * *
     if ( 0 == ( CanalGetDllVersion_P = (LPFNDLL_CANALGETDLLVERSION)dlsym( handle,
-										CanalGetDllVersion_Name) ) )
+                                       CanalGetDllVersion_Name) ) )
     {
         displayErrorAndExit(  CanalGetDllVersion_Name);
     }
 
     // * * * * CANAL GET VENDOR STRING * * * *
     if ( 0 == ( CanalGetVendorString_P = (LPFNDLL_CANALGETVENDORSTRING)dlsym( handle,
-										CanalGetVendorString_Name) ) )
+                                         CanalGetVendorString_Name) ) )
     {
         displayErrorAndExit( CanalGetVendorString_Name);
     }
@@ -197,7 +199,7 @@ int CanalSend( long handle, PCANALMSG pCanalMsg )
 
 int CanalReceive( long handle, PCANALMSG pCanalMsg )
 {
-    return CanalReceive_P(handle , pCanalMsg);
+    return CanalReceive_P(handle, pCanalMsg);
 }
 
 int CanalDataAvailable( long handle )

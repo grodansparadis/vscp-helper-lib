@@ -114,4 +114,5 @@
         "vscpd"
     ],
     "C_Cpp.intelliSenseEngineFallback": "Enabled",
+    "C_Cpp.default.cppStandard": "c++11",
 }

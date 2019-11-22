@@ -13,7 +13,7 @@ BUILD_FOLDER="dist"
 
 # Debian compability 10 on Raspberry
 # relevant for 'control' and 'compat'
-COMPAT="11"
+COMPAT="10"
 
 # makes correct /usr/lib subfolder (/usr/lib/x86_64-linux-gnu/), none on Raspberry
 # relevant for 'install' and 'links'
@@ -99,16 +99,13 @@ echo "ARCH=${ARCH}"
 
 case $OS in
 Debian)
-    echo "11"
-    echo "22"
+    COMPAT="11"
     ;;
 Ubuntu)
-    echo "11"
-    echo "22"
+    COMPAT="10"
     ;;
 Raspian)
-    echo "111"
-    echo "222"
+    COMPAT="9"
     ;;
 esac
 

@@ -13,7 +13,7 @@
                 "path": [
                     "/usr/include",
                     "/usr/local/include",
-                    "${workspaceRoot}"
+                    "${workspaceFolder}"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
@@ -30,16 +30,15 @@
                 "/usr/include/x86_64-linux-gnu/c++/7",
                 "/usr/include/c++/7/backward",
                 "/usr/lib/gcc/x86_64-linux-gnu/7/include",
-                "/usr/local/include",
                 "/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed",
                 "/usr/include/x86_64-linux-gnu",
                 "/usr/include",
                 "/usr/local/include",
-                "${workspaceRoot}",
-                "${workspaceFolder}/vscp/src/common/nlohmann",
+                "${workspaceFolder}",
+                "${workspaceFolder}/linux",
                 "${workspaceFolder}/vscp/src/common",
-                "${workspaceFolder}/vscp/src/vscp/common",
-                "${workspaceFolder}/linux"
+                "${workspaceFolder}/vscp/src/common/nlohmann",
+                "${workspaceFolder}/vscp/src/vscp/common"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",
@@ -54,11 +53,12 @@
                     "/usr/include/x86_64-linux-gnu",
                     "/usr/include",
                     "/usr/local/include",
-                    "${workspaceRoot}",
-                    "${workspaceFolder}/vscp/src/common/nlohmann",
+                    "${workspaceFolder}/lib",
+                    "${workspaceFolder}/linux",
                     "${workspaceFolder}/vscp/src/common",
-                    "${workspaceFolder}/vscp/src/vscp/common",
-                    "${workspaceFolder}/linux"
+                    "${workspaceFolder}/vscp/src/common/nlohmann",
+                    "${workspaceFolder}/vscp/src/vscp/common"
+                    
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
