@@ -4217,15 +4217,15 @@ vscphlp_writeVscpDataToString(const vscpEvent* pEvent,
                               int bUseHtmlBreak)
 #else
 extern "C" int
-vscphlp_writeVscpDataToString(const vscpEvent* pEvent,
-                              char* pStr,
+vscphlp_writeVscpDataToString(char* pStr,
+                              const vscpEvent* pEvent,
                               size_t len,
                               int bUseHtmlBreak)
 #endif
 {
     std::string str;
     bool rv =
-      vscp_writeVscpDataToString(pEvent, str, bUseHtmlBreak ? true : false);
+      vscp_writeVscpDataToString(str, pEvent, bUseHtmlBreak ? true : false);
     memset(pStr, 0, len);
     strncpy(pStr, str.c_str(), std::min(strlen(str.c_str()), len));
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
@@ -4239,26 +4239,26 @@ vscphlp_writeVscpDataToString(const vscpEvent* pEvent,
 */
 #ifdef WIN32
 extern "C" DllExport int WINAPI EXPORT
-vscphlp_writeVscpDataWithSizeToString(const unsigned char* pData,
+vscphlp_writeVscpDataWithSizeToString(char* pStr,
+                                      const unsigned char* pData,
                                       const unsigned short sizeData,
-                                      char* pStr,
                                       size_t len,
                                       int bUseHtmlBreak,
                                       int bBreak)
 #else
 extern "C" int
-vscphlp_writeVscpDataWithSizeToString(const unsigned char* pData,
+vscphlp_writeVscpDataWithSizeToString(char* pStr,
+                                      const unsigned char* pData,
                                       const unsigned short sizeData,
-                                      char* pStr,
                                       size_t len,
                                       int bUseHtmlBreak,
                                       int bBreak)
 #endif
 {
     std::string str;
-    bool rv = vscp_writeVscpDataWithSizeToString(sizeData,
-                                                 pData,
-                                                 str,
+    bool rv = vscp_writeVscpDataWithSizeToString(str,
+                                                 pData,  
+                                                 sizeData,                                               
                                                  bUseHtmlBreak ? true : false,
                                                  bBreak ? true : false);
     memset(pStr, 0, len);
