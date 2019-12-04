@@ -4,7 +4,7 @@
         {
             "taskName": "build vscp-helper-lib",
             "type": "shell",
-            "command": "make",
+            "command": "rm -rf dist; make",
             "args": [],
             "group": {
                 "kind": "build",
@@ -15,7 +15,7 @@
         {
             "taskName": "clean & build vscp-helper-lib",
             "type": "shell",
-            "command": "make clean; make",
+            "command": "rm -rf dist; make clean; make",
             "args": [],
             "group": {
                 "kind": "build",

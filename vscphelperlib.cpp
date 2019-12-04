@@ -3380,7 +3380,7 @@ extern "C" int
 vscphlp_convertVSCPtoEx(vscpEventEx* pEventEx, const vscpEvent* pEvent)
 #endif
 {
-    return vscp_convertVSCPtoEx(pEventEx, pEvent) ? VSCP_ERROR_SUCCESS
+    return vscp_convertEventToEventEx(pEventEx, pEvent) ? VSCP_ERROR_SUCCESS
                                                   : VSCP_ERROR_ERROR;
 }
 
@@ -3397,7 +3397,7 @@ extern "C" int
 vscphlp_convertVSCPfromEx(vscpEvent* pEvent, const vscpEventEx* pEventEx)
 #endif
 {
-    return vscp_convertVSCPfromEx(pEvent, pEventEx) ? VSCP_ERROR_SUCCESS
+    return vscp_convertEventExToEvent(pEvent, pEventEx) ? VSCP_ERROR_SUCCESS
                                                     : VSCP_ERROR_ERROR;
 }
 
@@ -3428,7 +3428,7 @@ extern "C" void
 vscphlp_deleteVSCPevent(vscpEvent* pEvent)
 #endif
 {
-    return vscp_deleteVSCPevent(pEvent);
+    return vscp_deleteEvent(pEvent);
 }
 
 /*!
@@ -3443,7 +3443,7 @@ extern "C" void
 vscphlp_deleteVSCPevent_v2(vscpEvent** ppEvent)
 #endif
 {
-    return vscp_deleteVSCPevent_v2(ppEvent);
+    return vscp_deleteEvent_v2(ppEvent);
 }
 
 /*!
@@ -3458,7 +3458,7 @@ extern "C" void
 vscphlp_deleteVSCPeventEx(vscpEventEx* pEventEx)
 #endif
 {
-    return vscp_deleteVSCPeventEx(pEventEx);
+    return vscp_deleteEventEx(pEventEx);
 }
 
 /*!
@@ -3473,7 +3473,7 @@ extern "C" unsigned char
 vscphlp_getVscpPriority(const vscpEvent* pEvent)
 #endif
 {
-    return vscp_getVscpPriority(pEvent);
+    return vscp_getEventPriority(pEvent);
 }
 
 #ifdef WIN32
@@ -3484,7 +3484,7 @@ extern "C" unsigned char
 vscphlp_getVscpPriorityEx(const vscpEventEx* pEvent)
 #endif
 {
-    return vscp_getVscpPriorityEx(pEvent);
+    return vscp_getEventExPriority(pEvent);
 }
 
 /*!
@@ -3499,7 +3499,7 @@ extern "C" void
 vscphlp_setVscpPriority(vscpEvent* pEvent, unsigned char priority)
 #endif
 {
-    vscp_setVscpPriority(pEvent, priority);
+    vscp_setEventPriority(pEvent, priority);
 }
 
 #ifdef WIN32
@@ -3510,7 +3510,7 @@ extern "C" void
 vscphlp_setVscpPriorityEx(vscpEventEx* pEvent, unsigned char priority)
 #endif
 {
-    vscp_setVscpPriorityEx(pEvent, priority);
+    vscp_setEventExPriority(pEvent, priority);
 }
 
 /*!
@@ -3525,7 +3525,7 @@ extern "C" unsigned char
 vscphlp_getVSCPheadFromCANALid(const unsigned long id)
 #endif
 {
-    return vscp_getVSCPheadFromCANALid(id);
+    return vscp_getHeadFromCANALid(id);
 }
 
 /*!
@@ -3540,7 +3540,7 @@ extern "C" unsigned short
 vscphlp_getVSCPclassFromCANALid(const unsigned long id)
 #endif
 {
-    return vscp_getVSCPclassFromCANALid(id);
+    return vscp_getVscpClassFromCANALid(id);
 }
 
 /*!
@@ -3555,7 +3555,7 @@ extern "C" unsigned short
 vscphlp_getVSCPtypeFromCANALid(const unsigned long id)
 #endif
 {
-    return vscp_getVSCPtypeFromCANALid(id);
+    return vscp_getVscpTypeFromCANALid(id);
 }
 
 /*!
@@ -3570,7 +3570,7 @@ extern "C" unsigned char
 vscphlp_getVSCPnicknameFromCANALid(const unsigned long id)
 #endif
 {
-    return vscp_getVSCPnicknameFromCANALid(id);
+    return vscp_getNicknameFromCANALid(id);
 }
 
 /*!
@@ -3605,7 +3605,7 @@ extern "C" unsigned long
 vscphlp_getCANALidFromVSCPevent(const vscpEvent* pEvent)
 #endif
 {
-    return vscp_getCANALidFromVSCPevent(pEvent);
+    return vscp_getCANALidFromEvent(pEvent);
 }
 
 /*!
@@ -3620,7 +3620,7 @@ extern "C" unsigned long
 vscphlp_getCANALidFromVSCPeventEx(const vscpEventEx* pEvent)
 #endif
 {
-    return vscp_getCANALidFromVSCPeventEx(pEvent);
+    return vscp_getCANALidFromEventEx(pEvent);
 }
 
 /*!
@@ -4198,7 +4198,7 @@ extern "C" int
 vscphlp_copyVSCPEvent(vscpEvent* pEventTo, const vscpEvent* pEventFrom)
 #endif
 {
-    return vscp_copyVSCPEvent(pEventTo, pEventFrom) ? VSCP_ERROR_SUCCESS
+    return vscp_copyEvent(pEventTo, pEventFrom) ? VSCP_ERROR_SUCCESS
                                                     : VSCP_ERROR_ERROR;
 }
 
@@ -4225,7 +4225,7 @@ vscphlp_writeVscpDataToString(char* pStr,
 {
     std::string str;
     bool rv =
-      vscp_writeVscpDataToString(str, pEvent, bUseHtmlBreak ? true : false);
+      vscp_writeDataToString(str, pEvent, bUseHtmlBreak ? true : false);
     memset(pStr, 0, len);
     strncpy(pStr, str.c_str(), std::min(strlen(str.c_str()), len));
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
@@ -4256,7 +4256,7 @@ vscphlp_writeVscpDataWithSizeToString(char* pStr,
 #endif
 {
     std::string str;
-    bool rv = vscp_writeVscpDataWithSizeToString(str,
+    bool rv = vscp_writeDataWithSizeToString(str,
                                                  pData,  
                                                  sizeData,                                               
                                                  bUseHtmlBreak ? true : false,
@@ -4280,7 +4280,7 @@ vscphlp_setVscpDataFromString(vscpEvent* pEvent, const char* pstr)
 #endif
 {
     std::string str = std::string(pstr);
-    return vscp_setVscpEventDataFromString(pEvent, str) ? VSCP_ERROR_SUCCESS
+    return vscp_setEventDataFromString(pEvent, str) ? VSCP_ERROR_SUCCESS
                                                         : VSCP_ERROR_ERROR;
 }
 
@@ -4303,7 +4303,7 @@ vscphlp_setVscpDataArrayFromString(unsigned char* pData,
 #endif
 {
     std::string str = std::string(pstr);
-    return vscp_setVscpDataArrayFromString(pData, psizeData, str)
+    return vscp_setDataArrayFromString(pData, psizeData, str)
              ? VSCP_ERROR_SUCCESS
              : VSCP_ERROR_ERROR;
 }
@@ -4325,7 +4325,7 @@ vscphlp_writeVscpEventToString(vscpEvent* pEvent, char* p, size_t len)
 
     std::string str;
     ;
-    if ((rv = vscp_writeVscpEventToString(str, pEvent))) {
+    if ((rv = vscp_convertEventToString(str, pEvent))) {
         memset(p, 0, len);
         strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
     }
@@ -4348,7 +4348,7 @@ vscphlp_writeVscpEventExToString(vscpEventEx* pEvent, char* p, size_t len)
     bool rv;
 
     std::string str;
-    if ((rv = vscp_writeVscpEventExToString(str, pEvent))) {
+    if ((rv = vscp_convertEventExToString(str, pEvent))) {
         memset(p, 0, len);
         strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
     }
@@ -4369,7 +4369,7 @@ vscphlp_setVscpEventFromString(vscpEvent* pEvent, const char* p)
 #endif
 {
     std::string str = std::string(p);
-    return vscp_setVscpEventFromString(pEvent, str) ? VSCP_ERROR_SUCCESS
+    return vscp_convertStringToEvent(pEvent, str) ? VSCP_ERROR_SUCCESS
                                                     : VSCP_ERROR_ERROR;
 }
 
@@ -4387,7 +4387,7 @@ vscphlp_setVscpEventExFromString(vscpEventEx* pEvent, const char* p)
 #endif
 {
     std::string str = std::string(p);
-    return vscp_setVscpEventExFromString(pEvent, str) ? VSCP_ERROR_SUCCESS
+    return vscp_convertStringToEventEx(pEvent, str) ? VSCP_ERROR_SUCCESS
                                                       : VSCP_ERROR_ERROR;
 }
 
@@ -4505,7 +4505,7 @@ vscphlp_getVSCPMeasurementAsString(const vscpEvent* pEvent,
     if (NULL == pEvent)
         return VSCP_ERROR_ERROR;
 
-    bool rv = vscp_getVSCPMeasurementAsString(str, pEvent);
+    bool rv = vscp_getMeasurementAsString(str, pEvent);
     memset(pResult, 0, len);
     strncpy(pResult, str.c_str(), std::min(strlen(str.c_str()), len));
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
@@ -4528,7 +4528,7 @@ vscphlp_getVSCPMeasurementAsDouble(const vscpEvent* pEvent, double* pvalue)
     if (NULL == pEvent)
         return VSCP_ERROR_ERROR;
 
-    return vscp_getVSCPMeasurementAsDouble(pvalue, pEvent) ? VSCP_ERROR_SUCCESS
+    return vscp_getMeasurementAsDouble(pvalue, pEvent) ? VSCP_ERROR_SUCCESS
                                                            : VSCP_ERROR_ERROR;
 }
 
@@ -4553,7 +4553,7 @@ vscphlp_getVSCPMeasurementFloat64AsString(const vscpEvent* pEvent,
     if (NULL == pEvent)
         return VSCP_ERROR_ERROR;
 
-    bool rv = vscp_getVSCPMeasurementFloat64AsString(str, pEvent);
+    bool rv = vscp_getMeasurementFloat64AsString(str, pEvent);
     memset(pStrResult, 0, len);
     strncpy(pStrResult, str.c_str(), std::min(strlen(str.c_str()), len));
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
@@ -4717,7 +4717,7 @@ extern "C" int
 vscphlp_getMeasurementUnit(const vscpEvent* pEvent)
 #endif
 {
-    return vscp_getVSCPMeasurementUnit(pEvent);
+    return vscp_getMeasurementUnit(pEvent);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -4732,7 +4732,7 @@ extern "C" int
 vscphlp_getMeasurementSensorIndex(const vscpEvent* pEvent)
 #endif
 {
-    return vscp_getVSCPMeasurementSensorIndex(pEvent);
+    return vscp_getMeasurementSensorIndex(pEvent);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -4747,7 +4747,7 @@ extern "C" int
 vscphlp_getMeasurementZone(const vscpEvent* pEvent)
 #endif
 {
-    return vscp_getVSCPMeasurementZone(pEvent);
+    return vscp_getMeasurementZone(pEvent);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -4762,7 +4762,7 @@ extern "C" int
 vscphlp_getMeasurementSubZone(const vscpEvent* pEvent)
 #endif
 {
-    return vscp_getVSCPMeasurementSubZone(pEvent);
+    return vscp_getMeasurementSubZone(pEvent);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -4777,7 +4777,7 @@ extern "C" int
 vscphlp_isMeasurement(const vscpEvent* pEvent)
 #endif
 {
-    return vscp_isVSCPMeasurement(pEvent) ? VSCP_ERROR_SUCCESS
+    return vscp_isMeasurement(pEvent) ? VSCP_ERROR_SUCCESS
                                           : VSCP_ERROR_ERROR;
 }
 
