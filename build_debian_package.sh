@@ -9,11 +9,13 @@ RELEASE_DEBIAN=`head -n4  VERSION.m4 |  grep release_debian | tr -d "m4_define[r
 
 NAME_PLUS_VER=libvscphelper$MAJOR_VERSION-$MAJOR_VERSION.$MINOR_VERSION.$RELEASE_VERSION
 #BUILD_FOLDER="dist/`date +vscp_build_%y%m%d_%H%M%S`"
-BUILD_FOLDER="dist"
+rm -rf ../dist/*
+BUILD_FOLDER="../dist"
+DATENOW="`date -R`"
 
 # Debian compability 10 on Raspberry
 # relevant for 'control' and 'compat'
-COMPAT="10"
+COMPAT="12"
 
 # makes correct /usr/lib subfolder (/usr/lib/x86_64-linux-gnu/), none on Raspberry
 # relevant for 'install' and 'links'
@@ -160,6 +162,7 @@ sed -i "s/%BUILD-VERSION/${BUILD_VERSION}/g" debian/*
 sed -i "s/%RELEASE-DEBIAN/${RELEASE_DEBIAN}/g" debian/*
 sed -i "s/%COMPAT/${COMPAT}/g" debian/*
 sed -i "s/%SUBFOLDER/${SUBFOLDER}/g" debian/*
+sed -i "s/%DATENOW/${DATENOW}/g" debian/*
 
 echo "***   ---Now do 'dpkg-buildpackage -us -uc' or 'dpkg-buildpackage -b'"
 
