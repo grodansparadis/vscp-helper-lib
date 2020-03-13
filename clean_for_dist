@@ -77,3 +77,5 @@ rm -f 'src/vscp/drivers/level2/logger/linux/Makefile.orig'
 rm -f 'src/vscp/helperlib/linux/Makefile.orig'
 rm -rf autom4te.cache
 rm -f config.status
+#rm -f config.h
+

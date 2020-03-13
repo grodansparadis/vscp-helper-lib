@@ -101,7 +101,7 @@ test:	test.o $(PROJOBJS)
 # Build the Linux DL
 $(LIB_PLUS_VER): $(VSCPHELPER_OBJECTS)
 	$(CXX) -Wl,-soname,$(LIB_SONAME) -o  $@ $(VSCPHELPER_OBJECTS) $(DLFLAGS)  $(LIBS) $(EXTRALIBS)
-	ar rcs libvscphelper.a $(VSCPHELPER_OBJECTS)
+	ar rcsv libvscphelper.a $(VSCPHELPER_OBJECTS)
 
 libvscphelper.o: libvscphelper.cpp libvscphelper.h
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c libvscphelper.cpp -o $@
@@ -159,7 +159,7 @@ install:
 	$(INSTALL_PROGRAM) ../vscp/src/vscp/common/vscp_class.h $(DESTDIR)$(includedir)
 	$(INSTALL_PROGRAM) ../vscp/src/vscp/common/vscp_type.h $(DESTDIR)$(includedir)
 	$(INSTALL_PROGRAM) ../vscphelperlib.h $(DESTDIR)$(includedir)
-	$(INSTALL_PROGRAM) libvscphelper.a $(DESTDIR)$(libdir)
+#	$(INSTALL_PROGRAM) libvscphelper.a $(DESTDIR)$(libdir)
 
 
 uninstall:
@@ -204,7 +204,7 @@ clean:
 	rm -f test
 
 distclean: clean
-	rm -f config.cache config.log config.status bk-deps bk-make-pch shared-ld-sh Makefile
+	rm -f config.cache config.log config.status bk-deps bk-make-pch shared-ld-sh
 
 $(ALWAYS_BUILD):  .FORCE
 

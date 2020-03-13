@@ -3413,7 +3413,7 @@ extern "C" int
 vscphlp_newVSCPevent(vscpEvent** ppEvent)
 #endif
 {
-    return vscp_newVSCPevent(ppEvent) ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
+    return vscp_newEvent(ppEvent) ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
 
 /*!
