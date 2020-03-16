@@ -159,7 +159,7 @@ install:
 	$(INSTALL_PROGRAM) ../vscp/src/vscp/common/vscp_class.h $(DESTDIR)$(includedir)
 	$(INSTALL_PROGRAM) ../vscp/src/vscp/common/vscp_type.h $(DESTDIR)$(includedir)
 	$(INSTALL_PROGRAM) ../vscphelperlib.h $(DESTDIR)$(includedir)
-#	$(INSTALL_PROGRAM) libvscphelper.a $(DESTDIR)$(libdir)
+	$(INSTALL_PROGRAM) libvscphelper.a $(DESTDIR)$(libdir)
 
 
 uninstall:
@@ -192,11 +192,8 @@ clean:
 	rm -rf ./.deps ./.pch
 	rm -f ./*.o
 	rm -f ./*.a
-	rm -f ../common/*.o
-	rm -f ../vscp/src/vscp/common/*.o
-	rm -f ../vscp/src/common/*.o
-	rm -f ../../vscp/src/common/*.o
 	rm -f *.so
+	rm -f ../common/*.o
 	rm -f libvscphelper.so
 	rm -f libvscphelper.so.$(LIB_MAJOR_VERSION)
 	rm -f libvscphelper.so.$(LIB_MAJOR_VERSION).$(LIB_MINOR_VERSION)
@@ -205,6 +202,7 @@ clean:
 
 distclean: clean
 	rm -f config.cache config.log config.status bk-deps bk-make-pch shared-ld-sh
+	rm -f Makefile
 
 $(ALWAYS_BUILD):  .FORCE
 

@@ -45,9 +45,10 @@ clean:
 	rm -f config.status
 
 distclean: clean
+	@for d in $(PROJ_SUBDIRS); do (cd $$d && $(MAKE) distclean); done
 	@sh clean_for_dist
 	rm -f m4/Makefile
-	rm -f linux/Makefile
+	rm -f Makefile
 
 deb:
 	@for d in $(PROJ_SUBDIRS); do (echo "====================================================" &&\

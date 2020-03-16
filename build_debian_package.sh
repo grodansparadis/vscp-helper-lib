@@ -164,7 +164,8 @@ cd $BUILD_FOLDER
 mkdir $NAME_PLUS_VER/
 cd $NAME_PLUS_VER/
 
-tar -zxvf ../$NAME_PLUS_VER.tar.gz
+#tar -zxvf ../$NAME_PLUS_VER.tar.gz
+tar -zxf ../$NAME_PLUS_VER.tar.gz
 
 echo "***   Making 'debian' folder"
 mkdir debian
