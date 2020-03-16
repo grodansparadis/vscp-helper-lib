@@ -1,10 +1,12 @@
 #!/bin/sh
 
-#   arg1 - 
+#   arg1 - platform
 #   i386    ununtu/debian    ./build_debian_package.sh i386 10
 #   amd64,  ununtu/debian    ./build_debian_package.sh amd64 10
 #   armhf   raspbian         ./build_debian_package.sh armhf 10
-
+#
+#   arg2 - COMPAT
+#   
 # Package version
 MAJOR_VERSION=`head -n4  VERSION.m4 |  grep major_version | cut -c30- | tr -d "[]()"`
 MINOR_VERSION=`head -n4  VERSION.m4 |  grep minor_version | cut -c30- | tr -d "[]()"`
@@ -13,9 +15,12 @@ BUILD_VERSION=`head -n4  VERSION.m4 |  grep build_version | cut -c30- | tr -d "[
 RELEASE_DEBIAN=`head -n4  VERSION.m4 |  grep release_debian | tr -d "m4_define[release_debian], ()"`
 
 NAME_PLUS_VER=libvscphelper$MAJOR_VERSION-$MAJOR_VERSION.$MINOR_VERSION.$RELEASE_VERSION
-rm -rf ../dist/*
 BUILD_FOLDER="../dist"
 DATENOW="`date -R`"
+
+# Create the build folder
+echo "***   ---Creating build folder: ["$BUILD_FOLDER"]"
+mkdir -p $BUILD_FOLDER
 
 # Debian compability 10 on Raspberry
 # relevant for 'control' and 'compat'
@@ -141,19 +146,14 @@ armhf)
 esac
 # ---------------------------------------------------------------------
 
-echo "***   ---$NAME_PLUS_VER"
-
-# Create the build folder
-echo "***   ---Creating build folder:"$BUILD_FOLDER
-mkdir -p $BUILD_FOLDER
+echo "*** name+ver  --- "$NAME_PLUS_VER
 
 # Clean project
 make clean
-rm -rf dist/*
 vscp/clean_for_dist
 ./clean_for_dist
 
-echo "---Copying Debian_orig to destination folder"
+echo "---Copying Debian_orig to destination folder "$BUILD_FOLDER
 cp -r debian_orig/ $BUILD_FOLDER
 
 echo "***   ---making tar"
@@ -163,6 +163,7 @@ echo "***   $NAME_PLUS_VER.tgz created."
 cd $BUILD_FOLDER
 mkdir $NAME_PLUS_VER/
 cd $NAME_PLUS_VER/
+
 tar -zxvf ../$NAME_PLUS_VER.tar.gz
 
 echo "***   Making 'debian' folder"
@@ -181,7 +182,7 @@ mv debian/libvscphelper.links "debian/libvscphelper${MAJOR_VERSION}.links"
 mv debian/libvscphelper.manpages "debian/libvscphelper${MAJOR_VERSION}.manpages"
 mv debian/libvscphelper.substvars "debian/libvscphelper${MAJOR_VERSION}.substvars"
 
-echo "***   Running dh_make"
+echo "***   Running dh_make" ../$NAME_PLUS_VER.tar.gz
 dh_make --single --defaultless -f ../$NAME_PLUS_VER.tar.gz -a -s -c mit -y
 
 echo "***   Do variable substitution"

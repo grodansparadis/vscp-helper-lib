@@ -5,3 +5,4 @@ vscp/src/vscp/common/canaldlldef.h  /usr/include/
 vscp/src/vscp/common/vscp.h  /usr/include/
 vscp/src/vscp/common/vscp_class.h  /usr/include/
 vscp/src/vscp/common/vscp_type.h  /usr/include/
+linux/libvscphelper.a /usr/lib/%SUBFOLDER/
