@@ -1,12 +1,13 @@
 #!/bin/sh
 
 #   arg1 - platform
+#   ---------------
 #   i386    ununtu/debian    ./build_debian_package.sh i386 10
-#   amd64,  ununtu/debian    ./build_debian_package.sh amd64 10
+#   amd64   ununtu/debian    ./build_debian_package.sh amd64 10
 #   armhf   raspbian         ./build_debian_package.sh armhf 10
 #
 #   arg2 - COMPAT
-#   
+  
 # Package version
 MAJOR_VERSION=`head -n4  VERSION.m4 |  grep major_version | cut -c30- | tr -d "[]()"`
 MINOR_VERSION=`head -n4  VERSION.m4 |  grep minor_version | cut -c30- | tr -d "[]()"`
