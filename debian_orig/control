@@ -2,7 +2,8 @@ Source: libvscphelper%MAJOR-VERSION
 Section: libs
 Priority: optional
 Maintainer: Ake Hedman <akhe@grodansparadis.com>
-Build-Depends: debhelper (>= %COMPAT), 
+Build-Depends: debhelper (>= %COMPAT),
+    libc6 (>= 2.14),
     libssl-dev (>=1.0), 
     libexpat1-dev (>=2.0)
 Standards-Version: 4.1.3

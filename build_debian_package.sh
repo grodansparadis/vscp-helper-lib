@@ -19,6 +19,8 @@ NAME_PLUS_VER=libvscphelper$MAJOR_VERSION-$MAJOR_VERSION.$MINOR_VERSION.$RELEASE
 BUILD_FOLDER="../dist"
 DATENOW="`date -R`"
 
+rm -rf ../dist/*
+
 # Create the build folder
 echo "***   ---Creating build folder: ["$BUILD_FOLDER"]"
 mkdir -p $BUILD_FOLDER
@@ -33,7 +35,7 @@ COMPAT="12"
 SUBFOLDER="x86_64-linux-gnu"
 
 # dependencies for control
-DEPENDENCY="libc6-dev (>= 2.14), libstdc++6 (>= 5.2), libgcc1 (>= 1:3.0), libssl-dev (>=1.0) libexpat1 (>= 2.0)"
+DEPENDENCY="libc6 (>= 2.14), libstdc++6 (>= 5.2), libgcc1 (>= 1:3.0), libssl-dev (>=1.0) libexpat1 (>= 2.0)"
 
 # Get OS and version
 if [ -f /etc/os-release ]; then
@@ -207,168 +209,168 @@ echo "***   If all is alright check dist folder for Debian package "
 
 # ---------------------------------------------------------------------
 
-pwd
-cd ..
+# pwd
+# cd ..
 
-case "$2" in
-"")
-    echo "Using discovered COMPAT"	
-    ;;  
-*)
-    echo "Setting COMPAT = $2"
-    COMPAT="$2"
-    ;;
-esac
+# case "$2" in
+# "")
+#     echo "Using discovered COMPAT"	
+#     ;;  
+# *)
+#     echo "Setting COMPAT = $2"
+#     COMPAT="$2"
+#     ;;
+# esac
 
 
-if [ "amd64" = "$1" ]; then
-    echo "build amd64 things"
+# if [ "amd64" = "$1" ]; then
+#     echo "build amd64 things"
 
-    if [ ! -d "/var/cache/pbuilder/debian-stretch-amd64/aptcache" ] 
-    then
-        sudo mkdir -p /var/cache/pbuilder/debian-stretch-amd64/aptcache/
-        sudo OS=debian DIST=stretch ARCH=amd64 pbuilder --create
-    fi
+#     if [ ! -d "/var/cache/pbuilder/debian-stretch-amd64/aptcache" ] 
+#     then
+#         sudo mkdir -p /var/cache/pbuilder/debian-stretch-amd64/aptcache/
+#         sudo OS=debian DIST=stretch ARCH=amd64 pbuilder --create
+#     fi
 
-    sudo rm -f /var/cache/pbuilder/debian-stretch-amd64/result/*
-    sudo OS=debian DIST=stretch ARCH=amd64 pbuilder build *.dsc
-    mkdir debian_stretch_amd64
-    cp -r /var/cache/pbuilder/debian-stretch-amd64/result/* debian_stretch_amd64
+#     sudo rm -f /var/cache/pbuilder/debian-stretch-amd64/result/*
+#     sudo OS=debian DIST=stretch ARCH=amd64 pbuilder build *.dsc
+#     mkdir debian_stretch_amd64
+#     cp -r /var/cache/pbuilder/debian-stretch-amd64/result/* debian_stretch_amd64
 
-    if [ ! -d "/var/cache/pbuilder/debian-buster-amd64/aptcache" ] 
-    then
-        sudo mkdir -p /var/cache/pbuilder/debian-buster-amd64/aptcache/
-        sudo OS=debian DIST=buster ARCH=amd64 pbuilder --create
-    fi
+#     if [ ! -d "/var/cache/pbuilder/debian-buster-amd64/aptcache" ] 
+#     then
+#         sudo mkdir -p /var/cache/pbuilder/debian-buster-amd64/aptcache/
+#         sudo OS=debian DIST=buster ARCH=amd64 pbuilder --create
+#     fi
 
-    sudo rm -f /var/cache/pbuilder/debian-buster-amd64/result/*
-    sudo OS=debian DIST=buster ARCH=amd64 pbuilder build *.dsc
-    mkdir debian_buster_amd64
-    cp -r /var/cache/pbuilder/debian-buster-amd64/result/* debian_buster_amd64
+#     sudo rm -f /var/cache/pbuilder/debian-buster-amd64/result/*
+#     sudo OS=debian DIST=buster ARCH=amd64 pbuilder build *.dsc
+#     mkdir debian_buster_amd64
+#     cp -r /var/cache/pbuilder/debian-buster-amd64/result/* debian_buster_amd64
 
-    if [ ! -d "/var/cache/pbuilder/ubuntu-bionic-amd64/aptcache" ] 
-    then
-        sudo mkdir -p /var/cache/pbuilder/ubuntu-bionic-amd64/aptcache/
-        sudo OS=ubuntu DIST=bionic ARCH=amd64 pbuilder --create
-    fi
+#     if [ ! -d "/var/cache/pbuilder/ubuntu-bionic-amd64/aptcache" ] 
+#     then
+#         sudo mkdir -p /var/cache/pbuilder/ubuntu-bionic-amd64/aptcache/
+#         sudo OS=ubuntu DIST=bionic ARCH=amd64 pbuilder --create
+#     fi
 
-    sudo rm -f /var/cache/pbuilder/ubuntu-bionic-amd64/result/*
-    sudo OS=ubuntu DIST=bionic ARCH=amd64 pbuilder build *.dsc
-    mkdir ubuntu_bionic_amd64
-    cp -r /var/cache/pbuilder/ubuntu-bionic-amd64/result/* ubuntu_bionic_amd64
+#     sudo rm -f /var/cache/pbuilder/ubuntu-bionic-amd64/result/*
+#     sudo OS=ubuntu DIST=bionic ARCH=amd64 pbuilder build *.dsc
+#     mkdir ubuntu_bionic_amd64
+#     cp -r /var/cache/pbuilder/ubuntu-bionic-amd64/result/* ubuntu_bionic_amd64
     
-    if [ ! -d "/var/cache/pbuilder/ubuntu-disco-amd64/aptcache" ] 
-    then
-        sudo mkdir -p /var/cache/pbuilder/ubuntu-disco-amd64/aptcache/
-        sudo OS=ubuntu DIST=disco ARCH=amd64 pbuilder --create
-    fi
+#     if [ ! -d "/var/cache/pbuilder/ubuntu-disco-amd64/aptcache" ] 
+#     then
+#         sudo mkdir -p /var/cache/pbuilder/ubuntu-disco-amd64/aptcache/
+#         sudo OS=ubuntu DIST=disco ARCH=amd64 pbuilder --create
+#     fi
 
-    sudo rm -f /var/cache/pbuilder/ubuntu-disco-amd64/result/*
-    sudo OS=ubuntu DIST=disco ARCH=amd64 pbuilder build *.dsc
-    mkdir ubuntu_disco_amd64
-    cp -r /var/cache/pbuilder/ubuntu-disco-amd64/result/* ubuntu_disco_amd64
+#     sudo rm -f /var/cache/pbuilder/ubuntu-disco-amd64/result/*
+#     sudo OS=ubuntu DIST=disco ARCH=amd64 pbuilder build *.dsc
+#     mkdir ubuntu_disco_amd64
+#     cp -r /var/cache/pbuilder/ubuntu-disco-amd64/result/* ubuntu_disco_amd64
 
-    if [ ! -d "/var/cache/pbuilder/ubuntu-disco-amd64/aptcache" ] 
-    then
-        sudo mkdir -p /var/cache/pbuilder/ubuntu-eoan-amd64/aptcache/
-        sudo OS=ubuntu DIST=eoan ARCH=amd64 pbuilder --create
-    fi
+#     if [ ! -d "/var/cache/pbuilder/ubuntu-disco-amd64/aptcache" ] 
+#     then
+#         sudo mkdir -p /var/cache/pbuilder/ubuntu-eoan-amd64/aptcache/
+#         sudo OS=ubuntu DIST=eoan ARCH=amd64 pbuilder --create
+#     fi
 
-    sudo rm -f /var/cache/pbuilder/ubuntu-eoan-amd64/result/*
-    sudo OS=ubuntu DIST=eoan ARCH=amd64 pbuilder build *.dsc
-    mkdir ubuntu_eoan_amd64
-    cp -r /var/cache/pbuilder/ubuntu-eoan-amd64/result/* ubuntu_eoan_amd64
+#     sudo rm -f /var/cache/pbuilder/ubuntu-eoan-amd64/result/*
+#     sudo OS=ubuntu DIST=eoan ARCH=amd64 pbuilder build *.dsc
+#     mkdir ubuntu_eoan_amd64
+#     cp -r /var/cache/pbuilder/ubuntu-eoan-amd64/result/* ubuntu_eoan_amd64
 
-fi
+# fi
 
-if [ "i386" = "$1" ]; then
+# if [ "i386" = "$1" ]; then
 
-    echo "build i386 things"
+#     echo "build i386 things"
     
-    if [ ! -d "/var/cache/pbuilder/debian-stretch-i386/aptcache" ] 
-    then
-        sudo mkdir -p /var/cache/pbuilder/debian-stretch-i386/aptcache/
-        sudo OS=debian DIST=stretch ARCH=i386 pbuilder --create
-    fi
+#     if [ ! -d "/var/cache/pbuilder/debian-stretch-i386/aptcache" ] 
+#     then
+#         sudo mkdir -p /var/cache/pbuilder/debian-stretch-i386/aptcache/
+#         sudo OS=debian DIST=stretch ARCH=i386 pbuilder --create
+#     fi
 
-    sudo rm -f /var/cache/pbuilder/debian-stretch-i386/result/*
-    sudo OS=debian DIST=stretch ARCH=i386 pbuilder build *.dsc
-    mkdir debian_stretch_i386
-    cp -r /var/cache/pbuilder/debian-stretch-i386/result/* debian_stretch_i386
+#     sudo rm -f /var/cache/pbuilder/debian-stretch-i386/result/*
+#     sudo OS=debian DIST=stretch ARCH=i386 pbuilder build *.dsc
+#     mkdir debian_stretch_i386
+#     cp -r /var/cache/pbuilder/debian-stretch-i386/result/* debian_stretch_i386
 
-    if [ ! -d "/var/cache/pbuilder/debian-buster-i386/aptcache" ] 
-    then
-        sudo mkdir -p /var/cache/pbuilder/debian-buster-i386/aptcache/
-        sudo OS=debian DIST=buster ARCH=i386 pbuilder --create
-    fi
+#     if [ ! -d "/var/cache/pbuilder/debian-buster-i386/aptcache" ] 
+#     then
+#         sudo mkdir -p /var/cache/pbuilder/debian-buster-i386/aptcache/
+#         sudo OS=debian DIST=buster ARCH=i386 pbuilder --create
+#     fi
 
-    sudo rm -f /var/cache/pbuilder/debian-buster-i386/result/*
-    sudo OS=debian DIST=buster ARCH=i386 pbuilder build *.dsc
-    mkdir debian_buster_i386
-    cp -r /var/cache/pbuilder/debian-buster-i386/result/* debian_buster_i386
+#     sudo rm -f /var/cache/pbuilder/debian-buster-i386/result/*
+#     sudo OS=debian DIST=buster ARCH=i386 pbuilder build *.dsc
+#     mkdir debian_buster_i386
+#     cp -r /var/cache/pbuilder/debian-buster-i386/result/* debian_buster_i386
     
-    if [ ! -d "/var/cache/pbuilder/ubuntu-bionic-i386/aptcache" ] 
-    then
-        sudo mkdir -p /var/cache/pbuilder/ubuntu-bionic-i386/aptcache/
-        sudo OS=ubuntu DIST=bionic ARCH=i386 pbuilder --create
-    fi
+#     if [ ! -d "/var/cache/pbuilder/ubuntu-bionic-i386/aptcache" ] 
+#     then
+#         sudo mkdir -p /var/cache/pbuilder/ubuntu-bionic-i386/aptcache/
+#         sudo OS=ubuntu DIST=bionic ARCH=i386 pbuilder --create
+#     fi
 
-    sudo rm -f /var/cache/pbuilder/ubuntu-bionic-i386/result/*
-    sudo OS=ubuntu DIST=bionic ARCH=i386 pbuilder build *.dsc
-    mkdir ubuntu_bionic_i386
-    cp -r /var/cache/pbuilder/ubuntu-bionic-i386/result/* ubuntu_bionic_i386
+#     sudo rm -f /var/cache/pbuilder/ubuntu-bionic-i386/result/*
+#     sudo OS=ubuntu DIST=bionic ARCH=i386 pbuilder build *.dsc
+#     mkdir ubuntu_bionic_i386
+#     cp -r /var/cache/pbuilder/ubuntu-bionic-i386/result/* ubuntu_bionic_i386
     
-    if [ ! -d "/var/cache/pbuilder/ubuntu-disco-i386/aptcache" ] 
-    then
-        sudo mkdir -p /var/cache/pbuilder/ubuntu-disco-i386/aptcache/
-        sudo OS=ubuntu DIST=disco ARCH=i386 pbuilder --create
-    fi
+#     if [ ! -d "/var/cache/pbuilder/ubuntu-disco-i386/aptcache" ] 
+#     then
+#         sudo mkdir -p /var/cache/pbuilder/ubuntu-disco-i386/aptcache/
+#         sudo OS=ubuntu DIST=disco ARCH=i386 pbuilder --create
+#     fi
 
-    sudo rm -f /var/cache/pbuilder/ubuntu-disco-i386/result/*
-    sudo OS=ubuntu DIST=disco ARCH=i386 pbuilder build *.dsc
-    mkdir ubuntu_disco_i386
-    cp -r /var/cache/pbuilder/ubuntu-disco-i386/result/* ubuntu_disco_i386
+#     sudo rm -f /var/cache/pbuilder/ubuntu-disco-i386/result/*
+#     sudo OS=ubuntu DIST=disco ARCH=i386 pbuilder build *.dsc
+#     mkdir ubuntu_disco_i386
+#     cp -r /var/cache/pbuilder/ubuntu-disco-i386/result/* ubuntu_disco_i386
     
-    if [ ! -d "/var/cache/pbuilder/ubuntu-eoan-i386/aptcache" ] 
-    then
-        sudo mkdir -p /var/cache/pbuilder/ubuntu-eoan-i386/aptcache/
-        sudo OS=ubuntu DIST=eoan ARCH=i386 pbuilder --create
-    fi
+#     if [ ! -d "/var/cache/pbuilder/ubuntu-eoan-i386/aptcache" ] 
+#     then
+#         sudo mkdir -p /var/cache/pbuilder/ubuntu-eoan-i386/aptcache/
+#         sudo OS=ubuntu DIST=eoan ARCH=i386 pbuilder --create
+#     fi
 
-    sudo rm -f /var/cache/pbuilder/ubuntu-eoan-i386/result/*
-    sudo OS=ubuntu DIST=eoan ARCH=i386 pbuilder build *.dsc
-    mkdir ubuntu_eoan_i386
-    cp -r /var/cache/pbuilder/ubuntu-eoan-i386/result/* ubuntu_eoan_i386
+#     sudo rm -f /var/cache/pbuilder/ubuntu-eoan-i386/result/*
+#     sudo OS=ubuntu DIST=eoan ARCH=i386 pbuilder build *.dsc
+#     mkdir ubuntu_eoan_i386
+#     cp -r /var/cache/pbuilder/ubuntu-eoan-i386/result/* ubuntu_eoan_i386
 
-fi
+# fi
 
-if [ "armhf" = "$1" ]; then
+# if [ "armhf" = "$1" ]; then
     
-    echo "build armhf things"
+#     echo "build armhf things"
     
-    if [ ! -d "/var/cache/pbuilder/raspbian-stretch-armhf/aptcache" ] 
-    then
-        sudo mkdir -p /var/cache/pbuilder/raspbian-stretch-armhf/aptcache/
-        sudo OS=raspbian DIST=stretch ARCH=armhf pbuilder --create
-    fi
+#     if [ ! -d "/var/cache/pbuilder/raspbian-stretch-armhf/aptcache" ] 
+#     then
+#         sudo mkdir -p /var/cache/pbuilder/raspbian-stretch-armhf/aptcache/
+#         sudo OS=raspbian DIST=stretch ARCH=armhf pbuilder --create
+#     fi
 
-    sudo rm -f /var/cache/pbuilder/raspbian-stretch-armhf/result/*
-    sudo OS=raspbian DIST=stretch ARCH=armhf pbuilder build *.dsc
-    mkdir raspian_stretch_armhf
-    cp -r /var/cache/pbuilder/raspbian-stretch-armhf/result/* raspian_stretch_armhf 
+#     sudo rm -f /var/cache/pbuilder/raspbian-stretch-armhf/result/*
+#     sudo OS=raspbian DIST=stretch ARCH=armhf pbuilder build *.dsc
+#     mkdir raspian_stretch_armhf
+#     cp -r /var/cache/pbuilder/raspbian-stretch-armhf/result/* raspian_stretch_armhf 
     
-    if [ ! -d "/var/cache/pbuilder/raspbian-buster-armhf/aptcache" ] 
-    then
-        sudo mkdir -p /var/cache/pbuilder/raspbian-buster-armhf/aptcache/
-        sudo OS=raspbian DIST=buster ARCH=armhf pbuilder --create
-    fi
+#     if [ ! -d "/var/cache/pbuilder/raspbian-buster-armhf/aptcache" ] 
+#     then
+#         sudo mkdir -p /var/cache/pbuilder/raspbian-buster-armhf/aptcache/
+#         sudo OS=raspbian DIST=buster ARCH=armhf pbuilder --create
+#     fi
 
-    sudo rm -f /var/cache/pbuilder/raspbian-buster-armhf/result/*
-    sudo OS=raspbian DIST=buster ARCH=armhf pbuilder build *.dsc
-    mkdir raspian_buster_armhf
-    cp -r /var/cache/pbuilder/raspbian-buster-armhf/result/* raspian_buster_armhf 
+#     sudo rm -f /var/cache/pbuilder/raspbian-buster-armhf/result/*
+#     sudo OS=raspbian DIST=buster ARCH=armhf pbuilder build *.dsc
+#     mkdir raspian_buster_armhf
+#     cp -r /var/cache/pbuilder/raspbian-buster-armhf/result/* raspian_buster_armhf 
     
-fi
+# fi
 
 # ---------------------------------------------------------------------
 
