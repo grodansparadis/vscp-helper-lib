@@ -109,21 +109,21 @@ long addDriverObject(VscpRemoteTcpIf *pvscpif) {
   std::map<long, VscpRemoteTcpIf *>::iterator it;
   long h = 0;
 
-  syslog(LOG_INFO, "addDriverObject<");
+  //syslog(LOG_INFO, "addDriverObject<");
   LOCK_MUTEX(g_mapMutex);
-  syslog(LOG_INFO, "addDriverObject");
+  //syslog(LOG_INFO, "addDriverObject");
   // Find free handle
   while (!g_ifMap.empty()) {
     if (g_ifMap.end() != (it = g_ifMap.find(h)))
       break;
     h++;
   };
-  syslog(LOG_INFO, "addDriverObject-2");
+  //syslog(LOG_INFO, "addDriverObject-2");
   g_ifMap[h] = pvscpif;
   h += 1681;
 
   UNLOCK_MUTEX(g_mapMutex);
-  syslog(LOG_INFO, "addDriverObject>");
+  //syslog(LOG_INFO, "addDriverObject>");
   return h;
 }
 
