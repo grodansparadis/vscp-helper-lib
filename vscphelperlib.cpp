@@ -84,8 +84,9 @@ vscphlp_newSession(void)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = new VscpRemoteTcpIf;
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return 0;
+    }
 
     return addDriverObject(pvscpif);
 }

@@ -24,7 +24,7 @@ VSCPHELPER_OBJECTS =  ../../linux/vscphelperlib.o \
 
 all:	simple
 
-simple:       simple.c
+simple:   simple.c
 	        $(CXX) $(CPPFLAGS) simple.c -o simple  -I .. -I ../.. -I../../vscp/src/common \
 			-I../../vscp/src/vscp/common  $(VSCPHELPER_OBJECTS) $(LIBS) 
 

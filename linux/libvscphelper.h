@@ -79,4 +79,4 @@ getDriverObject(long handle);
 void
 removeDriverObject(long handle);
 
-#endif // !defined(VSCP_HELPER_LIB_H__INCLUDED_)
+#endif  // !defined(VSCP_HELPER_LIB_H__INCLUDED_)

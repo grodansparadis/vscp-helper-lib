@@ -65,7 +65,7 @@ static pthread_mutex_t g_mapMutex;
 //
 
 void _init() {
-  openlog("vscphelperlib", LOG_PERROR, 0);
+  //openlog("vscphelperlib", LOG_PERROR, 0);
   pthread_mutex_init(&g_mapMutex, NULL);
 }
 
@@ -109,21 +109,20 @@ long addDriverObject(VscpRemoteTcpIf *pvscpif) {
   std::map<long, VscpRemoteTcpIf *>::iterator it;
   long h = 0;
 
-  //syslog(LOG_INFO, "addDriverObject<");
   LOCK_MUTEX(g_mapMutex);
-  //syslog(LOG_INFO, "addDriverObject");
+
   // Find free handle
   while (!g_ifMap.empty()) {
     if (g_ifMap.end() != (it = g_ifMap.find(h)))
       break;
     h++;
   };
-  //syslog(LOG_INFO, "addDriverObject-2");
+
   g_ifMap[h] = pvscpif;
   h += 1681;
 
   UNLOCK_MUTEX(g_mapMutex);
-  //syslog(LOG_INFO, "addDriverObject>");
+
   return h;
 }
 
@@ -152,12 +151,14 @@ VscpRemoteTcpIf *getDriverObject(long h) {
 //
 
 void removeDriverObject(long h) {
+  
   std::map<long, VscpRemoteTcpIf *>::iterator it;
   long idx = h - 1681;
 
   // Check if valid handle
-  if (idx < 0)
+  if (idx < 0) {
     return;
+  }
 
   LOCK_MUTEX(g_mapMutex);
 
