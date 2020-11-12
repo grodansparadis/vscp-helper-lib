@@ -1,0 +1,18 @@
+{
+    "plugins": [ "theme-api" ],
+    "pluginsConfig": {
+        "theme-api": {
+            "languages": [
+                {
+                    "lang": "c",
+                    "name": "c/c+",
+                    "default": true
+                },
+                {
+                    "lang": "python",
+                    "name": "Python"
+                }
+            ]
+        }
+    }
+}
