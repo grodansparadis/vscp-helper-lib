@@ -206,6 +206,18 @@ DllExport int WINAPI EXPORT vscphlp_makeFloatMeasurementEvent( vscpEvent *pEvent
                                                         float value,
                                                         unsigned char unit,
                                                         unsigned char sensoridx );
+DllExport int WINAPI EXPORT vscphlp_makeFloatMeasurementEventEx( vscpEvent *pEvent,
+                                                                    float value,
+                                                                    unsigned char unit,
+                                                                    unsigned char sensoridx );   
+DllExport int WINAPI EXPORT vscphlp_makeStringMeasurementEvent( vscpEvent *pEvent,
+                                                        float value,
+                                                        unsigned char unit,
+                                                        unsigned char sensoridx );
+DllExport int WINAPI EXPORT vscphlp_makeStringMeasurementEventEx( vscpEvent *pEvent,
+                                                                    float value,
+                                                                    unsigned char unit,
+                                                                    unsigned char sensoridx );                                                                                                        
 DllExport int WINAPI EXPORT vscphlp_getMeasurementAsFloat(const unsigned char *pNorm,
                                                     unsigned char length,
                                                     float *pResult );
@@ -221,6 +233,13 @@ DllExport int WINAPI EXPORT vscphlp_makeLevel2FloatMeasurementEvent( vscpEvent *
                                                                 uint8_t sensoridx,
                                                                 uint8_t zone,
                                                                 uint8_t subzone );
+DllExport int WINAPI EXPORT vscphlp_makeLevel2FloatMeasurementEventEx( vscpEventEx *pEventEx,
+                                                                uint16_t type,
+                                                                double value,
+                                                                uint8_t unit,
+                                                                uint8_t sensoridx,
+                                                                uint8_t zone,
+                                                                uint8_t subzone );                                                                
 DllExport int WINAPI EXPORT vscphlp_makeLevel2StringMeasurementEvent( vscpEvent *pEvent,
                                                                 uint16_t type,
                                                                 double value,
@@ -228,8 +247,17 @@ DllExport int WINAPI EXPORT vscphlp_makeLevel2StringMeasurementEvent( vscpEvent 
                                                                 uint8_t sensoridx,
                                                                 uint8_t zone,
                                                                 uint8_t subzone );
-DllExport int WINAPI EXPORT vscphlp_convertLevel1MeasuremenToLevel2Double( vscpEvent *pEventLevel1 );
-DllExport int WINAPI EXPORT vscphlp_convertLevel1MeasuremenToLevel2String( vscpEvent *pEventLevel1 );
+DllExport int WINAPI EXPORT vscphlp_makeLevel2StringMeasurementEventEx( vscpEventEx *pEventEx,
+                                                                uint16_t type,
+                                                                double value,
+                                                                uint8_t unit,
+                                                                uint8_t sensoridx,
+                                                                uint8_t zone,
+                                                                uint8_t subzone );                                                                
+DllExport int WINAPI EXPORT vscphlp_convertLevel1MeasuremenToLevel2Double( vscpEvent *pEvent );
+DllExport int WINAPI EXPORT vscphlp_convertLevel1MeasuremenToLevel2DoubleEx( vscpEventEx *pEventEx );
+DllExport int WINAPI EXPORT vscphlp_convertLevel1MeasuremenToLevel2String( vscpEvent *pEvent );
+DllExport int WINAPI EXPORT vscphlp_convertLevel1MeasuremenToLevel2StringEx( vscpEventEx *pEventEx );
 DllExport int WINAPI EXPORT vscphlp_replaceBackslash( char *pStr );
 DllExport unsigned char WINAPI EXPORT vscphlp_getVscpPriority( const vscpEvent *pEvent );
 DllExport unsigned char WINAPI EXPORT vscphlp_getVscpPriorityEx( const vscpEventEx *pEvent );
@@ -413,6 +441,18 @@ int vscphlp_makeFloatMeasurementEvent( vscpEvent *pEvent,
                                           float value,
                                           unsigned char unit,
                                           unsigned char sensoridx );
+int vscphlp_makeFloatMeasurementEventEx( vscpEvent *pEvent,
+                                          float value,
+                                          unsigned char unit,
+                                          unsigned char sensoridx );    
+int vscphlp_makeStringMeasurementEvent( vscpEvent *pEvent,
+                                          float value,
+                                          unsigned char unit,
+                                          unsigned char sensoridx );
+int vscphlp_makeStringMeasurementEventEx( vscpEvent *pEvent,
+                                          float value,
+                                          unsigned char unit,
+                                          unsigned char sensoridx );                                                                                 
 int vscphlp_getMeasurementAsFloat(const unsigned char *pNorm,
                                     unsigned char length,
                                     float *pResult );
@@ -422,8 +462,17 @@ int vscphlp_getMeasurementZone( const vscpEvent *pEvent );
 int vscphlp_getMeasurementSubZone( const vscpEvent *pEvent );
 int vscphlp_isMeasurement( const vscpEvent *pEvent );
 int vscphlp_convertLevel1MeasuremenToLevel2Double( vscpEvent *pEventLevel1 );
+int vscphlp_convertLevel1MeasuremenToLevel2DoubleEx( vscpEventEx *pEventEx );
 int vscphlp_convertLevel1MeasuremenToLevel2String( vscpEvent *pEventLevel1 );
+int vscphlp_convertLevel1MeasuremenToLevel2StringEx( vscpEventEx *pEventEx );
 int vscphlp_makeLevel2FloatMeasurementEvent( vscpEvent *pEvent,
+                                                uint16_t type,
+                                                double value,
+                                                uint8_t unit,
+                                                uint8_t sensoridx,
+                                                uint8_t zone,
+                                                uint8_t subzone );
+int vscphlp_makeLevel2FloatMeasurementEventEx( vscpEventEx *pEventEx,
                                                 uint16_t type,
                                                 double value,
                                                 uint8_t unit,
@@ -437,7 +486,13 @@ int vscphlp_makeLevel2StringMeasurementEvent( vscpEvent *pEvent,
                                                 uint8_t sensoridx,
                                                 uint8_t zone,
                                                 uint8_t subzone );
-
+int vscphlp_makeLevel2StringMeasurementEventEx( vscpEventEx *pEventEx,
+                                                uint16_t type,
+                                                double value,
+                                                uint8_t unit,
+                                                uint8_t sensoridx,
+                                                uint8_t zone,
+                                                uint8_t subzone );
 int vscphlp_replaceBackslash( char *pStr );
 unsigned char vscphlp_getVscpPriority( const vscpEvent *pEvent );
 unsigned char vscphlp_getVscpPriorityEx( const vscpEventEx *pEvent );
