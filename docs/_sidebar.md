@@ -194,8 +194,6 @@
    * [vscphlp_getSalt](vscphlp_getSalt.md)
    * [vscphlp_getSaltHex](vscphlp_getSaltHex.md)
 
-
-
 ---
 
 * Using C++ classes directly
