@@ -6551,7 +6551,7 @@ fi
 
 
 
-PROJ_SUBDIRS="linux "
+PROJ_SUBDIRS="linux tests"
 
 
 
@@ -6561,7 +6561,7 @@ PROJ_SUBDIRS="linux "
 
 
 
-ac_config_files="$ac_config_files Makefile m4/Makefile linux/Makefile"
+ac_config_files="$ac_config_files Makefile m4/Makefile linux/Makefile tests/Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -7260,6 +7260,7 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "m4/Makefile") CONFIG_FILES="$CONFIG_FILES m4/Makefile" ;;
     "linux/Makefile") CONFIG_FILES="$CONFIG_FILES linux/Makefile" ;;
+    "tests/Makefile") CONFIG_FILES="$CONFIG_FILES tests/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

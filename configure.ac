@@ -122,7 +122,7 @@ dnl
 dnl Project Sub directories
 dnl
 
-PROJ_SUBDIRS="linux "
+PROJ_SUBDIRS="linux tests"
 
 AC_SUBST(PROJ_SUBDIRS)
 
@@ -141,6 +141,7 @@ dnl
 AC_CONFIG_FILES([Makefile
          m4/Makefile
          linux/Makefile
+         tests/Makefile
 ])
 
 dnl Generate makefiles
