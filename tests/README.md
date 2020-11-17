@@ -1,3 +1,5 @@
-<h2>test_vesphelper</h2>
+# Unittests for the VSCP helper< library
 
-Test for the tcp/if interface and the libvscphelper library code.
+Unittests for the vscp helper library code.
+
+The library must be installed for tests to work
