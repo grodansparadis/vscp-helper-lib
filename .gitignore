@@ -52,3 +52,5 @@ linux/_test/simple_tls_server
 linux/_test/stcptest
 test/simple/simple
 test/simple/simple_stat
+
+autom4te.cache/
