@@ -144,6 +144,9 @@
    * [vscphlp_convertFloatToFloatEventData](vscphlp_convertfloattofloateventdata.md)
    * [vscphlp_convertIntegerToNormalizedEventData](vscphlp_convertintegertonormalizedeventdata.md)
    * [vscphlp_makeFloatMeasurementEvent](vscphlp_makefloatmeasurementevent.md)
+   * [vscphlp_makeFloatMeasurementEventEx](vscphlp_makestringmeasurementeventex.md)
+   * [vscphlp_makeStringMeasurementEvent](vscphlp_makestringmeasurementevent.md)
+   * [vscphlp_makeStringMeasurementEventEx](vscphlp_makestringmeasurementeventex.md)
    * [vscphlp_getMeasurementAsFloat](vscphlp_getmeasurementasfloat.md)
    * [vscphlp_getMeasurementUnit](vscphlp_getmeasurementunit.md)
    * [vscphlp_getMeasurementSensorIndex](vscphlp_getmeasurementsensorindex.md)
@@ -151,9 +154,13 @@
    * [vscphlp_getMeasurementSubZone](vscphlp_getmeasurementSubzone.md)
    * [vscphlp_isMeasurement](vscphlp_ismeasurement.md)
    * [vscphlp_convertLevel1MeasuremenToLevel2Double](vscphlp_convertlevel1measurementolevel2double.md)
+   * [vscphlp_convertLevel1MeasuremenToLevel2DoubleEx](vscphlp_convertlevel1measurementolevel2doubleex.md)
    * [vscphlp_convertLevel1MeasuremenToLevel2String](vscphlp_convertlevel1measurementolevel2string.md)
+   * [vscphlp_convertLevel1MeasuremenToLevel2StringEx](vscphlp_convertlevel1measurementolevel2stringex.md)
    * [vscphlp_makeLevel2FloatMeasurementEvent](vscphlp_makelevel2floatmeasurementevent.md)
+   * [vscphlp_makeLevel2FloatMeasurementEventex](vscphlp_makelevel2floatmeasurementeventex.md)
    * [vscphlp_makeLevel2StringMeasurementEvent](vscphlp_makelevel2stringmeasurementevent.md)
+   * [vscphlp_makeLevel2StringMeasurementEventEx](vscphlp_makelevel2stringmeasurementeventex.md)
 
   * General helpers
 

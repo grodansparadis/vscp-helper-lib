@@ -1,7 +1,7 @@
 
 
 ```clike
-int vscphlp_makeFloatMeasurementEvent( vscpEvent *pEvent, 
+int vscphlp_makeStringMeasurementEvent( vscpEvent *pEvent, 
                                         float value,
                                         unsigned char unit,
                                         unsigned char sensoridx )
@@ -25,7 +25,7 @@ A sensor index value 0-7
 VSCP_ERROR_SUCCESS is returned on success.
 
 ### Description
-Make a floating point (32-bit) coded level I event from floating point data.
+Make a string coded level I event from floating point data.
 
 #### C example
 

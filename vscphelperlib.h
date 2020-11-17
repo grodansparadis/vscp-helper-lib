@@ -441,7 +441,7 @@ int vscphlp_makeFloatMeasurementEvent( vscpEvent *pEvent,
                                           float value,
                                           unsigned char unit,
                                           unsigned char sensoridx );
-int vscphlp_makeFloatMeasurementEventEx( vscpEvent *pEvent,
+int vscphlp_makeFloatMeasurementEventEx( vscpEventEx *pEventEx,
                                           float value,
                                           unsigned char unit,
                                           unsigned char sensoridx );    

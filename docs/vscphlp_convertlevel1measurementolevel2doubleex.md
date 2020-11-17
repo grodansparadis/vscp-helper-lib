@@ -1,13 +1,13 @@
 
 
 ```clike
-int vscphlp_convertLevel1MeasuremenToLevel2Double( vscpEvent *pEvent )
+int vscphlp_convertLevel1MeasuremenToLevel2DoubleEx( vscpEventEx *pEventEx )
 ```
 
 ### Parameters
 
 #### pEvent
-Pointer to VSCP event.
+Pointer to VSCP ex event.
 
 ### Return Value
 VSCP_ERROR_SUCCESS is returned if the event is a measurement, VSCP_ERROR_ERROR is returned if the event is not a measurement. 
@@ -17,7 +17,7 @@ Convert Level I measurement to a Level II float measurement event [CLASS2.MEASUR
 
 
 ### See Also
-[vscphlp_convertLevel1MeasuremenToLevel2DoubleEx](vscphlp_convertlevel1measurementolevel2doubleex.md)
+[vscphlp_convertLevel1MeasuremenToLevel2Double](vscphlp_convertlevel1measurementolevel2double.md)
 [vscphlp_convertLevel1MeasuremenToLevel2String](vscphlp_convertlevel1measurementolevel2string.md)
 [vscphlp_convertLevel1MeasuremenToLevel2StringEx](vscphlp_convertlevel1measurementolevel2stringex.md)
 

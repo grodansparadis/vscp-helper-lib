@@ -1,16 +1,16 @@
 
 
 ```clike
-int vscphlp_makeFloatMeasurementEvent( vscpEvent *pEvent, 
-                                        float value,
-                                        unsigned char unit,
-                                        unsigned char sensoridx )
+int vscphlp_makeFloatMeasurementEventEx( vscpEventEx *pEventEx, 
+                                            float value,
+                                            unsigned char unit,
+                                            unsigned char sensoridx )
 ```
 
 ### Parameters
 
 #### pEvent
-Pointer to a VSCP event that will get the result as it's data.
+Pointer to a VSCP event ex that will get the result as it's data.
 
 #### value
 Floating point value to write as a 32-bit float.

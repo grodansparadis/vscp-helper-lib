@@ -2,12 +2,12 @@
 
 ```clike
 int vscphlp_makeLevel2StringMeasurementEvent( vscpEvent *pEvent, 
-                                    uint16_t type,
-                                    double value,
-                                    uint8_t unit,
-                                    uint8_t sensoridx,
-                                    uint8_t zone,
-                                    uint8_t subzone )
+                                                uint16_t type,
+                                                double value,
+                                                uint8_t unit,
+                                                uint8_t sensoridx,
+                                                uint8_t zone,
+                                                uint8_t subzone )
 ```
 
 ### Parameters
@@ -40,7 +40,9 @@ VSCP_ERROR_SUCCESS is returned if the measurement event is constructed correctly
 Construct a Level II string measurement event from supplied data. **Note** that the GUID must be set externally. 
 
 ### See Also
+[vscphlp_makeLevel2StringMeasurementEventEx](vscphlp_makelevel2stringmeasurementeventex.md)
 [vscphlp_makeLevel2FloatMeasurementEvent](vscphlp_makelevel2floatmeasurementevent.md)
+[vscphlp_makeLevel2FloatMeasurementEventEx](vscphlp_makelevel2floatmeasurementeventex.md)
 
 
 
