@@ -144,7 +144,7 @@
    * [vscphlp_convertFloatToFloatEventData](vscphlp_convertfloattofloateventdata.md)
    * [vscphlp_convertIntegerToNormalizedEventData](vscphlp_convertintegertonormalizedeventdata.md)
    * [vscphlp_makeFloatMeasurementEvent](vscphlp_makefloatmeasurementevent.md)
-   * [vscphlp_makeFloatMeasurementEventEx](vscphlp_makestringmeasurementeventex.md)
+   * [vscphlp_makeFloatMeasurementEventEx](vscphlp_makefloatmeasurementeventex.md)
    * [vscphlp_makeStringMeasurementEvent](vscphlp_makestringmeasurementevent.md)
    * [vscphlp_makeStringMeasurementEventEx](vscphlp_makestringmeasurementeventex.md)
    * [vscphlp_getMeasurementAsFloat](vscphlp_getmeasurementasfloat.md)
