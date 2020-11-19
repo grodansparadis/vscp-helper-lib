@@ -2204,8 +2204,9 @@ vscphlp_makeFloatMeasurementEventEx(vscpEventEx* pEventEx,
 {
     std::string str;
 
-    if (NULL == pEventEx)
+    if (NULL == pEventEx) {
         return VSCP_ERROR_ERROR;
+    }
 
     bool rv = vscp_makeFloatMeasurementEventEx(pEventEx, value, unit, sensoridx);
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
