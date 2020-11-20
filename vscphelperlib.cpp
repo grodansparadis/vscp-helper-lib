@@ -2177,8 +2177,9 @@ vscphlp_makeFloatMeasurementEvent(vscpEvent* pEvent,
 {
     std::string str;
 
-    if (NULL == pEvent)
+    if (NULL == pEvent) {
         return VSCP_ERROR_ERROR;
+    }
 
     bool rv = vscp_makeFloatMeasurementEvent(pEvent, value, unit, sensoridx);
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
@@ -2202,8 +2203,6 @@ vscphlp_makeFloatMeasurementEventEx(vscpEventEx* pEventEx,
                                     unsigned char sensoridx)
 #endif
 {
-    std::string str;
-
     if (NULL == pEventEx) {
         return VSCP_ERROR_ERROR;
     }
@@ -2230,10 +2229,9 @@ vscphlp_makeStringMeasurementEvent(vscpEvent* pEvent,
                                   unsigned char sensoridx)
 #endif
 {
-    std::string str;
-
-    if (NULL == pEvent)
+    if (NULL == pEvent) {
         return VSCP_ERROR_ERROR;
+    }
 
     bool rv = vscp_makeStringMeasurementEvent(pEvent, value, unit, sensoridx);
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
@@ -2257,10 +2255,9 @@ vscphlp_makeStringMeasurementEventEx(vscpEventEx* pEventEx,
                                   unsigned char sensoridx)
 #endif
 {
-    std::string str;
-
-    if (NULL == pEventEx)
+    if (NULL == pEventEx) {
         return VSCP_ERROR_ERROR;
+    }
 
     bool rv = vscp_makeStringMeasurementEventEx(pEventEx, value, unit, sensoridx);
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
@@ -2282,12 +2279,13 @@ vscphlp_getMeasurementAsFloat(const unsigned char* pNorm,
                               float* pResult)
 #endif
 {
-    std::string str;
+    if (NULL == pNorm) {
+        return VSCP_ERROR_ERROR;
+    }
 
-    if (NULL == pNorm)
+    if (NULL == pResult) {
         return VSCP_ERROR_ERROR;
-    if (NULL == pResult)
-        return VSCP_ERROR_ERROR;
+    }
 
     *pResult = vscp_getMeasurementAsFloat(pNorm, length);
     return VSCP_ERROR_SUCCESS;
