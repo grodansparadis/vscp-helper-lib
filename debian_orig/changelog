@@ -1,5 +1,6 @@
 libvscphelper%MAJOR-VERSION (%MAJOR-VERSION.%MINOR-VERSION.%RELEASE-VERSION-%RELEASE-DEBIAN) stable; urgency=medium
 
+  * Adding new methods
   * Initial release
 
  -- Ake Hedman <akhe@grodansparadis.com>  %DATENOW
