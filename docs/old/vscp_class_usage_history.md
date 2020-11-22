@@ -1,2 +1,0 @@
-# VSCP classes document history
-

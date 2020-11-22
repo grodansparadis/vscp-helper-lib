@@ -1,2 +1,0 @@
-# VSCP Multicast
-

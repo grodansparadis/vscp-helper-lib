@@ -1,2 +1,0 @@
-# VSCP Level I Specifics
-
