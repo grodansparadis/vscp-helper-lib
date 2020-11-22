@@ -122,7 +122,7 @@ dnl
 dnl Project Sub directories
 dnl
 
-PROJ_SUBDIRS="linux tests"
+PROJ_SUBDIRS="linux"
 
 AC_SUBST(PROJ_SUBDIRS)
 

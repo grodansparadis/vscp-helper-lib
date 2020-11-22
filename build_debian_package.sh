@@ -35,7 +35,8 @@ COMPAT="12"
 SUBFOLDER="x86_64-linux-gnu"
 
 # dependencies for control
-DEPENDENCY="libc6 (>= 2.14), libstdc++6 (>= 5.2), libgcc1 (>= 1:3.0), libssl-dev (>=1.0) libexpat1 (>= 2.0)"
+# libc6 (>= 2.14), libstdc++6 (>= 5.2), libgcc1 (>= 1:3.0), 
+DEPENDENCY="libssl-dev (>=1.0) libexpat1 (>= 2.0)"
 
 # Get OS and version
 if [ -f /etc/os-release ]; then
@@ -111,17 +112,18 @@ esac
 
 echo "ARCH=${ARCH}"
 
-case $OS in
-Debian)
-    COMPAT="11"
-    ;;
-Ubuntu)
-    COMPAT="10"
-    ;;
-Raspian)
-    COMPAT="9"
+# ---------------------------------------------------------------------
+
+case "$2" in
+"")
+    echo "Using discovered COMPAT"	
+    ;;  
+*)
+    echo "Setting COMPAT = $2"
+    COMPAT="$2"
     ;;
 esac
+
 
 # ---------------------------------------------------------------------
 case "$1" in

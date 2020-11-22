@@ -24,3 +24,8 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, libc6 (>= 2.14), libstdc++6 (>= 4.9
 Description: VSCP Helper library runtime
  This library contains development runtime functionality for VSCP.
  
+
+
+
+
+
