@@ -1,4 +1,4 @@
-
+Deprecated: Use [vscphlp_convertEventToString](vscphlp_converteventtostring.md)
 
 
 ```clike

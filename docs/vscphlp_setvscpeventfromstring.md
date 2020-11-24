@@ -1,4 +1,7 @@
 
+> Deprecated: Use [vscphlp_convertStringToEvent](vscphlp_convertstringtoevent.md)
+
+
 
 ```clike
 int vscphlp_setVscpEventFromString( vscpEvent *pEvent, 

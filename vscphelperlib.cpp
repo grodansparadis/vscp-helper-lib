@@ -1839,6 +1839,30 @@ vscphlp_writeVscpEventToString(vscpEvent* pEvent, char* p, size_t len)
 }
 
 /*!
+    \fn int vscphlp_convertEventToString( vscpEvent *pEvent,
+                                            char *p )
+    \brief Write VSCP data to a string.
+*/
+#ifdef WIN32
+extern "C" DllExport int WINAPI EXPORT
+vscphlp_convertEventToString(vscpEvent* pEvent, char* p, size_t len)
+#else
+extern "C" int
+vscphlp_convertEventToString(vscpEvent* pEvent, char* p, size_t len)
+#endif
+{
+    bool rv;
+
+    std::string str;
+    ;
+    if ((rv = vscp_convertEventToString(str, pEvent))) {
+        memset(p, 0, len);
+        strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
+    }
+    return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
+}
+
+/*!
     \fn int vscphlp_writeVscpEventExToString( vscpEventEx *pEvent,
                                                 char *p )
     \brief Write VSCP data to a string.
@@ -1849,6 +1873,29 @@ vscphlp_writeVscpEventExToString(vscpEventEx* pEvent, char* p, size_t len)
 #else
 extern "C" int
 vscphlp_writeVscpEventExToString(vscpEventEx* pEvent, char* p, size_t len)
+#endif
+{
+    bool rv;
+
+    std::string str;
+    if ((rv = vscp_convertEventExToString(str, pEvent))) {
+        memset(p, 0, len);
+        strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
+    }
+    return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
+}
+
+/*!
+    \fn int vscphlp_convertEventExToString( vscpEventEx *pEvent,
+                                                char *p )
+    \brief Write VSCP data to a string.
+*/
+#ifdef WIN32
+extern "C" DllExport int WINAPI EXPORT
+vscphlp_convertEventExToString(vscpEventEx* pEvent, char* p, size_t len)
+#else
+extern "C" int
+vscphlp_convertEventExToString(vscpEventEx* pEvent, char* p, size_t len)
 #endif
 {
     bool rv;
@@ -1880,6 +1927,24 @@ vscphlp_setVscpEventFromString(vscpEvent* pEvent, const char* p)
 }
 
 /*!
+    \fn int vscphlp_convertStringToEvent( vscpEvent *pEvent,
+                                            const char *p )
+    \brief Get VSCP event from string.
+*/
+#ifdef WIN32
+extern "C" DllExport int WINAPI EXPORT
+vscphlp_convertStringToEvent(vscpEvent* pEvent, const char* p)
+#else
+extern "C" int
+vscphlp_convertStringToEvent(vscpEvent* pEvent, const char* p)
+#endif
+{
+    std::string str = std::string(p);
+    return vscp_convertStringToEvent(pEvent, str) ? VSCP_ERROR_SUCCESS
+                                                  : VSCP_ERROR_ERROR;
+}
+
+/*!
     \fn int vscphlp_setVscpEventExFromString( vscpEventEx *pEvent,
                                             const char *p )
     \brief Get VSCP event from string.
@@ -1890,6 +1955,24 @@ vscphlp_setVscpEventExFromString(vscpEventEx* pEvent, const char* p)
 #else
 extern "C" int
 vscphlp_setVscpEventExFromString(vscpEventEx* pEvent, const char* p)
+#endif
+{
+    std::string str = std::string(p);
+    return vscp_convertStringToEventEx(pEvent, str) ? VSCP_ERROR_SUCCESS
+                                                    : VSCP_ERROR_ERROR;
+}
+
+/*!
+    \fn int vscphlp_convertStringToEventEx( vscpEventEx *pEvent,
+                                            const char *p )
+    \brief Get VSCP event from string.
+*/
+#ifdef WIN32
+extern "C" DllExport int WINAPI EXPORT
+vscphlp_convertStringToEventEx(vscpEventEx* pEvent, const char* p)
+#else
+extern "C" int
+vscphlp_convertStringToEventEx(vscpEventEx* pEvent, const char* p)
 #endif
 {
     std::string str = std::string(p);

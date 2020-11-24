@@ -95,14 +95,17 @@
      * [vscphlp_setEventDateTimeBlockToNow](vscphlp_seteventdatetimeblocktonow.md)
      * [vscphlp_setEventExDateTimeBlockToNow](vscphlp_seteventexdatetimeblocktonow.md)
    * <small>**String**</small>
+
+     * [vscphlp_convertEventToString](vscphlp_converteventtostring.md)
+     * [vscphlp_convertEventExToString](vscphlp_converteventextostring.md) 
+     * [vscphlp_convertStringToEvent](vscphlp_convertStringToEvent.md)
+     * [vscphlp_convertStringToEventEx](vscphlp_convertStringToEventEx.md)   
+     * [vscphlp_getDateStringFromEvent](vscphlp_getdatestringfromevent.md)
+     * [vscphlp_getDateStringFromEventEx](vscphlp_getdatestringfromeventex.md)
+     * [vscphlp_setVscpEventFromString](vscphlp_setvscpeventfromstring.md)
+     * [vscphlp_setVscpEventExFromString](vscphlp_setvscpeventexfromstring.md)      
      * [vscphlp_writeVscpEventToString](vscphlp_writevscpeventtostring.md)
      * [vscphlp_writeVscpEventExToString](vscphlp_writevscpeventextostring.md)
-     * [vscphlp_setVscpEventFromString](vscphlp_setvscpeventfromstring.md)
-     * [vscphlp_setVscpEventExFromString](vscphlp_setvscpeventexfromstring.md)
-     * [vscphlp_getDateStringFromEvent](vscphlp_getdatestringfromevent.md)
-     * [vscphlp_getDateStringFromEventEx](vscphlp_getdatestringfromeventex.md) 
-     * [vscphlp_convertStringToEvent](vscphlp_convertStringToEvent.md)
-     * [vscphlp_convertStringToEventEx](vscphlp_convertStringToEventEx.md)
    * <small>**JSON**</small> 
      * [vscphlp_convertEventToJSON](vscphlp_converteventtojson.md)
      * [vscphlp_convertEventExToJSON](vscphlp_converteventextojson.md)

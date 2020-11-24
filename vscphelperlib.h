@@ -264,12 +264,21 @@ DllExport unsigned char WINAPI EXPORT vscphlp_getVscpPriorityEx( const vscpEvent
 DllExport void WINAPI EXPORT vscphlp_setVscpPriority( vscpEvent *pEvent, unsigned char priority );
 DllExport void WINAPI EXPORT vscphlp_setVscpPriorityEx( vscpEventEx *pEvent, unsigned char priority );
 
+// Replaces vscphlp_writeVscpEventToString
+DllExport int WINAPI EXPORT vscphlp_convertEventToString( vscpEvent *pEvent, char *p, size_t len );
+// Replaces vscphlp_writeVscpEventExToString
+DllExport int WINAPI EXPORT vscphlp_convertEventExToString( vscpEventEx *pEventEx, char *p, size_t len );
 DllExport int WINAPI EXPORT vscphlp_convertEventToJSON( vscpEvent *pEvent, char *p, size_t len );
 DllExport int WINAPI EXPORT vscphlp_convertEventExToJSON( vscpEventEx *pEventEx, char *p, size_t len );
 DllExport int WINAPI EXPORT vscphlp_convertEventToXML( vscpEvent *pEvent, char *p, size_t len );
 DllExport int WINAPI EXPORT vscphlp_convertEventExToXML( vscpEventEx *pEventEx, char *p, size_t len );
 DllExport int WINAPI EXPORT vscphlp_convertEventToHTML( vscpEvent *pEvent, char *p, size_t len );
 DllExport int WINAPI EXPORT vscphlp_convertEventExToHTML( vscpEventEx *pEventEx, char *p, size_t len );
+
+// Replaces vscphlp_setVscpEventFromString
+DllExport int WINAPI EXPORT vscphlp_convertStringToEvent(vscpEvent* pEvent, const char* p);
+// Replaces vscphlp_setVscpEventExFromString
+DllExport int WINAPI EXPORT vscphlp_convertStringToEventEx(vscpEventEx* pEventEx, const char* p);
 
 DllExport int WINAPI EXPORT vscphlp_getTimeString( char *buf, size_t buf_len, time_t *t );
 DllExport int WINAPI EXPORT vscphlp_getISOTimeString( char *buf, size_t buf_len, time_t *t );
@@ -499,12 +508,21 @@ unsigned char vscphlp_getVscpPriorityEx( const vscpEventEx *pEvent );
 void vscphlp_setVscpPriority( vscpEvent *pEvent, unsigned char priority );
 void vscphlp_setVscpPriorityEx( vscpEventEx *pEvent, unsigned char priority );
 
+// Replaces vscphlp_writeVscpEventToString
+int vscphlp_convertEventToString( vscpEvent *pEvent, char *p, size_t len );
+// Replaces vscphlp_writeVscpEventExToString
+int vscphlp_convertEventExToString( vscpEventEx *pEventEx, char *p, size_t len );
 int vscphlp_convertEventToJSON( vscpEvent *pEvent, char *p, size_t len );
 int vscphlp_convertEventExToJSON( vscpEventEx *pEventEx, char *p, size_t len );
 int vscphlp_convertEventToXML( vscpEvent *pEvent, char *p, size_t len );
 int vscphlp_convertEventExToXML( vscpEventEx *pEventEx, char *p, size_t len );
 int vscphlp_convertEventToHTML( vscpEvent *pEvent, char *p, size_t len );
 int vscphlp_convertEventExToHTML( vscpEventEx *pEventEx, char *p, size_t len );
+
+// Replaces vscphlp_setVscpEventFromString
+int vscphlp_convertStringToEvent(vscpEvent* pEvent, const char* p);
+// Replaces vscphlp_setVscpEventExFromString
+int vscphlp_convertStringToEventEx(vscpEventEx* pEventEx, const char* p);
 
 int vscphlp_getTimeString( char *buf, size_t buf_len, time_t *t );
 int vscphlp_getISOTimeString( char *buf, size_t buf_len, time_t *t );

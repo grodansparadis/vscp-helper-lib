@@ -66,7 +66,7 @@ echo Removing unneeded folders...
 rm -rf ./src/vscp/install_win32
 rm -rf ./src/vscp/install_deb
 rm -rf firmware
-rm -rf docs
+#rm -rf docs
 rm -rf autom4te.cache
 rm -f config.status
 #rm -f config.h

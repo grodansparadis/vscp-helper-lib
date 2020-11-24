@@ -155,7 +155,9 @@ echo "*** name+ver  --- "$NAME_PLUS_VER
 
 # Clean project
 make clean
-vscp/clean_for_dist
+cd vscp
+./clean_for_dist
+cd ..
 ./clean_for_dist
 
 echo "---Copying Debian_orig to destination folder "$BUILD_FOLDER

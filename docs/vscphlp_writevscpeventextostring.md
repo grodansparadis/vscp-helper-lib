@@ -1,5 +1,5 @@
 
-
+Deprecated: Use [vscphlp_convertEventExToString](vscphlp_converteventextostring.md)
 
 ```clike
 int vscphlp_writeVscpEventExToString( const vscpEventEx     *pEvent, 
