@@ -1969,14 +1969,14 @@ vscphlp_setVscpEventExFromString(vscpEventEx* pEvent, const char* p)
 */
 #ifdef WIN32
 extern "C" DllExport int WINAPI EXPORT
-vscphlp_convertStringToEventEx(vscpEventEx* pEvent, const char* p)
+vscphlp_convertStringToEventEx(vscpEventEx* pEventEx, const char* p)
 #else
 extern "C" int
-vscphlp_convertStringToEventEx(vscpEventEx* pEvent, const char* p)
+vscphlp_convertStringToEventEx(vscpEventEx* pEventEx, const char* p)
 #endif
 {
     std::string str = std::string(p);
-    return vscp_convertStringToEventEx(pEvent, str) ? VSCP_ERROR_SUCCESS
+    return vscp_convertStringToEventEx(pEventEx, str) ? VSCP_ERROR_SUCCESS
                                                     : VSCP_ERROR_ERROR;
 }
 
