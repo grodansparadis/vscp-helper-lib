@@ -38,7 +38,7 @@ or
 Install using the windows installation script available in the release section och this repository.
 
 ## How to build on Linux
-The VSCP helper lib is built using a standard autoconf build
+The VSCP helper lib is built using a standard autoconf build.
 
 ```bash
 ./configure
@@ -47,7 +47,10 @@ make
 make install
 ```
 
+For the ssl build, additional openssl is necessary:
+```bash
+apt-get install libssl-dev
+```
+
 ## How to build on Windows
 tbd
-
-
