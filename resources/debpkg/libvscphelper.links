@@ -1,0 +1,3 @@
+usr/lib/%SUBFOLDER/libvscphelper.so.%MAJOR-VERSION.%MINOR-VERSION.%RELEASE-VERSION /usr/lib/%SUBFOLDER/libvscphelper.so.%MAJOR-VERSION.%MINOR-VERSION
+usr/lib/%SUBFOLDER/libvscphelper.so.%MAJOR-VERSION.%MINOR-VERSION.%RELEASE-VERSION /usr/lib/%SUBFOLDER/libvscphelper.so.%MAJOR-VERSION
+usr/lib/%SUBFOLDER/libvscphelper.so.%MAJOR-VERSION.%MINOR-VERSION.%RELEASE-VERSION /usr/lib/%SUBFOLDER/libvscphelper.so

@@ -53,4 +53,4 @@ linux/_test/stcptest
 test/simple/simple
 test/simple/simple_stat
 
-autom4te.cache/
+build/
