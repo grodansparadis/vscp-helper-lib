@@ -31,7 +31,7 @@ jobs:
       run: sudo apt-get update
 
     - name: Install libexpat-dev manually
-      run: sudo apt-get install libexpat-dev
+      run: sudo apt-get install libexpat-dev pandoc
       
     - name: Install support libssl
       run: sudo apt install git libssl-dev libexpat-dev libz-dev
