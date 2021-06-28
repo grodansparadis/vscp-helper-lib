@@ -316,15 +316,15 @@ if(WIN32)
     # README
     install(FILES "${CMAKE_BINARY_DIR}/../README.md" DESTINATION "${CMAKE_INSTALL_BINDIR}/..")
 else()
-    INSTALL(TARGETS vscphelper
-            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${CMAKE_LIBRARY_ARCHITECTURE}/
-            RUNTIME DESTINATION ${CMAKE_INSTALL_MANDIR}
-            RESOURCE DESTINATION ${CMAKE_INSTALL_FULL_}/var/lib/vscp/) 
-
-    # INSTALL(CODE "execute_process( \
-    #         COMMAND ${CMAKE_COMMAND} -E create_symlink \
-    #         ${target} \
-    #         ${link}   \
-    #         )"
-    #     )       
+    INSTALL(TARGETS vscphelper 
+            LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/${CMAKE_LIBRARY_ARCHITECTURE}/"
+            RUNTIME DESTINATION "${CMAKE_INSTALL_MANDIR}"
+            RESOURCE DESTINATION "${CMAKE_INSTALL_FULL_}/var/lib/vscp/") 
+            
+    INSTALL(FILES "${VSCP_PATH}/src/vscp/common/vscp.h"
+            "${PROJECT_SOURCE_DIR}/src/vscphelperlib.h" 
+            "${VSCP_PATH}/src/vscp/common/canal.h"
+            "${VSCP_PATH}/src/vscp/common/vscp_class.h"
+            "${VSCP_PATH}/src/vscp/common/vscp_type.h"
+            DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})        
 endif()
