@@ -27,7 +27,7 @@
 #
 
 cmake_minimum_required(VERSION 3.5)
-project(vscphelper LANGUAGES CXX C)
+project(libvscphelper LANGUAGES CXX C)
 set(PACKAGE_AUTHOR "Ake Hedman, the VSCP Project")
 
 # Version settings
@@ -48,13 +48,11 @@ SET(CPACK_PACKAGE_VENDOR "the VSCP Project")
 SET(CPACK_PACKAGE_CONTACT "akhe@vscp.org")
 
 if(NOT DEFINED APP_LOW_NAME)
-set(APP_LOW_NAME "vscphelper")
+set(APP_LOW_NAME "libvscphelper")
 endif()
 
-SET(LIBRARY_OUTPUT_NAME,"kalle")
-
 if(NOT DEFINED APP_NAME)
-set(APP_NAME "VSCPHELPER")
+set(APP_NAME "LIBVSCPHELPER")
 endif()
 
 if(NOT DEFINED APP_URL)
@@ -212,7 +210,7 @@ set(RESOURCE_FILES
         forms/index.html)
 
 # Add files to library
-add_library(vscphelper SHARED
+add_library(libvscphelper SHARED
     ./src/vscphelperlib.h
     ./src/vscphelperlib.cpp
     ./linux/libvscphelper.h
@@ -247,10 +245,12 @@ add_library(vscphelper SHARED
     ${VSCP_PATH}/src/common/fastpbkdf2.c    
   ) 
 
-  #set_target_properties(vscphelper PROPERTIES LIBRARY_OUTPUT_NAME "vscphelper.so.${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
+  #set_target_properties(libvscphelper PROPERTIES LIBRARY_OUTPUT_NAME "vscphelper.so.${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 
-  set_target_properties(vscphelper
+  set_target_properties(libvscphelper
     PROPERTIES
+    LIBRARY_OUTPUT_NAME "libvscphelper"
+    PREFIX ""
     SUFFIX "${MAJOR_VERSION}.so"
     VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
     SOVERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
@@ -283,7 +283,7 @@ else()
  endif()   
 
 if (WIN32)
-    target_link_libraries(vscphelper PRIVATE     
+    target_link_libraries(libvscphelper PRIVATE     
         PThreads4W::PThreads4W_CXXEXC
         OpenSSL::SSL 
         OpenSSL::Crypto
@@ -292,7 +292,7 @@ if (WIN32)
     )
         
 else()
-    target_link_libraries(vscphelper PRIVATE     
+    target_link_libraries(libvscphelper PRIVATE     
         m
         dl
         Threads::Threads
@@ -305,7 +305,7 @@ endif()
 # Install
 if(WIN32)
     # Runtime files
-    install(TARGETS vscphelper
+    install(TARGETS libvscphelper
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
     # Dependencies
@@ -316,7 +316,7 @@ if(WIN32)
     # README
     install(FILES "${CMAKE_BINARY_DIR}/../README.md" DESTINATION "${CMAKE_INSTALL_BINDIR}/..")
 else()
-    INSTALL(TARGETS vscphelper 
+    INSTALL(TARGETS libvscphelper 
             LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/${CMAKE_LIBRARY_ARCHITECTURE}/"
             RUNTIME DESTINATION "${CMAKE_INSTALL_MANDIR}"
             RESOURCE DESTINATION "${CMAKE_INSTALL_FULL_}/var/lib/vscp/") 

@@ -66,5 +66,5 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: ${{ matrix.os }}_libvscphelper_15.0.0.deb
-        path: /home/runner/work/vscp-helper-lib/build/vscpd_15.0.0.deb
+        path: /home/runner/work/vscp-helper-lib/vscp-helper-lib/build/vscpd_15.0.0.deb
         retention-days: 30
