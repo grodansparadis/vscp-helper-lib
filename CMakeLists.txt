@@ -63,6 +63,9 @@ if(NOT DEFINED APP_VERSION)
 set(APP_VERSION, "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 endif()
 
+# --- System Libraries ---
+include(GNUInstallDirs)
+
 # Man build and install
 if(NOT DEFINED WIN32)
     add_subdirectory(man)
@@ -88,9 +91,6 @@ option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 # Generate position-independent code (-fPIC on UNIX)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# --- System Libraries ---
-include(GNUInstallDirs)
-
 message(STATUS "CMAKE_LIBRARY_ARCHITECTURE=${CMAKE_LIBRARY_ARCHITECTURE}")
 message(STATUS "CMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}")
 
@@ -110,6 +110,8 @@ if(WIN32)
 elseif(UNIX)
   set(LIBS_SYSTEM c stdc++)
 endif()
+
+  set(CMAKE_INSTALL_PREFIX "/")
 
 #   ===========================  cpack  ===========================
 IF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")

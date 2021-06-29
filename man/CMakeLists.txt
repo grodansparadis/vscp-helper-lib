@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
-project(vscphelper LANGUAGES CXX C)
+project(man LANGUAGES CXX C)
 set(PACKAGE_AUTHOR "Ake Hedman, the VSCP Project")
+
+# --- System Libraries ---
+include(GNUInstallDirs)
 
 set(PANDOCCOMMAND_FOUND 0)
 find_program(PANDOCCOMMAND_PATH
@@ -39,5 +42,5 @@ endif()
 
 install(
   FILES ${CMAKE_CURRENT_BINARY_DIR}/libvscphelper.3 ${CMAKE_CURRENT_BINARY_DIR}/libvscphelper-dev.3
-  DESTINATION share/man/man3
+  DESTINATION ${CMAKE_INSTALL_MANDIR}/man3
 )

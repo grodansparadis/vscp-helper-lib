@@ -1,8 +1,0 @@
-#!/usr/bin/make -f
-
-%:
-	dh $@ --with autoreconf
-
-#override_dh_shlibdeps:
-#	dpkg-shlibdeps -Tdebian/libvscphelper%MAJOR-VERSION.substvars $$(pwd)/debian/libvscphelper%MAJOR-VERSION/usr/lib/%SUBFOLDER/libvscphelper.so.%MAJOR-VERSION.%MINOR-VERSION.%RELEASE-VERSION
-#	dpkg-shlibdeps -Tdebian/libvscphelper%MAJOR-VERSION-dev.substvars $$(pwd)/debian/libvscphelper%MAJOR-VERSION/usr/lib/%SUBFOLDER/libvscphelper.so.%MAJOR-VERSION.%MINOR-VERSION.%RELEASE-VERSION
