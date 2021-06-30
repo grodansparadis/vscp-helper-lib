@@ -4,7 +4,7 @@
         {
             "taskName": "build vscp-helper-lib",
             "type": "shell",
-            "command": "rm -rf dist; make",
+            "command": "cd build; make",
             "args": [],
             "group": {
                 "kind": "build",
@@ -15,7 +15,7 @@
         {
             "taskName": "clean & build vscp-helper-lib",
             "type": "shell",
-            "command": "rm -rf dist; make clean; make",
+            "command": "mkdir build; cd build; rm CMakeCache.txt; cmake --clean-first .. -DCMAKE_BUILD_TYPE=Debug; make clean; make",
             "args": [],
             "group": {
                 "kind": "build",
@@ -37,7 +37,7 @@
         {
             "taskName": "build debian package",
             "type": "shell",
-            "command": "./build_debian_package.sh",
+            "command": "cd build; sudo cpack",
             "args": [],
             "group": {
                 "kind": "build",

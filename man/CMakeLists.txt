@@ -23,21 +23,21 @@ endif()
 
 # man pages
 if (${PANDOCCOMMAND_FOUND})
-    ADD_CUSTOM_TARGET(man ALL)
+  ADD_CUSTOM_TARGET(man ALL)
 
-    ADD_CUSTOM_COMMAND(
+  ADD_CUSTOM_COMMAND(
+      TARGET man
+      DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/man/libvscphelper.3.md 
+      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+      COMMAND pandoc -s -t man ${CMAKE_CURRENT_SOURCE_DIR}/libvscphelper.3.md -o ${CMAKE_CURRENT_BINARY_DIR}/libvscphelper.3
+      OUTPUTS ${CMAKE_CURRENT_BINARY_DIR}/libvscphelper.3)
+
+  ADD_CUSTOM_COMMAND(
         TARGET man
-        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/man/libvscphelper.3.md 
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/libvscphelper-dev.3.md
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMAND pandoc -s -t man ${CMAKE_CURRENT_SOURCE_DIR}/libvscphelper.3.md -o ${CMAKE_CURRENT_BINARY_DIR}/libvscphelper.3
-        OUTPUTS ${CMAKE_CURRENT_BINARY_DIR}/libvscphelper.3)
-
-    ADD_CUSTOM_COMMAND(
-          TARGET man
-          DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/man/libvscphelper-dev.3.md
-          WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-          COMMAND pandoc -s -t man ${CMAKE_CURRENT_SOURCE_DIR}/libvscphelper-dev.3.md  -o ${CMAKE_CURRENT_BINARY_DIR}/libvscphelper-dev.3
-          OUTPUTS ${CMAKE_CURRENT_BINARY_DIR}/libvscphelper.dev.3)    
+        COMMAND pandoc -s -t man ${CMAKE_CURRENT_SOURCE_DIR}/libvscphelper-dev.3.md  -o ${CMAKE_CURRENT_BINARY_DIR}/libvscphelper-dev.3
+        OUTPUTS ${CMAKE_CURRENT_BINARY_DIR}/libvscphelper.dev.3)    
 endif()
 
 install(
