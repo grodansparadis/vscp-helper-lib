@@ -174,8 +174,6 @@ IF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
   # Load packaging facilities.
   INCLUDE(CPack)
 
-  
- 
 ENDIF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
 
 
@@ -190,12 +188,17 @@ find_package(OpenSSL REQUIRED)
 
 # Windows Libs
 if (WIN32)
-    #find_package(pthreads REQUIRED)
+  # pthread
+  #find_package(pthread REQUIRED)
 
-    # Expat C library
-    find_package(expat CONFIG REQUIRED)
+  # Expat C library
+  find_package(expat CONFIG REQUIRED)
+  
 else()
-
+  # expat
+  include(FindEXPAT)
+  find_package(EXPAT REQUIRED)
+  include_directories(${EXPAT_INCLUDE_DIRS})
 endif()
 
 # Set sockettcp build flags
