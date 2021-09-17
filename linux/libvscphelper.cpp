@@ -37,13 +37,19 @@
 //#pragma implementation
 #endif
 
+#ifdef WIN32
+#include <StdAfx.h>
+#endif
+
 #include <map>
 #include <string>
 
 #include <semaphore.h>
 #include <stdio.h>
 #include <stdlib.h>
+#ifndef _WIN32
 #include <syslog.h>
+#endif
 
 #include <canal.h>
 #include <canal_macro.h>
@@ -51,8 +57,12 @@
 
 #include "libvscphelper.h"
 
+#ifdef WIN32
+// TODO
+#else
 void _init() __attribute__((constructor));
 void _fini() __attribute__((destructor));
+#endif
 
 // This map holds driver handles/objects
 static std::map<long, VscpRemoteTcpIf *> g_ifMap;
@@ -98,7 +108,9 @@ void _fini() {
   }
 
   pthread_mutex_destroy(&g_mapMutex);
+#ifndef WIN32 
   closelog();
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////

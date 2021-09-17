@@ -31,6 +31,7 @@
 
 #include "stdio.h"
 #include "stdlib.h"
+#include "canal_macro.h"
 #include "dlldrvobj.h"
 
 
@@ -51,7 +52,7 @@ CHelpDllObj::CHelpDllObj()
 
 CHelpDllObj::~CHelpDllObj()
 {
-    m_mutex.Lock();
+  LOCK_MUTEX(m_mutex);
 
 	for ( int i = 0; i<VSCP_HELPER_MAX_OPEN; i++ ) {
 
@@ -66,7 +67,7 @@ CHelpDllObj::~CHelpDllObj()
 		}
 	}
 
-    m_mutex.Unlock();
+    UNLOCK_MUTEX(m_mutex);
 
 }
 
@@ -80,7 +81,7 @@ long CHelpDllObj::addDriverObject( VscpRemoteTcpIf *pdrvObj )
 {
 	long h = 0;
 
-    m_mutex.Lock();
+    LOCK_MUTEX(m_mutex);
 	for ( int i=0; i<VSCP_HELPER_MAX_OPEN; i++ ) {
 
 		if ( NULL == m_drvObjArray[ i ] ) {
@@ -93,7 +94,7 @@ long CHelpDllObj::addDriverObject( VscpRemoteTcpIf *pdrvObj )
 
 	}
 
-    m_mutex.Unlock();
+    UNLOCK_MUTEX(m_mutex);
 
 	return h;
 }
@@ -127,14 +128,14 @@ void CHelpDllObj::removeDriverObject( long h )
 	if ( idx >= VSCP_HELPER_MAX_OPEN ) return;
 
 	//LOCK_MUTEX( m_objMutex );
-    m_mutex.Lock();
+    LOCK_MUTEX(m_mutex);
 	if ( NULL != m_drvObjArray[ idx ] )
     {
         delete m_drvObjArray[ idx ];
     }
 	m_drvObjArray[ idx ] = NULL;
 	//UNLOCK_MUTEX( m_objMutex );
-    m_mutex.Unlock();
+    UNLOCK_MUTEX(m_mutex);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

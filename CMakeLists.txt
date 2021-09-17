@@ -193,7 +193,7 @@ if (WIN32)
 
   # Expat C library
   find_package(expat CONFIG REQUIRED)
-  
+
 else()
   # expat
   include(FindEXPAT)
@@ -216,10 +216,15 @@ set(RESOURCE_FILES
 
 # Add files to library
 add_library(libvscphelper SHARED
-    ./src/vscphelperlib.h
-    ./src/vscphelperlib.cpp
+#if(WIN32)
+    ./windows/vscphelperdll.h
+    ./windows/vscphelperdll.cpp
+    ./windows/dlldrvobj.h
+    ./windows/dlldrvobj.cpp
+#else()    
     ./linux/libvscphelper.h
     ./linux/libvscphelper.cpp
+#endif()
     ${VSCP_PATH}/src/common/third_party/mustache.hpp
     ${VSCP_PATH}/src/common/third_party/spdlog-1.8.5/include    
     ${VSCP_PATH}/src/vscp/common/vscp.h
@@ -256,7 +261,11 @@ add_library(libvscphelper SHARED
     PROPERTIES
     LIBRARY_OUTPUT_NAME "libvscphelper"
     PREFIX ""
+if(WIN32)
+    SUFFIX "${MAJOR_VERSION}.dll"
+else()
     SUFFIX "${MAJOR_VERSION}.so"
+endif()
     VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
     SOVERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 
@@ -265,6 +274,7 @@ if (WIN32)
     find_path(PTHREAD_INCLUDE_DIR pthread.h)
 
     include_directories( PUBLIC src/
+        ./windows/
         ${VSCP_PATH}/src/vscp/common/  
         ${VSCP_PATH}/src/common
         ${VSCP_PATH}/src/common/third_party

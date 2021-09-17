@@ -26,13 +26,19 @@
 // SOFTWARE.
 
 #ifdef WIN32
+#include <StdAfx.h>
+#endif
+
+#ifdef WIN32
 #include <winsock2.h>
 #endif
 
 #include <semaphore.h>
 #include <stdio.h>
 #include <stdlib.h>
+#ifndef WIN32
 #include <unistd.h>
+#endif
 
 #include <canal.h>
 #include <canaldlldef.h>

@@ -28,29 +28,17 @@
 #include <winsock2.h>
 #endif
 
-#include "wx/wxprec.h"
-#include "wx/wx.h"
+#ifdef WIN32
+#include <StdAfx.h>
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "wx/defs.h"
-#include "wx/app.h"
-#include <wx/xml/xml.h>
-#include <wx/listimpl.cpp>
-#include <wx/thread.h>
-#include <wx/tokenzr.h>
-#include <wx/datetime.h>
-#include <wx/utils.h>
 
 #include <vscphelper.h>
 #include <vscpremotetcpif.h>
 #include <dlldrvobj.h>
 #include "vscphelperdll.h"
-
-#ifdef _MSC_VER
-   #include <wx/msw/msvcrt.h>
-#endif
 
 static HANDLE hThisInstDll = NULL;
 CHelpDllObj theApp;
@@ -67,8 +55,6 @@ BOOL APIENTRY DllMain( HANDLE hInstDll,
 
 		case DLL_PROCESS_ATTACH:
 			hThisInstDll = hInstDll;
-            wxInitialize();
-			theApp.InitInstance();
 			break;
 
 		case DLL_THREAD_ATTACH:
@@ -78,7 +64,6 @@ BOOL APIENTRY DllMain( HANDLE hInstDll,
  			break;
 
 		case DLL_PROCESS_DETACH:
-            wxUninitialize();
  			break;
    }
 
