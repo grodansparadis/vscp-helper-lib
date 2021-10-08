@@ -107,9 +107,11 @@ if(WIN32)
   add_definitions(-DVCPKG_TARGET_TRIPLET=x64-windows)
   set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
   set(LIBS_SYSTEM ws2_32)
-elseif(UNIX)
+endif(WIN32)
+
+if(UNIX)
   set(LIBS_SYSTEM c stdc++)
-endif()
+endif(UNIX)
 
   set(CMAKE_INSTALL_PREFIX "/")
 
@@ -161,7 +163,7 @@ IF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
     ${PROJECT_SOURCE_DIR}/resources/nsis/NSIS.definitions.nsh.in
     ${CMAKE_CURRENT_BINARY_DIR}/resources/nsis/NSIS.definitions.nsh
   )
-  ELSE()
+  ELSE(WIN32)
     SET(CPACK_DEBIAN_PACKAGE_DEPENDS 
                 "libuuid1, lsb-base (>=4.1+Debian3), libc6-dev (>= 2.14), libstdc++6 (>= 5.2), libgcc1 (>= 1:3.0), libssl-dev (>=1.0.0), libmosquitto-dev (>=1.4.10), libexpat1-dev (>=2.0), libz-dev")
     SET(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
@@ -169,7 +171,7 @@ IF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
     SET(CPACK_DEBIAN_ARCHITECTURE ${CMAKE_SYSTEM_PROCESSOR})
     set(CPACK_STRIP_FILES "bin/vscpd")
     set(CPACK_SOURCE_STRIP_FILES "")      
-  ENDIF()
+  ENDIF(WIN32)
 
   # Load packaging facilities.
   INCLUDE(CPack)
@@ -199,7 +201,7 @@ else()
   include(FindEXPAT)
   find_package(EXPAT REQUIRED)
   include_directories(${EXPAT_INCLUDE_DIRS})
-endif()
+endif(WIN32)
 
 # Set sockettcp build flags
 add_definitions(-DUSE_IPV6)
@@ -215,18 +217,14 @@ set(RESOURCE_FILES
         forms/index.html)
 
 # Add files to library
+if(WIN32)
 add_library(libvscphelper SHARED
-#if(WIN32)
     ./windows/vscphelperdll.h
     ./windows/vscphelperdll.cpp
     ./windows/dlldrvobj.h
     ./windows/dlldrvobj.cpp
-#else()    
-    ./linux/libvscphelper.h
-    ./linux/libvscphelper.cpp
-#endif()
     ${VSCP_PATH}/src/common/third_party/mustache.hpp
-    ${VSCP_PATH}/src/common/third_party/spdlog-1.8.5/include    
+    ${VSCP_PATH}/src/common/third_party/spdlog-1.9.2/include    
     ${VSCP_PATH}/src/vscp/common/vscp.h
     ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.h
     ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.cpp
@@ -254,6 +252,40 @@ add_library(libvscphelper SHARED
     ${VSCP_PATH}/src/common/fastpbkdf2.h
     ${VSCP_PATH}/src/common/fastpbkdf2.c    
   ) 
+  else(WIN32)
+  add_library(libvscphelper SHARED    
+    ./linux/libvscphelper.h
+    ./linux/libvscphelper.cpp
+    ${VSCP_PATH}/src/common/third_party/mustache.hpp
+    ${VSCP_PATH}/src/common/third_party/spdlog-1.9.2/include    
+    ${VSCP_PATH}/src/vscp/common/vscp.h
+    ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.h
+    ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.cpp
+    ${VSCP_PATH}/src/vscp/common/vscpdatetime.h
+    ${VSCP_PATH}/src/vscp/common/vscpdatetime.cpp
+    ${VSCP_PATH}/src/vscp/common/guid.h
+    ${VSCP_PATH}/src/vscp/common/guid.cpp
+    ${VSCP_PATH}/src/vscp/common/mdf.h
+    ${VSCP_PATH}/src/vscp/common/mdf.cpp
+    ${VSCP_PATH}/src/vscp/common/vscphelper.h
+    ${VSCP_PATH}/src/vscp/common/vscphelper.cpp
+    ${VSCP_PATH}/src/vscp/common/canal.h
+    ${VSCP_PATH}/src/common/sockettcp.h
+    ${VSCP_PATH}/src/common/sockettcp.c
+    ${VSCP_PATH}/src/common/vscpbase64.h
+    ${VSCP_PATH}/src/common/vscpbase64.c
+    ${VSCP_PATH}/src/common/vscp_aes.h
+    ${VSCP_PATH}/src/common/vscp_aes.c
+    ${VSCP_PATH}/src/common/crc.h
+    ${VSCP_PATH}/src/common/crc.c
+    ${VSCP_PATH}/src/common/crc8.h
+    ${VSCP_PATH}/src/common/crc8.c
+    ${VSCP_PATH}/src/common/vscpmd5.h
+    ${VSCP_PATH}/src/common/vscpmd5.c
+    ${VSCP_PATH}/src/common/fastpbkdf2.h
+    ${VSCP_PATH}/src/common/fastpbkdf2.c    
+  ) 
+  endif(WIN32)
 
   #set_target_properties(libvscphelper PROPERTIES LIBRARY_OUTPUT_NAME "vscphelper.so.${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 
@@ -275,11 +307,11 @@ if (WIN32)
 
     include_directories( PUBLIC src/
         ./windows/
-        ${VSCP_PATH}/src/vscp/common/  
+        ${VSCP_PATH}/src/vscp/common/
         ${VSCP_PATH}/src/common
         ${VSCP_PATH}/src/common/third_party
         ${VSCP_PATH}/src/common/third_party/nlohmann
-        ${VSCP_PATH}/src/common/third_party/spdlog-1.8.5/include
+        ${VSCP_PATH}/src/common/third_party/spdlog-1.9.2/include
         ${PThreads4W_INCLUDE_DIR}
         ${CMAKE_BINARY_DIR}
         ${OPENSSL_INCLUDE_DIR}
@@ -291,7 +323,7 @@ else()
         ${VSCP_PATH}/src/common
         ${VSCP_PATH}/src/common/third_party
         ${VSCP_PATH}/src/common/third_party/nlohmann
-        ${VSCP_PATH}/src/common/third_party/spdlog-1.8.5/include
+        ${VSCP_PATH}/src/common/third_party/spdlog-1.9.2/include
         ${CMAKE_BINARY_DIR}
         ${OPENSSL_INCLUDE_DIR}
         ${LOCAL_SYSLOG_INCLUDE} )

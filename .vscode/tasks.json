@@ -38,7 +38,7 @@
             "taskName": "build debian package",
             "type": "shell",
             "command": "cd build; sudo cpack",
-            "args": [],
+            "args": [],mkdir build
             "group": {
                 "kind": "build",
                 "isDefault": false
