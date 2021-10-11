@@ -4,7 +4,7 @@
 //
 // The MIT License (MIT)
 // 
-// Copyright (c) 2000-2017 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
+// Copyright (c) 2000-2021 Ake Hedman, the VSCP Project <info@grodansparadis.com>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@
 #define DLL_VERSION		0x000001
 
 // This is the vendor string - Change to your own value
-#define DLL_VENDOR "Grodans Paradis AB, Sweden, http://www.grodansparaids.com"
+#define DLL_VENDOR "the VSCP Project, Sweden, http://www.grodansparaids.com"
 							
 // Max number of open connections
 #define VSCP_HELPER_MAX_OPEN	256
@@ -76,7 +76,6 @@ public:
 
 	/*!
 		Remove a driver object
-
 		@parm handle for object.
 	*/
 	void removeDriverObject( long h );

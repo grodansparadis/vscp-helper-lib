@@ -64,7 +64,7 @@ The code for the program looks like this
 */*//////////////////////////////////////////////////////////////////////////
 // noop.cpp 
 //
-// https://www.vscp.org   Grodans Paradis AB   info@grodansparadis.com
+// https://www.vscp.org   the VSCP Project   info@grodansparadis.com
 //
 
 #include `<stdio.h>`
@@ -194,4 +194,4 @@ All methods in the [VscpRemoteTcpIf class](https///github.com/grodansparadis/vsc
 ----
 {{  ::copyright.png?600  |}}
 
-`<HTML>``<p style="color:red;text-align:center;">``<a href="https://www.grodansparadis.com">`Grodans Paradis AB`</a>``</p>``</HTML>`
+`<HTML>``<p style="color:red;text-align:center;">``<a href="https://www.grodansparadis.com">`the VSCP Project`</a>``</p>``</HTML>`

@@ -17,4 +17,4 @@ VSCP helper library is a software library for VSCP program development. This lib
 ----
 {{  ::copyright.png?600  |}}
 
-`<HTML>``<p style="color:red;text-align:center;">``<a href="https://www.grodansparadis.com">`Grodans Paradis AB`</a>``</p>``</HTML>`
+`<HTML>``<p style="color:red;text-align:center;">``<a href="https://www.grodansparadis.com">`the VSCP Project`</a>``</p>``</HTML>`

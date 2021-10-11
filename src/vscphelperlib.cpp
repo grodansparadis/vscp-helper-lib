@@ -1,4 +1,4 @@
-// VSCP helper dll.cpp : Defines the initialization routines for the DLL.
+// vscphelperlib.cpp : Defines the initialization routines for the Windows DLL.
 //
 // This file is part of the VSCP (http://www.vscp.org)
 //
@@ -27,9 +27,6 @@
 
 #ifdef WIN32
 #include <StdAfx.h>
-#endif
-
-#ifdef WIN32
 #include <winsock2.h>
 #endif
 
@@ -47,9 +44,9 @@
 #include <vscpdatetime.h>
 #include <vscphelper.h>
 #include <vscpremotetcpif.h>
+
 #ifdef WIN32
-#include "dlldrvobj.h"
-#include "vscphelperdll.h"
+#include "windows/libvscphelper.h"
 #else
 #include "linux/libvscphelper.h"
 #endif
@@ -60,7 +57,6 @@
 
 struct vscphlpobj
 {
-
     VscpRemoteTcpIf* m_pvscpif;
     VscpCanalDeviceIf* m_pcanalif;
 };
@@ -270,7 +266,6 @@ vscphlp_open(const long handle,
              const char* pUsername,
              const char* pPassword)
 #else
-
 extern "C" int
 vscphlp_open(const long handle,
              const char* pHostname,
@@ -669,7 +664,11 @@ vscphlp_getVendorString(long handle, char* pVendorStr, size_t len)
 
     std::string str = std::string(pvscpif->doCmdVendorString());
     memset(pVendorStr, 0, len);
+#ifdef WIN32
+    strncpy(pVendorStr, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(pVendorStr, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
 
     return VSCP_ERROR_SUCCESS;
 }
@@ -698,7 +697,11 @@ vscphlp_getDriverInfo(long handle, char* pInfoStr, size_t len)
 
     std::string str = std::string(pvscpif->doCmdGetDriverInfo());
     memset(pInfoStr, 0, len);
+#ifdef WIN32
+    strncpy(pInfoStr, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(pInfoStr, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
 
     return VSCP_ERROR_SUCCESS;
 }
@@ -1272,7 +1275,11 @@ vscphlp_writeGuidToString(const vscpEvent* pEvent, char* pStr, size_t len)
     std::string strGUID;
     rv = vscp_writeGuidToString(strGUID, pEvent);
     memset(pStr, 0, len);
+#ifdef WIN32
+    strncpy(pStr, strGUID.c_str(), min(strlen(strGUID.c_str()), len));
+#else
     strncpy(pStr, strGUID.c_str(), std::min(strlen(strGUID.c_str()), len));
+#endif
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
 
@@ -1293,7 +1300,11 @@ vscphlp_writeGuidToStringEx(const vscpEventEx* pEvent, char* pStr, size_t len)
     std::string strGUID;
     rv = vscp_writeGuidToStringEx(strGUID, pEvent);
     memset(pStr, 0, len);
+#ifdef WIN32
+    strncpy(pStr, strGUID.c_str(), min(strlen(strGUID.c_str()), len));
+#else
     strncpy(pStr, strGUID.c_str(), std::min(strlen(strGUID.c_str()), len));
+#endif
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
 
@@ -1318,7 +1329,11 @@ vscphlp_writeGuidToString4Rows(const vscpEvent* pEvent,
     std::string str = std::string(strGUID);
     bool rv = vscp_writeGuidToString4Rows(str, pEvent);
     memset(strGUID, 0, len);
+#ifdef WIN32
+    strncpy(strGUID, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(strGUID, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
 
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
@@ -1345,7 +1360,11 @@ vscphlp_writeGuidToString4RowsEx(const vscpEventEx* pEvent,
     bool rv = vscp_writeGuidToString4RowsEx(str, pEvent);
 
     memset(strGUID, 0, len);
+#ifdef WIN32
+    strncpy(strGUID, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(strGUID, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
 
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
@@ -1372,8 +1391,11 @@ vscphlp_writeGuidArrayToString(const unsigned char* pGUID,
     bool rv = vscp_writeGuidArrayToString(str, pGUID);
 
     memset(strGUID, 0, len);
+#ifdef WIN32
+    strncpy(strGUID, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(strGUID, str.c_str(), std::min(strlen(str.c_str()), len));
-
+#endif
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
 
@@ -1739,7 +1761,11 @@ vscphlp_writeVscpDataToString(char* pStr,
     std::string str;
     bool rv = vscp_writeDataToString(str, pEvent, bUseHtmlBreak ? true : false);
     memset(pStr, 0, len);
+#ifdef WIN32
+    strncpy(pStr, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(pStr, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
 
@@ -1774,7 +1800,11 @@ vscphlp_writeVscpDataWithSizeToString(char* pStr,
                                              bUseHtmlBreak ? true : false,
                                              bBreak ? true : false);
     memset(pStr, 0, len);
+#ifdef WIN32
+    strncpy(pStr, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(pStr, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
 
@@ -1839,7 +1869,11 @@ vscphlp_writeVscpEventToString(vscpEvent* pEvent, char* p, size_t len)
     ;
     if ((rv = vscp_convertEventToString(str, pEvent))) {
         memset(p, 0, len);
+#ifdef WIN32
+        strncpy(p, str.c_str(), min(strlen(str.c_str()), len));
+#else
         strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
     }
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
@@ -1863,7 +1897,11 @@ vscphlp_convertEventToString(vscpEvent* pEvent, char* p, size_t len)
     ;
     if ((rv = vscp_convertEventToString(str, pEvent))) {
         memset(p, 0, len);
+#ifdef WIN32
+        strncpy(p, str.c_str(), min(strlen(str.c_str()), len));
+#else
         strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
     }
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
@@ -1886,7 +1924,11 @@ vscphlp_writeVscpEventExToString(vscpEventEx* pEvent, char* p, size_t len)
     std::string str;
     if ((rv = vscp_convertEventExToString(str, pEvent))) {
         memset(p, 0, len);
+#ifdef WIN32
+        strncpy(p, str.c_str(), min(strlen(str.c_str()), len));
+#else
         strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
     }
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
@@ -1909,7 +1951,11 @@ vscphlp_convertEventExToString(vscpEventEx* pEvent, char* p, size_t len)
     std::string str;
     if ((rv = vscp_convertEventExToString(str, pEvent))) {
         memset(p, 0, len);
+#ifdef WIN32
+        strncpy(p, str.c_str(), min(strlen(str.c_str()), len));
+#else
         strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
     }
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
@@ -2075,7 +2121,11 @@ vscphlp_getDataCodingString(const unsigned char* pCode,
 
     bool rv = vscp_getDataCodingString(str, pCode, dataLength);
     memset(strResult, 0, len);
+#ifdef WIN32
+    strncpy(strResult, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(strResult, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
 
@@ -2102,7 +2152,11 @@ vscphlp_getVSCPMeasurementAsString(const vscpEvent* pEvent,
 
     bool rv = vscp_getMeasurementAsString(str, pEvent);
     memset(pResult, 0, len);
+#ifdef WIN32
+    strncpy(pResult, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(pResult, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
 
@@ -2150,7 +2204,11 @@ vscphlp_getVSCPMeasurementFloat64AsString(const vscpEvent* pEvent,
 
     bool rv = vscp_getMeasurementFloat64AsString(str, pEvent);
     memset(pStrResult, 0, len);
+#ifdef WIN32
+    strncpy(pStrResult, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(pStrResult, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
 
@@ -2478,7 +2536,11 @@ vscphlp_convertEventToJSON(vscpEvent* pEvent, char* p, size_t len)
 
     // Copy in JSON string
     memset(p, 0, len);
+#ifdef WIN32
+    strncpy(p, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
 
     return VSCP_ERROR_SUCCESS;
 }
@@ -2506,7 +2568,10 @@ vscphlp_convertEventExToJSON(vscpEventEx* pEventEx, char* p, size_t len)
 
     // Copy in JSON string
     memset(p, 0, len);
+#ifdef WIN32
+#else
     strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
 
     return VSCP_ERROR_SUCCESS;
 }
@@ -2534,7 +2599,11 @@ vscphlp_convertEventToXML(vscpEvent* pEvent, char* p, size_t len)
 
     // Copy in XML string
     memset(p, 0, len);
+#ifdef WIN32
+    strncpy(p, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
 
     return VSCP_ERROR_SUCCESS;
 }
@@ -2562,7 +2631,11 @@ vscphlp_convertEventExToXML(vscpEventEx* pEventEx, char* p, size_t len)
 
     // Copy in XML string
     memset(p, 0, len);
+#ifdef WIN32
+    strncpy(p, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
 
     return VSCP_ERROR_SUCCESS;
 }
@@ -2590,7 +2663,11 @@ vscphlp_convertEventToHTML(vscpEvent* pEvent, char* p, size_t len)
 
     // Copy in HTML string
     memset(p, 0, len);
+#ifdef WIN32
+    strncpy(p, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
 
     return VSCP_ERROR_SUCCESS;
 }
@@ -2618,7 +2695,11 @@ vscphlp_convertEventExToHTML(vscpEventEx* pEventEx, char* p, size_t len)
 
     // Copy in HTML string
     memset(p, 0, len);
+#ifdef WIN32
+    strncpy(p, str.c_str(), min(strlen(str.c_str()), len));
+#else
     strncpy(p, str.c_str(), std::min(strlen(str.c_str()), len));
+#endif
 
     return VSCP_ERROR_SUCCESS;
 }
@@ -2805,7 +2886,7 @@ vscphlp_makeLevel2StringMeasurementEventEx(vscpEvent* pEventEx,
                                             uint8_t subzone)
 #endif
 {
-    return (vscp_makeLevel2FloatMeasurementEvent(
+    return (vscp_makeLevel2FloatMeasurementEventEx(
               pEventEx, type, value, unit, sensoridx, zone, subzone)
               ? VSCP_ERROR_SUCCESS
               : VSCP_ERROR_ERROR);
@@ -2875,10 +2956,14 @@ vscphlp_getDateStringFromEvent(char* buf, size_t buf_len, vscpEvent* pEvent)
 
     std::string str;
     vscp_getDateStringFromEvent(str, pEvent);
-    if (0 == str.length())
+    if (0 == str.length()) {
         return VSCP_ERROR_ERROR;
-
+    }
+#ifdef WIN32
+    memcpy(buf, (const char*)str.c_str(), min(buf_len, str.length()));
+#else
     memcpy(buf, (const char*)str.c_str(), std::min(buf_len, str.length()));
+#endif
     return VSCP_ERROR_SUCCESS;
 }
 
@@ -2906,9 +2991,13 @@ vscphlp_getDateStringFromEventEx(char* buf,
 
     std::string str;
     vscp_getDateStringFromEventEx(str, pEventEx);
-    if (0 == str.length())
+    if (0 == str.length()) {
         return VSCP_ERROR_ERROR;
-
+    }
+#ifdef WIN32
+    memcpy(buf, (const char*)str.c_str(), min(buf_len, str.length()));
+#else
     memcpy(buf, (const char*)str.c_str(), std::min(buf_len, str.length()));
+#endif
     return VSCP_ERROR_SUCCESS;
 }

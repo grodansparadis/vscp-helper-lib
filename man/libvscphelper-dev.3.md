@@ -1,5 +1,5 @@
 % libvscphelper-dev(3) Version %MAJOR-VERSION.%MINOR-VERSION.%RELEASE-VERSION  | VSCP Helper Library
-% Åke Hedman, Grodans Paradis AB
+% Åke Hedman, the VSCP Project
 % January 2, 2020
 
 # NAME
@@ -35,4 +35,4 @@ The [manual](https://grodansparadis.gitbooks.io/the-vscp-daemon) for vscpd conta
 The vscpd source code may be downloaded from <https://github.com/grodansparadis/vscp>. Source code for other system components of VSCP & Friends are here <https://github.com/grodansparadis>
 
 # COPYRIGHT
-Copyright 2000-2020 Ake Hedman, Grodans Paradis AB - MIT license.
+Copyright 2000-2021 Ake Hedman, the VSCP Project - MIT license.

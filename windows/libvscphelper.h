@@ -1,10 +1,10 @@
-// VSCP helper dll.h : main header file for the VSCP helper dll DLL
+// vscphelperdll.h : main header file for the VSCP helper dll DLL
 //
 // This file is part of the VSCP (http://www.vscp.org)
 //
 // The MIT License (MIT)
 //
-// Copyright (c) 2000-2017 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
+// Copyright (c) 2000-2021 Ake Hedman, the VSCP Project <info@grodansparadis.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,11 +34,36 @@
 	the talk to a VSCP daemon remotly over tcp/ip. All helper functionality and all
 	communication functionality is included in this dynamically loadable library.
 	Also ready to work with threads for receiving and transmitting events.
-	\author Ake Hedman <akhe@grodansparadis.com>, Grodans Paradis AB, Sweden
+	\author Ake Hedman <akhe@grodansparadis.com>, the VSCP Project, Sweden
 
 */
 
 #pragma once
 
 #include "resource.h"		// main symbols
-//#include "../../common/canalsuperwrapper.h"
+
+/*!
+        Add a driver object
+
+        @parm plog Object to add
+        @return handle or 0 for error
+*/
+long
+addDriverObject(VscpRemoteTcpIf* pvscpif);
+
+/*!
+        Get a driver object from its handle
+
+        @param handle for object
+        @return pointer to object or NULL if invalid
+                        handle.
+*/
+VscpRemoteTcpIf*
+getDriverObject(long handle);
+
+/*!
+        Remove a driver object
+        @param handle for object.
+*/
+void
+removeDriverObject(long handle);

@@ -6,8 +6,8 @@
 //
 // The MIT License (MIT)
 //
-// Copyright (C) 2000-2020 Ake Hedman,
-// Grodans Paradis AB <info@grodansparadis.com>
+// Copyright (C) 2000-2021 Ake Hedman,
+// the VSCP Project <info@grodansparadis.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -51,7 +51,7 @@ typedef int BOOL;
 
 // This is the vendor string - Change to your own value
 #define VSCP_DLL_VENDOR                                                        \
-    "Grodans Paradis AB, Sweden, https://www.grodansparadis.com"
+    "the VSCP Project, Sweden, https://www.grodansparadis.com"
 
 /*!
         Add a driver object

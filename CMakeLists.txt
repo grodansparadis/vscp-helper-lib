@@ -38,7 +38,7 @@ if(NOT DEFINED MINOR_VERSION)
     SET(MINOR_VERSION "0")
 endif()
 if(NOT DEFINED PATCH_VERSION)
-    SET(PATCH_VERSION "0")
+    SET(PATCH_VERSION "2")
 endif()
 
 
@@ -100,6 +100,7 @@ set (VSCP_PATH "${PROJECT_SOURCE_DIR}/../vscp")
 endif()
 
 if(WIN32)
+  add_definitions(-DHELPERLIB_EXPORTS)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
   add_definitions(-DWIN32_LEAN_AND_MEANS)
   add_definitions(-DOPENSSL_API_1_1)
@@ -219,10 +220,10 @@ set(RESOURCE_FILES
 # Add files to library
 if(WIN32)
 add_library(libvscphelper SHARED
-    ./windows/vscphelperdll.h
-    ./windows/vscphelperdll.cpp
-    ./windows/dlldrvobj.h
-    ./windows/dlldrvobj.cpp
+    ./src/vscphelperlib.h
+    ./src/vscphelperlib.cpp
+    ./windows/libvscphelper.h
+    ./windows/libvscphelper.cpp
     ${VSCP_PATH}/src/common/third_party/mustache.hpp
     ${VSCP_PATH}/src/common/third_party/spdlog-1.9.2/include    
     ${VSCP_PATH}/src/vscp/common/vscp.h
@@ -253,7 +254,9 @@ add_library(libvscphelper SHARED
     ${VSCP_PATH}/src/common/fastpbkdf2.c    
   ) 
   else(WIN32)
-  add_library(libvscphelper SHARED    
+  add_library(libvscphelper SHARED   
+    ./src/vscphelperlib.h
+    ./src/vscphelperlib.cpp 
     ./linux/libvscphelper.h
     ./linux/libvscphelper.cpp
     ${VSCP_PATH}/src/common/third_party/mustache.hpp

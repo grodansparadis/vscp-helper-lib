@@ -2,7 +2,7 @@
 
 [HISTORY](vscp_class_usage_history)
 
-Copyright © 2000-2019 Åke Hedman, [Grodans Paradis AB](https://www.grodansparadis.com), `<[akhe@grodansparadis.com](akhe@grodansparadis.com)>` 
+Copyright © 2000-2019 Åke Hedman, [the VSCP Project](https://www.grodansparadis.com), `<[akhe@grodansparadis.com](akhe@grodansparadis.com)>` 
 
 VSCP use the [wxWidgets library](https://wxwidgets.org/). For most people this library is considered a graphical C++ UI library but it also have a lot of functionality in it's non graphical (base) version and it is this version that is used in the VSCP project for all code except for the applications ([VSCP Works](https://grodansparadis.gitbooks.io/vscp-works/?id=start/)) that actually is a graphical application.
 
@@ -30,7 +30,7 @@ This table lists the files that are needed to embed in a project to make a clien
 \\ 
 ----
 {{ ::copyright.png?600 |}}
-`<HTML>``<br>``<p style="color:red;text-align:center;">``<a href="https://www.grodansparadis.com">`Grodans Paradis AB`</a>``</p>``</HTML>`
+`<HTML>``<br>``<p style="color:red;text-align:center;">``<a href="https://www.grodansparadis.com">`the VSCP Project`</a>``</p>``</HTML>`
 
 
  
