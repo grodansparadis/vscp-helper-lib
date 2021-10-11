@@ -2877,7 +2877,7 @@ vscphlp_makeLevel2StringMeasurementEventEx(vscpEventEx* pEventEx,
                                             uint8_t subzone)
 #else
 extern "C" int
-vscphlp_makeLevel2StringMeasurementEventEx(vscpEvent* pEventEx,
+vscphlp_makeLevel2StringMeasurementEventEx(vscpEventEx* pEventEx,
                                             uint16_t type,
                                             double value,
                                             uint8_t unit,
