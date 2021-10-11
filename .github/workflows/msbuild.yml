@@ -1,4 +1,4 @@
-name: msbuild
+name: Windows Build
 
 on: [push]
 
@@ -105,7 +105,7 @@ jobs:
         cmake .. -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_TOOLCHAIN_FILE="${{env.GITHUB_WORKSPACE}}/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVSCP_PATH="${{env.GITHUB_WORKSPACE}}/vscp/"
 
     - name: Build
-      #working-directory: ${{env.GITHUB_WORKSPACE}}/build
+      working-directory: ${{env.GITHUB_WORKSPACE}}/build
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
