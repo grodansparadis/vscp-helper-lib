@@ -98,8 +98,8 @@ jobs:
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
       run: |
-        pwd
-        cmake .. -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_TOOLCHAIN_FILE="${{github.workspace}}/../vcpkg/scripts/buildsystems/vcpkg.cmake" -DVSCP_PATH="${{github.workspace}}/../vscp/"
+        echo "${{env.GITHUB_WORKSPACE}}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        cmake .. -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_TOOLCHAIN_FILE="${{env.GITHUB_WORKSPACE}}/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVSCP_PATH="${{env.GITHUB_WORKSPACE}}/vscp/"
 
     - name: Build
       #working-directory: ${{env.GITHUB_WORKSPACE}}/build
