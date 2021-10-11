@@ -25,7 +25,7 @@ If you get
 
 *couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)* 
 
-it is good to know that it is a [known apt problem](https://forums.linuxmint.com/viewtopic.php?t=280054) that you safely can ignore.
+it is good to know that it is a [known apt problem](https://forums.linuxmint.com/viewtopic.php?t=280054) that you safely can ignore. If it feels bad use *apt-get* to install instead.
 
 or 
 
@@ -38,19 +38,104 @@ or
 Install using the windows installation script available in the release section och this repository.
 
 ## How to build on Linux
-The VSCP helper lib is built using a standard autoconf build.
+The VSCP helper lib is built using a standard cmake build.
 
 ```bash
-./configure
-git submodule foreach git pull origin master
-make
-make install
+  git clone https://github.com/grodansparadis/vscp.git
+  git clone https://github.com/grodansparadis/vscp-helper-lib.git
 ```
+The two projects should be cloned on the same directory level. vscp-helper-lib is the main project and use code from the main VSCP project. If you absolutely want to have them installed on separate places you can use the _-DVSCP_PATH="path to vscp" .._ option to set the path to the VSCP project.
 
 For the ssl build, additional openssl is necessary:
+
 ```bash
 apt-get install libssl-dev
 ```
 
+Now do 
+
+```
+  cd vscp-helper-lib
+  mkdir build
+  cd build
+  cmake ..
+  make
+  make install
+```
+
+
 ## How to build on Windows
-tbd
+
+### Install Visual Studio 2019 Buildtools
+
+You can install them from: https://visualstudio.microsoft.com/en/downloads. You find them in the _Tools for Visual Studio 2019_ on the lower part of the page. 
+
+In the Visual Studio Installer, select:
+  
+  - Tab "Workloads": Buildtools for the universal windows platform
+
+### Install the latest cmake
+
+You find it here https://cmake.org/install/
+
+### Install git
+
+You find it here https://gitforwindows.org/
+### Install the vcpkg package manager
+
+Open a Visual Studio 2019 command prompt (_x64 Native Tools Command Prompt_) window and type:
+    
+```bash    
+  git clone https://github.com/microsoft/vcpkg.git
+  cd vcpkg
+  bootstrap-vcpkg.bat
+``` 
+  
+### Integrate vcpkg with Visual Studio 
+
+``` bash
+  vcpkg integrate install
+```
+  
+###  Install needed vspkg packages
+
+```bash
+  vcpkg install dlfcn-win32:x64-windows
+  vcpkg install expat:x64-windows
+  vcpkg install openssl:x64-windows
+  vcpkg install pthreads:x64-windows
+```
+
+### Clone needed VSCP code
+
+```bash
+  git clone https://github.com/grodansparadis/vscp.git
+  git clone https://github.com/grodansparadis/vscp-helper-lib.git
+```
+The two projects should be cloned on the same directory level. vscp-helper-lib is the main project and use code from the main VSCP project. If you absolutely want to have them installed on separate places you can use the _-DVSCP_PATH="path to vscp" .._ option to set the path to the VSCP project.
+
+### Build vscp-helper-lib
+
+```        
+  cd vscp-helper-lib
+  mkdir build
+  cd build
+  cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_TOOLCHAIN_FILE=C:\Users\Administrator\Desktop\Development\vcpkg\scripts\buildsystems\vcpkg.cmake
+```
+
+The path to the vspkg build script is obviously different in your case.
+
+Now use
+
+´´´bash
+  cmake --build .
+```
+
+to build the dynamic library. An alternative is to use
+
+```
+  msbuild vscphelper.sln /p:Configuration=Release
+```
+
+You can also open the _vscphelper.sln_ in Visual Studio 2019 and work with it there.
+
