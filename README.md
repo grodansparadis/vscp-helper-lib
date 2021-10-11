@@ -116,7 +116,7 @@ The two projects should be cloned on the same directory level. vscp-helper-lib i
 
 ### Build vscp-helper-lib
 
-```        
+```bash
   cd vscp-helper-lib
   mkdir build
   cd build
@@ -127,15 +127,22 @@ The path to the vspkg build script is obviously different in your case.
 
 Now use
 
-´´´bash
+```bash
   cmake --build .
 ```
 
 to build the dynamic library. An alternative is to use
 
-```
+```bash
   msbuild vscphelper.sln /p:Configuration=Release
 ```
 
 You can also open the _vscphelper.sln_ in Visual Studio 2019 and work with it there.
 
+Now you can use 
+
+```bash
+cpack
+```
+
+to build an installation package for windows.
