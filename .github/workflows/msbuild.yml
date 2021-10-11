@@ -50,6 +50,8 @@ jobs:
           vcpkg install dlfcn-win32:x64-windows 
           vcpkg install openssl:x64-windows 
           vcpkg install spdlog:x64-windows
+          dir installed\lib
+          dir installed\include
           cd ..
 
     - name: Add MSBuild to PATH
