@@ -1,0 +1,108 @@
+name: cmake-msbuild
+
+on: [push]
+
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: .
+
+  # Configuration type to build.
+  # You can convert this to a build matrix if you need coverage of multiple configuration types.
+  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+  #
+  # https://github.com/marketplace/actions/run-vcpkg
+  # https://github.com/ilammy/msvc-dev-cmd
+
+  BUILD_CONFIGURATION: Release
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Clone
+      uses: actions/checkout@v2
+
+    - name: Display environment variables
+      shell: cmd
+      run: set
+
+    - name: Checkout vscp repo
+      uses: actions/checkout@v2
+      with:
+        repository: grodansparadis/vscp
+        path: vscp
+        ref: development
+
+    - name: Install vcpkg
+      uses: lukka/run-vcpkg@v2
+      with:
+        vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+        vcpkgArguments: '@${{ github.workspace }}/vcpkg.txt'
+        appendedCacheKey: ${{ hashFiles(env.vcpkgResponseFile) }}
+
+    # Install latest CMake.
+    - name: Run vcpkg
+      uses: lukka/get-cmake@latest
+      with:
+          # Just install vcpkg for now, do not install any ports in this step yet.
+          setupOnly: true
+          # Location of the vcpkg as submodule of the repository.
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
+          # compute its hash and append this to the computed cache's key.
+          appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
+          vcpkgTriplet: ${{ matrix.triplet }}
+          # Ensure the vcpkg artifacts are cached, they are generated in the 'CMAKE_BINARY_DIR/vcpkg_installed'.
+          additionalCachedPaths: ${{ env.buildDir }}/vcpkg_installed
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Install 7Zip PowerShell Module
+      shell: powershell
+      run: Install-Module 7Zip4PowerShell -Force -Verbose
+
+    - name: Checkout vcpkg repo
+      uses: actions/checkout@v2
+      with:
+        repository: microsoft/vcpkg
+        path: vcpkg'    
+
+    - name: Integrate with development environment and install
+      shell: cmd
+      working-directory: ${{env.GITHUB_WORKSPACE}}/vcpkg
+      run: |
+        call bootstrap-vcpkg.bat
+        vcpkg.exe install integrate install 
+        vcpkg.exe install expat:x64-windows
+        vcpkg.exe install pthread:x64-windows 
+        vcpkg.exe install dlfcn-win32:x64-windows 
+        vcpkg.exe install openssl:x64-windows 
+        vcpkg.exe install spdlog:x64-windows
+
+    - name: Create Build Environment
+      # Some projects don't allow in-source building, so create a separate build directory
+      # We'll use this as our working directory for all subsequent commands
+      run: cmake -E make_directory ${{github.workspace}}/build 
+
+    - name: Configure CMake
+      # Use a bash shell so we can use the same syntax for environment variable
+      # access regardless of the host operating system   -G "Visual Studio 16 2019"
+      shell: bash
+      working-directory: "${{github.workspace}}/build"
+      # Note the current convention is to use the -S and -B options here to specify source 
+      # and build directories, but this is only available with CMake 3.13 and higher.  
+      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+      run: |
+        dir ${{github.workspace}}
+        cmake .. -DCMAKE_TOOLCHAIN_FILE="${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVSCP_PATH="${{github.workspace}}/vscp/"
+
+    - name: Build
+      #working-directory: ${{env.GITHUB_WORKSPACE}}/build
+      # Add additional options to the MSBuild command line here (like platform or verbosity level).
+      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
