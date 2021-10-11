@@ -42,14 +42,14 @@ jobs:
       run: |
           git clone https://github.com/microsoft/vcpkg.git
           cd vcpkg
-          ./bootstrap-vcpkg.sh
-          ./vcpkg integrate install
-          ./vcpkg install integrate install 
-          ./vcpkg install expat:x64-windows
-          ./vcpkg install pthread:x64-windows 
-          ./vcpkg install dlfcn-win32:x64-windows 
-          ./vcpkg install openssl:x64-windows 
-          ./vcpkg install spdlog:x64-windows
+          bootstrap-vcpkg.sh
+          vcpkg integrate install
+          vcpkg install integrate install 
+          vcpkg install expat:x64-windows
+          vcpkg install pthread:x64-windows 
+          vcpkg install dlfcn-win32:x64-windows 
+          vcpkg install openssl:x64-windows 
+          vcpkg install spdlog:x64-windows
           cd ..
 
     - name: Add MSBuild to PATH
