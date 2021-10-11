@@ -337,7 +337,6 @@ if (WIN32)
         PThreads4W::PThreads4W_CXXEXC
         OpenSSL::SSL 
         OpenSSL::Crypto
-        OpenSSL::SSL OpenSSL::Crypto
         expat::expat
     )
         
