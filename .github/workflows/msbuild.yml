@@ -64,5 +64,5 @@ jobs:
           mkdir build
           cd build
           cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 16 2019"  -DCMAKE_TOOLCHAIN_FILE=..\vcpkg\scripts\buildsystems\vcpkg.cmake
-          cmake --build . --config Release --target install
+          cmake --build . --config Release 
           
