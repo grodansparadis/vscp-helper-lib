@@ -120,7 +120,7 @@ The two projects should be cloned on the same directory level. vscp-helper-lib i
   cd vscp-helper-lib
   mkdir build
   cd build
-  cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_TOOLCHAIN_FILE=C:\Users\Administrator\Desktop\Development\vcpkg\scripts\buildsystems\vcpkg.cmake
+  cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows cmake .. -G "Visual Studio 16 2019"  -DCMAKE_TOOLCHAIN_FILE=C:\Users\Administrator\Desktop\Development\vcpkg\scripts\buildsystems\vcpkg.cmake
 ```
 
 The path to the vspkg build script is obviously different in your case.
