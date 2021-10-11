@@ -1,4 +1,4 @@
-name: cmake-msbuild
+name: msbuild
 
 on: [push]
 
@@ -26,9 +26,9 @@ jobs:
     - name: Clone
       uses: actions/checkout@v2
 
-    - name: Display environment variables
-      shell: cmd
-      run: set
+    - name: Get latest CMake and ninja
+      # Using 'latest' branch, the most recent CMake and ninja are installed.
+      uses: lukka/get-cmake@latest   
 
     - name: Checkout vscp repo
       uses: actions/checkout@v2
@@ -42,22 +42,25 @@ jobs:
     #   with:
     #     vcpkgDirectory: '${{ github.workspace }}/vcpkg'
     #     vcpkgArguments: '@${{ github.workspace }}/vcpkg.txt'
-    #     appendedCacheKey: ${{ hashFiles(env.vcpkgResponseFile) }}
+    #     appendedCacheKey: ${{ hashFiles(env.vcpkgResponseFile) }}    
 
-    # Install latest CMake.
-    - name: Run vcpkg
-      uses: lukka/get-cmake@latest
+    # Restore from cache the previously built ports. If cache-miss, download and build vcpkg (aka "bootstrap vcpkg").
+    - name: Restore from cache and install vcpkg
+      # Download and build vcpkg, without installing any port. If content is cached already, it is a no-op.
+      uses: lukka/run-vcpkg@v7
       with:
-          # Just install vcpkg for now, do not install any ports in this step yet.
-          setupOnly: true
-          # Location of the vcpkg as submodule of the repository.
-          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-          # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
-          # compute its hash and append this to the computed cache's key.
-          appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
-          vcpkgTriplet: ${{ matrix.triplet }}
-          # Ensure the vcpkg artifacts are cached, they are generated in the 'CMAKE_BINARY_DIR/vcpkg_installed'.
-          additionalCachedPaths: ${{ env.buildDir }}/vcpkg_installed
+        setupOnly: true
+    # Now that vcpkg is installed, it is being used to run with the desired arguments.
+    - run: |
+          $VCPKG_ROOT/vcpkg install boost:linux-x64
+          call $VCPKG_ROOT/bootstrap-vcpkg.bat
+          $VCPKG_ROOT/vcpkg.exe install integrate install 
+          $VCPKG_ROOT/vcpkg.exe install expat:x64-windows
+          $VCPKG_ROOT/vcpkg.exe install pthread:x64-windows 
+          $VCPKG_ROOT/vcpkg.exe install dlfcn-win32:x64-windows 
+          $VCPKG_ROOT/vcpkg.exe install openssl:x64-windows 
+          $VCPKG_ROOT/vcpkg.exe install spdlog:x64-windows
+      shell: bash
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1
@@ -66,23 +69,23 @@ jobs:
       shell: powershell
       run: Install-Module 7Zip4PowerShell -Force -Verbose
 
-    - name: Checkout vcpkg repo
-      uses: actions/checkout@v2
-      with:
-        repository: microsoft/vcpkg
-        path: vcpkg'    
+    # - name: Checkout vcpkg repo
+    #   uses: actions/checkout@v2
+    #   with:
+    #     repository: microsoft/vcpkg
+    #     path: vcpkg'    
 
-    - name: Integrate with development environment and install
-      shell: cmd
-      working-directory: ${{env.GITHUB_WORKSPACE}}/vcpkg
-      run: |
-        call bootstrap-vcpkg.bat
-        vcpkg.exe install integrate install 
-        vcpkg.exe install expat:x64-windows
-        vcpkg.exe install pthread:x64-windows 
-        vcpkg.exe install dlfcn-win32:x64-windows 
-        vcpkg.exe install openssl:x64-windows 
-        vcpkg.exe install spdlog:x64-windows
+    # - name: Integrate with development environment and install
+    #   shell: cmd
+    #   working-directory: ${{env.GITHUB_WORKSPACE}}/vcpkg
+    #   run: |
+    #     call bootstrap-vcpkg.bat
+    #     vcpkg.exe install integrate install 
+    #     vcpkg.exe install expat:x64-windows
+    #     vcpkg.exe install pthread:x64-windows 
+    #     vcpkg.exe install dlfcn-win32:x64-windows 
+    #     vcpkg.exe install openssl:x64-windows 
+    #     vcpkg.exe install spdlog:x64-windows
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
@@ -106,3 +109,10 @@ jobs:
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Upload GitHub Actions artifact of vcpkg build logs
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: vcpkg-logs-${{ runner.os }}
+          path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log  

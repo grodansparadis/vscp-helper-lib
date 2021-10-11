@@ -1,5 +1,8 @@
 # vscp-helper-lib
 
+![Linux build](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/build.yml/badge.svg)
+![Windows build](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/msbuild.yml/badge.svg)
+
 Helper functionality packed in a shared library for [VSCP](https://www.vscp.org)
 
 <img src="https://vscp.org/images/logo.png" width="100">
