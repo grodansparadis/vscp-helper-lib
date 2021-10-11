@@ -61,7 +61,6 @@ jobs:
 
     - name: Build
       run: |
-          cd vscp-helper-lib
           mkdir build
           cd build
           cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 16 2019"  -DCMAKE_TOOLCHAIN_FILE=.\vcpkg\scripts\buildsystems\vcpkg.cmake
