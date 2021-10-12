@@ -49,7 +49,7 @@ jobs:
     - name: Setup vcpkg
       run: |
           cd vcpkg
-          call bootstrap-vcpkg.bat
+          bootstrap-vcpkg.bat
           vcpkg.exe install integrate install
           vcpkg install expat:x64-windows
           vcpkg install pthread:x64-windows 
