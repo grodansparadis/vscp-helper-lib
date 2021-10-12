@@ -66,7 +66,7 @@ jobs:
       run: |
           mkdir build
           cd build
-          cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=D:/a/vscp-helper-lib/vscp-helper-lib/vcpkg/scripts/buildsystems/vcpkg.cmake  -DVSCP_PATH=vscp
+          cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=D:/a/vscp-helper-lib/vscp-helper-lib/vcpkg/scripts/buildsystems/vcpkg.cmake  -DVSCP_PATH=vscp
           cmake --build . --config Release --target vscp-helper-lib
           dir ..
           cpack .
