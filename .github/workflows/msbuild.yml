@@ -56,8 +56,8 @@ jobs:
           vcpkg install spdlog:x64-windows
           dir
           dir installed
-          dir installed\lib
-          dir installed\include
+          dir installed\x64-windows\lib
+          dir installed\x64-windows\include
           cd ..
 
     - name: Add MSBuild to PATH
