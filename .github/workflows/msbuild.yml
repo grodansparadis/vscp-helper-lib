@@ -49,9 +49,8 @@ jobs:
     - name: Setup vcpkg
       run: |
           cd vcpkg
-          bootstrap-vcpkg.sh
-          vcpkg integrate install
-          bootstrap-vcpkg.sh
+          call bootstrap-vcpkg.bat
+          vcpkg.exe install integrate install
           vcpkg install expat:x64-windows
           vcpkg install pthread:x64-windows 
           vcpkg install dlfcn-win32:x64-windows 
@@ -71,5 +70,5 @@ jobs:
       run: |
           mkdir build
           cd build
-          cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 16 2019"  -DCMAKE_TOOLCHAIN_FILE=-DCMAKE_TOOLCHAIN_FILE=D:/a/vscp-helper-lib/vscp-helper-lib/vcpkg/scripts/buildsystems/vcpkg.cmake -DOPENSSL_INCLUDE_DIR=vcpkg\installed\x64-windows\include -DOPENSSL_ROOT_DIR=vcpkg\packages\openssl_x64-windows -Dexpat_DIR=vcpkg\packages\expat_x64-windows\share\expat 
+          cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 16 2019"  -DCMAKE_TOOLCHAIN_FILE=-DCMAKE_TOOLCHAIN_FILE=D:/a/vscp-helper-lib/vscp-helper-lib/vcpkg/scripts/buildsystems/vcpkg.cmake -DOPENSSL_INCLUDE_DIR=vcpkg\installed\x64-windows\include 
           
