@@ -72,7 +72,7 @@ jobs:
           dir ..
           cpack .
 
-      # Save artifact    
+      # Save artifacts    
     - uses: actions/upload-artifact@v2
       with:
         name: windows_libvscphelper
