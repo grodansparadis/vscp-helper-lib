@@ -38,7 +38,7 @@ jobs:
       uses: lukka/get-cmake@latest 
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1  
+      uses: microsoft/setup-msbuild@v1.0.3  
 
     - name: Checkout vcpkg repo
       uses: actions/checkout@v2
