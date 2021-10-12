@@ -364,12 +364,19 @@ if(WIN32)
     install(FILES "${CMAKE_BINARY_DIR}/../LICENSE" DESTINATION "${CMAKE_INSTALL_BINDIR}/..")
     # README
     install(FILES "${CMAKE_BINARY_DIR}/../README.md" DESTINATION "${CMAKE_INSTALL_BINDIR}/..")
+    # Headers
+    INSTALL(FILES "${VSCP_PATH}/src/vscp/common/vscp.h"
+            "${PROJECT_SOURCE_DIR}/src/vscphelperlib.h" 
+            "${VSCP_PATH}/src/vscp/common/canal.h"
+            "${VSCP_PATH}/src/vscp/common/vscp_class.h"
+            "${VSCP_PATH}/src/vscp/common/vscp_type.h"
+            DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})  
 else()
     INSTALL(TARGETS libvscphelper 
             LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/${CMAKE_LIBRARY_ARCHITECTURE}/"
             RUNTIME DESTINATION "${CMAKE_INSTALL_MANDIR}"
             RESOURCE DESTINATION "${CMAKE_INSTALL_FULL_}/var/lib/vscp/") 
-            
+    # Headers        
     INSTALL(FILES "${VSCP_PATH}/src/vscp/common/vscp.h"
             "${PROJECT_SOURCE_DIR}/src/vscphelperlib.h" 
             "${VSCP_PATH}/src/vscp/common/canal.h"
