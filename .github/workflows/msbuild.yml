@@ -56,10 +56,6 @@ jobs:
           vcpkg install dlfcn-win32:x64-windows 
           vcpkg install openssl:x64-windows 
           vcpkg install spdlog:x64-windows
-          dir
-          dir installed
-          dir installed\x64-windows\lib
-          dir installed\x64-windows\include
           cd ..
 
     - name: Install 7Zip PowerShell Module
@@ -76,5 +72,5 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: windows_libvscphelper
-        path: /home/runner/work/vscp-helper-lib/vscp-helper-lib/build/release/
+        path: ../build/Release/
         retention-days: 30    
