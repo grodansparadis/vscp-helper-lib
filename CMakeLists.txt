@@ -357,8 +357,9 @@ if(WIN32)
     install(TARGETS libvscphelper
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
+
     # Dependencies
-    file(GLOB deps_files "${CMAKE_BINARY_DIR}/Release/*.dll")
+    file(GLOB deps_files "${CMAKE_BINARY_DIR}/Release/*")
     install(FILES ${deps_files} DESTINATION ${CMAKE_INSTALL_BINDIR})
     # LICENSE
     install(FILES "${CMAKE_BINARY_DIR}/../LICENSE" DESTINATION "${CMAKE_INSTALL_BINDIR}/..")
