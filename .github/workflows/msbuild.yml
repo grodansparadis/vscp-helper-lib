@@ -71,6 +71,6 @@ jobs:
       run: |
           mkdir build
           cd build
-          cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 16 2019"  -DCMAKE_TOOLCHAIN_FILE=..\vcpkg\scripts\buildsystems\vcpkg.cmake -DOPENSSL_INCLUDE_DIR=vcpkg\installed\x64-windows\include -DOPENSSL_ROOT_DIR=vcpkg\packages\openssl_x64-windows 
+          cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 16 2019"  -DCMAKE_TOOLCHAIN_FILE=..\vcpkg\scripts\buildsystems\vcpkg.cmake -DOPENSSL_INCLUDE_DIR=vcpkg\installed\x64-windows\include -DOPENSSL_ROOT_DIR=vcpkg\packages\openssl_x64-windows -Dexpat_DIR=vcpkg\packages\expat_x64-windows
           cmake --build . --config Release 
           
