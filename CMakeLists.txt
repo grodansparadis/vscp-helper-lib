@@ -191,12 +191,8 @@ find_package(OpenSSL REQUIRED)
 
 # Windows Libs
 if (WIN32)
-  # pthread
-  #find_package(pthread REQUIRED)
-
   # Expat C library
   find_package(expat CONFIG REQUIRED)
-
 else()
   # expat
   include(FindEXPAT)
