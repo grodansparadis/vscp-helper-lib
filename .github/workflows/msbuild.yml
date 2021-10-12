@@ -51,6 +51,7 @@ jobs:
           vcpkg install openssl:x64-windows 
           vcpkg install spdlog:x64-windows
           dir
+          dir installed
           dir installed\lib
           dir installed\include
           cd ..
