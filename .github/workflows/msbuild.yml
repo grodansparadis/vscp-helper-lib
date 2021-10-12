@@ -37,6 +37,9 @@ jobs:
       # Using 'latest' branch, the most recent CMake and ninja are installed.
       uses: lukka/get-cmake@latest 
 
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1  
+
     - name: Checkout vcpkg repo
       uses: actions/checkout@v2
       with:
@@ -60,9 +63,6 @@ jobs:
           dir installed\x64-windows\include
           cd ..
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1
-
     - name: Install 7Zip PowerShell Module
       shell: powershell
       run: Install-Module 7Zip4PowerShell -Force -Verbose
@@ -71,6 +71,6 @@ jobs:
       run: |
           mkdir build
           cd build
-          cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 16 2019"  -DCMAKE_TOOLCHAIN_FILE=..\vcpkg\scripts\buildsystems\vcpkg.cmake
+          cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 16 2019"  -DCMAKE_TOOLCHAIN_FILE=..\vcpkg\scripts\buildsystems\vcpkg.cmake -DOPENSSL_INCLUDE_DIR=vcpkg\installed\x64-windows\include -DOPENSSL_ROOT_DIR=vcpkg\packages\openssl_x64-windows 
           cmake --build . --config Release 
           
