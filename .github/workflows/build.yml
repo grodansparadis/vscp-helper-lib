@@ -63,6 +63,7 @@ jobs:
         make -j$(nproc)
         sudo cpack -G DEB 
         sudo make install DESTDIR=AppDir
+    # Save artifact    
     - uses: actions/upload-artifact@v2
       with:
         name: ${{ matrix.os }}_libvscphelper_15.0.2.deb
