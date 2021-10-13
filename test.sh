@@ -16,7 +16,7 @@ armhf)
     BITS=32
     SUBFOLDER="arm-linux-gnueabihf"
     ;;
-*)
+*
     echo "Building with discovery for installed system"
     ;;
 esac

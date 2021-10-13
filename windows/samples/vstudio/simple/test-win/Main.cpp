@@ -48,6 +48,10 @@ int main()
         printf("Connect to remote host %s\n", INTERFACE1_HOST);
     }
 
+    unsigned long version;
+    vscphlp_getDLLVersion(handle1, &version);
+    printf("Helper DLL Version : %X\n",version);
+
     // NOOP on handle1
     rv = vscphlp_noop(handle1);
     if (VSCP_ERROR_SUCCESS != rv) {
@@ -85,6 +89,50 @@ int main()
     }
     else {
         printf("Sent TURN-ON event\n");
+    }
+
+    if (0) {
+        if (VSCP_ERROR_SUCCESS != (rv = vscphlp_enterReceiveLoop(handle1))) {
+            printf("Failed to enter receive loop rv = %d\n", rv);
+        }
+
+        while (true) {
+            vscpEventEx ex;
+            if (VSCP_ERROR_SUCCESS ==
+                (rv = vscphlp_blockingReceiveEventEx(handle1, &ex, 1000))) {
+                printf("Event received: Class=%ud Type=%d\n",
+                       ex.vscp_class,
+                       ex.vscp_type);
+            } else {
+                printf("No event received. rv=%d\n", rv);
+            }
+        }
+    }
+    
+    if (1) {
+        unsigned int count;
+        while (true) {
+            if (VSCP_ERROR_SUCCESS !=
+                (rv = vscphlp_isDataAvailable(handle1, &count))) {
+                printf("Failed to get available data rv = %d\n", rv);
+                Sleep(5000);
+                continue;
+            }
+
+            if (count) {
+                printf("There is data %ud\n", rv);
+                vscpEventEx ex;
+                if (VSCP_ERROR_SUCCESS ==
+                    (rv = vscphlp_receiveEventEx(handle1, &ex))) {
+                    printf("Event received: Class=%ud Type=%d\n",
+                           ex.vscp_class,
+                           ex.vscp_type);
+                } else {
+                    printf("No event received. rv=%d\n", rv);
+                    Sleep(1000);
+                }
+            }
+        }
     }
 
     rv = vscphlp_close(handle1);
