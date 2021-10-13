@@ -38,7 +38,7 @@ jobs:
       uses: lukka/get-cmake@latest 
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1  
+      uses: microsoft/setup-msbuild@v1.0.3  
 
     - name: Checkout vcpkg repo
       uses: actions/checkout@v2
@@ -66,11 +66,13 @@ jobs:
       run: |
           mkdir build
           cd build
-          cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=D:/a/vscp-helper-lib/vscp-helper-lib/vcpkg/scripts/buildsystems/vcpkg.cmake  -DVSCP_PATH=vscp
+          cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=D:/a/vscp-helper-lib/vscp-helper-lib/vcpkg/scripts/buildsystems/vcpkg.cmake  -DVSCP_PATH=vscp
+          msbuild libvscphelper.sln /p:Configuration=Release
+          cpack .
 
-      # Save artifact    
+      # Save artifacts    
     - uses: actions/upload-artifact@v2
       with:
         name: windows_libvscphelper
-        path: ../build/Release/
+        path: ${{github.workspace}}/build/Release/
         retention-days: 30    

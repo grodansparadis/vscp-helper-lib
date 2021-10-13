@@ -123,7 +123,7 @@ The two projects should be cloned on the same directory level. vscp-helper-lib i
   cd vscp-helper-lib
   mkdir build
   cd build
-  cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 16 2019"  -DCMAKE_TOOLCHAIN_FILE=C:\Users\Administrator\Desktop\Development\vcpkg\scripts\buildsystems\vcpkg.cmake
+  cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=C:\Users\Administrator\Desktop\Development\vcpkg\scripts\buildsystems\vcpkg.cmake
 ```
 
 The path to the vspkg build script is obviously different in your case.
@@ -137,7 +137,7 @@ Now use
 to build the dynamic library. An alternative is to use
 
 ```bash
-  msbuild vscphelper.sln /p:Configuration=Release
+  msbuild libvscphelper.sln /p:Configuration=Release
 ```
 
 You can also open the _vscphelper.sln_ in Visual Studio 2019 and work with it there.
