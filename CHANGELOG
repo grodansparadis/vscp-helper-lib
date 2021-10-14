@@ -1,6 +1,7 @@
 Change log for vscp helper library
 ==================================
 
+211014 AKHE doCmdDataAvailable did not handle error return correctly.
 211011 AKHE Windows port now adopts to new setup.
 210701 AKHE Protected stod conversions in helper lib that could throw exceptions for invalid strings
 210630 AKHE Fixed bug in vscp_hexStr2ByteArray 

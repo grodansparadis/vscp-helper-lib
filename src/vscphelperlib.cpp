@@ -532,10 +532,14 @@ vscphlp_isDataAvailable(long handle, unsigned int* pCount)
         return VSCP_ERROR_INVALID_HANDLE;
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
-        return VSCP_ERROR_CONNECTION;
+    if (!pvscpif->isConnected()) {
+      return VSCP_ERROR_CONNECTION;
+    }
 
     *pCount = pvscpif->doCmdDataAvailable();
+    if (*pCount < 0) {
+        return VSCP_ERROR_ERROR;
+    }
 
     return VSCP_ERROR_SUCCESS;
 }
