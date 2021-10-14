@@ -85,6 +85,20 @@ extern "C" long EXPORT
 vscphlp_newSession(void)
 #endif
 {
+#ifdef WIN32
+    WORD wVersionRequested;
+    WSADATA wsaData;
+    int err;
+
+    wVersionRequested = MAKEWORD(2,2);
+    err               = WSAStartup(wVersionRequested, &wsaData);
+    if (err != 0) {
+      // Tell the user that we could not find a usable 
+      // Winsock DLL.                                  
+      return VSCP_ERROR_INIT_FAIL;  
+    };
+#endif
+
     VscpRemoteTcpIf* pvscpif = new VscpRemoteTcpIf;
     if (NULL == pvscpif) {
         return 0;
@@ -109,6 +123,11 @@ vscphlp_closeSession(long handle)
     if (NULL != pvscpif) {
         pvscpif->doCmdClose();
     }
+
+#ifdef WIN32
+   // Cleanup
+   WSACleanup();
+#endif
 
     removeDriverObject(handle);
 }
