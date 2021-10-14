@@ -213,7 +213,7 @@ set(RESOURCE_FILES
         README.md
         forms/index.html)
 
-# Add files to library
+# Add files to library 
 if(WIN32)
 add_library(libvscphelper SHARED
     ./src/vscphelperlib.h
@@ -297,14 +297,16 @@ if(WIN32)
     VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
     SOVERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 else()
-set_target_properties(libvscphelper
-  PROPERTIES
-  LIBRARY_OUTPUT_NAME "libvscphelper"
-  PREFIX ""
-  SUFFIX "${MAJOR_VERSION}.so"
-  VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
-  SOVERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
+  set_target_properties(libvscphelper
+    PROPERTIES
+    LIBRARY_OUTPUT_NAME "libvscphelper"
+    PREFIX ""
+    SUFFIX "${MAJOR_VERSION}.so"
+    VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+    SOVERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 endif()    
+
+set_target_properties(libvscphelper PROPERTIES PUBLIC_HEADER "${PROJECT_SOURCE_DIR}/src/vscphelperlib.h")
 
 if (WIN32)
     find_package(pthreads REQUIRED)
@@ -353,11 +355,15 @@ else()
     )
 endif()
 
+configure_file("${PROJECT_SOURCE_DIR}/resources/linux/libvscphelper.pc.in" 
+  libvscphelper.pc @ONLY)
+
 # Install
 if(WIN32)
     # Runtime files
     install(TARGETS libvscphelper
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+            PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     )
     # Dependencies
     file(GLOB deps_files "${CMAKE_BINARY_DIR}/Release/*")
@@ -376,8 +382,11 @@ if(WIN32)
 else()
     INSTALL(TARGETS libvscphelper 
             LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/${CMAKE_LIBRARY_ARCHITECTURE}/"
+            PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
             RUNTIME DESTINATION "${CMAKE_INSTALL_MANDIR}"
-            RESOURCE DESTINATION "${CMAKE_INSTALL_FULL_}/var/lib/vscp/") 
+            RESOURCE DESTINATION "${CMAKE_INSTALL_FULL_}/var/lib/vscp/")
+    install(FILES ${CMAKE_BINARY_DIR}/libvscphelper.pc
+            DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)        
     # Headers        
     INSTALL(FILES "${VSCP_PATH}/src/vscp/common/vscp.h"
             "${PROJECT_SOURCE_DIR}/src/vscphelperlib.h" 

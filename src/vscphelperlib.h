@@ -134,7 +134,7 @@ vscphlp_getVSCPtypeFromCANALid( const unsigned long id );
 HELPERLIB_API unsigned char 
 vscphlp_getVSCPnicknameFromCANALid( const unsigned long id );
 HELPERLIB_API unsigned long 
-vscphlp_getCANALidFromdata( const unsigned char priority,
+vscphlp_getCANALidFromData( const unsigned char priority,
                               const unsigned short vscp_class,
                               const unsigned short vscp_type );
 HELPERLIB_API unsigned long 
