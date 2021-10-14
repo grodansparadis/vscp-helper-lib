@@ -26,7 +26,7 @@
 // SOFTWARE.
 
 #ifdef WIN32
-#include <StdAfx.h>
+#include <pch.h>
 #include <winsock2.h>
 #endif
 
