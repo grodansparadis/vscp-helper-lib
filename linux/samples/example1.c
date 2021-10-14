@@ -4,8 +4,9 @@
 #include "stdio.h"
 #include "vscphelperlib.h"
 
+#define HOST "vscp2.vscp.org:9598"
 //#define HOST "demo.vscp.org:9598"
-#define HOST "185.144.156.45:9598"
+//#define HOST "185.144.156.45:9598"
 //#define HOST "127.0.0.1:9598"
 
 int main(int argc, char* argv[])
@@ -25,8 +26,6 @@ int main(int argc, char* argv[])
 		vscphlp_closeSession( handle );
 		return -1;
 	}
-
-    //vscphlp_setAfterCommandSleep( handle, 200 );
 
     printf("Open channel...\n");
     if ( VSCP_ERROR_SUCCESS == vscphlp_open( handle, 

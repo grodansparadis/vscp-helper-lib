@@ -247,9 +247,9 @@ add_library(libvscphelper SHARED
     ${VSCP_PATH}/src/common/vscpmd5.h
     ${VSCP_PATH}/src/common/vscpmd5.c
     ${VSCP_PATH}/src/common/fastpbkdf2.h
-    ${VSCP_PATH}/src/common/fastpbkdf2.c    
+    ${VSCP_PATH}/src/common/fastpbkdf2.c   
   ) 
-  else(WIN32)
+else()
   add_library(libvscphelper SHARED   
     ./src/vscphelperlib.h
     ./src/vscphelperlib.cpp 
@@ -284,21 +284,27 @@ add_library(libvscphelper SHARED
     ${VSCP_PATH}/src/common/fastpbkdf2.h
     ${VSCP_PATH}/src/common/fastpbkdf2.c    
   ) 
-  endif(WIN32)
+endif()
 
   #set_target_properties(libvscphelper PROPERTIES LIBRARY_OUTPUT_NAME "vscphelper.so.${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 
+if(WIN32)
   set_target_properties(libvscphelper
     PROPERTIES
     LIBRARY_OUTPUT_NAME "libvscphelper"
     PREFIX ""
-if(WIN32)
     SUFFIX "${MAJOR_VERSION}.dll"
-else()
-    SUFFIX "${MAJOR_VERSION}.so"
-endif()
     VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
     SOVERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
+else()
+set_target_properties(libvscphelper
+  PROPERTIES
+  LIBRARY_OUTPUT_NAME "libvscphelper"
+  PREFIX ""
+  SUFFIX "${MAJOR_VERSION}.so"
+  VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+  SOVERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
+endif()    
 
 if (WIN32)
     find_package(pthreads REQUIRED)
