@@ -453,12 +453,14 @@ vscphlp_receiveEventEx(long handle, vscpEventEx* pEvent)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
-        return VSCP_ERROR_CONNECTION;
+    if (!pvscpif->isConnected()) {
+      return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdReceiveEx(pEvent);
 }
