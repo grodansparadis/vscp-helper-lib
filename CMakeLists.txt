@@ -386,7 +386,7 @@ else()
             RUNTIME DESTINATION "${CMAKE_INSTALL_MANDIR}"
             RESOURCE DESTINATION "${CMAKE_INSTALL_FULL_}/var/lib/vscp/")
     install(FILES ${CMAKE_BINARY_DIR}/libvscphelper.pc
-            DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)        
+            DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)      
     # Headers        
     INSTALL(FILES "${VSCP_PATH}/src/vscp/common/vscp.h"
             "${PROJECT_SOURCE_DIR}/src/vscphelperlib.h" 
