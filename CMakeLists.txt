@@ -136,7 +136,6 @@ IF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
   SET(CPACK_PACKAGE_NAME ${APP_LOW_NAME})
   SET(CPACK_PACKAGE_INSTALL_REGISTRY_KEY ${APP_NAME})
 
-
   SET(CPACK_PACKAGE_VERSION_MAJOR "${MAJOR_VERSION}")
   SET(CPACK_PACKAGE_VERSION_MINOR "${MINOR_VERSION}")
   SET(CPACK_PACKAGE_VERSION_PATCH "${PATCH_VERSION}")
@@ -160,9 +159,9 @@ IF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
 
   # Configure file with custom definitions for NSIS.
   IF(WIN32)
-  configure_file(
-    ${PROJECT_SOURCE_DIR}/resources/nsis/NSIS.definitions.nsh.in
-    ${CMAKE_CURRENT_BINARY_DIR}/resources/nsis/NSIS.definitions.nsh
+    configure_file(
+      ${PROJECT_SOURCE_DIR}/resources/nsis/NSIS.definitions.nsh.in
+      ${CMAKE_CURRENT_BINARY_DIR}/resources/nsis/NSIS.definitions.nsh
   )
   ELSE(WIN32)
     SET(CPACK_DEBIAN_PACKAGE_DEPENDS 
@@ -369,9 +368,9 @@ if(WIN32)
     file(GLOB deps_files "${CMAKE_BINARY_DIR}/Release/*")
     install(FILES ${deps_files} DESTINATION ${CMAKE_INSTALL_BINDIR})
     # LICENSE
-    install(FILES "${CMAKE_BINARY_DIR}/../LICENSE" DESTINATION "${CMAKE_INSTALL_BINDIR}/..")
+    install(FILES "${CMAKE_BINARY_DIR}/../LICENSE" DESTINATION "${CMAKE_INSTALL_BINDIR}")
     # README
-    install(FILES "${CMAKE_BINARY_DIR}/../README.md" DESTINATION "${CMAKE_INSTALL_BINDIR}/..")
+    install(FILES "${CMAKE_BINARY_DIR}/../README.md" DESTINATION "${CMAKE_INSTALL_BINDIR}")
     # Headers
     INSTALL(FILES "${VSCP_PATH}/src/vscp/common/vscp.h"
             "${PROJECT_SOURCE_DIR}/src/vscphelperlib.h" 
