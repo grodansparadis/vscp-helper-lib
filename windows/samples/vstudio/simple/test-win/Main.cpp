@@ -5,6 +5,8 @@
 #include <string.h>
 #include <math.h>
 
+#include <chrono>
+
 #include "vscphelperlib.h"
 
 // Standard connection (a VSCP daemon must be running here)
@@ -92,20 +94,36 @@ int main()
     }
 
     if (0) {
+
         if (VSCP_ERROR_SUCCESS != (rv = vscphlp_enterReceiveLoop(handle1))) {
             printf("Failed to enter receive loop rv = %d\n", rv);
         }
 
-        while (true) {
+        printf("Waiting for events for 180 seconds ....\n");
+        // Start measuring time
+        std::chrono::seconds elapsed = std::chrono::seconds::zero();
+        auto begin = std::chrono::high_resolution_clock::now();
+
+        do {
             vscpEventEx ex;
             if (VSCP_ERROR_SUCCESS ==
                 (rv = vscphlp_blockingReceiveEventEx(handle1, &ex, 1000))) {
-                printf("Event received: Class=%ud Type=%d\n",
+                printf("Event received: Class=%u Type=%u\n",
                        ex.vscp_class,
                        ex.vscp_type);
             } else {
-                printf("No event received. rv=%d\n", rv);
+                if (VSCP_ERROR_TIMEOUT != rv) {
+                    printf("No event received. rv=%d\n", rv);
+                } else {
+                    printf("Timeout\n");
+                }
             }
+            elapsed = std::chrono::duration_cast<std::chrono::seconds>(
+              std::chrono::high_resolution_clock::now() - begin);
+        } while (elapsed.count() < 180);
+
+        if (VSCP_ERROR_SUCCESS != (rv = vscphlp_quitReceiveLoop(handle1))) {
+            printf("Failed to quit receive loop rv = %d\n", rv);
         }
     }
     
@@ -115,18 +133,19 @@ int main()
             if (VSCP_ERROR_SUCCESS !=
                 (rv = vscphlp_isDataAvailable(handle1, &count))) {
                 printf("Failed to get available data rv = %d\n", rv);
-                Sleep(5000);
+                Sleep(1000);
                 continue;
             }
 
             if (count) {
-                printf("There is data %ud\n", rv);
+                printf("There is data count = %u rv = %d\n", count, rv);
                 vscpEventEx ex;
-                if (VSCP_ERROR_SUCCESS ==
+                if (VSCP_ERROR_SUCCESS !=
                     (rv = vscphlp_receiveEventEx(handle1, &ex))) {
-                    printf("Event received: Class=%ud Type=%d\n",
+                    printf("Event received: Class=%ud Type=%d rv=%d\n",
                            ex.vscp_class,
-                           ex.vscp_type);
+                           ex.vscp_type,
+                           rv );
                 } else {
                     printf("No event received. rv=%d\n", rv);
                     Sleep(1000);
