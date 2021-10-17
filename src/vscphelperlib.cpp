@@ -165,9 +165,9 @@ vscphlp_setAfterCommandSleep(long handle, unsigned short sleeptime)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif) [
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
-}
+    }
 
 pvscpif->setAfterCommandSleep(sleeptime);
 
