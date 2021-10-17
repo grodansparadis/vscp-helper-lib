@@ -559,7 +559,7 @@ vscphlp_isDataAvailable(long handle, unsigned int* pCount)
         return VSCP_ERROR_PARAMETER;
     }
 
-    pCount = 0;
+    *pCount = 0;
 
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
     if (NULL == pvscpif) {
