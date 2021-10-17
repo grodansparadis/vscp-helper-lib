@@ -530,8 +530,9 @@ vscphlp_isDataAvailable(long handle, unsigned int* pCount)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
     if (!pvscpif->isConnected()) {

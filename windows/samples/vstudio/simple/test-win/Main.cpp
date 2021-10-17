@@ -5,6 +5,7 @@
 #include <string.h>
 #include <math.h>
 
+#include <string>
 #include <chrono>
 
 #include "vscphelperlib.h"
@@ -85,7 +86,7 @@ int main()
     ex.data[0] = 0;     // Optional user byte
     ex.data[1] = 11;    // Zone
     ex.data[2] = 22;    // SubZone
-    rv = vscphlp_sendEventEx(handle1, &ex);
+    //rv = vscphlp_sendEventEx(handle1, &ex);
     if (VSCP_ERROR_SUCCESS != rv) {
         printf("Faild to send TURN-ON event rv = %d\n", rv);
     }
@@ -130,10 +131,22 @@ int main()
     if (1) {
         unsigned int count;
         while (true) {
+            if (VSCP_ERROR_SUCCESS == vscphlp_isConnected(handle1)) {
+                printf("C\n");
+            } else {
+                printf("D\n");
+            }
             if (VSCP_ERROR_SUCCESS !=
                 (rv = vscphlp_isDataAvailable(handle1, &count))) {
                 printf("Failed to get available data rv = %d\n", rv);
                 Sleep(1000);
+                continue;
+            } else {
+                printf("rv=%d\n", rv);
+            }
+
+            if (count > 10) {
+                printf("Strange count rv=%d\n", rv);
                 continue;
             }
 
@@ -142,7 +155,7 @@ int main()
                 vscpEventEx ex;
                 if (VSCP_ERROR_SUCCESS !=
                     (rv = vscphlp_receiveEventEx(handle1, &ex))) {
-                    printf("Event received: Class=%ud Type=%d rv=%d\n",
+                    printf("Event received: Class=%u Type=%d rv=%d\n",
                            ex.vscp_class,
                            ex.vscp_type,
                            rv );
