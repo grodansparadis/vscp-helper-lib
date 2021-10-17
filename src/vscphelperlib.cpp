@@ -90,12 +90,12 @@ vscphlp_newSession(void)
     WSADATA wsaData;
     int err;
 
-    wVersionRequested = MAKEWORD(2,2);
-    err               = WSAStartup(wVersionRequested, &wsaData);
+    wVersionRequested = MAKEWORD(2, 2);
+    err = WSAStartup(wVersionRequested, &wsaData);
     if (err != 0) {
-      // Tell the user that we could not find a usable 
-      // Winsock DLL.                                  
-      return VSCP_ERROR_INIT_FAIL;  
+        // Tell the user that we could not find a usable
+        // Winsock DLL.
+        return VSCP_ERROR_INIT_FAIL;
     };
 #endif
 
@@ -125,8 +125,8 @@ vscphlp_closeSession(long handle)
     }
 
 #ifdef WIN32
-   // Cleanup
-   WSACleanup();
+    // Cleanup
+    WSACleanup();
 #endif
 
     removeDriverObject(handle);
@@ -144,8 +144,9 @@ vscphlp_setResponseTimeout(long handle, unsigned long timeout)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     pvscpif->setResponseTimeout(timeout);
 
@@ -164,12 +165,13 @@ vscphlp_setAfterCommandSleep(long handle, unsigned short sleeptime)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) [
         return VSCP_ERROR_INVALID_HANDLE;
+}
 
-    pvscpif->setAfterCommandSleep(sleeptime);
+pvscpif->setAfterCommandSleep(sleeptime);
 
-    return VSCP_ERROR_SUCCESS;
+return VSCP_ERROR_SUCCESS;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -184,8 +186,9 @@ vscphlp_isConnected(const long handle)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     return pvscpif->isConnected() ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
@@ -202,12 +205,14 @@ vscphlp_doCommand(long handle, const char* cmd)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     std::string strCmd = std::string(cmd);
     return pvscpif->doCommand(strCmd);
@@ -225,12 +230,14 @@ vscphlp_checkReply(long handle, int bClear)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->checkReturnValue(bClear ? true : false) ? VSCP_ERROR_SUCCESS
                                                             : VSCP_ERROR_ERROR;
@@ -248,8 +255,9 @@ vscphlp_clearLocalInputQueue(long handle)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     pvscpif->doClrInputQueue();
     return VSCP_ERROR_SUCCESS;
@@ -268,8 +276,9 @@ vscphlp_openInterface(long handle, const char* pInterface, unsigned long flags)
 {
     std::string strInterface;
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     strInterface = std::string(pInterface);
     return pvscpif->doCmdOpen(strInterface, flags);
@@ -297,8 +306,9 @@ vscphlp_open(const long handle,
     std::string strPassword;
 
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     strHostname = std::string(pHostname);
     strUsername = std::string(pUsername);
@@ -319,12 +329,14 @@ vscphlp_close(long handle)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdClose();
 }
@@ -341,12 +353,14 @@ vscphlp_noop(long handle)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdNOOP();
 }
@@ -364,12 +378,14 @@ vscphlp_clearDaemonEventQueue(long handle)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdClear();
 }
@@ -386,12 +402,14 @@ vscphlp_sendEvent(long handle, const vscpEvent* pEvent)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdSend(pEvent);
 }
@@ -408,12 +426,14 @@ vscphlp_sendEventEx(long handle, const vscpEventEx* pEvent)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdSendEx(pEvent);
 }
@@ -430,12 +450,14 @@ vscphlp_receiveEvent(long handle, vscpEvent* pEvent)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdReceive(pEvent);
 }
@@ -452,17 +474,17 @@ extern "C" int
 vscphlp_receiveEventEx(long handle, vscpEventEx* pEvent)
 #endif
 {
-    VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif) {
-        return VSCP_ERROR_INVALID_HANDLE;
-    }
+  VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
+  if (NULL == pvscpif) {
+      return VSCP_ERROR_INVALID_HANDLE;
+  }
 
-    // Check that we are connected
-    if (!pvscpif->isConnected()) {
+  // Check that we are connected
+  if (!pvscpif->isConnected()) {
       return VSCP_ERROR_CONNECTION;
-    }
+  }
 
-    return pvscpif->doCmdReceiveEx(pEvent);
+  return pvscpif->doCmdReceiveEx(pEvent);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -481,12 +503,14 @@ vscphlp_blockingReceiveEvent(long handle,
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdBlockingReceive(pEvent, timeout);
 }
@@ -508,12 +532,14 @@ vscphlp_blockingReceiveEventEx(long handle,
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdBlockingReceive(pEvent, timeout);
 }
@@ -529,6 +555,12 @@ extern "C" int
 vscphlp_isDataAvailable(long handle, unsigned int* pCount)
 #endif
 {
+    if (nullptr == pCount) {
+        return VSCP_ERROR_PARAMETER;
+    }
+
+    pCount = 0;
+
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
     if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
@@ -536,7 +568,7 @@ vscphlp_isDataAvailable(long handle, unsigned int* pCount)
 
     // Check that we are connected
     if (!pvscpif->isConnected()) {
-      return VSCP_ERROR_CONNECTION;
+        return VSCP_ERROR_CONNECTION;
     }
 
     *pCount = pvscpif->doCmdDataAvailable();
@@ -560,12 +592,14 @@ vscphlp_getStatus(long handle, VSCPStatus* pStatus)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdStatus(pStatus);
 }
@@ -582,12 +616,14 @@ vscphlp_getStatistics(long handle, canalStatistics* pStatistics)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdStatistics(pStatistics);
 }
@@ -604,12 +640,14 @@ vscphlp_setFilter(long handle, const vscpEventFilter* pFilter)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdFilter(pFilter);
 }
@@ -632,12 +670,14 @@ vscphlp_getVersion(long handle,
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdVersion(pMajorVer, pMinorVer, pSubMinorVer);
 }
@@ -679,16 +719,19 @@ extern "C" int
 vscphlp_getVendorString(long handle, char* pVendorStr, size_t len)
 #endif
 {
-    if (NULL == pVendorStr)
+    if (NULL == pVendorStr) {
         return VSCP_ERROR_PARAMETER;
+    }
 
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     std::string str = std::string(pvscpif->doCmdVendorString());
     memset(pVendorStr, 0, len);
@@ -712,16 +755,19 @@ extern "C" int
 vscphlp_getDriverInfo(long handle, char* pInfoStr, size_t len)
 #endif
 {
-    if (NULL == pInfoStr)
+    if (NULL == pInfoStr) {
         return VSCP_ERROR_PARAMETER;
+    }
 
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     std::string str = std::string(pvscpif->doCmdGetDriverInfo());
     memset(pInfoStr, 0, len);
@@ -745,16 +791,19 @@ extern "C" int
 vscphlp_getGUID(long handle, unsigned char* pGUID)
 #endif
 {
-    if (NULL == pGUID)
+    if (NULL == pGUID) {
         return VSCP_ERROR_PARAMETER;
+    }
 
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     cguid GUID;
     int rv = pvscpif->doCmdGetGUID(GUID);
@@ -774,16 +823,19 @@ extern "C" int
 vscphlp_setGUID(long handle, const unsigned char* pGUID)
 #endif
 {
-    if (NULL == pGUID)
+    if (NULL == pGUID) {
         return VSCP_ERROR_PARAMETER;
+    }
 
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     cguid guid;
     guid.getFromArray(pGUID);
@@ -803,12 +855,14 @@ vscphlp_shutDownServer(long handle)
 #endif
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdShutDown();
 }
@@ -832,12 +886,14 @@ vscphlp_enterReceiveLoop(const long handle)
 {
     // Get VSCP TCP/IP object
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdEnterReceiveLoop();
 }
@@ -855,17 +911,17 @@ vscphlp_quitReceiveLoop(const long handle)
 {
     // Get VSCP TCP/IP object
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
-    if (NULL == pvscpif)
+    if (NULL == pvscpif) {
         return VSCP_ERROR_INVALID_HANDLE;
+    }
 
     // Check that we are connected
-    if (!pvscpif->isConnected())
+    if (!pvscpif->isConnected()) {
         return VSCP_ERROR_CONNECTION;
+    }
 
     return pvscpif->doCmdQuitReceiveLoop();
 }
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //                              H E L P E R S
@@ -900,8 +956,9 @@ extern "C" int
 vscphlp_replaceBackslash(char* pStr)
 #endif
 {
-    if (NULL == pStr)
+    if (NULL == pStr) {
         return VSCP_ERROR_ERROR;
+    }
 
     std::string str = std::string(pStr);
     str = vscp_replaceBackslash(str);
@@ -2057,7 +2114,7 @@ vscphlp_convertStringToEventEx(vscpEventEx* pEventEx, const char* p)
 {
     std::string str = std::string(p);
     return vscp_convertStringToEventEx(pEventEx, str) ? VSCP_ERROR_SUCCESS
-                                                    : VSCP_ERROR_ERROR;
+                                                      : VSCP_ERROR_ERROR;
 }
 
 // * * * * *    D A T A C O D I N G   * * * * *
@@ -2382,7 +2439,8 @@ vscphlp_makeFloatMeasurementEventEx(vscpEventEx* pEventEx,
         return VSCP_ERROR_ERROR;
     }
 
-    bool rv = vscp_makeFloatMeasurementEventEx(pEventEx, value, unit, sensoridx);
+    bool rv =
+      vscp_makeFloatMeasurementEventEx(pEventEx, value, unit, sensoridx);
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
 
@@ -2393,15 +2451,15 @@ vscphlp_makeFloatMeasurementEventEx(vscpEventEx* pEventEx,
 #ifdef WIN32
 extern "C" DllExport int WINAPI EXPORT
 vscphlp_makeStringMeasurementEvent(vscpEvent* pEvent,
-                                  float value,
-                                  unsigned char unit,
-                                  unsigned char sensoridx)
+                                   float value,
+                                   unsigned char unit,
+                                   unsigned char sensoridx)
 #else
 extern "C" int
 vscphlp_makeStringMeasurementEvent(vscpEvent* pEvent,
-                                  float value,
-                                  unsigned char unit,
-                                  unsigned char sensoridx)
+                                   float value,
+                                   unsigned char unit,
+                                   unsigned char sensoridx)
 #endif
 {
     if (NULL == pEvent) {
@@ -2419,22 +2477,23 @@ vscphlp_makeStringMeasurementEvent(vscpEvent* pEvent,
 #ifdef WIN32
 extern "C" DllExport int WINAPI EXPORT
 vscphlp_makeStringMeasurementEventEx(vscpEventEx* pEventEx,
-                                  float value,
-                                  unsigned char unit,
-                                  unsigned char sensoridx)
+                                     float value,
+                                     unsigned char unit,
+                                     unsigned char sensoridx)
 #else
 extern "C" int
 vscphlp_makeStringMeasurementEventEx(vscpEventEx* pEventEx,
-                                  float value,
-                                  unsigned char unit,
-                                  unsigned char sensoridx)
+                                     float value,
+                                     unsigned char unit,
+                                     unsigned char sensoridx)
 #endif
 {
     if (NULL == pEventEx) {
         return VSCP_ERROR_ERROR;
     }
 
-    bool rv = vscp_makeStringMeasurementEventEx(pEventEx, value, unit, sensoridx);
+    bool rv =
+      vscp_makeStringMeasurementEventEx(pEventEx, value, unit, sensoridx);
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
 }
 
@@ -2837,21 +2896,21 @@ vscphlp_makeLevel2FloatMeasurementEvent(vscpEvent* pEvent,
 #ifdef WIN32
 extern "C" DllExport int WINAPI EXPORT
 vscphlp_makeLevel2FloatMeasurementEventEx(vscpEventEx* pEventEx,
-                                        uint16_t type,
-                                        double value,
-                                        uint8_t unit,
-                                        uint8_t sensoridx,
-                                        uint8_t zone,
-                                        uint8_t subzone)
+                                          uint16_t type,
+                                          double value,
+                                          uint8_t unit,
+                                          uint8_t sensoridx,
+                                          uint8_t zone,
+                                          uint8_t subzone)
 #else
 extern "C" int
 vscphlp_makeLevel2FloatMeasurementEventEx(vscpEventEx* pEventEx,
-                                        uint16_t type,
-                                        double value,
-                                        uint8_t unit,
-                                        uint8_t sensoridx,
-                                        uint8_t zone,
-                                        uint8_t subzone)
+                                          uint16_t type,
+                                          double value,
+                                          uint8_t unit,
+                                          uint8_t sensoridx,
+                                          uint8_t zone,
+                                          uint8_t subzone)
 #endif
 {
     return (vscp_makeLevel2FloatMeasurementEventEx(
@@ -2897,21 +2956,21 @@ vscphlp_makeLevel2StringMeasurementEvent(vscpEvent* pEvent,
 #ifdef WIN32
 extern "C" DllExport int WINAPI EXPORT
 vscphlp_makeLevel2StringMeasurementEventEx(vscpEventEx* pEventEx,
-                                            uint16_t type,
-                                            double value,
-                                            uint8_t unit,
-                                            uint8_t sensoridx,
-                                            uint8_t zone,
-                                            uint8_t subzone)
+                                           uint16_t type,
+                                           double value,
+                                           uint8_t unit,
+                                           uint8_t sensoridx,
+                                           uint8_t zone,
+                                           uint8_t subzone)
 #else
 extern "C" int
 vscphlp_makeLevel2StringMeasurementEventEx(vscpEventEx* pEventEx,
-                                            uint16_t type,
-                                            double value,
-                                            uint8_t unit,
-                                            uint8_t sensoridx,
-                                            uint8_t zone,
-                                            uint8_t subzone)
+                                           uint16_t type,
+                                           double value,
+                                           uint8_t unit,
+                                           uint8_t sensoridx,
+                                           uint8_t zone,
+                                           uint8_t subzone)
 #endif
 {
     return (vscp_makeLevel2FloatMeasurementEventEx(
