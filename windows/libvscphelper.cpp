@@ -147,8 +147,9 @@ getDriverObject(long h)
     long idx = h - 1681;
 
     // Check if valid handle
-    if (idx < 0)
+    if (idx < 0) {
         return NULL;
+    }
 
     it = g_ifMap.find(idx);
     if (it != g_ifMap.end()) {
