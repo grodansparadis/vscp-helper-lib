@@ -38,7 +38,6 @@
 
 #include <vscphelper.h>
 #include <vscpremotetcpif.h>
-//#include <dlldrvobj.h>
 
 #include <canal.h>
 #include <canal_macro.h>
@@ -47,7 +46,6 @@
 #include <libvscphelper.h>
 
 static HANDLE hThisInstDll = NULL;
-//CHelpDllObj theApp;
 
 // This map holds driver handles/objects
 static std::map<long, VscpRemoteTcpIf*> g_ifMap;
@@ -66,7 +64,7 @@ BOOL APIENTRY DllMain( HANDLE hInstDll,
 	switch( ul_reason_for_call ) {
 
 		case DLL_PROCESS_ATTACH:
-			hThisInstDll = hInstDll;
+			      hThisInstDll = hInstDll;
             pthread_mutex_init(&g_mapMutex, NULL);
 			break;
 
@@ -122,11 +120,11 @@ addDriverObject(VscpRemoteTcpIf* pvscpif)
     LOCK_MUTEX(g_mapMutex);
 
     // Find free handle
-    while (!g_ifMap.empty()) {
-        if (g_ifMap.end() != (it = g_ifMap.find(h))) {
-          break;
-        }
-        h++;
+    while (!g_ifMap.empty()) {      
+      if (g_ifMap.end() == (it = g_ifMap.find(h))) {
+        break;
+      }
+      h++;
     };
 
     g_ifMap[h] = pvscpif;
@@ -149,12 +147,12 @@ getDriverObject(long h)
 
     // Check if valid handle
     if (idx < 0) {
-        return NULL;
+      return NULL;
     }
 
     it = g_ifMap.find(idx);
     if (it != g_ifMap.end()) {
-        return it->second;
+      return it->second;
     }
 
     return NULL;
@@ -167,13 +165,12 @@ getDriverObject(long h)
 void
 removeDriverObject(long h)
 {
-
     std::map<long, VscpRemoteTcpIf*>::iterator it;
     long idx = h - 1681;
 
     // Check if valid handle
     if (idx < 0) {
-        return;
+      return;
     }
 
     LOCK_MUTEX(g_mapMutex);
