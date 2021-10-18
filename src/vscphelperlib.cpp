@@ -478,10 +478,13 @@ vscphlp_isDataAvailable(long handle, unsigned int* pCount)
         return VSCP_ERROR_CONNECTION;
     }
 
-    *pCount = pvscpif->doCmdDataAvailable();
-    if (*pCount < 0) {
+    int rv;
+    rv = pvscpif->doCmdDataAvailable();
+    if (rv < 0) {
         return VSCP_ERROR_ERROR;
     }
+
+    *pCount = rv;
 
     return VSCP_ERROR_SUCCESS;
 }
