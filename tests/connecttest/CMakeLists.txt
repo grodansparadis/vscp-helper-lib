@@ -9,7 +9,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-SET(GCC_BIGTEST_COMPILE_FLAGS "-Wl,-rpath=../../build")
+SET(GCC_BIGTEST_COMPILE_FLAGS "-Wl,-rpath=/home/akhe/development/VSCP/vscp-helper-lib/build")
 
 # include(FetchContent)
 # FetchContent_Declare(
@@ -68,20 +68,20 @@ endif()
 if (WIN32)
   target_link_libraries(unittest PRIVATE
     vscphelper15
-    PThreads4W::PThreads4W_CXXEXC
-    OpenSSL::SSL OpenSSL::Crypto
-    ${OPENSSL_LIBRARIES}
-    ${EXPAT_LIBRARIES}
+#   PThreads4W::PThreads4W_CXXEXC
+#    OpenSSL::SSL OpenSSL::Crypto
+#    ${OPENSSL_LIBRARIES}
+#    ${EXPAT_LIBRARIES}
     GTest::gtest
     GTest::gmock
   )
 else()
   target_link_libraries(unittest PRIVATE
     vscphelper15
-    pthread
-    OpenSSL::SSL OpenSSL::Crypto
-    ${OPENSSL_LIBRARIES}
-    ${EXPAT_LIBRARIES}
+#    pthread
+#    OpenSSL::SSL OpenSSL::Crypto
+#    ${OPENSSL_LIBRARIES}
+#    ${EXPAT_LIBRARIES}
     GTest::gtest
     GTest::gmock
   )    

@@ -6,14 +6,19 @@
     "configurations": [
 
         {
-            "name": "(gdb) vscp w/ driver",
+            "name": "(gdb) vscp-helper-lib w/ connect-test",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/akhe/development/VSCP/vscp/src/vscp/daemon/linux/vscpd",
-            "args": ["-s","-c${workspaceFolder}/debug/linux/vscpd.xml"],
+            "program": "${workspaceFolder}/tests/connecttest/build/unittest",
+            "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [],
+            "environment": [
+              {
+                "name": "libvscphelper",
+                "value": "${workspaceFolder}/build/libvscphelper15.so"
+              }
+            ],
             "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [
@@ -23,7 +28,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "build vscpl2drv-automation",
+            "preLaunchTask": "clean & build vscp-helper-lib",
             "miDebuggerPath": "/usr/bin/gdb"
         },
         {

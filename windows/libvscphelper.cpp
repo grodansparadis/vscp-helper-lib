@@ -123,8 +123,9 @@ addDriverObject(VscpRemoteTcpIf* pvscpif)
 
     // Find free handle
     while (!g_ifMap.empty()) {
-        if (g_ifMap.end() != (it = g_ifMap.find(h)))
-            break;
+        if (g_ifMap.end() != (it = g_ifMap.find(h))) {
+          break;
+        }
         h++;
     };
 
