@@ -90,7 +90,7 @@ vscphlp_newSession(void)
     if (err != 0) {
         // Tell the user that we could not find a usable
         // Winsock DLL.
-        return VSCP_ERROR_INIT_FAIL;
+        return VSCP_ERROR_ERROR;
     };
 #endif
 

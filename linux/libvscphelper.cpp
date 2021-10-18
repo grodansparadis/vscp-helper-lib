@@ -37,19 +37,13 @@
 //#pragma implementation
 #endif
 
-#ifdef WIN32
-#include <pch.h>
-#endif
-
 #include <map>
 #include <string>
 
 #include <semaphore.h>
 #include <stdio.h>
 #include <stdlib.h>
-#ifndef _WIN32
 #include <syslog.h>
-#endif
 
 #include <canal.h>
 #include <canal_macro.h>
@@ -57,12 +51,8 @@
 
 #include "libvscphelper.h"
 
-#ifdef WIN32
-// TODO
-#else
 void _init() __attribute__((constructor));
 void _fini() __attribute__((destructor));
-#endif
 
 // This map holds driver handles/objects
 static std::map<long, VscpRemoteTcpIf *> g_ifMap;
@@ -75,7 +65,6 @@ static pthread_mutex_t g_mapMutex;
 //
 
 void _init() {
-  //openlog("vscphelperlib", LOG_PERROR, 0);
   pthread_mutex_init(&g_mapMutex, NULL);
 }
 
@@ -108,16 +97,15 @@ void _fini() {
   }
 
   pthread_mutex_destroy(&g_mapMutex);
-#ifndef WIN32 
-  closelog();
-#endif
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // addDriverObject
 //
 
-long addDriverObject(VscpRemoteTcpIf *pvscpif) {
+long addDriverObject(VscpRemoteTcpIf *pvscpif) 
+{
   std::map<long, VscpRemoteTcpIf *>::iterator it;
   long h = 0;
 
@@ -125,8 +113,9 @@ long addDriverObject(VscpRemoteTcpIf *pvscpif) {
 
   // Find free handle
   while (!g_ifMap.empty()) {
-    if (g_ifMap.end() != (it = g_ifMap.find(h)))
+    if (g_ifMap.end() != (it = g_ifMap.find(h))) {
       break;
+    }
     h++;
   };
 
@@ -142,13 +131,15 @@ long addDriverObject(VscpRemoteTcpIf *pvscpif) {
 // getDriverObject
 //
 
-VscpRemoteTcpIf *getDriverObject(long h) {
+VscpRemoteTcpIf *getDriverObject(long h) 
+{
   std::map<long, VscpRemoteTcpIf *>::iterator it;
   long idx = h - 1681;
 
   // Check if valid handle
-  if (idx < 0)
+  if (idx < 0) {
     return NULL;
+  }
 
   it = g_ifMap.find(idx);
   if (it != g_ifMap.end()) {
@@ -162,8 +153,8 @@ VscpRemoteTcpIf *getDriverObject(long h) {
 // removeDriverObject
 //
 
-void removeDriverObject(long h) {
-  
+void removeDriverObject(long h) 
+{
   std::map<long, VscpRemoteTcpIf *>::iterator it;
   long idx = h - 1681;
 

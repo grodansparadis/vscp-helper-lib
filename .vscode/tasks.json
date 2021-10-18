@@ -33,17 +33,6 @@
                   "message": 5
                 }
               }
-        },
-        {
-            "taskName": "build debian package",
-            "type": "shell",
-            "command": "cd build; sudo cpack",
-            "args": [],mkdir build
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            },
-            "problemMatcher": "$gcc"
-        },
+        }
     ]
 }
