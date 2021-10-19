@@ -13,12 +13,7 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [
-              {
-                "name": "libvscphelper",
-                "value": "${workspaceFolder}/build/libvscphelper15.so"
-              }
-            ],
+            "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [
@@ -30,6 +25,27 @@
             ],
             "preLaunchTask": "clean & build vscp-helper-lib",
             "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+          "name": "(gdb) vscp-helper-lib w/ long-test",
+          "type": "cppdbg",
+          "request": "launch",
+          "program": "${workspaceFolder}/tests/longtest/build/unittest",
+          "args": [],
+          "stopAtEntry": false,
+          "cwd": "${workspaceFolder}",
+          "environment": [],
+          "externalConsole": false,
+          "MIMode": "gdb",
+          "setupCommands": [
+              {
+                  "description": "Enable pretty-printing for gdb",
+                  "text": "-enable-pretty-printing",
+                  "ignoreFailures": true
+              }
+          ],
+          "preLaunchTask": "clean & build vscp-helper-lib",
+          "miDebuggerPath": "/usr/bin/gdb"
         },
         {
             "name": "(gdb) unittest",

@@ -2,37 +2,103 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "taskName": "build vscp-helper-lib",
-            "type": "shell",
-            "command": "cd build; make",
-            "args": [],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            },
-            "problemMatcher": "$gcc"
+          "taskName": "build vscp-helper-lib",
+          "type": "shell",
+          "command": "cd build; make",
+          "args": [],
+          "group": {
+              "kind": "build",
+              "isDefault": false
+          },
+          "problemMatcher": "$gcc"
         },
         {
-            "taskName": "clean & build vscp-helper-lib",
+          "taskName": "clean & build vscp-helper-lib",
+          "type": "shell",
+          "command": "mkdir build; cd build; rm CMakeCache.txt; cmake --clean-first .. -DCMAKE_BUILD_TYPE=Debug; make clean; make",
+          "args": [],
+          "group": {
+            "kind": "build",
+            "isDefault": false
+          },
+          "problemMatcher": {
+            "owner": "cpp",
+            "fileLocation": ["relative", "${workspaceFolder}"],
+            "pattern": {
+              "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+              "file": 1,
+              "line": 2,
+              "column": 3,
+              "severity": 4,
+              "message": 5
+            }
+          }
+        },
+        {
+          "taskName": "clean & build alltest",
+          "type": "shell",
+          "command": "cd tests/alltest; mkdir build; cd build; rm CMakeCache.txt; cmake --clean-first .. -DCMAKE_BUILD_TYPE=Debug; make clean; make",
+          "args": [],
+          "group": {
+            "kind": "build",
+            "isDefault": false
+          },
+          "problemMatcher": {
+            "owner": "cpp",
+            "fileLocation": ["relative", "${workspaceFolder}"],
+            "pattern": {
+              "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+              "file": 1,
+              "line": 2,
+              "column": 3,
+              "severity": 4,
+              "message": 5
+            }
+          }
+        },
+        {
+          "taskName": "clean & build connecttest",
+          "type": "shell",
+          "command": "cd tests/connecttest; mkdir build; cd build; rm CMakeCache.txt; cmake --clean-first .. -DCMAKE_BUILD_TYPE=Debug; make clean; make",
+          "args": [],
+          "group": {
+            "kind": "build",
+            "isDefault": false
+          },
+          "problemMatcher": {
+            "owner": "cpp",
+            "fileLocation": ["relative", "${workspaceFolder}"],
+            "pattern": {
+              "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+              "file": 1,
+              "line": 2,
+              "column": 3,
+              "severity": 4,
+              "message": 5
+            }
+          }
+        },
+          {
+            "taskName": "clean & build longtest",
             "type": "shell",
-            "command": "mkdir build; cd build; rm CMakeCache.txt; cmake --clean-first .. -DCMAKE_BUILD_TYPE=Debug; make clean; make",
+            "command": "cd tests/longtest; mkdir build; cd build; rm CMakeCache.txt; cmake --clean-first .. -DCMAKE_BUILD_TYPE=Debug; make clean; make",
             "args": [],
             "group": {
-                "kind": "build",
-                "isDefault": false
+              "kind": "build",
+              "isDefault": false
             },
             "problemMatcher": {
-                "owner": "cpp",
-                "fileLocation": ["relative", "${workspaceFolder}"],
-                "pattern": {
-                  "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-                  "file": 1,
-                  "line": 2,
-                  "column": 3,
-                  "severity": 4,
-                  "message": 5
-                }
+              "owner": "cpp",
+              "fileLocation": ["relative", "${workspaceFolder}"],
+              "pattern": {
+                "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                "file": 1,
+                "line": 2,
+                "column": 3,
+                "severity": 4,
+                "message": 5
               }
-        }
+            }
+      }
     ]
 }
