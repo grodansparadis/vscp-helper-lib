@@ -64,40 +64,40 @@ BOOL APIENTRY DllMain( HANDLE hInstDll,
 	switch( ul_reason_for_call ) {
 
 		case DLL_PROCESS_ATTACH:
-			      hThisInstDll = hInstDll;
-            pthread_mutex_init(&g_mapMutex, NULL);
+      hThisInstDll = hInstDll;
+      pthread_mutex_init(&g_mapMutex, NULL);
 			break;
 
 		case DLL_THREAD_ATTACH:
 			break;
 
 		case DLL_THREAD_DETACH:
-            // Clear up orphans if not empty
-            if (!g_ifMap.empty()) {
+      // Clear up orphans if not empty
+      if (!g_ifMap.empty()) {
 
-                // Remove orphan objects
+          // Remove orphan objects
 
-                LOCK_MUTEX(g_mapMutex);
+          LOCK_MUTEX(g_mapMutex);
 
-                for (std::map<long, VscpRemoteTcpIf*>::iterator it =
-                        g_ifMap.begin();
-                        it != g_ifMap.end();
-                        ++it) {
+          for (std::map<long, VscpRemoteTcpIf*>::iterator it =
+                  g_ifMap.begin();
+                  it != g_ifMap.end();
+                  ++it) {
 
-                    VscpRemoteTcpIf* pvscpif = it->second;
-                    if (NULL != pvscpif) {
-                        pvscpif->doCmdClose();
-                        delete pvscpif;
-                        pvscpif = NULL;
-                    }
-                }
+              VscpRemoteTcpIf* pvscpif = it->second;
+              if (NULL != pvscpif) {
+                  pvscpif->doCmdClose();
+                  delete pvscpif;
+                  pvscpif = NULL;
+              }
+          }
 
-                g_ifMap.clear(); // Remove all items
+          g_ifMap.clear(); // Remove all items
 
-                UNLOCK_MUTEX(g_mapMutex);
-            }
+          UNLOCK_MUTEX(g_mapMutex);
+      }
 
-            pthread_mutex_destroy(&g_mapMutex);
+      pthread_mutex_destroy(&g_mapMutex);
  			break;
 
 		case DLL_PROCESS_DETACH:

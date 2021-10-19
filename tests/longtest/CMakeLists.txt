@@ -5,11 +5,16 @@ project(unittest LANGUAGES CXX C)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+# SET(CMAKE_SKIP_BUILD_RPATH  TRUE)
+# SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) 
+# SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+# SET(CMAKE_SHARED_LIBRARY_RPATH_LINK_C_FLAG "-Wl,-rpath-link,/home/akhe/development/VSCP/vscp-helper-lib/build")
+
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-SET(GCC_BIGTEST_COMPILE_FLAGS "-Wl,-rpath=/home/akhe/development/VSCP/vscp-helper-lib/build")
+#SET(GCC_BIGTEST_COMPILE_FLAGS "-Wl,-rpath,/home/akhe/development/VSCP/vscp-helper-lib/build")
 
 # include(FetchContent)
 # FetchContent_Declare(
@@ -35,8 +40,10 @@ set (THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
 # TODO Check SLL version and set variable accordingly
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -DOPENSSL_API_1_1")
-set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -DOPENSSL_API_1_1")
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -DOPENSSL_API_1_1 ${GCC_BIGTEST_COMPILE_FLAGS}")
+set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -DOPENSSL_API_1_1 ${GCC_BIGTEST_COMPILE_FLAGS}")
+
+message(STATUS "CXX Flags dir: " ${CMAKE_CXX_FLAGS})
 
 include(FindEXPAT)
 find_package(EXPAT REQUIRED)
@@ -46,7 +53,6 @@ include_directories(${EXPAT_INCLUDE_DIRS})
 add_executable(unittest 
     ${PROJECT_SOURCE_DIR}/unittest.cpp
 )
-
 
 if (WIN32)    
   find_package(pthreads REQUIRED)
@@ -67,13 +73,13 @@ endif()
     
 if (WIN32)
   target_link_libraries(unittest PRIVATE
-  "${PROJECT_SOURCE_DIR}/../../build/libvscphelper15.so"
+    "${PROJECT_SOURCE_DIR}/../../build/libvscphelper15.so"
     GTest::gtest
     GTest::gmock
   )
 else()
   target_link_libraries(unittest PRIVATE
-  "${PROJECT_SOURCE_DIR}/../../build/libvscphelper15.so"
+    "${PROJECT_SOURCE_DIR}/../../build/libvscphelper15.so"
     GTest::gtest
     GTest::gmock
   )    
