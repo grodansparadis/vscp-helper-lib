@@ -60,14 +60,14 @@ if (WIN32)
 
   target_include_directories(unittest PUBLIC 
     ${PROJECT_SOURCE_DIR}/../../src/
-    ${PROJECT_SOURCE_DIR}/../../../vscp/src/common
+    ${PROJECT_SOURCE_DIR}/../../../vscp/src/vscp/common
     ${OPENSSL_INCLUDE_DIR}
     ${EXPAT_INCLUDE_DIRS}
   )
 else()
   target_include_directories(unittest PUBLIC 
     ${PROJECT_SOURCE_DIR}/../../src/
-    ${PROJECT_SOURCE_DIR}/../../../vscp/src/common
+    ${PROJECT_SOURCE_DIR}/../../../vscp/src/vscp/common
     ${OPENSSL_INCLUDE_DIR}
     ${EXPAT_INCLUDE_DIRS}
   )
@@ -75,7 +75,7 @@ endif()
     
 if (WIN32)
   target_link_libraries(unittest PRIVATE
-    "${PROJECT_SOURCE_DIR}/../../build/libvscphelper15.so"
+    "${PROJECT_SOURCE_DIR}/../../build/Debug/libvscphelper.lib"
     GTest::gtest
     GTest::gmock
   )
@@ -87,4 +87,9 @@ else()
   )    
 endif()
 
-
+if (WIN32)
+add_custom_command(TARGET unittest POST_BUILD 
+  COMMAND ${CMAKE_COMMAND} -E copy
+      "${PROJECT_SOURCE_DIR}/../../build/Debug/*.dll"
+      "${CMAKE_BINARY_DIR}/Debug") 
+endif()        

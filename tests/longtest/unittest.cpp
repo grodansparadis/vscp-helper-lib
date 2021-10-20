@@ -187,18 +187,18 @@ TEST(VscpRemoteTcpIf, PollingTestExForOneHour)
 int main(int argc, char **argv) {
 
 #ifdef WIN32
-    WORD wVersionRequested;
-    WSADATA wsaData;
-    int err;
+    // WORD wVersionRequested;
+    // WSADATA wsaData;
+    // int err;
 
-    wVersionRequested = MAKEWORD(2,2);
-    err               = WSAStartup(wVersionRequested, &wsaData);
-    if (err != 0) {
-      /* Tell the user that we could not find a usable */
-      /* Winsock DLL.                                  */
-      printf("WSAStartup failed with error: %d\n", err);
-      exit(1);
-    };
+    // wVersionRequested = MAKEWORD(2,2);
+    // err               = WSAStartup(wVersionRequested, &wsaData);
+    // if (err != 0) {
+    //   /* Tell the user that we could not find a usable */
+    //   /* Winsock DLL.                                  */
+    //   printf("WSAStartup failed with error: %d\n", err);
+    //   exit(1);
+    // };
 #endif
 
     testing::InitGoogleTest(&argc, argv);
@@ -206,7 +206,7 @@ int main(int argc, char **argv) {
 
 #ifdef WIN32
    // Cleanup
-   WSACleanup();
+  //  WSACleanup();
 #endif
 
    return rv;
