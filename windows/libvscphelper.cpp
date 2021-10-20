@@ -71,7 +71,10 @@ BOOL APIENTRY DllMain( HANDLE hInstDll,
 		case DLL_THREAD_ATTACH:
 			break;
 
-		case DLL_THREAD_DETACH:
+		case DLL_THREAD_DETACH:      
+ 			break;
+
+		case DLL_PROCESS_DETACH:
       // Clear up orphans if not empty
       if (!g_ifMap.empty()) {
 
@@ -98,9 +101,6 @@ BOOL APIENTRY DllMain( HANDLE hInstDll,
       }
 
       pthread_mutex_destroy(&g_mapMutex);
- 			break;
-
-		case DLL_PROCESS_DETACH:
  			break;
    }
 
