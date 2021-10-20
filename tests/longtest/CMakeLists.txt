@@ -60,12 +60,14 @@ if (WIN32)
 
   target_include_directories(unittest PUBLIC 
     ${PROJECT_SOURCE_DIR}/../../src/
+    ${PROJECT_SOURCE_DIR}/../../../vscp/src/common
     ${OPENSSL_INCLUDE_DIR}
     ${EXPAT_INCLUDE_DIRS}
   )
 else()
   target_include_directories(unittest PUBLIC 
     ${PROJECT_SOURCE_DIR}/../../src/
+    ${PROJECT_SOURCE_DIR}/../../../vscp/src/common
     ${OPENSSL_INCLUDE_DIR}
     ${EXPAT_INCLUDE_DIRS}
   )
