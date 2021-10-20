@@ -72,10 +72,29 @@ else()
     ${EXPAT_INCLUDE_DIRS}
   )
 endif()  
+
+if (WIN32)
+add_library(helperlib SHARED IMPORTED GLOBAL)
+set_property(TARGET helperlib PROPERTY IMPORTED_IMPLIB_RELEASE "${PROJECT_SOURCE_DIR}/../../build/release/libvscphelper.lib")
+set_property(TARGET helperlib PROPERTY IMPORTED_LOCATION_RELEASE "${PROJECT_SOURCE_DIR}/../../build/release/libvscphelper15.dll")
+set_property(TARGET helperlib PROPERTY IMPORTED_IMPLIB_DEBUG "${PROJECT_SOURCE_DIR}/../../build/debug/libvscphelper.lib")
+set_property(TARGET helperlib PROPERTY IMPORTED_LOCATION_DEBUG "${PROJECT_SOURCE_DIR}/../../build/debug/libvscphelper15.dll")
+
+set_property(TARGET helperlib PROPERTY IMPORTED_LOCATION_DEBUG "${PROJECT_SOURCE_DIR}/../../build/debug/libcrypto-1_1-x64.dll")
+set_property(TARGET helperlib PROPERTY IMPORTED_LOCATION_DEBUG "${PROJECT_SOURCE_DIR}/../../build/release/libexpatd.dll")
+set_property(TARGET helperlib PROPERTY IMPORTED_LOCATION_DEBUG "${PROJECT_SOURCE_DIR}/../../build/debug/libssl-1_1-x64.dll")
+set_property(TARGET helperlib PROPERTY IMPORTED_LOCATION_DEBUG "${PROJECT_SOURCE_DIR}/../../build/release/pthreadVCE3d.dll")
+
+set_property(TARGET helperlib PROPERTY IMPORTED_LOCATION_RELEASE "${PROJECT_SOURCE_DIR}/../../build/debug/libcrypto-1_1-x64.dll")
+set_property(TARGET helperlib PROPERTY IMPORTED_LOCATION_RELEASE "${PROJECT_SOURCE_DIR}/../../build/release/libexpatd.dll")
+set_property(TARGET helperlib PROPERTY IMPORTED_LOCATION_RELEASE "${PROJECT_SOURCE_DIR}/../../build/debug/libssl-1_1-x64.dll")
+set_property(TARGET helperlib PROPERTY IMPORTED_LOCATION_RELEASE "${PROJECT_SOURCE_DIR}/../../build/release/pthreadVCE3d.dll")
+endif()
     
 if (WIN32)
   target_link_libraries(unittest PRIVATE
     "${PROJECT_SOURCE_DIR}/../../build/Debug/libvscphelper.lib"
+    helperlib
     GTest::gtest
     GTest::gmock
   )
@@ -87,9 +106,10 @@ else()
   )    
 endif()
 
-if (WIN32)
-add_custom_command(TARGET unittest POST_BUILD 
-  COMMAND ${CMAKE_COMMAND} -E copy
-      "${PROJECT_SOURCE_DIR}/../../build/Debug/*.dll"
-      "${CMAKE_BINARY_DIR}/Debug") 
-endif()        
+# if(WIN32)
+# add_custom_command(TARGET unittest POST_BUILD 
+#   COMMAND ${CMAKE_COMMAND} -E copy
+#       "C:/Users/Administrator/Desktop/Development/vscp-helper-lib/build/Debug/*.dll"
+#       "C:/temp/Debug") 
+# endif()        
+

@@ -141,10 +141,13 @@ VscpRemoteTcpIf *getDriverObject(long h)
     return NULL;
   }
 
+  LOCK_MUTEX(g_mapMutex);
   it = g_ifMap.find(idx);
   if (it != g_ifMap.end()) {
+    UNLOCK_MUTEX(g_mapMutex);
     return it->second;
   }
+  UNLOCK_MUTEX(g_mapMutex);
 
   return NULL;
 }
