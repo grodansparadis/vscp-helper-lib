@@ -48,7 +48,7 @@
         {
           "taskName": "Windows: clean & build vscp-helper-lib",
           "type": "shell",
-          "command": "cd build;  cmake .. -G 'Visual Studio 16 2019' -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=C:\\Users\\Administrator\\Desktop\\Development\\vcpkg\\scripts\buildsystems\\vcpkg.cmake; msbuild libvscphelper.sln /p:Configuration=Debug",
+          "command": "cd build; cmake .. -G 'Visual Studio 16 2019' -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=C:\\Users\\Administrator\\Desktop\\Development\\vcpkg\\scripts\buildsystems\\vcpkg.cmake; msbuild libvscphelper.sln /p:Configuration=Debug",
           "args": [],
           "group": {
               "kind": "build",
