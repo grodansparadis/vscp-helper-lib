@@ -12,9 +12,9 @@
 
 // Standard connection (a VSCP daemon must be running here)
 //#define INTERFACE1_HOST         "localhost:9598"
-#define INTERFACE1_HOST     "vscp2.vscp.org:9598"    // VSCP Demo server 2
-#define INTERFACE1_USER 	"admin"
-#define INTERFACE1_PASSWORD "secret"
+#define INTERFACE1_HOST       "vscp2.vscp.org:9598"    // VSCP Demo server 2
+#define INTERFACE1_USER 	    "admin"
+#define INTERFACE1_PASSWORD   "secret"
 
 int main()
 {
