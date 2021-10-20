@@ -97,11 +97,7 @@ BOOL APIENTRY DllMain( HANDLE hInstDll,
           UNLOCK_MUTEX(g_mapMutex);
       }
 
-<<<<<<< HEAD
-      pthread_mutex_destroy(&g_mapMutex); 
-=======
       pthread_mutex_destroy(&g_mapMutex);
->>>>>>> 6ef945005312f50feb8902728cced15626199b4b
  			break;
    }
 
