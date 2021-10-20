@@ -57,7 +57,7 @@
           "problemMatcher": "$gcc"
         },
         {
-          "taskName": "clean & build alltest",
+          "taskName": "Linux: clean & build alltest",
           "type": "shell",
           "command": "cd tests/alltest; mkdir build; cd build; rm CMakeCache.txt; cmake --clean-first .. -DCMAKE_BUILD_TYPE=Debug; make clean; make",
           "args": [],
