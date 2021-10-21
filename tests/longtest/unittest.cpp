@@ -150,10 +150,6 @@ TEST(VscpRemoteTcpIf, PollingTestExForOneHour)
 
     unsigned int count;
     rv = vscphlp_isDataAvailable(handle1, &count);
-    // if (-1 == rv) {
-    //    printf("-------------> Error: %d\n", rv);
-    //    continue;
-    // }
     ASSERT_EQ(VSCP_ERROR_SUCCESS, rv);
 
     if (count>0) {

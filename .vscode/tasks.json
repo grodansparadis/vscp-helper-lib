@@ -46,9 +46,20 @@
           "problemMatcher": "$gcc"
         },
         {
-          "taskName": "Windows: Clean & build vscp-helper-lib",
+          "taskName": "Windows: Clean & build vscp-helper-lib debug",
           "type": "shell",
-          "command": "cd build; cmake .. -G 'Visual Studio 16 2019' -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=C:\\Users\\Administrator\\Desktop\\Development\\vcpkg\\scripts\buildsystems\\vcpkg.cmake; msbuild libvscphelper.sln /p:Configuration=Debug",
+          "command": "cd build; cmake  .. -G 'Visual Studio 16 2019' -DCMAKE_BUILD_TYPE=debug -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=C:\\Users\\Administrator\\Desktop\\Development\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake; msbuild libvscphelper.sln /p:Configuration=Debug",
+          "args": [],
+          "group": {
+              "kind": "build",
+              "isDefault": false
+          },
+          "problemMatcher": "$gcc"
+        },
+        {
+          "taskName": "Windows: Clean & build vscp-helper-lib release",
+          "type": "shell",
+          "command": "cd build; cmake  .. -G 'Visual Studio 16 2019' -DCMAKE_BUILD_TYPE=release -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=C:\\Users\\Administrator\\Desktop\\Development\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake; msbuild libvscphelper.sln /p:Configuration=Debug",
           "args": [],
           "group": {
               "kind": "build",
@@ -59,7 +70,7 @@
         {
           "taskName": "Linux: clean & build alltest",
           "type": "shell",
-          "command": "cd tests/alltest; mkdir build; cd build; rm CMakeCache.txt; cmake --clean-first .. -DCMAKE_BUILD_TYPE=Debug; make clean; make",
+          "command": "cd tests/alltest; mkdir build; cd build; rm CMakeCache.txt; cmake  .. -DCMAKE_BUILD_TYPE=Debug; make --clean-first",
           "args": [],
           "group": {
             "kind": "build",

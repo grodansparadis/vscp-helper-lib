@@ -41,11 +41,13 @@ if(NOT DEFINED PATCH_VERSION)
     SET(PATCH_VERSION "2")
 endif()
 
-
 SET(CPACK_PACKAGE_DESCRIPTION "VSCP Helper library")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Helper functionality for VSCP applications")
 SET(CPACK_PACKAGE_VENDOR "the VSCP Project")
 SET(CPACK_PACKAGE_CONTACT "akhe@vscp.org")
+
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/resources/nsis ${CMAKE_MODULE_PATH})
+#${CMAKE_BINARY_DIR}_CPack_Packages${CPACK_TOPLEVEL_TAG}${CPACK_GENERATOR}
 
 if(NOT DEFINED APP_LOW_NAME)
 set(APP_LOW_NAME "libvscphelper")
@@ -86,7 +88,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
 # Default location for VSCP level II drivers
-#set(VSCP_LEVEL2_DRV_DIR /var/lib/vscp/drivers/level2/)
+set(VSCP_LEVEL2_DRV_DIR /var/lib/vscp/drivers/level2/)
 
 # Generate position-independent code (-fPIC on UNIX)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -96,7 +98,7 @@ message(STATUS "CMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}")
 
 # --- Path to vscp --- 
 if (NOT DEFINED VSCP_PATH)
-set (VSCP_PATH "${PROJECT_SOURCE_DIR}/../vscp")
+  set (VSCP_PATH "${PROJECT_SOURCE_DIR}/../vscp")
 endif()
 
 if(WIN32)
@@ -114,12 +116,12 @@ if(UNIX)
   set(LIBS_SYSTEM c stdc++)
 endif(UNIX)
 
-  set(CMAKE_INSTALL_PREFIX "/")
+set(CMAKE_INSTALL_PREFIX "/")
 
 #   ===========================  cpack  ===========================
-IF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
+if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
 
-  INCLUDE(InstallRequiredSystemLibraries)
+  include(InstallRequiredSystemLibraries)
 
   set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA 
     "${CMAKE_CURRENT_SOURCE_DIR}/resources/debpkg/shlibs;"
@@ -133,8 +135,10 @@ IF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
     SET(CPACK_GENERATOR "DEB" "RPM" "TGZ" "ZIP")
   ENDIF(WIN32)
  
-  SET(CPACK_PACKAGE_NAME ${APP_LOW_NAME})
-  SET(CPACK_PACKAGE_INSTALL_REGISTRY_KEY ${APP_NAME})
+  SET(CPACK_PACKAGE_NAME "libvscphelper")
+  SET(CPACK_PACKAGE_INSTALL_REGISTRY_KEY "libvscphelper")
+  SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+  set(CPACK_PACKAGE_VENDOR "The VSCP Project")
 
   SET(CPACK_PACKAGE_VERSION_MAJOR "${MAJOR_VERSION}")
   SET(CPACK_PACKAGE_VERSION_MINOR "${MINOR_VERSION}")
@@ -144,39 +148,42 @@ IF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
 #  SET(CPACK_IGNORE_FILES "\\.psd$;/CVS/;/\\.svn/;/\\.git/;\\.swp$;/CMakeLists.txt.user;\\.#;/#;\\.tar.gz$;/CMakeFiles/;CMakeCache.txt;\\.qm$;/build/;\\.diff$;.DS_Store'")
 #  SET(CPACK_SOURCE_IGNORE_FILES ${CPACK_IGNORE_FILES})
 
-  SET(CPACK_NSIS_INSTALLED_ICON_NAME "${APP_LOW_NAME}.ico")
-  SET(CPACK_NSIS_HELP_LINK ${APP_URL})
-  SET(CPACK_NSIS_URL_INFO_ABOUT ${APP_URL})
+  SET(CPACK_NSIS_INSTALLED_ICON_NAME "libvscphelper.ico")
+  SET(CPACK_NSIS_HELP_LINK "https://www.vscp.org")
+  SET(CPACK_NSIS_URL_INFO_ABOUT "https://www.vscp.org")
+  set(CPACK_NSIS_CONTACT "info@vscp.org")
 
-  IF(NOT DEFINED WIN32)
+  if(NOT DEFINED WIN32)
     SET(CPACK_DEBIAN_PACKAGE_DEPENDS " libexpat-dev, libssl-dev ")
     SET(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
     SET(CPACK_DEBIAN_PACKAGE_SECTION "network")
     SET(CPACK_DEBIAN_ARCHITECTURE ${CMAKE_SYSTEM_PROCESSOR})
-  ENDIF()
+  endif()
 
-  SET(CPACK_COMPONENTS_ALL Libraries ApplicationData)
+  # For component selection during install - If used
+  # need to specify components in the install part to
+  #SET(CPACK_COMPONENTS_ALL Libraries ApplicationData)
 
   # Configure file with custom definitions for NSIS.
-  IF(WIN32)
-    configure_file(
-      ${PROJECT_SOURCE_DIR}/resources/nsis/NSIS.definitions.nsh.in
-      ${CMAKE_CURRENT_BINARY_DIR}/resources/nsis/NSIS.definitions.nsh
-  )
-  ELSE(WIN32)
+  if(WIN32)
+    # Configure file with custom definitions for NSIS.
+    # configure_file(
+    #   ${PROJECT_SOURCE_DIR}/resources/nsis/NSIS.definitions.nsh.in
+    #   ${CMAKE_CURRENT_BINARY_DIR}/resources/nsis/NSIS.definitions.nsh)  
+  else()
     SET(CPACK_DEBIAN_PACKAGE_DEPENDS 
-                "libuuid1, lsb-base (>=4.1+Debian3), libc6-dev (>= 2.14), libstdc++6 (>= 5.2), libgcc1 (>= 1:3.0), libssl-dev (>=1.0.0), libmosquitto-dev (>=1.4.10), libexpat1-dev (>=2.0), libz-dev")
+                "lsb-base (>=4.1+Debian3), libc6-dev (>= 2.14), libstdc++6 (>= 5.2), libgcc1 (>= 1:3.0), libssl-dev (>=1.0.0),  libexpat1-dev (>=2.0), libz-dev")
     SET(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
     SET(CPACK_DEBIAN_PACKAGE_SECTION "network")
     SET(CPACK_DEBIAN_ARCHITECTURE ${CMAKE_SYSTEM_PROCESSOR})
     set(CPACK_STRIP_FILES "bin/vscpd")
     set(CPACK_SOURCE_STRIP_FILES "")      
-  ENDIF(WIN32)
+  endif()
 
   # Load packaging facilities.
-  INCLUDE(CPack)
+  include(CPack) 
 
-ENDIF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
+endif()
 
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -354,38 +361,54 @@ else()
     )
 endif()
 
+if(NOT WIN32)
 configure_file("${PROJECT_SOURCE_DIR}/resources/linux/libvscphelper.pc.in" 
   libvscphelper.pc @ONLY)
+endif()
 
 # Install
 if(WIN32)
+
     # Runtime files
     install(TARGETS libvscphelper
-            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-            PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+            RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     )
-    # Dependencies
-    file(GLOB deps_files "${CMAKE_BINARY_DIR}/Release/*")
-    install(FILES ${deps_files} DESTINATION ${CMAKE_INSTALL_BINDIR})
+    
+    # Install the dependencies dll's
+    file(GLOB deps_files "${CMAKE_BINARY_DIR}/CMAKE_BUILD_TYPE/*.dll")
+
+    # Dependency files
+    install(FILES ${deps_files} 
+            DESTINATION ${CMAKE_INSTALL_BINDIR}../deps)
+
     # LICENSE
-    install(FILES "${CMAKE_BINARY_DIR}/../LICENSE" DESTINATION "${CMAKE_INSTALL_BINDIR}")
+    install(FILES ${CMAKE_SOURCE_DIR}/LICENSE 
+            DESTINATION ${CMAKE_INSTALL_BINDIR}/..)
+
     # README
-    install(FILES "${CMAKE_BINARY_DIR}/../README.md" DESTINATION "${CMAKE_INSTALL_BINDIR}")
+    install(FILES ${CMAKE_SOURCE_DIR}/README.md 
+            DESTINATION ${CMAKE_INSTALL_BINDIR}/..)
+
     # Headers
-    INSTALL(FILES "${VSCP_PATH}/src/vscp/common/vscp.h"
-            "${PROJECT_SOURCE_DIR}/src/vscphelperlib.h" 
+    INSTALL( FILES "${VSCP_PATH}/src/vscp/common/vscp.h"
+            "${CMAKE_SOURCE_DIR}/src/vscphelperlib.h" 
             "${VSCP_PATH}/src/vscp/common/canal.h"
             "${VSCP_PATH}/src/vscp/common/vscp_class.h"
             "${VSCP_PATH}/src/vscp/common/vscp_type.h"
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})  
+
 else()
+
     INSTALL(TARGETS libvscphelper 
             LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/${CMAKE_LIBRARY_ARCHITECTURE}/"
             PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
             RUNTIME DESTINATION "${CMAKE_INSTALL_MANDIR}"
             RESOURCE DESTINATION "${CMAKE_INSTALL_FULL_}/var/lib/vscp/")
+
     install(FILES ${CMAKE_BINARY_DIR}/libvscphelper.pc
             DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)      
+
     # Headers        
     INSTALL(FILES "${VSCP_PATH}/src/vscp/common/vscp.h"
             "${PROJECT_SOURCE_DIR}/src/vscphelperlib.h" 
@@ -394,3 +417,5 @@ else()
             "${VSCP_PATH}/src/vscp/common/vscp_type.h"
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})        
 endif()
+
+ 
