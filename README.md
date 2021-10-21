@@ -2,6 +2,8 @@
 
 ![Linux Build](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/build.yml/badge.svg) 
 ![Windows Build](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/msbuild.yml/badge.svg)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+
 
 Helper functionality packed in a shared library for [VSCP](https://www.vscp.org)
 
