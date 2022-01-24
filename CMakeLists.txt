@@ -235,8 +235,8 @@ add_library(libvscphelper SHARED
     ${VSCP_PATH}/src/vscp/common/vscpdatetime.cpp
     ${VSCP_PATH}/src/vscp/common/guid.h
     ${VSCP_PATH}/src/vscp/common/guid.cpp
-    ${VSCP_PATH}/src/vscp/common/mdf.h
-    ${VSCP_PATH}/src/vscp/common/mdf.cpp
+#    ${VSCP_PATH}/src/vscp/common/mdf.h
+#    ${VSCP_PATH}/src/vscp/common/mdf.cpp
     ${VSCP_PATH}/src/vscp/common/vscphelper.h
     ${VSCP_PATH}/src/vscp/common/vscphelper.cpp
     ${VSCP_PATH}/src/vscp/common/canal.h
@@ -270,8 +270,8 @@ else()
     ${VSCP_PATH}/src/vscp/common/vscpdatetime.cpp
     ${VSCP_PATH}/src/vscp/common/guid.h
     ${VSCP_PATH}/src/vscp/common/guid.cpp
-    ${VSCP_PATH}/src/vscp/common/mdf.h
-    ${VSCP_PATH}/src/vscp/common/mdf.cpp
+#    ${VSCP_PATH}/src/vscp/common/mdf.h
+#    ${VSCP_PATH}/src/vscp/common/mdf.cpp
     ${VSCP_PATH}/src/vscp/common/vscphelper.h
     ${VSCP_PATH}/src/vscp/common/vscphelper.cpp
     ${VSCP_PATH}/src/vscp/common/canal.h
