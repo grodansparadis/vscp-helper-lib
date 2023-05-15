@@ -72,9 +72,9 @@ Now do
 
 ## How to build on Windows
 
-### Install Visual Studio 2019 Buildtools
+### Install Visual Studio 2022 Buildtools
 
-You can install them from: https://visualstudio.microsoft.com/en/downloads. You find them in the _Tools for Visual Studio 2019_ on the lower part of the page. 
+You can install them from: https://visualstudio.microsoft.com/en/downloads. You find them in the _Tools for Visual Studio 2022_ on the lower part of the page. 
 
 In the Visual Studio Installer, select:
   
@@ -89,7 +89,7 @@ You find it here https://cmake.org/install/
 You find it here https://gitforwindows.org/
 ### Install the vcpkg package manager
 
-Open a Visual Studio 2019 command prompt (_x64 Native Tools Command Prompt_) window and type:
+Open a Visual Studio 2022 command prompt (_x64 Native Tools Command Prompt_) window and type:
     
 ```bash    
   git clone https://github.com/microsoft/vcpkg.git
@@ -126,10 +126,10 @@ The two projects should be cloned on the same directory level. vscp-helper-lib i
   cd vscp-helper-lib
   mkdir build
   cd build
-  cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=C:\Users\Administrator\Desktop\Development\vcpkg\scripts\buildsystems\vcpkg.cmake
+  cmake .. -G "Visual Studio 17 2022" -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=C:\Users\Administrator\Desktop\Development\vcpkg\scripts\buildsystems\vcpkg.cmake
 ```
 
-The path to the vspkg build script is obviously different in your case.
+The path to the vspkg build script (_C:\Users\Administrator\Desktop.._) is obviously different in your case.
 
 Now use
 
