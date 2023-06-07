@@ -6,7 +6,7 @@ env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: .
   VSCP_PATH: '${{ github.workspace }}/vscp'
-  ENVIRONMENT_SCRIPT: "C:/Program Files (x86)/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
+  ENVIRONMENT_SCRIPT: "C:/Program Files (x86)/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
   GENERATORS: "Visual Studio 17 2022"
   BUILD_CONFIGURATION: Release
 
