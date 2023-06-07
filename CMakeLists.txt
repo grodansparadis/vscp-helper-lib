@@ -226,8 +226,10 @@ add_library(libvscphelper SHARED
     ./src/vscphelperlib.cpp
     ./windows/libvscphelper.h
     ./windows/libvscphelper.cpp
-    ${VSCP_PATH}/src/common/third_party/mustache.hpp
-    ${VSCP_PATH}/src/common/third_party/spdlog-1.9.2/include    
+    ./third_party/mustache/mustache.hpp
+    ./spdlog/include    
+    ./third_party/fastpbkdf2/fastpbkdf2.h
+    ./third_party/fastpbkdf2/fastpbkdf2.c
     ${VSCP_PATH}/src/vscp/common/vscp.h
     ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.h
     ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.cpp
@@ -235,8 +237,6 @@ add_library(libvscphelper SHARED
     ${VSCP_PATH}/src/vscp/common/vscpdatetime.cpp
     ${VSCP_PATH}/src/vscp/common/guid.h
     ${VSCP_PATH}/src/vscp/common/guid.cpp
-#    ${VSCP_PATH}/src/vscp/common/mdf.h
-#    ${VSCP_PATH}/src/vscp/common/mdf.cpp
     ${VSCP_PATH}/src/vscp/common/vscphelper.h
     ${VSCP_PATH}/src/vscp/common/vscphelper.cpp
     ${VSCP_PATH}/src/vscp/common/canal.h
@@ -251,9 +251,7 @@ add_library(libvscphelper SHARED
     ${VSCP_PATH}/src/common/crc8.h
     ${VSCP_PATH}/src/common/crc8.c
     ${VSCP_PATH}/src/common/vscpmd5.h
-    ${VSCP_PATH}/src/common/vscpmd5.c
-    ${VSCP_PATH}/src/common/fastpbkdf2.h
-    ${VSCP_PATH}/src/common/fastpbkdf2.c   
+    ${VSCP_PATH}/src/common/vscpmd5.c       
   ) 
 else()
   add_library(libvscphelper SHARED   
@@ -261,8 +259,10 @@ else()
     ./src/vscphelperlib.cpp 
     ./linux/libvscphelper.h
     ./linux/libvscphelper.cpp
-    ${VSCP_PATH}/src/common/third_party/mustache.hpp
-    ${VSCP_PATH}/src/common/third_party/spdlog-1.9.2/include    
+    ./third_party/mustache/mustache.hpp
+    ./third_party/spdlog/include    
+    ./third_party/fastpbkdf2/fastpbkdf2.h
+    ./third_party/fastpbkdf2/fastpbkdf2.c 
     ${VSCP_PATH}/src/vscp/common/vscp.h
     ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.h
     ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.cpp
@@ -270,8 +270,6 @@ else()
     ${VSCP_PATH}/src/vscp/common/vscpdatetime.cpp
     ${VSCP_PATH}/src/vscp/common/guid.h
     ${VSCP_PATH}/src/vscp/common/guid.cpp
-#    ${VSCP_PATH}/src/vscp/common/mdf.h
-#    ${VSCP_PATH}/src/vscp/common/mdf.cpp
     ${VSCP_PATH}/src/vscp/common/vscphelper.h
     ${VSCP_PATH}/src/vscp/common/vscphelper.cpp
     ${VSCP_PATH}/src/vscp/common/canal.h
@@ -286,9 +284,7 @@ else()
     ${VSCP_PATH}/src/common/crc8.h
     ${VSCP_PATH}/src/common/crc8.c
     ${VSCP_PATH}/src/common/vscpmd5.h
-    ${VSCP_PATH}/src/common/vscpmd5.c
-    ${VSCP_PATH}/src/common/fastpbkdf2.h
-    ${VSCP_PATH}/src/common/fastpbkdf2.c    
+    ${VSCP_PATH}/src/common/vscpmd5.c       
   ) 
 endif()
 
@@ -323,8 +319,9 @@ if (WIN32)
         ${VSCP_PATH}/src/vscp/common/
         ${VSCP_PATH}/src/common
         ${VSCP_PATH}/src/common/third_party
-        ${VSCP_PATH}/src/common/third_party/nlohmann
-        ${VSCP_PATH}/src/common/third_party/spdlog-1.9.2/include
+        ./third_party/nlohmann/include/
+        ./third_party/spdlog/include
+        ./third_party/fastpbkdf2/
         ${PThreads4W_INCLUDE_DIR}
         ${CMAKE_BINARY_DIR}
         ${OPENSSL_INCLUDE_DIR}
@@ -335,8 +332,9 @@ else()
         ${VSCP_PATH}/src/vscp/common/
         ${VSCP_PATH}/src/common
         ${VSCP_PATH}/src/common/third_party
-        ${VSCP_PATH}/src/common/third_party/nlohmann
-        ${VSCP_PATH}/src/common/third_party/spdlog-1.9.2/include
+        ./third_party/nlohmann/include/
+        ./third_party/spdlog/include/
+        ./third_party/fastpbkdf2/
         ${CMAKE_BINARY_DIR}
         ${OPENSSL_INCLUDE_DIR}
         ${LOCAL_SYSLOG_INCLUDE} )
