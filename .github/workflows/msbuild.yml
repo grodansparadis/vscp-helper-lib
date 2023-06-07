@@ -80,7 +80,7 @@ jobs:
           mkdir build
           cd build 
           cmake .. -G "${{ env.GENERATORS }}"  -A x64 -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_BUILD_TYPE=${{ env.BUILD_CONFIGURATION }} -DCMAKE_TOOLCHAIN_FILE=D:/a/vscp-helper-lib/vscp-helper-lib/vcpkg/scripts/buildsystems/vcpkg.cmake  -DVSCP_PATH=vscp
-          cmake --build --config ${{ env.BUILD_CONFIGURATION }} .
+          cmake --build  .
           #msbuild libvscphelper.sln /p:Configuration=Release
           cpack .
 
