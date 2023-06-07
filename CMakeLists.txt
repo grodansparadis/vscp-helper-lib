@@ -229,7 +229,7 @@ add_library(libvscphelper SHARED
     ./windows/libvscphelper.h
     ./windows/libvscphelper.cpp
     ./third_party/mustache/mustache.hpp
-    ./spdlog/include    
+    ./third_party/spdlog/include    
     ./third_party/fastpbkdf2/fastpbkdf2.h
     ./third_party/fastpbkdf2/fastpbkdf2.c
     ${VSCP_PATH}/src/vscp/common/vscp.h
