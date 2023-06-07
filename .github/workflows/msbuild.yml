@@ -32,7 +32,8 @@ jobs:
     - name: Clone
       uses: actions/checkout@v3
       with:
-        submodules: 'recursive'
+        ref: development 
+        submodules: recursive
 
     - name: Checkout vscp repo
       uses: actions/checkout@v3
@@ -40,7 +41,7 @@ jobs:
         repository: grodansparadis/vscp
         path: vscp
         ref: development  
-        submodules: 'recursive'
+        submodules: recursive
 
     - name: Get latest CMake and ninja
       # Using 'latest' branch, the most recent CMake and ninja are installed.
