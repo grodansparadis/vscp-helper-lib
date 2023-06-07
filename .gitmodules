@@ -6,7 +6,7 @@
 	url = https://github.com/gabime/spdlog.git
 [submodule "third_party/fastpbkdf2"]
 	path = third_party/fastpbkdf2
-	url = https://github.com/ctz/fastpbkdf2.git
+	url = https://github.com/danpashin/fastpbkdf2.git
 [submodule "third_party/nlohmann"]
 	path = third_party/nlohmann
 	url = https://github.com/nlohmann/json.git
