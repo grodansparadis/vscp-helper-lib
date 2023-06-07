@@ -41,6 +41,8 @@ if(NOT DEFINED PATCH_VERSION)
     SET(PATCH_VERSION "2")
 endif()
 
+add_subdirectory(./third_party/spdlog/)
+
 SET(CPACK_PACKAGE_DESCRIPTION "VSCP Helper library")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Helper functionality for VSCP applications")
 SET(CPACK_PACKAGE_VENDOR "the VSCP Project")
@@ -251,7 +253,7 @@ add_library(libvscphelper SHARED
     ${VSCP_PATH}/src/common/crc8.h
     ${VSCP_PATH}/src/common/crc8.c
     ${VSCP_PATH}/src/common/vscpmd5.h
-    ${VSCP_PATH}/src/common/vscpmd5.c       
+    ${VSCP_PATH}/src/common/vscpmd5.c 
   ) 
 else()
   add_library(libvscphelper SHARED   
