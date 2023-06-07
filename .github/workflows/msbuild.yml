@@ -5,6 +5,7 @@ on: [push]
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: .
+  VSCP_PATH: '${{ github.workspace }}/vscp'
 
   # Configuration type to build.
   # You can convert this to a build matrix if you need coverage of multiple configuration types.
@@ -17,17 +18,21 @@ env:
 
 jobs:
   build:
+    name: Windows x64
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Install ms-dev environment
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x64
 
     - name: Clone
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Checkout vscp repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: grodansparadis/vscp
         path: vscp
@@ -41,10 +46,15 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.3  
 
     - name: Checkout vcpkg repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: microsoft/vcpkg
         path: vcpkg
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        msbuild-architecture: x64
 
     - name: Setup vcpkg
       run: |
