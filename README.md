@@ -126,10 +126,10 @@ The two projects should be cloned on the same directory level. vscp-helper-lib i
   cd vscp-helper-lib
   mkdir build
   cd build
-  cmake .. -G "Visual Studio 17 2022" -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=C:\Users\Administrator\Desktop\Development\vcpkg\scripts\buildsystems\vcpkg.cmake
+  cmake .. -G "Visual Studio 17 2022" -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=E:\vcpkg\scripts\buildsystems\vcpkg.cmake
 ```
 
-The path to the vspkg build script (_C:\Users\Administrator\Desktop.._) is obviously different in your case.
+The path to the vspkg build script (_E:\vcpkg\scripts\buildsystems.._) is obviously different in your case.
 
 Now use
 
