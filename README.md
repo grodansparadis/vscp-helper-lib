@@ -134,10 +134,10 @@ The path to the vspkg build script (_E:\vcpkg\scripts\buildsystems.._) is obviou
 Now use
 
 ```bash
-  cmake --build .
+  cmake --build . --config Release
 ```
 
-to build the dynamic library. An alternative is to use
+to build the dynamic library (Relase or Debug). An alternative is to use
 
 ```bash
   msbuild libvscphelper.sln /p:Configuration=Release
