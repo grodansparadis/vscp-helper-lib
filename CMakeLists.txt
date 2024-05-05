@@ -32,13 +32,13 @@ set(PACKAGE_AUTHOR "Ake Hedman, the VSCP Project")
 
 # Version settings
 if(NOT DEFINED MAJOR_VERSION)
-    SET(MAJOR_VERSION "15")
+    SET(MAJOR_VERSION "16")
 endif()
 if(NOT DEFINED MINOR_VERSION)
     SET(MINOR_VERSION "0")
 endif()
 if(NOT DEFINED PATCH_VERSION)
-    SET(PATCH_VERSION "2")
+    SET(PATCH_VERSION "0")
 endif()
 
 add_subdirectory(./third_party/spdlog/)
@@ -253,8 +253,6 @@ add_library(libvscphelper SHARED
     ./windows/libvscphelper.cpp
     ./third_party/mustache/mustache.hpp
     ./third_party/spdlog/include    
-    ./third_party/fastpbkdf2/fastpbkdf2.h
-    ./third_party/fastpbkdf2/fastpbkdf2.c
     ${VSCP_PATH}/src/vscp/common/vscp.h
     ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.h
     ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.cpp
@@ -286,8 +284,6 @@ else()
     ./linux/libvscphelper.cpp
     ./third_party/mustache/mustache.hpp
     ./third_party/spdlog/include    
-    ./third_party/fastpbkdf2/fastpbkdf2.h
-    ./third_party/fastpbkdf2/fastpbkdf2.c 
     ${VSCP_PATH}/src/vscp/common/vscp.h
     ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.h
     ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.cpp
@@ -346,7 +342,6 @@ if (WIN32)
         ${VSCP_PATH}/src/common/third_party
         ./third_party/nlohmann/include/
         ./third_party/spdlog/include
-        ./third_party/fastpbkdf2/
         ${PThreads4W_INCLUDE_DIR}
         ${CMAKE_BINARY_DIR}
         ${OPENSSL_INCLUDE_DIR}
@@ -359,7 +354,6 @@ else()
         ${VSCP_PATH}/src/common/third_party
         ./third_party/nlohmann/include/
         ./third_party/spdlog/include/
-        ./third_party/fastpbkdf2/
         ${CMAKE_BINARY_DIR}
         ${OPENSSL_INCLUDE_DIR}
         ${LOCAL_SYSLOG_INCLUDE} )
