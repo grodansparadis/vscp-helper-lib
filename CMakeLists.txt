@@ -41,7 +41,7 @@ if(NOT DEFINED PATCH_VERSION)
     SET(PATCH_VERSION "0")
 endif()
 
-add_subdirectory(./third_party/spdlog/)
+#add_subdirectory(./third_party/spdlog/)
 
 SET(CPACK_PACKAGE_DESCRIPTION "VSCP Helper library")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Helper functionality for VSCP applications")

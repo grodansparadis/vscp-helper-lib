@@ -46,7 +46,7 @@
 #include <syslog.h>
 
 #include <canal.h>
-#include <canal_macro.h>
+#include <canal-macro.h>
 #include <vscpremotetcpif.h>
 
 #include "libvscphelper.h"
