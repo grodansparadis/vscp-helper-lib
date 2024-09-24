@@ -1,137 +1,149 @@
 {
     "version": "2.0.0",
     "tasks": [
-        {
-          "taskName": "Linux: Build vscp-helper-lib",
-          "type": "shell",
-          "command": "cd build; make",
-          "args": [],
-          "group": {
-              "kind": "build",
-              "isDefault": false
-          },
-          "problemMatcher": "$gcc"
+      {
+        "taskName": "Linux: Build vscp-helper-lib",
+        "type": "shell",
+        "command": "cd build; make",
+        "args": [],
+        "group": {
+          "kind": "build",
+          "isDefault": false
         },
-        {
-          "taskName": "Linux: Clean & build vscp-helper-lib",
-          "type": "shell",
-          "command": "mkdir build; cd build; rm CMakeCache.txt; cmake --clean-first .. -DCMAKE_BUILD_TYPE=Debug; make clean; make",
-          "args": [],
-          "group": {
-            "kind": "build",
-            "isDefault": false
-          },
-          "problemMatcher": {
-            "owner": "cpp",
-            "fileLocation": ["relative", "${workspaceFolder}"],
-            "pattern": {
-              "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-              "file": 1,
-              "line": 2,
-              "column": 3,
-              "severity": 4,
-              "message": 5
-            }
+        "problemMatcher": "$gcc"
+      },
+      {
+        "taskName": "Linux: Clean & build vscp-helper-lib",
+        "type": "shell",
+        "command": "mkdir build; cd build; rm CMakeCache.txt; cmake --clean-first .. -DCMAKE_BUILD_TYPE=Debug; make clean; make",
+        "args": [],
+        "group": {
+          "kind": "build",
+          "isDefault": false
+        },
+        "problemMatcher": {
+          "owner": "cpp",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
           }
+        }
+      },
+      {
+        "taskName": "Windows: Build vscp-helper-lib",
+        "type": "shell",
+        "command": "cd build;  msbuild libvscphelper.sln /p:Configuration=Debug",
+        "args": [],
+        "group": {
+          "kind": "build",
+          "isDefault": false
         },
-        {
-          "taskName": "Windows: Build vscp-helper-lib",
-          "type": "shell",
-          "command": "cd build;  msbuild libvscphelper.sln /p:Configuration=Debug",
-          "args": [],
-          "group": {
-              "kind": "build",
-              "isDefault": false
-          },
-          "problemMatcher": "$gcc"
+        "problemMatcher": "$gcc"
+      },
+      {
+        "taskName": "Windows: Clean & build vscp-helper-lib debug",
+        "type": "shell",
+        "command": "cd build; cmake  .. -G 'Visual Studio 16 2019' -DCMAKE_BUILD_TYPE=debug -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=C:\\Users\\Administrator\\Desktop\\Development\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake; msbuild libvscphelper.sln /p:Configuration=Debug",
+        "args": [],
+        "group": {
+          "kind": "build",
+          "isDefault": false
         },
-        {
-          "taskName": "Windows: Clean & build vscp-helper-lib debug",
-          "type": "shell",
-          "command": "cd build; cmake  .. -G 'Visual Studio 16 2019' -DCMAKE_BUILD_TYPE=debug -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=C:\\Users\\Administrator\\Desktop\\Development\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake; msbuild libvscphelper.sln /p:Configuration=Debug",
-          "args": [],
-          "group": {
-              "kind": "build",
-              "isDefault": false
-          },
-          "problemMatcher": "$gcc"
+        "problemMatcher": "$gcc"
+      },
+      {
+        "taskName": "Windows: Clean & build vscp-helper-lib release",
+        "type": "shell",
+        "command": "cd build; cmake  .. -G 'Visual Studio 16 2019' -DCMAKE_BUILD_TYPE=release -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=C:\\Users\\Administrator\\Desktop\\Development\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake; msbuild libvscphelper.sln /p:Configuration=Debug",
+        "args": [],
+        "group": {
+          "kind": "build",
+          "isDefault": false
         },
-        {
-          "taskName": "Windows: Clean & build vscp-helper-lib release",
-          "type": "shell",
-          "command": "cd build; cmake  .. -G 'Visual Studio 16 2019' -DCMAKE_BUILD_TYPE=release -DVCPKG_TARGET_TRIPLET=x64-windows  -DCMAKE_TOOLCHAIN_FILE=C:\\Users\\Administrator\\Desktop\\Development\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake; msbuild libvscphelper.sln /p:Configuration=Debug",
-          "args": [],
-          "group": {
-              "kind": "build",
-              "isDefault": false
-          },
-          "problemMatcher": "$gcc"
+        "problemMatcher": "$gcc"
+      },
+      {
+        "taskName": "Linux: clean & build alltest",
+        "type": "shell",
+        "command": "cd tests/alltest; mkdir build; cd build; rm CMakeCache.txt; cmake  .. -DCMAKE_BUILD_TYPE=Debug; make --clean-first",
+        "args": [],
+        "group": {
+          "kind": "build",
+          "isDefault": false
         },
-        {
-          "taskName": "Linux: clean & build alltest",
-          "type": "shell",
-          "command": "cd tests/alltest; mkdir build; cd build; rm CMakeCache.txt; cmake  .. -DCMAKE_BUILD_TYPE=Debug; make --clean-first",
-          "args": [],
-          "group": {
-            "kind": "build",
-            "isDefault": false
-          },
-          "problemMatcher": {
-            "owner": "cpp",
-            "fileLocation": ["relative", "${workspaceFolder}"],
-            "pattern": {
-              "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-              "file": 1,
-              "line": 2,
-              "column": 3,
-              "severity": 4,
-              "message": 5
-            }
+        "problemMatcher": {
+          "owner": "cpp",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
           }
+        }
+      },
+      {
+        "taskName": "Linux: clean & build connecttest",
+        "type": "shell",
+        "command": "cd tests/connecttest; mkdir build; cd build; rm CMakeCache.txt; cmake --clean-first .. -DCMAKE_BUILD_TYPE=Debug; make clean; make",
+        "args": [],
+        "group": {
+          "kind": "build",
+          "isDefault": false
         },
-        {
-          "taskName": "Linux: clean & build connecttest",
-          "type": "shell",
-          "command": "cd tests/connecttest; mkdir build; cd build; rm CMakeCache.txt; cmake --clean-first .. -DCMAKE_BUILD_TYPE=Debug; make clean; make",
-          "args": [],
-          "group": {
-            "kind": "build",
-            "isDefault": false
-          },
-          "problemMatcher": {
-            "owner": "cpp",
-            "fileLocation": ["relative", "${workspaceFolder}"],
-            "pattern": {
-              "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-              "file": 1,
-              "line": 2,
-              "column": 3,
-              "severity": 4,
-              "message": 5
-            }
+        "problemMatcher": {
+          "owner": "cpp",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
           }
+        }
+      },
+      {
+        "taskName": "Linux: Clean & build longtest",
+        "type": "shell",
+        "command": "cd tests/longtest; mkdir build; cd build; rm CMakeCache.txt; cmake --clean-first .. -DCMAKE_BUILD_TYPE=Debug; make clean; make",
+        "args": [],
+        "group": {
+          "kind": "build",
+          "isDefault": false
         },
-        {
-          "taskName": "Linux: Clean & build longtest",
-          "type": "shell",
-          "command": "cd tests/longtest; mkdir build; cd build; rm CMakeCache.txt; cmake --clean-first .. -DCMAKE_BUILD_TYPE=Debug; make clean; make",
-          "args": [],
-          "group": {
-            "kind": "build",
-            "isDefault": false
-          },
-          "problemMatcher": {
-            "owner": "cpp",
-            "fileLocation": ["relative", "${workspaceFolder}"],
-            "pattern": {
-              "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-              "file": 1,
-              "line": 2,
-              "column": 3,
-              "severity": 4,
-              "message": 5
-            }
+        "problemMatcher": {
+          "owner": "cpp",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
           }
+        }
       }
     ]
 }

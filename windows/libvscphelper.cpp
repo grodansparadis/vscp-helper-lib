@@ -4,7 +4,7 @@
 //
 // The MIT License (MIT)
 // 
-// Copyright (c) 2000-2022 Ake Hedman, the VSCP Project <info@grodansparadis.com>
+// Copyright (c) 2000-2024 Ake Hedman, the VSCP Project <info@grodansparadis.com>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,7 @@
 #include <vscpremotetcpif.h>
 
 #include <canal.h>
-#include <canal_macro.h>
+#include <canal-macro.h>
 #include <vscpremotetcpif.h>
 
 #include <libvscphelper.h>
