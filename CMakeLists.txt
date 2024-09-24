@@ -252,7 +252,7 @@ add_library(libvscphelper SHARED
     ./windows/libvscphelper.h
     ./windows/libvscphelper.cpp
     ./third_party/mustache/mustache.hpp
-    ./third_party/spdlog/include    
+    ./third_party/spdlog/include
     $ENV{VSCP_ROOT}/src/vscp/common/vscp.h
     $ENV{VSCP_ROOT}/src/vscp/common/vscpremotetcpif.h
     $ENV{VSCP_ROOT}/src/vscp/common/vscpremotetcpif.cpp
