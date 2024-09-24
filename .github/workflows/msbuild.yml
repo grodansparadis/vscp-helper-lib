@@ -5,46 +5,59 @@ on: [push]
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: .
+  VSCP_PATH: '${{ github.workspace }}/vscp'
+  ENVIRONMENT_SCRIPT: "C:/Program Files (x86)/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+  GENERATORS: "Visual Studio 17 2022"
+  BUILD_CONFIGURATION: Release
 
   # Configuration type to build.
   # You can convert this to a build matrix if you need coverage of multiple configuration types.
   # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
   #
   # https://github.com/marketplace/actions/run-vcpkg
-  # https://github.com/ilammy/msvc-dev-cmd
-
-  BUILD_CONFIGURATION: Release
+  # https://github.com/ilammy/msvc-dev-cmd  
 
 jobs:
   build:
+    name: Windows x64
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Install ms-dev environment
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x64
 
     - name: Clone
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+        ref: development 
+        submodules: recursive
 
     - name: Checkout vscp repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: grodansparadis/vscp
         path: vscp
         ref: development  
+        submodules: recursive
 
     - name: Get latest CMake and ninja
       # Using 'latest' branch, the most recent CMake and ninja are installed.
       uses: lukka/get-cmake@latest 
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.3  
 
     - name: Checkout vcpkg repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: microsoft/vcpkg
         path: vcpkg
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        msbuild-architecture: x64
 
     - name: Setup vcpkg
       run: |
@@ -65,9 +78,10 @@ jobs:
     - name: Build
       run: |
           mkdir build
-          cd build
-          cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=D:/a/vscp-helper-lib/vscp-helper-lib/vcpkg/scripts/buildsystems/vcpkg.cmake  -DVSCP_PATH=vscp
-          msbuild libvscphelper.sln /p:Configuration=Release
+          cd build 
+          cmake .. -G "${{ env.GENERATORS }}"  -A x64 -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_BUILD_TYPE=${{ env.BUILD_CONFIGURATION }} -DCMAKE_TOOLCHAIN_FILE=D:/a/vscp-helper-lib/vscp-helper-lib/vcpkg/scripts/buildsystems/vcpkg.cmake  -DVSCP_PATH=vscp
+          cmake --build . --config ${{ env.BUILD_CONFIGURATION }}
+          #msbuild libvscphelper.sln /p:Configuration=Release
           cpack .
 
       # Save artifacts    

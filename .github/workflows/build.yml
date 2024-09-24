@@ -11,18 +11,21 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:  
       matrix:
-        os: [ubuntu-18.04, ubuntu-latest]
+        os: [ubuntu-20.04, ubuntu-latest]
 
     steps:
     # https://github.com/actions/checkout  
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+      with:
+        ref: development 
+        submodules: recursive
 
     - name: Checkout vscp repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: grodansparadis/vscp
         path: vscp
-        ref: master
+        ref: development
      
     - name: Checkout google test repo
       run: sudo apt-get install libgtest-dev && cd /usr/src/gtest && sudo mkdir build && cd build && sudo cmake .. && sudo make DESTDIR=/usr/lib
@@ -64,7 +67,7 @@ jobs:
         sudo cpack -G DEB 
         sudo make install DESTDIR=AppDir
     # Save artifact    
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.os }}_libvscphelper_15.0.2.deb
         path: /home/runner/work/vscp-helper-lib/vscp-helper-lib/build/libvscphelper_15.0.2.deb

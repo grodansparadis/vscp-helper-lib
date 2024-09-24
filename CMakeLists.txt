@@ -2,7 +2,7 @@
 #
 # Build instructions for VSCP Works.
 #
-# Copyright (c) 2000-2023 Åke Hedman, the VSCP Project
+# Copyright (C) 2000-2024 Åke Hedman, the VSCP Project
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -32,14 +32,16 @@ set(PACKAGE_AUTHOR "Ake Hedman, the VSCP Project")
 
 # Version settings
 if(NOT DEFINED MAJOR_VERSION)
-    SET(MAJOR_VERSION "15")
+    SET(MAJOR_VERSION "16")
 endif()
 if(NOT DEFINED MINOR_VERSION)
     SET(MINOR_VERSION "0")
 endif()
 if(NOT DEFINED PATCH_VERSION)
-    SET(PATCH_VERSION "2")
+    SET(PATCH_VERSION "0")
 endif()
+
+#add_subdirectory(./third_party/spdlog/)
 
 SET(CPACK_PACKAGE_DESCRIPTION "VSCP Helper library")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Helper functionality for VSCP applications")
@@ -75,8 +77,8 @@ endif()
 
 option(USE_SSL "Use SSL" TRUE)
 
-## --- C++11 build flags ---
-set(CMAKE_CXX_STANDARD 11)
+## --- C++14 build flags ---
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
@@ -208,11 +210,34 @@ endif(WIN32)
 
 # Set sockettcp build flags
 add_definitions(-DUSE_IPV6)
-string(FIND "${OPENSSL_VERSION}" "1.1." SSL_VER_POS)
+
+set(OPENSSL_VER "OPENSSL_API_${OPENSSL_VERSION_MAJOR}_${OPENSSL_VERSION_MINOR}")
+message(STATUS "OPENSSL Version: ${OPENSSL_VER}")
+add_definitions(-D${OPENSSL_VER}) 
+
+# 1.1.0 / 1.1.1 / 3.0.0 / 3.1.0
+string(FIND "${OPENSSL_VERSION}" "1.0" SSL_VER_POS)
 if(${SSL_VER_POS})
-    add_definitions(-DOPENSSL_API_1_0)
-else()
-    add_definitions(-DOPENSSL_API_1_1)
+  #set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -DOPENSSL_API_1_0")
+  #add_definitions(-DOPENSSL_API_1_0)
+endif()    
+
+string(FIND "${OPENSSL_VERSION}" "1.1" SSL_VER_POS)
+if(${SSL_VER_POS})
+  #set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -DOPENSSL_API_1_1")
+  #add_definitions(-DOPENSSL_API_1_1)
+endif()
+
+string(FIND "${OPENSSL_VERSION}" "3.0" SSL_VER_POS)
+if(NOT SSL_VER_POS EQUAL -1)
+  #add_definitions(-DOPENSSL_API_3_0)
+  message(STATUS "openssl test ${SSL_VER_POS}")
+endif()  
+
+string(FIND "${OPENSSL_VERSION}" "3.1" SSL_VER_POS)
+if(NOT SSL_VER_POS EQUAL -1)
+  add_definitions(-DOPENSSL_API_3_0)
+  message(STATUS "Open ssl version is 3.1 but set to 3.0 ${SSL_VER_POS} fir Civetweb. That is OK")
 endif()
 
 set(RESOURCE_FILES
@@ -226,34 +251,30 @@ add_library(libvscphelper SHARED
     ./src/vscphelperlib.cpp
     ./windows/libvscphelper.h
     ./windows/libvscphelper.cpp
-    ${VSCP_PATH}/src/common/third_party/mustache.hpp
-    ${VSCP_PATH}/src/common/third_party/spdlog-1.9.2/include    
-    ${VSCP_PATH}/src/vscp/common/vscp.h
-    ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.h
-    ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.cpp
-    ${VSCP_PATH}/src/vscp/common/vscpdatetime.h
-    ${VSCP_PATH}/src/vscp/common/vscpdatetime.cpp
-    ${VSCP_PATH}/src/vscp/common/guid.h
-    ${VSCP_PATH}/src/vscp/common/guid.cpp
-#    ${VSCP_PATH}/src/vscp/common/mdf.h
-#    ${VSCP_PATH}/src/vscp/common/mdf.cpp
-    ${VSCP_PATH}/src/vscp/common/vscphelper.h
-    ${VSCP_PATH}/src/vscp/common/vscphelper.cpp
-    ${VSCP_PATH}/src/vscp/common/canal.h
-    ${VSCP_PATH}/src/common/sockettcp.h
-    ${VSCP_PATH}/src/common/sockettcp.c
-    ${VSCP_PATH}/src/common/vscpbase64.h
-    ${VSCP_PATH}/src/common/vscpbase64.c
-    ${VSCP_PATH}/src/common/vscp_aes.h
-    ${VSCP_PATH}/src/common/vscp_aes.c
-    ${VSCP_PATH}/src/common/crc.h
-    ${VSCP_PATH}/src/common/crc.c
-    ${VSCP_PATH}/src/common/crc8.h
-    ${VSCP_PATH}/src/common/crc8.c
-    ${VSCP_PATH}/src/common/vscpmd5.h
-    ${VSCP_PATH}/src/common/vscpmd5.c
-    ${VSCP_PATH}/src/common/fastpbkdf2.h
-    ${VSCP_PATH}/src/common/fastpbkdf2.c   
+    ./third_party/mustache/mustache.hpp
+    ./third_party/spdlog/include
+    $ENV{VSCP_ROOT}/src/vscp/common/vscp.h
+    $ENV{VSCP_ROOT}/src/vscp/common/vscpremotetcpif.h
+    $ENV{VSCP_ROOT}/src/vscp/common/vscpremotetcpif.cpp
+    $ENV{VSCP_ROOT}/src/vscp/common/vscpdatetime.h
+    $ENV{VSCP_ROOT}/src/vscp/common/vscpdatetime.cpp
+    $ENV{VSCP_ROOT}/src/vscp/common/guid.h
+    $ENV{VSCP_ROOT}/src/vscp/common/guid.cpp
+    $ENV{VSCP_ROOT}/src/vscp/common/vscphelper.h
+    $ENV{VSCP_ROOT}/src/vscp/common/vscphelper.cpp
+    $ENV{VSCP_ROOT}/src/vscp/common/canal.h
+    $ENV{VSCP_ROOT}/src/common/sockettcp.h
+    $ENV{VSCP_ROOT}/src/common/sockettcp.c
+    $ENV{VSCP_ROOT}/src/common/vscpbase64.h
+    $ENV{VSCP_ROOT}/src/common/vscpbase64.c
+    $ENV{VSCP_ROOT}/src/common/vscp-aes.h
+    $ENV{VSCP_ROOT}/src/common/vscp-aes.c
+    $ENV{VSCP_ROOT}/src/common/crc.h
+    $ENV{VSCP_ROOT}/src/common/crc.c
+    $ENV{VSCP_ROOT}/src/common/crc8.h
+    $ENV{VSCP_ROOT}/src/common/crc8.c
+    $ENV{VSCP_ROOT}/src/common/vscpmd5.h
+    $ENV{VSCP_ROOT}/src/common/vscpmd5.c 
   ) 
 else()
   add_library(libvscphelper SHARED   
@@ -261,34 +282,30 @@ else()
     ./src/vscphelperlib.cpp 
     ./linux/libvscphelper.h
     ./linux/libvscphelper.cpp
-    ${VSCP_PATH}/src/common/third_party/mustache.hpp
-    ${VSCP_PATH}/src/common/third_party/spdlog-1.9.2/include    
-    ${VSCP_PATH}/src/vscp/common/vscp.h
-    ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.h
-    ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.cpp
-    ${VSCP_PATH}/src/vscp/common/vscpdatetime.h
-    ${VSCP_PATH}/src/vscp/common/vscpdatetime.cpp
-    ${VSCP_PATH}/src/vscp/common/guid.h
-    ${VSCP_PATH}/src/vscp/common/guid.cpp
-#    ${VSCP_PATH}/src/vscp/common/mdf.h
-#    ${VSCP_PATH}/src/vscp/common/mdf.cpp
-    ${VSCP_PATH}/src/vscp/common/vscphelper.h
-    ${VSCP_PATH}/src/vscp/common/vscphelper.cpp
-    ${VSCP_PATH}/src/vscp/common/canal.h
-    ${VSCP_PATH}/src/common/sockettcp.h
-    ${VSCP_PATH}/src/common/sockettcp.c
-    ${VSCP_PATH}/src/common/vscpbase64.h
-    ${VSCP_PATH}/src/common/vscpbase64.c
-    ${VSCP_PATH}/src/common/vscp_aes.h
-    ${VSCP_PATH}/src/common/vscp_aes.c
-    ${VSCP_PATH}/src/common/crc.h
-    ${VSCP_PATH}/src/common/crc.c
-    ${VSCP_PATH}/src/common/crc8.h
-    ${VSCP_PATH}/src/common/crc8.c
-    ${VSCP_PATH}/src/common/vscpmd5.h
-    ${VSCP_PATH}/src/common/vscpmd5.c
-    ${VSCP_PATH}/src/common/fastpbkdf2.h
-    ${VSCP_PATH}/src/common/fastpbkdf2.c    
+    ./third_party/mustache/mustache.hpp
+    ./third_party/spdlog/include    
+    $ENV{VSCP_ROOT}/src/vscp/common/vscp.h
+    $ENV{VSCP_ROOT}/src/vscp/common/vscpremotetcpif.h
+    $ENV{VSCP_ROOT}/src/vscp/common/vscpremotetcpif.cpp
+    $ENV{VSCP_ROOT}/src/vscp/common/vscpdatetime.h
+    $ENV{VSCP_ROOT}/src/vscp/common/vscpdatetime.cpp
+    $ENV{VSCP_ROOT}/src/vscp/common/guid.h
+    $ENV{VSCP_ROOT}/src/vscp/common/guid.cpp
+    $ENV{VSCP_ROOT}/src/vscp/common/vscphelper.h
+    $ENV{VSCP_ROOT}/src/vscp/common/vscphelper.cpp
+    $ENV{VSCP_ROOT}/src/vscp/common/canal.h
+    $ENV{VSCP_ROOT}/src/common/sockettcp.h
+    $ENV{VSCP_ROOT}/src/common/sockettcp.c
+    $ENV{VSCP_ROOT}/src/common/vscpbase64.h
+    $ENV{VSCP_ROOT}/src/common/vscpbase64.c
+    $ENV{VSCP_ROOT}/src/common/vscp-aes.h
+    $ENV{VSCP_ROOT}/src/common/vscp-aes.c
+    $ENV{VSCP_ROOT}/src/common/crc.h
+    $ENV{VSCP_ROOT}/src/common/crc.c
+    $ENV{VSCP_ROOT}/src/common/crc8.h
+    $ENV{VSCP_ROOT}/src/common/crc8.c
+    $ENV{VSCP_ROOT}/src/common/vscpmd5.h
+    $ENV{VSCP_ROOT}/src/common/vscpmd5.c       
   ) 
 endif()
 
@@ -320,11 +337,11 @@ if (WIN32)
 
     include_directories( PUBLIC src/
         ./windows/
-        ${VSCP_PATH}/src/vscp/common/
-        ${VSCP_PATH}/src/common
-        ${VSCP_PATH}/src/common/third_party
-        ${VSCP_PATH}/src/common/third_party/nlohmann
-        ${VSCP_PATH}/src/common/third_party/spdlog-1.9.2/include
+        $ENV{VSCP_ROOT}/src/vscp/common/
+        $ENV{VSCP_ROOT}/src/common
+        $ENV{VSCP_ROOT}/src/common/third_party
+        ./third_party/nlohmann/include/
+        ./third_party/spdlog/include
         ${PThreads4W_INCLUDE_DIR}
         ${CMAKE_BINARY_DIR}
         ${OPENSSL_INCLUDE_DIR}
@@ -332,11 +349,11 @@ if (WIN32)
         ${LOCAL_SYSLOG_INCLUDE} )
 else()
     include_directories( PUBLIC src/
-        ${VSCP_PATH}/src/vscp/common/
-        ${VSCP_PATH}/src/common
-        ${VSCP_PATH}/src/common/third_party
-        ${VSCP_PATH}/src/common/third_party/nlohmann
-        ${VSCP_PATH}/src/common/third_party/spdlog-1.9.2/include
+        $ENV{VSCP_ROOT}/src/vscp/common/
+        $ENV{VSCP_ROOT}/src/common
+        $ENV{VSCP_ROOT}/src/common/third_party
+        ./third_party/nlohmann/include/
+        ./third_party/spdlog/include/
         ${CMAKE_BINARY_DIR}
         ${OPENSSL_INCLUDE_DIR}
         ${LOCAL_SYSLOG_INCLUDE} )
@@ -391,11 +408,11 @@ if(WIN32)
             DESTINATION ${CMAKE_INSTALL_BINDIR}/..)
 
     # Headers
-    INSTALL( FILES "${VSCP_PATH}/src/vscp/common/vscp.h"
+    INSTALL( FILES "$ENV{VSCP_ROOT}/src/vscp/common/vscp.h"
             "${CMAKE_SOURCE_DIR}/src/vscphelperlib.h" 
-            "${VSCP_PATH}/src/vscp/common/canal.h"
-            "${VSCP_PATH}/src/vscp/common/vscp_class.h"
-            "${VSCP_PATH}/src/vscp/common/vscp_type.h"
+            "$ENV{VSCP_ROOT}/src/vscp/common/canal.h"
+            "$ENV{VSCP_ROOT}/src/vscp/common/vscp_class.h"
+            "$ENV{VSCP_ROOT}/src/vscp/common/vscp_type.h"
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})  
 
 else()
@@ -410,11 +427,11 @@ else()
             DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)      
 
     # Headers        
-    INSTALL(FILES "${VSCP_PATH}/src/vscp/common/vscp.h"
+    INSTALL(FILES "$ENV{VSCP_ROOT}/src/vscp/common/vscp.h"
             "${PROJECT_SOURCE_DIR}/src/vscphelperlib.h" 
-            "${VSCP_PATH}/src/vscp/common/canal.h"
-            "${VSCP_PATH}/src/vscp/common/vscp_class.h"
-            "${VSCP_PATH}/src/vscp/common/vscp_type.h"
+            "$ENV{VSCP_ROOT}/src/vscp/common/canal.h"
+            "$ENV{VSCP_ROOT}/src/vscp/common/vscp_class.h"
+            "$ENV{VSCP_ROOT}/src/vscp/common/vscp_type.h"
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})        
 endif()
 
