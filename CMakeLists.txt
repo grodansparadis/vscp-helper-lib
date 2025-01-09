@@ -253,28 +253,28 @@ add_library(libvscphelper SHARED
     ./windows/libvscphelper.cpp
     ./third_party/mustache/mustache.hpp
     ./third_party/spdlog/include
-    $ENV{VSCP_ROOT}/src/vscp/common/vscp.h
-    $ENV{VSCP_ROOT}/src/vscp/common/vscpremotetcpif.h
-    $ENV{VSCP_ROOT}/src/vscp/common/vscpremotetcpif.cpp
-    $ENV{VSCP_ROOT}/src/vscp/common/vscpdatetime.h
-    $ENV{VSCP_ROOT}/src/vscp/common/vscpdatetime.cpp
-    $ENV{VSCP_ROOT}/src/vscp/common/guid.h
-    $ENV{VSCP_ROOT}/src/vscp/common/guid.cpp
-    $ENV{VSCP_ROOT}/src/vscp/common/vscphelper.h
-    $ENV{VSCP_ROOT}/src/vscp/common/vscphelper.cpp
-    $ENV{VSCP_ROOT}/src/vscp/common/canal.h
-    $ENV{VSCP_ROOT}/src/common/sockettcp.h
-    $ENV{VSCP_ROOT}/src/common/sockettcp.c
-    $ENV{VSCP_ROOT}/src/common/vscpbase64.h
-    $ENV{VSCP_ROOT}/src/common/vscpbase64.c
-    $ENV{VSCP_ROOT}/src/common/vscp-aes.h
-    $ENV{VSCP_ROOT}/src/common/vscp-aes.c
-    $ENV{VSCP_ROOT}/src/common/crc.h
-    $ENV{VSCP_ROOT}/src/common/crc.c
-    $ENV{VSCP_ROOT}/src/common/crc8.h
-    $ENV{VSCP_ROOT}/src/common/crc8.c
-    $ENV{VSCP_ROOT}/src/common/vscpmd5.h
-    $ENV{VSCP_ROOT}/src/common/vscpmd5.c 
+    ./third_party/vscp/src/vscp/common/vscp.h
+    ./third_party/vscp/src/vscp/common/vscpremotetcpif.h
+    ./third_party/vscp/src/vscp/common/vscpremotetcpif.cpp
+    ./third_party/vscp/src/vscp/common/vscpdatetime.h
+    ./third_party/vscp/src/vscp/common/vscpdatetime.cpp
+    ./third_party/vscp/src/vscp/common/guid.h
+    ./third_party/vscp/src/vscp/common/guid.cpp
+    ./third_party/vscp/src/vscp/common/vscphelper.h
+    ./third_party/vscp/src/vscp/common/vscphelper.cpp
+    ./third_party/vscp/src/vscp/common/canal.h
+    ./third_party/vscp/src/common/sockettcp.h
+    ./third_party/vscp/src/common/sockettcp.c
+    ./third_party/vscp/src/common/vscpbase64.h
+    ./third_party/vscp/src/common/vscpbase64.c
+    ./third_party/vscp/src/common/vscp-aes.h
+    ./third_party/vscp/src/common/vscp-aes.c
+    ./third_party/vscp/src/common/crc.h
+    ./third_party/vscp/src/common/crc.c
+    ./third_party/vscp/src/common/crc8.h
+    ./third_party/vscp/src/common/crc8.c
+    ./third_party/vscp/src/common/vscpmd5.h
+    ./third_party/vscp/src/common/vscpmd5.c 
   ) 
 else()
   add_library(libvscphelper SHARED   
@@ -284,28 +284,28 @@ else()
     ./linux/libvscphelper.cpp
     ./third_party/mustache/mustache.hpp
     ./third_party/spdlog/include    
-    $ENV{VSCP_ROOT}/src/vscp/common/vscp.h
-    $ENV{VSCP_ROOT}/src/vscp/common/vscpremotetcpif.h
-    $ENV{VSCP_ROOT}/src/vscp/common/vscpremotetcpif.cpp
-    $ENV{VSCP_ROOT}/src/vscp/common/vscpdatetime.h
-    $ENV{VSCP_ROOT}/src/vscp/common/vscpdatetime.cpp
-    $ENV{VSCP_ROOT}/src/vscp/common/guid.h
-    $ENV{VSCP_ROOT}/src/vscp/common/guid.cpp
-    $ENV{VSCP_ROOT}/src/vscp/common/vscphelper.h
-    $ENV{VSCP_ROOT}/src/vscp/common/vscphelper.cpp
-    $ENV{VSCP_ROOT}/src/vscp/common/canal.h
-    $ENV{VSCP_ROOT}/src/common/sockettcp.h
-    $ENV{VSCP_ROOT}/src/common/sockettcp.c
-    $ENV{VSCP_ROOT}/src/common/vscpbase64.h
-    $ENV{VSCP_ROOT}/src/common/vscpbase64.c
-    $ENV{VSCP_ROOT}/src/common/vscp-aes.h
-    $ENV{VSCP_ROOT}/src/common/vscp-aes.c
-    $ENV{VSCP_ROOT}/src/common/crc.h
-    $ENV{VSCP_ROOT}/src/common/crc.c
-    $ENV{VSCP_ROOT}/src/common/crc8.h
-    $ENV{VSCP_ROOT}/src/common/crc8.c
-    $ENV{VSCP_ROOT}/src/common/vscpmd5.h
-    $ENV{VSCP_ROOT}/src/common/vscpmd5.c       
+    ./third_party/vscp/src/vscp/common/vscp.h
+    ./third_party/vscp/src/vscp/common/vscpremotetcpif.h
+    ./third_party/vscp/src/vscp/common/vscpremotetcpif.cpp
+    ./third_party/vscp/src/vscp/common/vscpdatetime.h
+    ./third_party/vscp/src/vscp/common/vscpdatetime.cpp
+    ./third_party/vscp/src/vscp/common/guid.h
+    ./third_party/vscp/src/vscp/common/guid.cpp
+    ./third_party/vscp/src/vscp/common/vscphelper.h
+    ./third_party/vscp/src/vscp/common/vscphelper.cpp
+    ./third_party/vscp/src/vscp/common/canal.h
+    ./third_party/vscp/src/common/sockettcp.h
+    ./third_party/vscp/src/common/sockettcp.c
+    ./third_party/vscp/src/common/vscpbase64.h
+    ./third_party/vscp/src/common/vscpbase64.c
+    ./third_party/vscp/src/common/vscp-aes.h
+    ./third_party/vscp/src/common/vscp-aes.c
+    ./third_party/vscp/src/common/crc.h
+    ./third_party/vscp/src/common/crc.c
+    ./third_party/vscp/src/common/crc8.h
+    ./third_party/vscp/src/common/crc8.c
+    ./third_party/vscp/src/common/vscpmd5.h
+    ./third_party/vscp/src/common/vscpmd5.c       
   ) 
 endif()
 
@@ -337,9 +337,9 @@ if (WIN32)
 
     include_directories( PUBLIC src/
         ./windows/
-        $ENV{VSCP_ROOT}/src/vscp/common/
-        $ENV{VSCP_ROOT}/src/common
-        $ENV{VSCP_ROOT}/src/common/third_party
+        ./third_party/vscp/src/vscp/common/
+        ./third_party/vscp/src/common
+        ./third_party/vscp/src/common/third_party
         ./third_party/nlohmann/include/
         ./third_party/spdlog/include
         ${PThreads4W_INCLUDE_DIR}
@@ -349,9 +349,9 @@ if (WIN32)
         ${LOCAL_SYSLOG_INCLUDE} )
 else()
     include_directories( PUBLIC src/
-        $ENV{VSCP_ROOT}/src/vscp/common/
-        $ENV{VSCP_ROOT}/src/common
-        $ENV{VSCP_ROOT}/src/common/third_party
+        ./third_party/vscp/src/vscp/common/
+        ./third_party/vscp/src/common
+        ./third_party/vscp/src/common/third_party
         ./third_party/nlohmann/include/
         ./third_party/spdlog/include/
         ${CMAKE_BINARY_DIR}
@@ -408,11 +408,11 @@ if(WIN32)
             DESTINATION ${CMAKE_INSTALL_BINDIR}/..)
 
     # Headers
-    INSTALL( FILES "$ENV{VSCP_ROOT}/src/vscp/common/vscp.h"
+    INSTALL( FILES "./third_party/vscp/src/vscp/common/vscp.h"
             "${CMAKE_SOURCE_DIR}/src/vscphelperlib.h" 
-            "$ENV{VSCP_ROOT}/src/vscp/common/canal.h"
-            "$ENV{VSCP_ROOT}/src/vscp/common/vscp-class.h"
-            "$ENV{VSCP_ROOT}/src/vscp/common/vscp-type.h"
+            "./third_party/vscp/src/vscp/common/canal.h"
+            "./third_party/vscp/src/vscp/common/vscp-class.h"
+            "./third_party/vscp/src/vscp/common/vscp-type.h"
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})  
 
 else()
@@ -427,11 +427,11 @@ else()
             DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)      
 
     # Headers        
-    INSTALL(FILES "$ENV{VSCP_ROOT}/src/vscp/common/vscp.h"
+    INSTALL(FILES "./third_party/vscp/src/vscp/common/vscp.h"
             "${PROJECT_SOURCE_DIR}/src/vscphelperlib.h" 
-            "$ENV{VSCP_ROOT}/src/vscp/common/canal.h"
-            "$ENV{VSCP_ROOT}/src/vscp/common/vscp-class.h"
-            "$ENV{VSCP_ROOT}/src/vscp/common/vscp-type.h"
+            "./third_party/vscp/src/vscp/common/canal.h"
+            "./third_party/vscp/src/vscp/common/vscp-class.h"
+            "./third_party/vscp/src/vscp/common/vscp-type.h"
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})        
 endif()
 
