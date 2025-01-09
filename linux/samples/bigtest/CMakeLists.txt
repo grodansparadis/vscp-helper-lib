@@ -9,22 +9,23 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-message(STATUS "Build dir: " ${PROJECT_SOURCE_DIR})
+message(STATUS "Build dir: " ${CMAKE_SOURCE_DIR})
 SET(GCC_BIGTEST_COMPILE_FLAGS "-Wl,-rpath=../../../build")
 
 # add the executable
 add_executable(bigtest 
-    ${PROJECT_SOURCE_DIR}/bigtest.c
-    ${PROJECT_SOURCE_DIR}/../../../../vscp/src/vscp/common/guid.h
+    bigtest.c
+    ../../../../third_party/vscp/src/vscp/common/guid.h
 )
 
 target_include_directories(bigtest PUBLIC 
-    ${PROJECT_SOURCE_DIR}/../../../src
+    ${CMAKE_SOURCE_DIR}/../../../src
+    ${CMAKE_SOURCE_DIR}/../../../third_party/vscp/src/vscp/common
 )
 
 target_link_libraries(bigtest PRIVATE
     vscphelper15
-)    
+)
 
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_BIGTEST_COMPILE_FLAGS}")
 

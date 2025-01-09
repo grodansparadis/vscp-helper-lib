@@ -10,3 +10,6 @@
 [submodule "third_party/mongoose"]
 	path = third_party/mongoose
 	url = https://github.com/cesanta/mongoose.git
+[submodule "third_party/vscp"]
+	path = third_party/vscp
+	url = https://github.com/grodansparadis/vscp.git

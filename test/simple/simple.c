@@ -3,7 +3,7 @@
 
 #include "stdio.h"
 #include "string.h"
-#include "vscphelperlib.h"
+#include <vscphelperlib.h>
 
 /*!
  * Sends n events to remote server.

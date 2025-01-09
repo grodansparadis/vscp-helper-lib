@@ -1,6 +1,6 @@
 % libvscphelper(3) Version %MAJOR-VERSION.%MINOR-VERSION.%RELEASE-VERSION  | VSCP Helper Library
 % Åke Hedman, the VSCP Project
-% October 16, 2019
+% January 10, 2010
 
 # NAME
 libvscphelper.so - VSCP Helper library
