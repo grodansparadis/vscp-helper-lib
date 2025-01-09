@@ -59,7 +59,7 @@ jobs:
         sudo cpack -G DEB 
         sudo make install DESTDIR=AppDir
     # Save artifact    
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.os }}_libvscphelper_15.0.2.deb
         path: /home/runner/work/vscp-helper-lib/vscp-helper-lib/build/libvscphelper_15.0.2.deb
