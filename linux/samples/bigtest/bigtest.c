@@ -13,23 +13,23 @@
 #define PASSWORD        "secret"
 #define PORT            9598
 
-#define HOST            "vscp2.vscp.org" 
+#define HOST            "vscp1.vscp.org" 
 //#define HOST          "127.0.0.1"
 //#define HOST          "192.168.1.7"
 //#define HOST		      "192.168.1.30"   // pi4
 
-#define HOST_PLUS_PORT  "tcp://vscp2.vscp.org:9598"
+#define HOST_PLUS_PORT  "tcp://vscp1.vscp.org:9598"
 //#define HOST_PLUS_PORT  "127.0.0.1:9598"
 //#define HOST_PLUS_PORT  "tcp://192.168.1.7:9598"
 //#define HOST_PLUS_PORT  "tcp://192.168.1.30:9598"
 
-#define INTERFACE       "tcp://vscp2.vscp.org:9598;admin;secret"
+#define INTERFACE       "tcp://vscp1.vscp.org:9598;admin;secret"
 //#define INTERFACE       "127.0.0.1:9598;admin;secret"
 //#define INTERFACE       "tcp://192.168.1.7:9598;admin;secret"
 //#define INTERFACE       "tcp://192.168.1.30:9598;admin;secret"
 
 // Count for number of events sent in burst
-#define BURST_SEND_COUNT    200
+#define BURST_SEND_COUNT    2000
 
 // If TEST_RECEIVE_LOOP is uncommented the rcvloop commands
 // will be tested. Must send five events externally to test
@@ -1166,19 +1166,24 @@ int main(int argc, char* argv[])
     vscphlp_deleteVSCPevent( pEventTo );
     pEventTo = NULL;
 
+    pEvent = malloc( sizeof( vscpEvent ) );
+    pEvent->pdata = (uint8_t *)malloc(4);
+
     char dataBuf[80];
-    if ( VSCP_ERROR_SUCCESS == vscphlp_writeVscpDataToString( pEvent,
-                                                                dataBuf,
+    if ( VSCP_ERROR_SUCCESS == (rv = vscphlp_writeVscpDataToString( dataBuf,
+                                                                pEvent,
                                                                 sizeof( dataBuf )-1,
-                                                                0 ) ) {
+                                                                0 ) ) ) {
        printf( "vscphlp_writeVscpDataToString: Success - \n%s \n", dataBuf );
     }
     else {
-        printf( "vscphlp_writeVscpDataToString: Error: \n");
+        printf( "vscphlp_writeVscpDataToString: Error: %d \n", rv);
         closeAll( handle1, handle2 );
         return -1;
     }
-
+    free( pEvent->pdata );
+    pEvent->pdata = NULL;
+    vscphlp_deleteVSCPevent( pEvent );
 
     unsigned char dataArray2[32];
     unsigned short sizeData;

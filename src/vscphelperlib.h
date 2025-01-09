@@ -44,7 +44,6 @@
 extern "C" {
 #endif
 
-
 HELPERLIB_API long 
 vscphlp_newSession(void);
 HELPERLIB_API void 
@@ -231,8 +230,8 @@ HELPERLIB_API int
 vscphlp_copyVSCPEvent( vscpEvent *pEventTo,
                         const vscpEvent *pEventFrom );
 HELPERLIB_API int 
-vscphlp_writeVscpDataToString( const vscpEvent *pEvent,
-                                char *pstr,
+vscphlp_writeVscpDataToString( char *pstr,
+                                const vscpEvent *pEvent,
                                 size_t len,
                                 int bUseHtmlBreak );
 HELPERLIB_API int

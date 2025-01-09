@@ -5,7 +5,7 @@
 #include "vscphelperlib.h"
 
 #define HOST "vscp2.vscp.org:9598"
-//#define HOST "demo.vscp.org:9598"
+//#define HOST "vscp1.vscp.org:9598"
 //#define HOST "185.144.156.45:9598"
 //#define HOST "127.0.0.1:9598"
 
