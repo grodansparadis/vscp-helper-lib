@@ -115,8 +115,8 @@ Open a Visual Studio 2022 command prompt (_x64 Native Tools Command Prompt_) win
 ### Clone needed VSCP code
 
 ```bash
-  git clone https://github.com/grodansparadis/vscp.git
-  git clone https://github.com/grodansparadis/vscp-helper-lib.git
+  git clone -j4 --recurse-submodules https://github.com/grodansparadis/vscp.git
+  git clone -j4 --recurse-submodules https://github.com/grodansparadis/vscp-helper-lib.git
 ```
 The two projects should be cloned on the same directory level. vscp-helper-lib is the main project and use code from the main VSCP project. If you absolutely want to have them installed on separate places you can use the _-DVSCP_PATH="path to vscp" .._ option to set the path to the VSCP project.
 
@@ -127,7 +127,7 @@ The two projects should be cloned on the same directory level. vscp-helper-lib i
   mkdir build
   cd build
 
-  cmake .. -G "Visual Studio 16 2019" -DVCPKG_TARGET_TRIPLET=x64-windows  -D CMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=C:\Users\Administrator\Desktop\Development\vcpkg\scripts\buildsystems\vcpkg.cmake
+  cmake .. -G "Visual Studio 17 2022" -DVCPKG_TARGET_TRIPLET=x64-windows  -D CMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=C:\Users\Administrator\Desktop\Development\vcpkg\scripts\buildsystems\vcpkg.cmake
 
 ```
 
@@ -139,7 +139,9 @@ Now use
   cmake --build . --config Release
 ```
 
-to build the dynamic library (Relase or Debug). An alternative is to use
+to build the dynamic library (Relase or Debug). 
+
+An alternative is to use
 
 ```bash
   msbuild libvscphelper.sln /p:Configuration=Release

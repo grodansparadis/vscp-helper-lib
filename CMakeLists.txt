@@ -411,8 +411,8 @@ if(WIN32)
     INSTALL( FILES "$ENV{VSCP_ROOT}/src/vscp/common/vscp.h"
             "${CMAKE_SOURCE_DIR}/src/vscphelperlib.h" 
             "$ENV{VSCP_ROOT}/src/vscp/common/canal.h"
-            "$ENV{VSCP_ROOT}/src/vscp/common/vscp_class.h"
-            "$ENV{VSCP_ROOT}/src/vscp/common/vscp_type.h"
+            "$ENV{VSCP_ROOT}/src/vscp/common/vscp-class.h"
+            "$ENV{VSCP_ROOT}/src/vscp/common/vscp-type.h"
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})  
 
 else()
@@ -430,8 +430,8 @@ else()
     INSTALL(FILES "$ENV{VSCP_ROOT}/src/vscp/common/vscp.h"
             "${PROJECT_SOURCE_DIR}/src/vscphelperlib.h" 
             "$ENV{VSCP_ROOT}/src/vscp/common/canal.h"
-            "$ENV{VSCP_ROOT}/src/vscp/common/vscp_class.h"
-            "$ENV{VSCP_ROOT}/src/vscp/common/vscp_type.h"
+            "$ENV{VSCP_ROOT}/src/vscp/common/vscp-class.h"
+            "$ENV{VSCP_ROOT}/src/vscp/common/vscp-type.h"
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})        
 endif()
 
