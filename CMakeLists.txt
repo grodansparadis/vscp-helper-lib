@@ -41,7 +41,13 @@ if(NOT DEFINED PATCH_VERSION)
     SET(PATCH_VERSION "0")
 endif()
 
-#add_subdirectory(./third_party/spdlog/)
+// Set compiler options
+if(WIN32)
+add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+else()
+
+endif()
 
 SET(CPACK_PACKAGE_DESCRIPTION "VSCP Helper library")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Helper functionality for VSCP applications")
