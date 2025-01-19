@@ -25,10 +25,17 @@ This is the max time to block. Zero means wait forever.
 
 
 ### Return Value
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop. 
+  * CANAL_ERROR_SUCCESS on success or an error code on failure.
+  * VSCP_ERROR_CONNECTION is returned if not connected to the server.
+  * VSCP_ERROR_PARAMETER is returned if the pointer to the event ex is NULL or if the interface is in the receive loop mode.
+  * VSCP_ERROR_ERROR is returned if the server returns an error.
+  * VSCP_ERROR_RCV_EMPTY if no event is available.
+  * VSCP_ERROR_MEMORY if memory allocation fails.
+  * VSCP_ERROR_READ if the read operation to get event fails. 
+  * VSCP_ERROR_CONVERSION if the conversion of the event fails. 
 
 ### Description
-Blocking receive one VSCP event from the remote VSCP server if there is one available in the server queue. 
+Blocking receive of one VSCP event from the remote VSCP server. 
 
 #### C example
 
@@ -49,7 +56,6 @@ if ( VSCP_ERROR_SUCCESS == vscphlp_blockingReceiveEventEx( handle2, &ex ) ) {
         printf("\n");
     }
 }
-vscphlp_deleteVSCPevent( pEvent );
 ```
 
 #### Python example

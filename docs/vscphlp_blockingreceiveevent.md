@@ -24,7 +24,7 @@ This is the max time to block. Zero means wait forever.
 Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while NOT in a receive loop (see vscphlp_enterReceiveLoop. 
 
 ### Description
-Blocking receive one VSCP event from the remote VSCP server if there is one available in the server queue. Data for the event is dynamically allocated and must be deleted by the application.
+Blocking receive of one VSCP event from the remote VSCP server. Data for the event is dynamically allocated and must be deleted by the application.
 
 For Python use of [pyvscphlp_receiveEventEx](pyvscphlp_receiveeventex.md) may be simpler as there id no dynamically allocated data to take care off. 
 

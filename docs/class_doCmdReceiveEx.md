@@ -16,7 +16,8 @@ Pointer to VSCP event ex that will receive the event ex from the remote VSCP ser
  * VSCP_ERROR_ERROR is returned if the server returns an error. 
  * VSCP_ERROR_RCV_EMPTY if no event is available.
  * VSCP_ERROR_MEMORY if memory allocation fails. 
- * VSCP_ERROR_READ if the read operation to get event fails. * VSCP_ERROR_CONVERSION if the conversion of the event fails.
+ * VSCP_ERROR_READ if the read operation to get event fails. 
+ * VSCP_ERROR_CONVERSION if the conversion of the event fails.
 
 ### Description
 Receive one event ex if one is available.
