@@ -45,6 +45,11 @@ jobs:
         repository: microsoft/vcpkg
         path: vcpkg
 
+    - name: Install NSIS
+      uses: repolevedavaj/install-nsis@v1.0.1
+      with:
+        nsis-version: '3.11'
+
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
       with:
