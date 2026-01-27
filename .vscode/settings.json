@@ -117,5 +117,6 @@
     "C_Cpp.default.cppStandard": "c++11",
     "cmake.configureSettings": {
       "CMAKE_BUILD_TYPE": "${buildType}"
-   }
+  },
+  "idf.pythonInstallPath": "/home/akhe/.platformio/penv/bin/python"
 }

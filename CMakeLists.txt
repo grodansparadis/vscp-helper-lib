@@ -32,7 +32,7 @@ set(PACKAGE_AUTHOR "Ake Hedman, the VSCP Project")
 
 # Version settings
 if(NOT DEFINED MAJOR_VERSION)
-    SET(MAJOR_VERSION "16")
+    SET(MAJOR_VERSION "15")
 endif()
 if(NOT DEFINED MINOR_VERSION)
     SET(MINOR_VERSION "1")

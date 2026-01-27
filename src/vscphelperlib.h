@@ -208,17 +208,17 @@ vscphlp_doLevel2Filter( const vscpEvent *pEvent,
                                const vscpEventFilter *pFilter );
 HELPERLIB_API int 
 vscphlp_convertCanalToEvent( vscpEvent *pvscpEvent,
-                              const canalMsg *pcanalMsg,
+                              const struct canalMsg *pcanalMsg,
                               unsigned char *pGUID );
 HELPERLIB_API int 
 vscphlp_convertCanalToEventEx( vscpEventEx *pvscpEvent,
-                                const canalMsg *pcanalMsg,
+                                const struct canalMsg *pcanalMsg,
                                  unsigned char *pGUID );
 HELPERLIB_API int 
-vscphlp_convertEventToCanal( canalMsg *pcanalMsg,
+vscphlp_convertEventToCanal( struct canalMsg *pcanalMsg,
                               const vscpEvent *pvscpEvent );
 HELPERLIB_API int 
-vscphlp_convertEventExToCanal( canalMsg *pcanalMsg,
+vscphlp_convertEventExToCanal( struct canalMsg *pcanalMsg,
                                 const vscpEventEx *pvscpEventEx );
 HELPERLIB_API unsigned long 
 vscphlp_makeTimeStamp( void );
