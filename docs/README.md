@@ -2,7 +2,7 @@
 
 # The VSCP helper library
 
-Author 2000-2025 Åke Hedman, [the VSCP Project](https://www.grodansparadis.com), &lt;[akhe@grodansparadis.com](mailto:akhe@grodansparadis.com)&gt;
+Author 2000-2026 Åke Hedman, [the VSCP Project](https://www.grodansparadis.com), &lt;[akhe@grodansparadis.com](mailto:akhe@grodansparadis.com)&gt;
 
 **Document created**: *${/var/creation-time}*  
 **Document version**: ${/var/document-version} 
