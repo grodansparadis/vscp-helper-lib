@@ -2215,49 +2215,49 @@ vscphlp_convertEventExToHTML(vscpEventEx* pEventEx, char* p, size_t len)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// vscphlp_convertLevel1MeasuremenToLevel2Double
+// vscphlp_convertLevel1MeasurementToLevel2Double
 //
 
 extern "C" int
-vscphlp_convertLevel1MeasuremenToLevel2Double(vscpEvent* pEventLevel1)
+vscphlp_convertLevel1MeasurementToLevel2Double(vscpEvent* pEventLevel1)
 {
-    return (vscp_convertLevel1MeasuremenToLevel2Double(pEventLevel1)
+    return (vscp_convertLevel1MeasurementToLevel2Double(pEventLevel1)
               ? VSCP_ERROR_SUCCESS
               : VSCP_ERROR_ERROR);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// vscphlp_convertLevel1MeasuremenToLevel2DoubleEx
+// vscphlp_convertLevel1MeasurementToLevel2DoubleEx
 //
 
 extern "C" int
-vscphlp_convertLevel1MeasuremenToLevel2DoubleEx(vscpEventEx* pEventEx)
+vscphlp_convertLevel1MeasurementToLevel2DoubleEx(vscpEventEx* pEventEx)
 {
-    return (vscp_convertLevel1MeasuremenToLevel2DoubleEx(pEventEx)
+    return (vscp_convertLevel1MeasurementToLevel2DoubleEx(pEventEx)
               ? VSCP_ERROR_SUCCESS
               : VSCP_ERROR_ERROR);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// vscphlp_convertLevel1MeasuremenToLevel2String
+// vscphlp_convertLevel1MeasurementToLevel2String
 //
 
 extern "C" int
-vscphlp_convertLevel1MeasuremenToLevel2String(vscpEvent* pEventLevel1)
+vscphlp_convertLevel1MeasurementToLevel2String(vscpEvent* pEventLevel1)
 {
-    return (vscp_convertLevel1MeasuremenToLevel2String(pEventLevel1)
+    return (vscp_convertLevel1MeasurementToLevel2String(pEventLevel1)
               ? VSCP_ERROR_SUCCESS
               : VSCP_ERROR_ERROR);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// vscphlp_convertLevel1MeasuremenToLevel2StringEx
+// vscphlp_convertLevel1MeasurementToLevel2StringEx
 //
 
 extern "C" int
-vscphlp_convertLevel1MeasuremenToLevel2StringEx(vscpEventEx* pEventEx)
+vscphlp_convertLevel1MeasurementToLevel2StringEx(vscpEventEx* pEventEx)
 {
-    return (vscp_convertLevel1MeasuremenToLevel2StringEx(pEventEx)
+    return (vscp_convertLevel1MeasurementToLevel2StringEx(pEventEx)
               ? VSCP_ERROR_SUCCESS
               : VSCP_ERROR_ERROR);
 }
