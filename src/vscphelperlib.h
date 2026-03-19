@@ -190,7 +190,7 @@ vscphlp_deleteVSCPevent( vscpEvent *pEvent );
 HELPERLIB_API void 
 vscphlp_deleteVSCPevent_v2( vscpEvent **ppEvent );
 HELPERLIB_API void 
-vscphlp_deleteVSCPeventEx( vscpEventEx *pEventEx );
+vscphlp_deleteVSCPeventEx( vscpEventEx **pEventEx );
 HELPERLIB_API void 
 vscphlp_clearVSCPFilter( vscpEventFilter *pFilter );
 HELPERLIB_API void 

@@ -879,9 +879,9 @@ vscphlp_deleteVSCPevent_v2(vscpEvent** ppEvent)
     \brief Delete VSCP event ex.
 */
 extern "C" void
-vscphlp_deleteVSCPeventEx(vscpEventEx* pEventEx)
+vscphlp_deleteVSCPeventEx(vscpEventEx** ppEventEx)
 {
-    return vscp_deleteEventEx(pEventEx);
+    return vscp_deleteEventEx(ppEventEx);
 }
 
 /*!
