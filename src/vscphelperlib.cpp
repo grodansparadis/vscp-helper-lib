@@ -494,7 +494,7 @@ vscphlp_isDataAvailable(long handle, unsigned int* pCount)
 //
 
 extern "C" int
-vscphlp_getStatus(long handle, VSCPStatus* pStatus)
+vscphlp_getStatus(long handle, vscp_status_t* pStatus)
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
     if (NULL == pvscpif) {
@@ -514,7 +514,7 @@ vscphlp_getStatus(long handle, VSCPStatus* pStatus)
 //
 
 extern "C" int
-vscphlp_getStatistics(long handle, canalStatistics* pStatistics)
+vscphlp_getStatistics(long handle, vscp_statistics_t* pStatistics)
 {
     VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
     if (NULL == pvscpif) {
