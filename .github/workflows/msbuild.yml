@@ -82,5 +82,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: windows_libvscphelper
-        path: ${{github.workspace}}/build/
-        retention-days: 30    
+        path: |
+          ${{ github.workspace }}/build/*.zip
+          ${{ github.workspace }}/build/*.exe
+        retention-days: 30
