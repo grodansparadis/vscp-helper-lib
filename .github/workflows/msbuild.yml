@@ -6,6 +6,7 @@ env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: .
   VSCP_PATH: '${{ github.workspace }}/vscp'
+  VCPKG_ROOT: '${{ github.workspace }}/vcpkg'
   ENVIRONMENT_SCRIPT: "C:/Program Files (x86)/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
   GENERATORS: "Ninja"
   BUILD_CONFIGURATION: Release
@@ -45,9 +46,6 @@ jobs:
         repository: microsoft/vcpkg
         path: vcpkg
 
-    - name: Install NSIS
-      uses: negrutiu/nsis-install@v2
-
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
       with:
@@ -57,7 +55,7 @@ jobs:
       run: |
           cd vcpkg
           bootstrap-vcpkg.bat
-          vcpkg.exe install integrate install
+          vcpkg.exe integrate install
           vcpkg install expat:x64-windows
           vcpkg install pthread:x64-windows 
           vcpkg install dlfcn-win32:x64-windows 
@@ -73,16 +71,14 @@ jobs:
       run: |
           mkdir build
           cd build 
-          cmake .. -G "${{ env.GENERATORS }}" -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_BUILD_TYPE=${{ env.BUILD_CONFIGURATION }} -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake -DVSCP_PATH=vscp
+          cmake .. -G "${{ env.GENERATORS }}" -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_ROOT=${{ env.VCPKG_ROOT }} -DVCPKG_APPLOCAL_DEPS=OFF -DCMAKE_BUILD_TYPE=${{ env.BUILD_CONFIGURATION }} -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake -DVSCP_PATH=vscp
           cmake --build . --parallel
           #msbuild libvscphelper.sln /p:Configuration=Release
-          cpack .
+          cpack -G ZIP .
 
       # Save artifacts    
     - uses: actions/upload-artifact@v4
       with:
         name: windows_libvscphelper
-        path: |
-          ${{ github.workspace }}/build/*.zip
-          ${{ github.workspace }}/build/*.exe
+        path: ${{ github.workspace }}/build/*.zip
         retention-days: 30
