@@ -7,7 +7,7 @@ env:
   SOLUTION_FILE_PATH: .
   VSCP_PATH: '${{ github.workspace }}/vscp'
   ENVIRONMENT_SCRIPT: "C:/Program Files (x86)/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
-  GENERATORS: "Visual Studio 17 2022"
+  GENERATORS: "Ninja"
   BUILD_CONFIGURATION: Release
 
   # Configuration type to build.
@@ -73,8 +73,8 @@ jobs:
       run: |
           mkdir build
           cd build 
-          cmake .. -G "${{ env.GENERATORS }}"  -A x64 -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_BUILD_TYPE=${{ env.BUILD_CONFIGURATION }} -DCMAKE_TOOLCHAIN_FILE=D:/a/vscp-helper-lib/vscp-helper-lib/vcpkg/scripts/buildsystems/vcpkg.cmake  -DVSCP_PATH=vscp
-          cmake --build . --config ${{ env.BUILD_CONFIGURATION }}
+          cmake .. -G "${{ env.GENERATORS }}" -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_BUILD_TYPE=${{ env.BUILD_CONFIGURATION }} -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake -DVSCP_PATH=vscp
+          cmake --build . --parallel
           #msbuild libvscphelper.sln /p:Configuration=Release
           cpack .
 
@@ -82,5 +82,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: windows_libvscphelper
-        path: ${{github.workspace}}/build/Release/
-        retention-days: 30    
+        path: |
+          ${{ github.workspace }}/build/*.zip
+          ${{ github.workspace }}/build/*.exe
+        retention-days: 30
