@@ -54,3 +54,7 @@ test/simple/simple
 test/simple/simple_stat
 
 build/
+
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md
