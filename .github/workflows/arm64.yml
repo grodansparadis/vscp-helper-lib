@@ -1,0 +1,62 @@
+name: Raspberry Pi ARM64 Build
+
+on: [push]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build-arm64:
+    runs-on: ubuntu-latest
+    name: Build on Ubuntu ARM64 (aarch64)
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      - uses: uraimo/run-on-arch-action@v2
+        name: Build and test on aarch64
+        id: build
+        with:
+          arch: aarch64
+          distro: ubuntu22.04
+
+          # Cache the apt and build caches between runs
+          githubToken: ${{ github.token }}
+
+          dockerRunArgs: |
+            --volume "${PWD}:/workspace"
+
+          install: |
+            apt-get update -q
+            apt-get install -y \
+              cmake \
+              make \
+              g++ \
+              libgtest-dev \
+              libssl-dev \
+              libexpat-dev \
+              libz-dev \
+              pandoc \
+              git
+            cd /usr/src/gtest && mkdir -p build && cd build && cmake .. && make && make install
+
+          run: |
+            cd /workspace
+            cmake -E make_directory build
+            cd build
+            cmake .. -DCMAKE_INSTALL_PREFIX=/ -DVSCP_PATH=vscp/
+            make -j$(nproc)
+            cpack -G DEB
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ubuntu22.04_arm64_libvscphelper_15.0.2.deb
+          path: ${{ github.workspace }}/build/libvscphelper_15.0.2.deb
+          retention-days: 30
