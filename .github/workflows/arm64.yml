@@ -55,7 +55,7 @@ jobs:
             cmake -E make_directory build
             cd build
             cmake .. -DCMAKE_INSTALL_PREFIX=/ -DVSCP_PATH=vscp/
-            make -j$(nproc)
+            make -j2
             cpack -G DEB
 
       - uses: actions/upload-artifact@v4
