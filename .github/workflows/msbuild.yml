@@ -54,16 +54,16 @@ jobs:
         msbuild-architecture: x64
 
     - name: Setup vcpkg
+      shell: cmd
       run: |
-          cd vcpkg
-          bootstrap-vcpkg.bat
-          vcpkg.exe install integrate install
-          vcpkg install expat:x64-windows
-          vcpkg install pthread:x64-windows 
-          vcpkg install dlfcn-win32:x64-windows 
-          vcpkg install openssl:x64-windows 
-          vcpkg install spdlog:x64-windows
-          cd ..
+          set VCPKG_ROOT=%GITHUB_WORKSPACE%\vcpkg
+          call %VCPKG_ROOT%\bootstrap-vcpkg.bat
+          %VCPKG_ROOT%\vcpkg.exe integrate install
+          %VCPKG_ROOT%\vcpkg.exe install expat:x64-windows
+          %VCPKG_ROOT%\vcpkg.exe install pthread:x64-windows
+          %VCPKG_ROOT%\vcpkg.exe install dlfcn-win32:x64-windows
+          %VCPKG_ROOT%\vcpkg.exe install openssl:x64-windows
+          %VCPKG_ROOT%\vcpkg.exe install spdlog:x64-windows
 
     - name: Install 7Zip PowerShell Module
       shell: powershell
