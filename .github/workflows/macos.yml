@@ -1,0 +1,51 @@
+name: macOS Build
+
+on: [push]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-13, macos-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: brew install cmake openssl expat zlib googletest pandoc
+
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{ github.workspace }}/build
+
+      - name: Configure CMake
+        shell: bash
+        working-directory: ${{ github.workspace }}/build
+        run: |
+          cmake .. \
+            -DCMAKE_INSTALL_PREFIX=/ \
+            -DVSCP_PATH=vscp/ \
+            -DOPENSSL_ROOT_DIR=$(brew --prefix openssl) \
+            -DEXPAT_INCLUDE_DIR=$(brew --prefix expat)/include \
+            -DEXPAT_LIBRARY=$(brew --prefix expat)/lib/libexpat.dylib
+
+      - name: Build
+        working-directory: ${{ github.workspace }}/build
+        shell: bash
+        run: make -j$(sysctl -n hw.logicalcpu)
+
+      - name: Package
+        working-directory: ${{ github.workspace }}/build
+        shell: bash
+        run: cpack -G TGZ
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}_libvscphelper_15.0.2.tar.gz
+          path: ${{ github.workspace }}/build/libvscphelper_15.0.2.tar.gz
+          retention-days: 30
