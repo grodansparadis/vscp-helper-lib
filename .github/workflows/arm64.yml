@@ -2,6 +2,9 @@ name: Raspberry Pi ARM64 Build
 
 on: [push]
 
+permissions:
+  contents: read
+
 env:
   BUILD_TYPE: Release
 
