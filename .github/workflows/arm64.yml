@@ -48,7 +48,7 @@ jobs:
               libz-dev \
               pandoc \
               git
-            cd /usr/src/gtest && mkdir -p build && cd build && cmake .. && make && make install
+            cd /usr/src/gtest && mkdir -p build && cd build && cmake .. && make && cmake --install .
 
           run: |
             cd /workspace
