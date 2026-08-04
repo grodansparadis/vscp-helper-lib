@@ -2,21 +2,21 @@
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Linux Build](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/build.yml/badge.svg) 
+[![macOS Build](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/macos.yml/badge.svg)](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/macos.yml)
+[![Raspberry Pi ARM64 Build](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/arm64.yml/badge.svg)](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/arm64.yml)
 ![Windows Build](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/msbuild.yml/badge.svg)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 
 Helper functionality packed in a shared library for [VSCP](https://www.vscp.org)
 
-<img src="https://vscp.org/images/logo.png" width="100">
+![](https://vscp.org/images/logo.png)
 
 **Available for**: Linux, Windows
 
-Full documentation is [here](https://docs.vscp.org/#vscphelper).
-
-Wrapper for Python is [here](https://github.com/grodansparadis/pyvscp)
-
-Wrapper for node.js is [here](https://github.com/grodansparadis/node-vscp-helper).
+  - Full documentation is [here](https://docs.vscp.org/#vscphelper).
+  - Wrapper for Python is [here](https://github.com/grodansparadis/pyvscp)
+  - Wrapper for node.js is [here](https://github.com/grodansparadis/node-vscp-helper).
 
 ## How to install on Linux
 
