@@ -12,7 +12,7 @@ Helper functionality packed in a shared library for [VSCP](https://www.vscp.org)
 
 ![VSCP Logo](https://github.com/grodansparadis/vscp-logo/blob/master/logo_100.png)
 
-**Available for**: Linux, Windows
+**Available for**: Linux, Windows, Macintosh
 
   - Full documentation is [here](https://docs.vscp.org/#vscphelper).
   - Wrapper for Python is [here](https://github.com/grodansparadis/pyvscp)
