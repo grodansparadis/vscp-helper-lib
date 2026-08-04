@@ -10,7 +10,7 @@
 
 Helper functionality packed in a shared library for [VSCP](https://www.vscp.org)
 
-![](https://vscp.org/images/logo.png)
+![VSCP Logo](https://vscp.org/images/logo_100.png)
 
 **Available for**: Linux, Windows
 
