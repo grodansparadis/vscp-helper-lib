@@ -49,6 +49,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}_libvscphelper_15.0.2.tar.gz
-          path: ${{ github.workspace }}/build/libvscphelper_15.0.2.tar.gz
+          name: ${{ matrix.os }}_libvscphelper_tgz
+          path: ${{ github.workspace }}/build/libvscphelper_*.tar.gz
+          if-no-files-found: error
           retention-days: 30
