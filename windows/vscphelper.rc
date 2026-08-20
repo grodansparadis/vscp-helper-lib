@@ -67,8 +67,8 @@ LANGUAGE 9, 1
 //
 
 VS_VERSION_INFO     VERSIONINFO
-  FILEVERSION       1,0,0,1
-  PRODUCTVERSION    1,0,0,1
+  FILEVERSION       26,08,6,0
+  PRODUCTVERSION    26,08,6,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -85,12 +85,12 @@ BEGIN
 		BEGIN
             VALUE "CompanyName", "the VSCP Project"
             VALUE "FileDescription", "Helper library for the VSCP project"
-			VALUE "FileVersion",     "1.0.0.1"
+			VALUE "FileVersion",     "26-08-6"
 			VALUE "InternalName",    "VSCP helper lib.dll"
             VALUE "LegalCopyright", "(c) the VSCP Project.  All rights reserved."
 			VALUE "OriginalFilename","VSCP helper lib.dll"
             VALUE "ProductName", "VSCP & Friends"
-			VALUE "ProductVersion",  "1.0.0.1"
+			VALUE "ProductVersion",  "26-08-6"
 		END
 	END
 	BLOCK "VarFileInfo"

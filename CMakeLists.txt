@@ -27,19 +27,62 @@
 #
 
 cmake_minimum_required(VERSION 3.5)
-project(libvscphelper LANGUAGES CXX C)
+
 set(PACKAGE_AUTHOR "Ake Hedman, the VSCP Project")
 
-# Version settings
+# Version settings (CalVer)
+string(TIMESTAMP LIBVSCPHELPER_BUILD_YEAR "%Y" UTC)
+string(TIMESTAMP LIBVSCPHELPER_BUILD_MONTH "%m" UTC)
+string(SUBSTRING "${LIBVSCPHELPER_BUILD_YEAR}" 2 2 LIBVSCPHELPER_CALVER_YEAR)
+
 if(NOT DEFINED MAJOR_VERSION)
-    SET(MAJOR_VERSION "15")
+    set(MAJOR_VERSION "${LIBVSCPHELPER_CALVER_YEAR}")
 endif()
 if(NOT DEFINED MINOR_VERSION)
-    SET(MINOR_VERSION "1")
+    set(MINOR_VERSION "${LIBVSCPHELPER_BUILD_MONTH}")
 endif()
 if(NOT DEFINED PATCH_VERSION)
-    SET(PATCH_VERSION "1")
+    set(PATCH_VERSION "0")
+    find_package(Git QUIET)
+    if(Git_FOUND AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
+        execute_process(
+            COMMAND "${GIT_EXECUTABLE}" rev-parse --is-inside-work-tree
+            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+            OUTPUT_VARIABLE LIBVSCPHELPER_GIT_REPO
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            ERROR_QUIET)
+        if(LIBVSCPHELPER_GIT_REPO STREQUAL "true")
+            execute_process(
+                COMMAND "${GIT_EXECUTABLE}" rev-list --count --merges origin/master --since=${LIBVSCPHELPER_BUILD_YEAR}-${LIBVSCPHELPER_BUILD_MONTH}-01
+                WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+                OUTPUT_VARIABLE LIBVSCPHELPER_GIT_PATCH
+                OUTPUT_STRIP_TRAILING_WHITESPACE
+                ERROR_QUIET)
+            if(LIBVSCPHELPER_GIT_PATCH STREQUAL "")
+                execute_process(
+                    COMMAND "${GIT_EXECUTABLE}" rev-list --count --merges master --since=${LIBVSCPHELPER_BUILD_YEAR}-${LIBVSCPHELPER_BUILD_MONTH}-01
+                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+                    OUTPUT_VARIABLE LIBVSCPHELPER_GIT_PATCH
+                    OUTPUT_STRIP_TRAILING_WHITESPACE
+                    ERROR_QUIET)
+            endif()
+            if(LIBVSCPHELPER_GIT_PATCH STREQUAL "")
+                execute_process(
+                    COMMAND "${GIT_EXECUTABLE}" rev-list --count --merges HEAD
+                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+                    OUTPUT_VARIABLE LIBVSCPHELPER_GIT_PATCH
+                    OUTPUT_STRIP_TRAILING_WHITESPACE
+                    ERROR_QUIET)
+            endif()
+            if(NOT LIBVSCPHELPER_GIT_PATCH STREQUAL "")
+                set(PATCH_VERSION "${LIBVSCPHELPER_GIT_PATCH}")
+            endif()
+        endif()
+    endif()
 endif()
+
+set(APP_VERSION "${MAJOR_VERSION}-${MINOR_VERSION}-${PATCH_VERSION}")
+project(libvscphelper VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}" LANGUAGES CXX C)
 
 # Set compiler options
 if(WIN32)
@@ -70,7 +113,7 @@ set(APP_URL "https://github.com/grodansparadis/vscp-helper-lib")
 endif()
 
 if(NOT DEFINED APP_VERSION)
-set(APP_VERSION, "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
+set(APP_VERSION "${MAJOR_VERSION}-${MINOR_VERSION}-${PATCH_VERSION}")
 endif()
 
 # --- System Libraries ---
@@ -151,8 +194,8 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
   SET(CPACK_PACKAGE_VERSION_MAJOR "${MAJOR_VERSION}")
   SET(CPACK_PACKAGE_VERSION_MINOR "${MINOR_VERSION}")
   SET(CPACK_PACKAGE_VERSION_PATCH "${PATCH_VERSION}")
-  SET(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${MAJOR_VERSION}.${MINOR_VERSION}.${CPACK_PACKAGE_VERSION_PATCH}")
-  SET(CPACK_SOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${MAJOR_VERSION}.${MINOR_VERSION}.${CPACK_PACKAGE_VERSION_PATCH}")
+  SET(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${MAJOR_VERSION}-${MINOR_VERSION}-${CPACK_PACKAGE_VERSION_PATCH}")
+  SET(CPACK_SOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${MAJOR_VERSION}-${MINOR_VERSION}-${CPACK_PACKAGE_VERSION_PATCH}")
 #  SET(CPACK_IGNORE_FILES "\\.psd$;/CVS/;/\\.svn/;/\\.git/;\\.swp$;/CMakeLists.txt.user;\\.#;/#;\\.tar.gz$;/CMakeFiles/;CMakeCache.txt;\\.qm$;/build/;\\.diff$;.DS_Store'")
 #  SET(CPACK_SOURCE_IGNORE_FILES ${CPACK_IGNORE_FILES})
 
@@ -250,6 +293,12 @@ set(RESOURCE_FILES
         README.md
         forms/index.html)
 
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/windows")
+configure_file(
+    "${PROJECT_SOURCE_DIR}/windows/vscphelper.rc.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/windows/vscphelper.rc"
+    @ONLY)
+
 # Add files to library 
 if(WIN32)
 add_library(libvscphelper SHARED
@@ -280,7 +329,8 @@ add_library(libvscphelper SHARED
     ./third_party/vscp/src/common/crc8.h
     ./third_party/vscp/src/common/crc8.c
     ./third_party/vscp/src/common/vscpmd5.h
-    ./third_party/vscp/src/common/vscpmd5.c 
+    ./third_party/vscp/src/common/vscpmd5.c
+    ${CMAKE_CURRENT_BINARY_DIR}/windows/vscphelper.rc
   ) 
 else()
   add_library(libvscphelper SHARED   
