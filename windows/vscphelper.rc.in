@@ -3,8 +3,8 @@
 #include "resource.h"
 
 VS_VERSION_INFO VERSIONINFO
-    FILEVERSION 26,8,6,0
-    PRODUCTVERSION 26,8,6,0
+    FILEVERSION @MAJOR_VERSION@,@MINOR_VERSION@,@PATCH_VERSION@,0
+    PRODUCTVERSION @MAJOR_VERSION@,@MINOR_VERSION@,@PATCH_VERSION@,0
     FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
     FILEFLAGS 0x1L
@@ -21,12 +21,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "the VSCP Project"
             VALUE "FileDescription", "Helper library for the VSCP project"
-            VALUE "FileVersion", "26-08-6"
+            VALUE "FileVersion", "@APP_VERSION@"
             VALUE "InternalName", "VSCP helper lib.dll"
             VALUE "LegalCopyright", "(c) the VSCP Project.  All rights reserved."
             VALUE "OriginalFilename", "VSCP helper lib.dll"
             VALUE "ProductName", "VSCP & Friends"
-            VALUE "ProductVersion", "26-08-6"
+            VALUE "ProductVersion", "@APP_VERSION@"
         END
     END
     BLOCK "VarFileInfo"
