@@ -68,7 +68,7 @@ if(NOT DEFINED PATCH_VERSION)
             endif()
             if(LIBVSCPHELPER_GIT_PATCH STREQUAL "")
                 execute_process(
-                    COMMAND "${GIT_EXECUTABLE}" rev-list --count --merges HEAD
+                    COMMAND "${GIT_EXECUTABLE}" rev-list --count --merges HEAD --since=${LIBVSCPHELPER_BUILD_YEAR}-${LIBVSCPHELPER_BUILD_MONTH}-01
                     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
                     OUTPUT_VARIABLE LIBVSCPHELPER_GIT_PATCH
                     OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -293,11 +293,13 @@ set(RESOURCE_FILES
         README.md
         forms/index.html)
 
-file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/windows")
-configure_file(
-    "${PROJECT_SOURCE_DIR}/windows/vscphelper.rc.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/windows/vscphelper.rc"
-    @ONLY)
+if(WIN32)
+    file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/windows")
+    configure_file(
+        "${PROJECT_SOURCE_DIR}/windows/vscphelper.rc.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/windows/vscphelper.rc"
+        @ONLY)
+endif()
 
 # Add files to library 
 if(WIN32)
