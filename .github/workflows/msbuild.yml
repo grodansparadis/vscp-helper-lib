@@ -34,6 +34,12 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Read library version
+      shell: powershell
+      run: |
+        $version = (Select-String -Path src/libversion.h -Pattern '^#define VSCP_HELPER_LIB_VERSION "(.+)"$').Matches[0].Groups[1].Value
+        "LIB_VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
     - name: Get latest CMake and ninja
       # Using 'latest' branch, the most recent CMake and ninja are installed.
       uses: lukka/get-cmake@latest 
@@ -81,7 +87,7 @@ jobs:
       # Save artifacts    
     - uses: actions/upload-artifact@v4
       with:
-        name: windows_libvscphelper
+        name: windows_libvscphelper_${{ env.LIB_VERSION }}
         path: |
           ${{ github.workspace }}/build/*.zip
           ${{ github.workspace }}/build/*.exe

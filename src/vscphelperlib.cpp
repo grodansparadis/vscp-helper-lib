@@ -4,7 +4,7 @@
 //
 // The MIT License (MIT)
 //
-// Copyright (C) 2000-2024 Åke Hedman, The VSCP Project,
+// Copyright (C) 2000-2026 Åke Hedman and contributors, The VSCP Project,
 // <akhe@vscp.org>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -42,6 +42,8 @@
 #include <vscp.h>
 #include <vscpcanaldeviceif.h>
 #include <vscpdatetime.h>
+#include <guid.h>
+#include <vscp-guid-parser.h>
 #include <vscphelper.h>
 #include <vscpremotetcpif.h>
 
@@ -1087,6 +1089,17 @@ vscphlp_getGuidFromStringToArray(uint8_t* pGUID, const char* pStr)
     std::string strGUID = std::string(pStr);
     return vscp_getGuidFromStringToArray(pGUID, strGUID) ? VSCP_ERROR_SUCCESS
                                                          : VSCP_ERROR_ERROR;
+}
+
+/*!
+    \fn bool vscphlp_parseGuid( uint8_t *pGUID, const char * pStr
+   ) \brief Write extended GUID from string into array.
+*/
+
+extern "C" int
+vscphlp_parseGuid(uint8_t* pGUID, const char* pStr)
+{
+    return vscp_guid_parse(pGUID, pStr, nullptr);
 }
 
 /*!

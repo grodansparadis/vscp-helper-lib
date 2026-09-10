@@ -5,7 +5,7 @@
 //
 // The MIT License (MIT)
 //
-// Copyright (C) 2000-2024 Åke Hedman, The VSCP Project, 
+// Copyright (C) 2000-2026 Åke Hedman and contributors, The VSCP Project, 
 // <akhe@vscp.org>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -154,6 +154,8 @@ HELPERLIB_API int
 vscphlp_getGuidFromStringEx( vscpEventEx *pEvent, const char * pGUID );
 HELPERLIB_API int 
 vscphlp_getGuidFromStringToArray( uint8_t *pGUID, const char * pStr );
+HELPERLIB_API int 
+vscphlp_parseGuid(uint8_t* pGUID, const char* pStr);
 HELPERLIB_API int 
 vscphlp_writeGuidToString( const vscpEvent *pEvent, char *pStr, size_t len );
 HELPERLIB_API int 

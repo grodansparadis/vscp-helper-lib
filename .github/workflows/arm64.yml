@@ -18,6 +18,10 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Read library version
+        shell: bash
+        run: echo "LIB_VERSION=$(sed -n 's/^#define VSCP_HELPER_LIB_VERSION "\(.*\)"$/\1/p' src/libversion.h)" >> "$GITHUB_ENV"
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
@@ -60,7 +64,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ubuntu22.04_arm64_libvscphelper_deb
+          name: ubuntu22.04_arm64_libvscphelper_${{ env.LIB_VERSION }}_deb
           path: ${{ github.workspace }}/build/libvscphelper_*.deb
           if-no-files-found: error
           retention-days: 30

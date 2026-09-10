@@ -80,9 +80,8 @@ if (WIN32)
   )
 else()
   target_link_libraries(unittest PRIVATE
-    "${PROJECT_SOURCE_DIR}/../../build/libvscphelper15.so"
+    "${PROJECT_SOURCE_DIR}/../../build/libvscphelper26.so"
     GTest::gtest
-    GTest::gmock
   )    
 endif()
 

@@ -18,6 +18,10 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: recursive
+
+    - name: Read library version
+      shell: bash
+      run: echo "LIB_VERSION=$(sed -n 's/^#define VSCP_HELPER_LIB_VERSION "\(.*\)"$/\1/p' src/libversion.h)" >> "$GITHUB_ENV"
      
     - name: Checkout google test repo
       run: sudo apt-get install libgtest-dev && cd /usr/src/gtest && sudo mkdir build && cd build && sudo cmake .. && sudo make DESTDIR=/usr/lib
@@ -61,7 +65,7 @@ jobs:
     # Save artifact    
     - uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.os }}_libvscphelper_deb
+        name: ${{ matrix.os }}_libvscphelper_${{ env.LIB_VERSION }}_deb
         path: ${{ github.workspace }}/build/libvscphelper_*.deb
         if-no-files-found: error
         retention-days: 30

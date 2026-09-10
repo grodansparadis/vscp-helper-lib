@@ -22,6 +22,51 @@
 #define INTERFACE1_USER 	    "admin"
 #define INTERFACE1_PASSWORD   "secret"
 
+TEST(GuidParser, ParsesSupportedFormats)
+{
+    const uint8_t expected[] = { 0xFF, 0xFF, 0xFF, 0xFF,
+                                 0xFF, 0xFF, 0xFF, 0xFF,
+                                 0x01, 0x02, 0x03, 0xAA,
+                                 0xBB, 0x44, 0x01, 0x30 };
+    const char* formats[] = {
+        "FF:FF:FF:FF:FF:FF:FF:FF:01:02:03:AA:BB:44:01:30",
+        "::01:02:03:AA:BB:44:01:30",
+        "FFFFFFFF-FFFF-FFFF-0102-03AABB440130",
+        "{::0102:03aa:bb440130}"
+    };
+
+    for (const char* format : formats) {
+        uint8_t guid[16] = {};
+        EXPECT_EQ(VSCP_ERROR_SUCCESS, vscphlp_parseGuid(guid, format));
+        EXPECT_EQ(0, memcmp(expected, guid, sizeof(guid))) << format;
+    }
+}
+
+TEST(GuidParser, ParsesSpecialValues)
+{
+    uint8_t guid[16] = {};
+
+    ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_parseGuid(guid, "-"));
+    for (uint8_t value : guid) {
+        EXPECT_EQ(0, value);
+    }
+
+    ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_parseGuid(guid, "::"));
+    for (uint8_t value : guid) {
+        EXPECT_EQ(0xFF, value);
+    }
+}
+
+TEST(GuidParser, RejectsInvalidInput)
+{
+    uint8_t guid[16] = {};
+
+    EXPECT_EQ(VSCP_ERROR_INVALID_POINTER, vscphlp_parseGuid(nullptr, "::"));
+    EXPECT_EQ(VSCP_ERROR_INVALID_POINTER, vscphlp_parseGuid(guid, nullptr));
+    EXPECT_EQ(VSCP_ERROR_INVALID_SYNTAX, vscphlp_parseGuid(guid, "not-a-guid"));
+    EXPECT_EQ(VSCP_ERROR_INVALID_SYNTAX, vscphlp_parseGuid(guid, "01:02:03"));
+}
+
 TEST(tcpif, SessionHandling) { 
 
     long handle1; 

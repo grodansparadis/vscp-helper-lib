@@ -11,6 +11,10 @@
                 {
                     "lang": "python",
                     "name": "Python"
+                },
+                {
+                    "lang": "javascript",
+                    "name": "Node.js"
                 }
             ]
         }

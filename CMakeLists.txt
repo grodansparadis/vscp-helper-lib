@@ -30,58 +30,19 @@ cmake_minimum_required(VERSION 3.5)
 
 set(PACKAGE_AUTHOR "Ake Hedman, the VSCP Project")
 
-# Version settings (CalVer)
-string(TIMESTAMP LIBVSCPHELPER_BUILD_YEAR "%Y" UTC)
-string(TIMESTAMP LIBVSCPHELPER_BUILD_MONTH "%m" UTC)
-string(SUBSTRING "${LIBVSCPHELPER_BUILD_YEAR}" 2 2 LIBVSCPHELPER_CALVER_YEAR)
+file(STRINGS "${CMAKE_SOURCE_DIR}/src/libversion.h" LIBVSCPHELPER_VERSION_DEFINE
+  REGEX "^#define[ \\t]+VSCP_HELPER_LIB_VERSION[ \\t]+\"[0-9]+\\.[0-9]+\\.[0-9]+\"")
+if(NOT LIBVSCPHELPER_VERSION_DEFINE)
+  message(FATAL_ERROR "Unable to read VSCP_HELPER_LIB_VERSION from src/libversion.h")
+endif()
+string(REGEX REPLACE ".*\"([0-9]+\\.[0-9]+\\.[0-9]+)\".*" "\\1"
+  LIBVSCPHELPER_VERSION "${LIBVSCPHELPER_VERSION_DEFINE}")
+string(REPLACE "." ";" LIBVSCPHELPER_VERSION_PARTS "${LIBVSCPHELPER_VERSION}")
+list(GET LIBVSCPHELPER_VERSION_PARTS 0 MAJOR_VERSION)
+list(GET LIBVSCPHELPER_VERSION_PARTS 1 MINOR_VERSION)
+list(GET LIBVSCPHELPER_VERSION_PARTS 2 PATCH_VERSION)
 
-if(NOT DEFINED MAJOR_VERSION)
-    set(MAJOR_VERSION "${LIBVSCPHELPER_CALVER_YEAR}")
-endif()
-if(NOT DEFINED MINOR_VERSION)
-    set(MINOR_VERSION "${LIBVSCPHELPER_BUILD_MONTH}")
-endif()
-if(NOT DEFINED PATCH_VERSION)
-    set(PATCH_VERSION "0")
-    find_package(Git QUIET)
-    if(Git_FOUND AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
-        execute_process(
-            COMMAND "${GIT_EXECUTABLE}" rev-parse --is-inside-work-tree
-            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-            OUTPUT_VARIABLE LIBVSCPHELPER_GIT_REPO
-            OUTPUT_STRIP_TRAILING_WHITESPACE
-            ERROR_QUIET)
-        if(LIBVSCPHELPER_GIT_REPO STREQUAL "true")
-            execute_process(
-                COMMAND "${GIT_EXECUTABLE}" rev-list --count --merges origin/master --since=${LIBVSCPHELPER_BUILD_YEAR}-${LIBVSCPHELPER_BUILD_MONTH}-01
-                WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-                OUTPUT_VARIABLE LIBVSCPHELPER_GIT_PATCH
-                OUTPUT_STRIP_TRAILING_WHITESPACE
-                ERROR_QUIET)
-            if(LIBVSCPHELPER_GIT_PATCH STREQUAL "")
-                execute_process(
-                    COMMAND "${GIT_EXECUTABLE}" rev-list --count --merges master --since=${LIBVSCPHELPER_BUILD_YEAR}-${LIBVSCPHELPER_BUILD_MONTH}-01
-                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-                    OUTPUT_VARIABLE LIBVSCPHELPER_GIT_PATCH
-                    OUTPUT_STRIP_TRAILING_WHITESPACE
-                    ERROR_QUIET)
-            endif()
-            if(LIBVSCPHELPER_GIT_PATCH STREQUAL "")
-                execute_process(
-                    COMMAND "${GIT_EXECUTABLE}" rev-list --count --merges HEAD --since=${LIBVSCPHELPER_BUILD_YEAR}-${LIBVSCPHELPER_BUILD_MONTH}-01
-                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-                    OUTPUT_VARIABLE LIBVSCPHELPER_GIT_PATCH
-                    OUTPUT_STRIP_TRAILING_WHITESPACE
-                    ERROR_QUIET)
-            endif()
-            if(NOT LIBVSCPHELPER_GIT_PATCH STREQUAL "")
-                set(PATCH_VERSION "${LIBVSCPHELPER_GIT_PATCH}")
-            endif()
-        endif()
-    endif()
-endif()
-
-set(APP_VERSION "${MAJOR_VERSION}-${MINOR_VERSION}-${PATCH_VERSION}")
+set(APP_VERSION "${LIBVSCPHELPER_VERSION}")
 project(libvscphelper VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}" LANGUAGES CXX C)
 
 # Set compiler options
@@ -194,8 +155,8 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
   SET(CPACK_PACKAGE_VERSION_MAJOR "${MAJOR_VERSION}")
   SET(CPACK_PACKAGE_VERSION_MINOR "${MINOR_VERSION}")
   SET(CPACK_PACKAGE_VERSION_PATCH "${PATCH_VERSION}")
-  SET(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${MAJOR_VERSION}-${MINOR_VERSION}-${CPACK_PACKAGE_VERSION_PATCH}")
-  SET(CPACK_SOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${MAJOR_VERSION}-${MINOR_VERSION}-${CPACK_PACKAGE_VERSION_PATCH}")
+  SET(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${LIBVSCPHELPER_VERSION}")
+  SET(CPACK_SOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${LIBVSCPHELPER_VERSION}")
 #  SET(CPACK_IGNORE_FILES "\\.psd$;/CVS/;/\\.svn/;/\\.git/;\\.swp$;/CMakeLists.txt.user;\\.#;/#;\\.tar.gz$;/CMakeFiles/;CMakeCache.txt;\\.qm$;/build/;\\.diff$;.DS_Store'")
 #  SET(CPACK_SOURCE_IGNORE_FILES ${CPACK_IGNORE_FILES})
 
@@ -317,8 +278,10 @@ add_library(libvscphelper SHARED
     ./third_party/vscp/src/vscp/common/vscpdatetime.cpp
     ./third_party/vscp/src/vscp/common/guid.h
     ./third_party/vscp/src/vscp/common/guid.cpp
+    ./third_party/vscp/src/vscp/common/vscp-guid-parser.c
     ./third_party/vscp/src/vscp/common/vscphelper.h
     ./third_party/vscp/src/vscp/common/vscphelper.cpp
+    ./third_party/vscp/src/common/vscphelper-common.cpp
     ./third_party/vscp/src/vscp/common/canal.h
     ./third_party/vscp/src/common/sockettcp.h
     ./third_party/vscp/src/common/sockettcp.c
@@ -349,8 +312,10 @@ else()
     ./third_party/vscp/src/vscp/common/vscpdatetime.cpp
     ./third_party/vscp/src/vscp/common/guid.h
     ./third_party/vscp/src/vscp/common/guid.cpp
+    ./third_party/vscp/src/vscp/common/vscp-guid-parser.c
     ./third_party/vscp/src/vscp/common/vscphelper.h
     ./third_party/vscp/src/vscp/common/vscphelper.cpp
+    ./third_party/vscp/src/common/vscphelper-common.cpp
     ./third_party/vscp/src/vscp/common/canal.h
     ./third_party/vscp/src/common/sockettcp.h
     ./third_party/vscp/src/common/sockettcp.c

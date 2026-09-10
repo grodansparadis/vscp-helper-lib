@@ -20,6 +20,10 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Read library version
+        shell: bash
+        run: echo "LIB_VERSION=$(sed -n 's/^#define VSCP_HELPER_LIB_VERSION "\(.*\)"$/\1/p' src/libversion.h)" >> "$GITHUB_ENV"
+
       - name: Install dependencies
         run: brew install cmake openssl expat zlib googletest pandoc
 
@@ -49,7 +53,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}_libvscphelper_tgz
+          name: ${{ matrix.os }}_libvscphelper_${{ env.LIB_VERSION }}_tgz
           path: ${{ github.workspace }}/build/libvscphelper_*.tar.gz
           if-no-files-found: error
           retention-days: 30
