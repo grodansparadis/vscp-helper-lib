@@ -32,7 +32,7 @@
   This not the same as the released version which is year.month.patch
 */
 
-#define VSCP_HELPER_LIB_VERSION "15.2.2"
+#define VSCP_HELPER_LIB_VERSION "15.2.3"
 #define VSCP_HELPER_LIB_VERSION_MAJOR 15
 #define VSCP_HELPER_LIB_VERSION_MINOR 2
-#define VSCP_HELPER_LIB_VERSION_PATCH 2
+#define VSCP_HELPER_LIB_VERSION_PATCH 3
