@@ -62,10 +62,15 @@ jobs:
         make -j$(nproc)
         sudo cpack -G DEB 
         sudo make install DESTDIR=AppDir
+        for artifact in libvscphelper_*.deb; do
+          sha256sum "$artifact" > "$artifact.sha256"
+        done
     # Save artifact    
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.os }}_libvscphelper_${{ env.LIB_VERSION }}_deb
-        path: ${{ github.workspace }}/build/libvscphelper_*.deb
+        path: |
+          ${{ github.workspace }}/build/libvscphelper_*.deb
+          ${{ github.workspace }}/build/libvscphelper_*.deb.sha256
         if-no-files-found: error
         retention-days: 30

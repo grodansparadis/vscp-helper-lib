@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 import re
@@ -11,17 +10,15 @@ import re
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VARIABLES_PATH = REPO_ROOT / "docs" / "variables.xml"
+VERSION_PATH = REPO_ROOT / "src" / "libversion.h"
+VERSION_PATTERN = re.compile(r'^#define VSCP_HELPER_LIB_VERSION "([0-9]+\.[0-9]+\.[0-9]+)"$', re.MULTILINE)
 
 
-def get_monthly_commit_count(now: datetime) -> int:
-    month_start = now.strftime("%Y-%m-01")
-    result = subprocess.run(
-        ["git", "-C", str(REPO_ROOT), "rev-list", "--count", "HEAD", f"--since={month_start}"],
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    return int(result.stdout.strip())
+def get_library_version() -> str:
+    version_match = VERSION_PATTERN.search(VERSION_PATH.read_text(encoding="utf-8"))
+    if version_match is None:
+        raise ValueError("libversion.h must define VSCP_HELPER_LIB_VERSION")
+    return version_match.group(1)
 
 
 def main() -> None:
@@ -33,7 +30,7 @@ def main() -> None:
         raise ValueError("variables.xml must contain creation-time and document-version elements")
 
     creation_timestamp = now.strftime("%Y-%m-%d %H:%M UTC")
-    version = f"{now:%y-%m}-{get_monthly_commit_count(now)}"
+    version = get_library_version()
     content = re.sub(
         r"<creation-time>.*?</creation-time>",
         f"<creation-time>{creation_timestamp}</creation-time>",

@@ -83,6 +83,10 @@ jobs:
           cmake --build . --parallel
           #msbuild libvscphelper.sln /p:Configuration=Release
           cpack .
+          Get-ChildItem -File *.zip, *.exe | ForEach-Object {
+            "$((Get-FileHash -Algorithm SHA256 $_.FullName).Hash.ToLower())  $($_.Name)" |
+              Set-Content -Encoding ascii "$($_.FullName).sha256"
+          }
 
       # Save artifacts    
     - uses: actions/upload-artifact@v4
@@ -91,4 +95,6 @@ jobs:
         path: |
           ${{ github.workspace }}/build/*.zip
           ${{ github.workspace }}/build/*.exe
+          ${{ github.workspace }}/build/*.zip.sha256
+          ${{ github.workspace }}/build/*.exe.sha256
         retention-days: 30

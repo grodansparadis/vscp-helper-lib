@@ -49,11 +49,17 @@ jobs:
       - name: Package
         working-directory: ${{ github.workspace }}/build
         shell: bash
-        run: cpack -G TGZ
+        run: |
+          cpack -G TGZ
+          for artifact in libvscphelper_*.tar.gz; do
+            shasum -a 256 "$artifact" > "$artifact.sha256"
+          done
 
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.os }}_libvscphelper_${{ env.LIB_VERSION }}_tgz
-          path: ${{ github.workspace }}/build/libvscphelper_*.tar.gz
+          path: |
+            ${{ github.workspace }}/build/libvscphelper_*.tar.gz
+            ${{ github.workspace }}/build/libvscphelper_*.tar.gz.sha256
           if-no-files-found: error
           retention-days: 30
