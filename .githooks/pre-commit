@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Increment and stage the library version before each commit."""
+"""Synchronize and stage the library version before each commit."""
 
 from pathlib import Path
 import subprocess
@@ -10,7 +10,11 @@ def main() -> None:
 		subprocess.check_output(["git", "rev-parse", "--show-toplevel"], text=True).strip()
 	)
 	version_path = repo_root / "src" / "libversion.h"
-	subprocess.run(["python3", str(repo_root / "tools" / "update_libversion.py")], check=True)
+	subprocess.run(
+		["python3", "tools/update_libversion.py", "--next-commit"],
+		cwd=repo_root,
+		check=True,
+	)
 	subprocess.run(["git", "add", "--", str(version_path)], check=True)
 
 

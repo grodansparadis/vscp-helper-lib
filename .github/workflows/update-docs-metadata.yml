@@ -18,16 +18,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Refresh documentation metadata
-        run: python3 tools/update_docs_metadata.py
+      - name: Refresh version and documentation metadata
+        run: |
+          python3 tools/update_libversion.py --next-commit
+          python3 tools/update_docs_metadata.py
 
       - name: Commit metadata update
         run: |
-          if git diff --quiet -- docs/variables.xml; then
+          if git diff --quiet -- docs/variables.xml src/libversion.h; then
             exit 0
           fi
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add docs/variables.xml
+          git add docs/variables.xml src/libversion.h
           git commit -m "Update documentation metadata [skip ci]"
           git push
