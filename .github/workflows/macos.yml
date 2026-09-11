@@ -24,6 +24,16 @@ jobs:
         shell: bash
         run: echo "LIB_VERSION=$(sed -n 's/^#define VSCP_HELPER_LIB_VERSION "\(.*\)"$/\1/p' src/libversion.h)" >> "$GITHUB_ENV"
 
+      - name: Read package architecture
+        shell: bash
+        run: |
+          case "$(uname -m)" in
+            x86_64) echo "PACKAGE_ARCH=x64" >> "$GITHUB_ENV" ;;
+            arm64|aarch64) echo "PACKAGE_ARCH=arm64" >> "$GITHUB_ENV" ;;
+            armv7l) echo "PACKAGE_ARCH=armhf" >> "$GITHUB_ENV" ;;
+            *) echo "Unsupported package architecture: $(uname -m)" >&2; exit 1 ;;
+          esac
+
       - name: Install dependencies
         run: brew install cmake openssl expat zlib googletest pandoc
 
@@ -57,7 +67,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: libvscphelper_macos_arm64_${{ env.LIB_VERSION }}_tgz
+          name: libvscphelper_macos_${{ env.PACKAGE_ARCH }}_${{ env.LIB_VERSION }}_tgz
           path: |
             ${{ github.workspace }}/build/libvscphelper_*.tar.gz
             ${{ github.workspace }}/build/libvscphelper_*.tar.gz.sha256
