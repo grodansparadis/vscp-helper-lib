@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+"""Increment and stage the library version before each commit."""
+
+from pathlib import Path
+import subprocess
+
+
+def main() -> None:
+	repo_root = Path(
+		subprocess.check_output(["git", "rev-parse", "--show-toplevel"], text=True).strip()
+	)
+	version_path = repo_root / "src" / "libversion.h"
+	subprocess.run(["python3", str(repo_root / "tools" / "update_libversion.py")], check=True)
+	subprocess.run(["git", "add", "--", str(version_path)], check=True)
+
+
+if __name__ == "__main__":
+	main()
