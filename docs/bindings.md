@@ -46,37 +46,43 @@ import *
 
 There also is code written by Salvo Musumeci available at (https://github.com/nos86/VSCP-Helper-for-Python) Currently this development appears to be stalled, but hopefully the development will continue one day by the author or by someone else forking that project.
 
-## C\#/net {#c_net}
+<a id="c_net"></a>
+## C\#/net
 
  We need someone to take this on. There is some work done already.
 
  Contact [akhe@grodansparadis.com](mailto:akhe@grodansparadis.com) if you work (or want to work) on this so we can put a link to your work here.
 
-## Java {#java}
+<a id="java"></a>
+## Java 
 
  We need someone to take on this one.
 
  Contact [akhe@grodansparadis.com](mailto:akhe@grodansparadis.com) if you work \(or want to work\) on this so we can put a link to your work here.
 
-## PHP {#php}
+<a id="php"></a>
+## PHP 
 
  We need someone to take on this one.
 
  Contact [akhe@grodansparadis.com](mailto:akhe@grodansparadis.com) if you work \(or want to work\) on this so we can put a link to your work here.
 
-## Perl {#perl}
+<a id="perl"></a>
+## Perl
 
  We need someone to take on this one.
 
  Contact [akhe@grodansparadis.com](mailto:akhe@grodansparadis.com) if you work \(or want to work\) on this so we can  put a link to your work here.
 
-## node.js {#nodejs}
+<a id="nodejs"></a>
+## node.js 
 
  We need someone to take on this one.
 
  Contact [akhe@grodansparadis.com](mailto:akhe@grodansparadis.com) if you work \(or want to work\) on this so we can put a link to your work here.
 
-## Others {#others}
+<a id="others"></a>
+## Others 
 
 We are of course interested in other bindings as well. Let us know.
 

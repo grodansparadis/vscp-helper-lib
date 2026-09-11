@@ -52,7 +52,7 @@ jobs:
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
       #run: cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DVSCP_PATH=vscp/
-      run: cmake .. -DCMAKE_INSTALL_PREFIX=/ -DVSCP_PATH=vscp/
+      run: cmake .. -DCMAKE_INSTALL_PREFIX=/ -DVSCP_PATH=vscp/ -DPACKAGE_QUALIFIER=${{ matrix.os == 'ubuntu-latest' && 'latest' || '' }}
 
     - name: Build
       working-directory: ${{github.workspace}}/build
@@ -68,7 +68,7 @@ jobs:
     # Save artifact    
     - uses: actions/upload-artifact@v4
       with:
-        name: libvscphelper_linux_x64_${{ env.LIB_VERSION }}_deb
+        name: libvscphelper_linux_x64_${{ env.LIB_VERSION }}${{ matrix.os == 'ubuntu-latest' && '_latest' || '' }}_deb
         path: |
           ${{ github.workspace }}/build/libvscphelper_*.deb
           ${{ github.workspace }}/build/libvscphelper_*.deb.sha256

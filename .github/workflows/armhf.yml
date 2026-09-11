@@ -58,7 +58,7 @@ jobs:
             cd /workspace
             cmake -E make_directory build
             cd build
-            cmake .. -DCMAKE_INSTALL_PREFIX=/ -DVSCP_PATH=vscp/
+            cmake .. -DCMAKE_INSTALL_PREFIX=/ -DVSCP_PATH=vscp/ -DPACKAGE_OS=raspberrypi
             make -j2
             cpack -G DEB
             for artifact in libvscphelper_*.deb; do
@@ -67,7 +67,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: libvscphelper_linux_armhf_${{ env.LIB_VERSION }}_deb
+          name: libvscphelper_raspberrypi_armhf_${{ env.LIB_VERSION }}_deb
           path: |
             ${{ github.workspace }}/build/libvscphelper_*.deb
             ${{ github.workspace }}/build/libvscphelper_*.deb.sha256
