@@ -1,0 +1,75 @@
+name: Raspberry Pi ARMHF Build
+
+on: [push]
+
+permissions:
+  contents: read
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build-armhf:
+    runs-on: ubuntu-latest
+    name: Build on Ubuntu ARMHF (armv7l)
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Read library version
+        shell: bash
+        run: echo "LIB_VERSION=$(sed -n 's/^#define VSCP_HELPER_LIB_VERSION \"\(.*\)\"$/\1/p' src/libversion.h)" >> "$GITHUB_ENV"
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm
+
+      - uses: uraimo/run-on-arch-action@v2
+        name: Build and test on armv7l
+        id: build
+        with:
+          arch: armv7
+          distro: ubuntu22.04
+
+          # Cache the apt and build caches between runs
+          githubToken: ${{ github.token }}
+
+          dockerRunArgs: |
+            --volume "${PWD}:/workspace"
+
+          install: |
+            apt-get update -q
+            apt-get install -y \
+              cmake \
+              make \
+              g++ \
+              libgtest-dev \
+              libssl-dev \
+              libexpat-dev \
+              libz-dev \
+              pandoc \
+              git
+            cd /usr/src/gtest && mkdir -p build && cd build && cmake .. && make && cmake --install .
+
+          run: |
+            cd /workspace
+            cmake -E make_directory build
+            cd build
+            cmake .. -DCMAKE_INSTALL_PREFIX=/ -DVSCP_PATH=vscp/
+            make -j2
+            cpack -G DEB
+            for artifact in libvscphelper_*.deb; do
+              sha256sum "$artifact" > "$artifact.sha256"
+            done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: libvscphelper_linux_armhf_${{ env.LIB_VERSION }}_deb
+          path: |
+            ${{ github.workspace }}/build/libvscphelper_*.deb
+            ${{ github.workspace }}/build/libvscphelper_*.deb.sha256
+          if-no-files-found: error
+          retention-days: 30
