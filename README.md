@@ -4,15 +4,16 @@
 ![Linux Build](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/build.yml/badge.svg) 
 [![macOS Build](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/macos.yml/badge.svg)](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/macos.yml)
 [![Raspberry Pi ARM64 Build](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/arm64.yml/badge.svg)](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/arm64.yml)
+[![Raspberry Pi ARMHF Build](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/armhf.yml/badge.svg)](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/armhf.yml)
 ![Windows Build](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/msbuild.yml/badge.svg)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 
 Helper functionality packed in a shared library for [VSCP](https://www.vscp.org)
 
-![VSCP Logo](https://github.com/grodansparadis/vscp-logo/blob/master/logo_100.png)
+![VSCP Logo](./docs/images/logo-48x48.png)
 
-**Available for**: Linux, Windows, Macintosh
+**Available for**: Linux, Raspberry Pi,  Windows, Macintosh
 
   - Full documentation is [here](https://docs.vscp.org/#vscphelper).
   - Wrapper for Python is [here](https://github.com/grodansparadis/pyvscp)

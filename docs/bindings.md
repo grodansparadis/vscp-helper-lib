@@ -1,16 +1,16 @@
 # VSCP Helper Library Bindings {#vscp_helper_library_bindings}
 
-## C/C++ {#c_c}
+<a id="c_c"></a>
+## C/C++ 
 
 Available for Windows and Linux.
 
-The **libvscphelper library** is available in binary deb package format for 64-bit Linux and in standard Windows 64-bit install format.
-
- If you are on a i386 based machine you need to [install this](https://debian.pkgs.org/9/debian-main-i386/libwxbase3.0-0v5_3.0.2+dfsg-4_i386.deb.html) before you install the package.
+The **libvscphelper library** is available in binary deb package format for 64-bit Linux, for 32/64  Raspberry Pi, for 64-bit MacOs and in standard Windows 64-bit install format.
 
  Downloadable binary files is available [here](https://www.vscp.org/downloads/vscphelper)
 
-## Python {#python}
+<a id="python"></a>
+## Python 
 
 **pyvscp** is the official Python support for VSCP & friends. 
 
