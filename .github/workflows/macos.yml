@@ -57,7 +57,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}_libvscphelper_${{ env.LIB_VERSION }}_tgz
+          name: libvscphelper_macos_arm64_${{ env.LIB_VERSION }}_tgz
           path: |
             ${{ github.workspace }}/build/libvscphelper_*.tar.gz
             ${{ github.workspace }}/build/libvscphelper_*.tar.gz.sha256

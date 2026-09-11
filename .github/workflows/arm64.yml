@@ -67,7 +67,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ubuntu22.04_arm64_libvscphelper_${{ env.LIB_VERSION }}_deb
+          name: libvscphelper_linux_arm64_${{ env.LIB_VERSION }}_deb
           path: |
             ${{ github.workspace }}/build/libvscphelper_*.deb
             ${{ github.workspace }}/build/libvscphelper_*.deb.sha256

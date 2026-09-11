@@ -68,7 +68,7 @@ jobs:
     # Save artifact    
     - uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.os }}_libvscphelper_${{ env.LIB_VERSION }}_deb
+        name: libvscphelper_linux_x64_${{ env.LIB_VERSION }}_deb
         path: |
           ${{ github.workspace }}/build/libvscphelper_*.deb
           ${{ github.workspace }}/build/libvscphelper_*.deb.sha256

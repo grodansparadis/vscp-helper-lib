@@ -91,10 +91,16 @@ jobs:
       # Save artifacts    
     - uses: actions/upload-artifact@v4
       with:
-        name: windows_libvscphelper_${{ env.LIB_VERSION }}
+        name: libvscphelper_windows_x64_${{ env.LIB_VERSION }}_zip
         path: |
           ${{ github.workspace }}/build/*.zip
-          ${{ github.workspace }}/build/*.exe
           ${{ github.workspace }}/build/*.zip.sha256
+        retention-days: 30
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: libvscphelper_windows_x64_${{ env.LIB_VERSION }}_exe
+        path: |
+          ${{ github.workspace }}/build/*.exe
           ${{ github.workspace }}/build/*.exe.sha256
         retention-days: 30
