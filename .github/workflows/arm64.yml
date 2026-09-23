@@ -21,8 +21,8 @@ jobs:
         with:
           submodules: recursive
       - name: Show CPack preinstall log on failure
-          if: failure()
-          run: cat /workspace/build/_CPack_Packages/Linux/DEB/PreinstallOutput.log
+        if: failure()
+        run: cat /workspace/build/_CPack_Packages/Linux/DEB/PreinstallOutput.log
       - name: Read library version
         shell: bash
         run: echo "LIB_VERSION=$(sed -n 's/^#define VSCP_HELPER_LIB_VERSION "\(.*\)"$/\1/p' src/libversion.h)" >> "$GITHUB_ENV"
