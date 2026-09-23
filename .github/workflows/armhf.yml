@@ -14,6 +14,9 @@ jobs:
     name: Build on Ubuntu ARMHF (armv7l)
 
     steps:
+
+      - name: Install git
+        run: sudo apt-get update && sudo apt-get install -y git
       - uses: actions/checkout@v4
         with:
           submodules: recursive
@@ -32,7 +35,7 @@ jobs:
         id: build
         with:
           arch: armv7
-          distro: ubuntu22.04
+          distro: bookworm
 
           # Cache the apt and build caches between runs
           githubToken: ${{ github.token }}
