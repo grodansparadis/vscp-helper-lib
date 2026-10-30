@@ -99,6 +99,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
+option(BUILD_ALLTEST "Build the alltest test executable" OFF)
 
 # Default location for VSCP level II drivers
 set(VSCP_LEVEL2_DRV_DIR /var/lib/vscp/drivers/level2/)
@@ -475,4 +476,6 @@ else()
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})        
 endif()
 
- 
+if(BUILD_ALLTEST)
+  add_subdirectory(tests/alltest)
+endif()

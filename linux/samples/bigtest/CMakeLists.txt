@@ -26,6 +26,10 @@ target_include_directories(bigtest PUBLIC
     ${vscp_SOURCE_DIR}/src/vscp/common
 )
 
+set(VSCPHELPER_LIB_DIR "${CMAKE_SOURCE_DIR}/../../../build"
+    CACHE PATH "Directory holding the built libvscphelper library")
+target_link_directories(bigtest PRIVATE ${VSCPHELPER_LIB_DIR})
+
 target_link_libraries(bigtest PRIVATE
     vscphelper15
 )
