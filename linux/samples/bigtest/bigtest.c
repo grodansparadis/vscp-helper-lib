@@ -7,6 +7,7 @@
 #include <math.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <canal.h>
 #include "../../../src/vscphelperlib.h"
 
 #define USER            "admin"

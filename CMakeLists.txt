@@ -24,7 +24,7 @@
 #
 #
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.14)
 
 set(PACKAGE_AUTHOR "Ake Hedman, the VSCP Project")
 
@@ -78,6 +78,9 @@ endif()
 # --- System Libraries ---
 include(GNUInstallDirs)
 
+# --- Third party code (downloaded at configure time) ---
+include("${PROJECT_SOURCE_DIR}/cmake/VscpHelperDependencies.cmake")
+
 # Man build and install
 if(NOT DEFINED WIN32)
     add_subdirectory(man)
@@ -85,8 +88,8 @@ endif()
 
 option(USE_SSL "Use SSL" TRUE)
 
-## --- C++14 build flags ---
-set(CMAKE_CXX_STANDARD 14)
+## --- C++17 build flags ---
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
@@ -288,32 +291,30 @@ add_library(libvscphelper SHARED
     ./src/vscphelperlib.cpp
     ./windows/libvscphelper.h
     ./windows/libvscphelper.cpp
-    ./third_party/mustache/mustache.hpp
-    ./third_party/spdlog/include
-    ./third_party/vscp/src/vscp/common/vscp.h
-    ./third_party/vscp/src/vscp/common/vscpremotetcpif.h
-    ./third_party/vscp/src/vscp/common/vscpremotetcpif.cpp
-    ./third_party/vscp/src/vscp/common/vscpdatetime.h
-    ./third_party/vscp/src/vscp/common/vscpdatetime.cpp
-    ./third_party/vscp/src/vscp/common/guid.h
-    ./third_party/vscp/src/vscp/common/guid.cpp
-    ./third_party/vscp/src/vscp/common/vscp-guid-parser.c
-    ./third_party/vscp/src/vscp/common/vscphelper.h
-    ./third_party/vscp/src/vscp/common/vscphelper.cpp
-    ./third_party/vscp/src/common/vscphelper-common.cpp
-    ./third_party/vscp/src/vscp/common/canal.h
-    ./third_party/vscp/src/common/sockettcp.h
-    ./third_party/vscp/src/common/sockettcp.c
-    ./third_party/vscp/src/common/vscpbase64.h
-    ./third_party/vscp/src/common/vscpbase64.c
-    ./third_party/vscp/src/common/vscp-aes.h
-    ./third_party/vscp/src/common/vscp-aes.c
-    ./third_party/vscp/src/common/crc.h
-    ./third_party/vscp/src/common/crc.c
-    ./third_party/vscp/src/common/crc8.h
-    ./third_party/vscp/src/common/crc8.c
-    ./third_party/vscp/src/common/vscpmd5.h
-    ./third_party/vscp/src/common/vscpmd5.c
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscpremotetcpif.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscpremotetcpif.cpp
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscpdatetime.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscpdatetime.cpp
+    ${vscp_SOURCE_DIR}/src/vscp/common/guid.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/guid.cpp
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-guid-parser.c
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscphelper.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscphelper.cpp
+    ${vscp_SOURCE_DIR}/src/common/vscphelper-common.cpp
+    ${vscp_SOURCE_DIR}/src/vscp/common/canal.h
+    ${vscp_SOURCE_DIR}/src/common/sockettcp.h
+    ${vscp_SOURCE_DIR}/src/common/sockettcp.c
+    ${vscp_SOURCE_DIR}/src/common/vscpbase64.h
+    ${vscp_SOURCE_DIR}/src/common/vscpbase64.c
+    ${vscp_SOURCE_DIR}/src/common/vscp-aes.h
+    ${vscp_SOURCE_DIR}/src/common/vscp-aes.c
+    ${vscp_SOURCE_DIR}/src/common/crc.h
+    ${vscp_SOURCE_DIR}/src/common/crc.c
+    ${vscp_SOURCE_DIR}/src/common/crc8.h
+    ${vscp_SOURCE_DIR}/src/common/crc8.c
+    ${vscp_SOURCE_DIR}/src/common/vscpmd5.h
+    ${vscp_SOURCE_DIR}/src/common/vscpmd5.c
     ${CMAKE_CURRENT_BINARY_DIR}/windows/vscphelper.rc
   ) 
 else()
@@ -322,32 +323,30 @@ else()
     ./src/vscphelperlib.cpp 
     ./linux/libvscphelper.h
     ./linux/libvscphelper.cpp
-    ./third_party/mustache/mustache.hpp
-    ./third_party/spdlog/include    
-    ./third_party/vscp/src/vscp/common/vscp.h
-    ./third_party/vscp/src/vscp/common/vscpremotetcpif.h
-    ./third_party/vscp/src/vscp/common/vscpremotetcpif.cpp
-    ./third_party/vscp/src/vscp/common/vscpdatetime.h
-    ./third_party/vscp/src/vscp/common/vscpdatetime.cpp
-    ./third_party/vscp/src/vscp/common/guid.h
-    ./third_party/vscp/src/vscp/common/guid.cpp
-    ./third_party/vscp/src/vscp/common/vscp-guid-parser.c
-    ./third_party/vscp/src/vscp/common/vscphelper.h
-    ./third_party/vscp/src/vscp/common/vscphelper.cpp
-    ./third_party/vscp/src/common/vscphelper-common.cpp
-    ./third_party/vscp/src/vscp/common/canal.h
-    ./third_party/vscp/src/common/sockettcp.h
-    ./third_party/vscp/src/common/sockettcp.c
-    ./third_party/vscp/src/common/vscpbase64.h
-    ./third_party/vscp/src/common/vscpbase64.c
-    ./third_party/vscp/src/common/vscp-aes.h
-    ./third_party/vscp/src/common/vscp-aes.c
-    ./third_party/vscp/src/common/crc.h
-    ./third_party/vscp/src/common/crc.c
-    ./third_party/vscp/src/common/crc8.h
-    ./third_party/vscp/src/common/crc8.c
-    ./third_party/vscp/src/common/vscpmd5.h
-    ./third_party/vscp/src/common/vscpmd5.c       
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscpremotetcpif.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscpremotetcpif.cpp
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscpdatetime.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscpdatetime.cpp
+    ${vscp_SOURCE_DIR}/src/vscp/common/guid.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/guid.cpp
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-guid-parser.c
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscphelper.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscphelper.cpp
+    ${vscp_SOURCE_DIR}/src/common/vscphelper-common.cpp
+    ${vscp_SOURCE_DIR}/src/vscp/common/canal.h
+    ${vscp_SOURCE_DIR}/src/common/sockettcp.h
+    ${vscp_SOURCE_DIR}/src/common/sockettcp.c
+    ${vscp_SOURCE_DIR}/src/common/vscpbase64.h
+    ${vscp_SOURCE_DIR}/src/common/vscpbase64.c
+    ${vscp_SOURCE_DIR}/src/common/vscp-aes.h
+    ${vscp_SOURCE_DIR}/src/common/vscp-aes.c
+    ${vscp_SOURCE_DIR}/src/common/crc.h
+    ${vscp_SOURCE_DIR}/src/common/crc.c
+    ${vscp_SOURCE_DIR}/src/common/crc8.h
+    ${vscp_SOURCE_DIR}/src/common/crc8.c
+    ${vscp_SOURCE_DIR}/src/common/vscpmd5.h
+    ${vscp_SOURCE_DIR}/src/common/vscpmd5.c       
   ) 
 endif()
 
@@ -380,11 +379,10 @@ if (WIN32)
 
     include_directories( PUBLIC src/
         ./windows/
-        ./third_party/vscp/src/vscp/common/
-        ./third_party/vscp/src/common
-        ./third_party/vscp/src/common/third_party
-        ./third_party/nlohmann/include/
-        ./third_party/spdlog/include
+        ${vscp_SOURCE_DIR}/src/vscp/common/
+        ${vscp_SOURCE_DIR}/src/common
+        ${nlohmann_json_SOURCE_DIR}/include/
+        ${spdlog_SOURCE_DIR}/include/
         ${PThreads4W_INCLUDE_DIR}
         ${CMAKE_BINARY_DIR}
         ${OPENSSL_INCLUDE_DIR}
@@ -392,11 +390,10 @@ if (WIN32)
         ${LOCAL_SYSLOG_INCLUDE} )
 else()
     include_directories( PUBLIC src/
-        ./third_party/vscp/src/vscp/common/
-        ./third_party/vscp/src/common
-        ./third_party/vscp/src/common/third_party
-        ./third_party/nlohmann/include/
-        ./third_party/spdlog/include/
+        ${vscp_SOURCE_DIR}/src/vscp/common/
+        ${vscp_SOURCE_DIR}/src/common
+        ${nlohmann_json_SOURCE_DIR}/include/
+        ${spdlog_SOURCE_DIR}/include/
         ${CMAKE_BINARY_DIR}
         ${OPENSSL_INCLUDE_DIR}
         ${LOCAL_SYSLOG_INCLUDE} )
@@ -451,11 +448,11 @@ if(WIN32)
             DESTINATION ${CMAKE_INSTALL_BINDIR}/..)
 
     # Headers
-    INSTALL( FILES "./third_party/vscp/src/vscp/common/vscp.h"
+    INSTALL( FILES "${vscp_SOURCE_DIR}/src/vscp/common/vscp.h"
             "${CMAKE_SOURCE_DIR}/src/vscphelperlib.h" 
-            "./third_party/vscp/src/vscp/common/canal.h"
-            "./third_party/vscp/src/vscp/common/vscp-class.h"
-            "./third_party/vscp/src/vscp/common/vscp-type.h"
+            "${vscp_SOURCE_DIR}/src/vscp/common/canal.h"
+            "${vscp_SOURCE_DIR}/src/vscp/common/vscp-class.h"
+            "${vscp_SOURCE_DIR}/src/vscp/common/vscp-type.h"
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})  
 
 else()
@@ -470,11 +467,11 @@ else()
             DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)      
 
     # Headers        
-    INSTALL(FILES "./third_party/vscp/src/vscp/common/vscp.h"
+    INSTALL(FILES "${vscp_SOURCE_DIR}/src/vscp/common/vscp.h"
             "${PROJECT_SOURCE_DIR}/src/vscphelperlib.h" 
-            "./third_party/vscp/src/vscp/common/canal.h"
-            "./third_party/vscp/src/vscp/common/vscp-class.h"
-            "./third_party/vscp/src/vscp/common/vscp-type.h"
+            "${vscp_SOURCE_DIR}/src/vscp/common/canal.h"
+            "${vscp_SOURCE_DIR}/src/vscp/common/vscp-class.h"
+            "${vscp_SOURCE_DIR}/src/vscp/common/vscp-type.h"
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})        
 endif()
 

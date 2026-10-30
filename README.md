@@ -45,13 +45,13 @@ or
 Install using the windows installation script available in the release section och this repository.
 
 ## How to build on Linux
-The VSCP helper lib is built using a standard cmake build.
+The VSCP helper lib is built using a standard cmake build (cmake 3.14 or later).
 
 ```bash
-  git clone https://github.com/grodansparadis/vscp.git
   git clone https://github.com/grodansparadis/vscp-helper-lib.git
 ```
-The two projects should be cloned on the same directory level. vscp-helper-lib is the main project and use code from the main VSCP project. If you absolutely want to have them installed on separate places you can use the _-DVSCP_PATH="path to vscp" .._ option to set the path to the VSCP project.
+
+Third party code (the [VSCP main project](https://github.com/grodansparadis/vscp), [spdlog](https://github.com/gabime/spdlog) and [nlohmann JSON](https://github.com/nlohmann/json)) is downloaded automatically by cmake (FetchContent) when the project is configured, so no submodules or separate clones are needed. Pinned versions are set in _cmake/VscpHelperDependencies.cmake_. To use a local checkout instead of downloading, use for example _-DFETCHCONTENT_SOURCE_DIR_VSCP="path to vscp"_.
 
 For the ssl build, additional openssl is necessary:
 
@@ -116,10 +116,9 @@ Open a Visual Studio 2022 command prompt (_x64 Native Tools Command Prompt_) win
 ### Clone needed VSCP code
 
 ```bash
-  git clone -j4 --recurse-submodules https://github.com/grodansparadis/vscp.git
-  git clone -j4 --recurse-submodules https://github.com/grodansparadis/vscp-helper-lib.git
+  git clone https://github.com/grodansparadis/vscp-helper-lib.git
 ```
-The two projects should be cloned on the same directory level. vscp-helper-lib is the main project and use code from the main VSCP project. If you absolutely want to have them installed on separate places you can use the _-DVSCP_PATH="path to vscp" .._ option to set the path to the VSCP project.
+Third party code (VSCP main project, spdlog and nlohmann JSON) is downloaded automatically by cmake when the project is configured.
 
 ### Build vscp-helper-lib
 

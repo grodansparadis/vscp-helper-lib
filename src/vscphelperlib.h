@@ -39,6 +39,7 @@
 
 #include <time.h>
 #include <vscp.h>
+#include <canal.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -210,17 +211,17 @@ vscphlp_doLevel2Filter( const vscpEvent *pEvent,
                                const vscpEventFilter *pFilter );
 HELPERLIB_API int 
 vscphlp_convertCanalToEvent( vscpEvent *pvscpEvent,
-                              const struct canalMsg *pcanalMsg,
+                              const canalMsg *pcanalMsg,
                               unsigned char *pGUID );
 HELPERLIB_API int 
 vscphlp_convertCanalToEventEx( vscpEventEx *pvscpEvent,
-                                const struct canalMsg *pcanalMsg,
+                                const canalMsg *pcanalMsg,
                                  unsigned char *pGUID );
 HELPERLIB_API int 
-vscphlp_convertEventToCanal( struct canalMsg *pcanalMsg,
+vscphlp_convertEventToCanal( canalMsg *pcanalMsg,
                               const vscpEvent *pvscpEvent );
 HELPERLIB_API int 
-vscphlp_convertEventExToCanal( struct canalMsg *pcanalMsg,
+vscphlp_convertEventExToCanal( canalMsg *pcanalMsg,
                                 const vscpEventEx *pvscpEventEx );
 HELPERLIB_API unsigned long 
 vscphlp_makeTimeStamp( void );

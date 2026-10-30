@@ -1,9 +1,12 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.14)
 
 # set the project name
 project(test LANGUAGES CXX C)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+# Third party code (downloaded at configure time)
+include("${CMAKE_SOURCE_DIR}/../../../cmake/VscpHelperDependencies.cmake")
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 11)
@@ -15,12 +18,12 @@ SET(GCC_BIGTEST_COMPILE_FLAGS "-Wl,-rpath=../../../build")
 # add the executable
 add_executable(bigtest 
     bigtest.c
-    ../../../../third_party/vscp/src/vscp/common/guid.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/guid.h
 )
 
 target_include_directories(bigtest PUBLIC 
     ${CMAKE_SOURCE_DIR}/../../../src
-    ${CMAKE_SOURCE_DIR}/../../../third_party/vscp/src/vscp/common
+    ${vscp_SOURCE_DIR}/src/vscp/common
 )
 
 target_link_libraries(bigtest PRIVATE

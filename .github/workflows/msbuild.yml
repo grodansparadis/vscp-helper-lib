@@ -31,8 +31,6 @@ jobs:
 
     - name: Clone
       uses: actions/checkout@v4
-      with:
-        submodules: recursive
 
     - name: Read library version
       shell: powershell

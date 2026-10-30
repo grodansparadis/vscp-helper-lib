@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.14)
 
 # set the project name
 project(unittest LANGUAGES CXX C)
@@ -29,6 +29,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 
 message(STATUS "Build dir: " ${PROJECT_SOURCE_DIR})
+
+# Third party code (downloaded at configure time)
+include("${PROJECT_SOURCE_DIR}/../../cmake/VscpHelperDependencies.cmake")
 
 find_package(GTest CONFIG REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -66,7 +69,7 @@ if (WIN32)
 else()
   target_include_directories(unittest PUBLIC 
     ${PROJECT_SOURCE_DIR}/../../src/
-    ${PROJECT_SOURCE_DIR}/../../third_party/vscp/src/vscp/common/
+    ${vscp_SOURCE_DIR}/src/vscp/common/
     ${OPENSSL_INCLUDE_DIR}
     ${EXPAT_INCLUDE_DIRS}
   )
