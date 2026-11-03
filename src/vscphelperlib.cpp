@@ -33,6 +33,10 @@
 #include <semaphore.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <algorithm>
+#include <new>
+#include <vector>
+#include <openssl/crypto.h>
 #ifndef WIN32
 #include <unistd.h>
 #endif
@@ -396,6 +400,221 @@ vscphlp_noop(long handle)
     }
 
     return pvscpif->doCmdNOOP();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Binary VSCP link protocol
+//
+
+extern "C" DllExport int
+vscphlp_doCmdBinary(long handle)
+{
+    VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
+    if (NULL == pvscpif) {
+        return VSCP_ERROR_INVALID_HANDLE;
+    }
+
+    return pvscpif->doCmdBinary();
+}
+
+extern "C" DllExport int
+vscphlp_isBinaryMode(long handle, int* pBinaryMode)
+{
+    VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
+    if (NULL == pvscpif) {
+        return VSCP_ERROR_INVALID_HANDLE;
+    }
+    if (NULL == pBinaryMode) {
+        return VSCP_ERROR_PARAMETER;
+    }
+
+    *pBinaryMode = pvscpif->isConnected() && pvscpif->isBinaryMode() ? 1 : 0;
+    return VSCP_ERROR_SUCCESS;
+}
+
+extern "C" DllExport int
+vscphlp_sendBinaryFrame(long handle, const unsigned char* frame, size_t frameSize)
+{
+    VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
+    if (NULL == pvscpif) {
+        return VSCP_ERROR_INVALID_HANDLE;
+    }
+    if (NULL == frame || !frameSize || frameSize > UINT16_MAX) {
+        return VSCP_ERROR_PARAMETER;
+    }
+
+    try {
+        return pvscpif->sendBinaryFrame(std::vector<uint8_t>(frame, frame + frameSize));
+    }
+    catch (const std::bad_alloc&) {
+        return VSCP_ERROR_MEMORY;
+    }
+}
+
+extern "C" DllExport int
+vscphlp_receiveBinaryFrame(long handle,
+                          unsigned char** frame,
+                          size_t* frameSize,
+                          uint32_t timeout)
+{
+    if (NULL == frame || NULL == frameSize) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    *frame = NULL;
+    *frameSize = 0;
+
+    VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
+    if (NULL == pvscpif) {
+        return VSCP_ERROR_INVALID_HANDLE;
+    }
+
+    try {
+        std::vector<uint8_t> received;
+        int result = pvscpif->receiveBinaryFrame(received, timeout);
+        if (VSCP_ERROR_SUCCESS != result) {
+            return result;
+        }
+
+        unsigned char* output = new (std::nothrow) unsigned char[received.size()];
+        if (NULL == output) {
+            // A consumed frame cannot be recovered after allocation failure.
+            pvscpif->doCmdClose();
+            return VSCP_ERROR_MEMORY;
+        }
+        std::copy(received.begin(), received.end(), output);
+        *frame = output;
+        *frameSize = received.size();
+        return VSCP_ERROR_SUCCESS;
+    }
+    catch (const std::bad_alloc&) {
+        pvscpif->doCmdClose();
+        return VSCP_ERROR_MEMORY;
+    }
+}
+
+extern "C" DllExport void
+vscphlp_freeBinaryFrame(unsigned char* frame)
+{
+    delete[] frame;
+}
+
+extern "C" DllExport int
+vscphlp_setBinarySecurity(long handle, int algorithm, const unsigned char* key,
+                         size_t keyLength, const unsigned char* hmacKey, size_t hmacKeyLength)
+{
+    VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
+    if (NULL == pvscpif) {
+        return VSCP_ERROR_INVALID_HANDLE;
+    }
+    if (algorithm < VSCP_ENCRYPTION_NONE || algorithm > VSCP_ENCRYPTION_AES256) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    return pvscpif->setBinarySecurity(static_cast<uint8_t>(algorithm), key, keyLength, hmacKey, hmacKeyLength);
+}
+
+extern "C" DllExport int
+vscphlp_getBinarySecurity(long handle, int* pAlgorithm)
+{
+    VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
+    if (NULL == pvscpif) {
+        return VSCP_ERROR_INVALID_HANDLE;
+    }
+    if (NULL == pAlgorithm) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    *pAlgorithm = pvscpif->getBinarySecurity();
+    return VSCP_ERROR_SUCCESS;
+}
+
+static bool
+validFrameKeys(int algorithm, const unsigned char* key, size_t keyLength,
+               const unsigned char* hmacKey, size_t hmacKeyLength)
+{
+    const size_t required = algorithm == VSCP_ENCRYPTION_AES128 ? 16 :
+                            algorithm == VSCP_ENCRYPTION_AES192 ? 24 :
+                            algorithm == VSCP_ENCRYPTION_AES256 ? 32 : 0;
+    return required && key && keyLength == required && hmacKey && hmacKeyLength == 32 &&
+           CRYPTO_memcmp(key, hmacKey, required) != 0;
+}
+
+extern "C" DllExport int
+vscphlp_encryptFrameV1(unsigned char* output, size_t capacity, size_t* outputLength,
+                      const unsigned char* input, size_t inputLength,
+                      const unsigned char* key, size_t keyLength,
+                      const unsigned char* hmacKey, size_t hmacKeyLength,
+                      const unsigned char* iv, size_t ivLength, int algorithm)
+{
+    if (NULL == outputLength) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    *outputLength = 0;
+    if (NULL == output || NULL == input || inputLength < 5 || inputLength > 0x1fff ||
+        (iv ? ivLength != 16 : ivLength != 0)) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    if (algorithm == VSCP_ENCRYPTION_FROM_TYPE_BYTE) {
+        algorithm = input[0] & 0x0f;
+    }
+    if (!validFrameKeys(algorithm, key, keyLength, hmacKey, hmacKeyLength)) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    const size_t required = 1 + ((inputLength - 1) / 16 + 1) * 16 + 32;
+    if (required > 0x1fff) {
+        return VSCP_ERROR_SIZE;
+    }
+    if (capacity < required) {
+        return VSCP_ERROR_BUFFER_TO_SMALL;
+    }
+    try {
+        const size_t length = vscp_encryptFrameV1(output, capacity, input, inputLength,
+                                                  key, hmacKey, iv, static_cast<uint8_t>(algorithm));
+        if (!length) {
+            return VSCP_ERROR_ERROR;
+        }
+        *outputLength = length;
+        return VSCP_ERROR_SUCCESS;
+    }
+    catch (const std::bad_alloc&) {
+        return VSCP_ERROR_MEMORY;
+    }
+}
+
+extern "C" DllExport int
+vscphlp_decryptFrameV1(unsigned char* output, size_t capacity, size_t* outputLength,
+                      const unsigned char* input, size_t inputLength,
+                      const unsigned char* key, size_t keyLength,
+                      const unsigned char* hmacKey, size_t hmacKeyLength)
+{
+    if (NULL == outputLength) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    *outputLength = 0;
+    if (NULL == output || NULL == input || inputLength < 49 || inputLength > 0x1fff ||
+        (inputLength - 33) % 16) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    if (!validFrameKeys(input[0] & 0x0f, key, keyLength, hmacKey, hmacKeyLength)) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    try {
+        std::vector<uint8_t> plaintext(inputLength);
+        const size_t length = vscp_decryptFrameV1(plaintext.data(), plaintext.size(),
+                                                  input, inputLength, key, hmacKey);
+        if (!length) {
+            return VSCP_ERROR_INVALID_FRAME;
+        }
+        if (capacity < length) {
+            OPENSSL_cleanse(plaintext.data(), plaintext.size());
+            return VSCP_ERROR_BUFFER_TO_SMALL;
+        }
+        std::copy(plaintext.begin(), plaintext.begin() + length, output);
+        OPENSSL_cleanse(plaintext.data(), plaintext.size());
+        *outputLength = length;
+        return VSCP_ERROR_SUCCESS;
+    }
+    catch (const std::bad_alloc&) {
+        return VSCP_ERROR_MEMORY;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -5,6 +5,8 @@
 * Using the library
  * [Using the library](using.md)
  * [TLS connections](tls.md)
+ * [Binary link frames](binary_link.md)
+ * [HMAC and frame encryption](frame_security.md)
  * [Return values and error handling](error_handling.md)
  * [Using with C/C++](c_using.md)
  * [Using with Python](python_using.md)
@@ -23,6 +25,10 @@
    * [vscphlp_setTLSAutoSelect](vscphlp_tls.md#vscphlp_settlsautoselect)
    * [vscphlp_setTLSMode](vscphlp_tls.md#vscphlp_settlsmode)
    * [vscphlp_getTLSMode](vscphlp_tls.md#vscphlp_gettlsmode)
+   * [vscphlp_setBinarySecurity](frame_security.md#automatic-per-session-security)
+   * [vscphlp_getBinarySecurity](frame_security.md#automatic-per-session-security)
+   * [vscphlp_encryptFrameV1](frame_security.md#standalone-authenticated-frame-helpers)
+   * [vscphlp_decryptFrameV1](frame_security.md#standalone-authenticated-frame-helpers)
 
   * Communication link methods
 
@@ -34,6 +40,11 @@
    * [vscphlp_openInterface](vscphlp_openinterface.md)
    * [vscphlp_close](vscphlp_close.md)
    * [vscphlp_noop](vscphlp_noop.md)
+   * [vscphlp_doCmdBinary](binary_link.md#vscphlp_docmdbinary)
+   * [vscphlp_isBinaryMode](binary_link.md#vscphlp_isbinarymode)
+   * [vscphlp_sendBinaryFrame](binary_link.md#vscphlp_sendbinaryframe)
+   * [vscphlp_receiveBinaryFrame](binary_link.md#vscphlp_receivebinaryframe)
+   * [vscphlp_freeBinaryFrame](binary_link.md#vscphlp_freebinaryframe)
    * [vscphlp_clearDaemonEventQueue](vscphlp_cleardaemoneventqueue.md)
    * [vscphlp_sendEvent](vscphlp_sendevent.md)
    * [vscphlp_sendEventEx](vscphlp_sendeventex.md)

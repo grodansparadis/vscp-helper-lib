@@ -53,6 +53,9 @@ Connects and logs in to the TCP/IP interface of a VSCP server. The call waits
 for connection and login to complete, so applications should avoid calling it
 on a thread that must remain responsive.
 
+Connections start in text mode. To read/write binary frames over the same
+TCP or TLS link, negotiate [binary mode](binary_link.md) after login.
+
 #### C example (TLS)
 
 With an initialized `handle` and credentials supplied by the application:

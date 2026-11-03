@@ -118,6 +118,7 @@ include(GNUInstallDirs)
 
 # --- Third party code (downloaded at configure time) ---
 include("${PROJECT_SOURCE_DIR}/cmake/VscpHelperDependencies.cmake")
+include("${PROJECT_SOURCE_DIR}/cmake/VscpHelperTransport.cmake")
 
 # Man build and install
 if(NOT DEFINED WIN32)
@@ -330,8 +331,8 @@ add_library(libvscphelper SHARED
     ./windows/libvscphelper.h
     ./windows/libvscphelper.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp.h
-    ${vscp_SOURCE_DIR}/src/vscp/common/vscpremotetcpif.h
-    ${vscp_SOURCE_DIR}/src/vscp/common/vscpremotetcpif.cpp
+    ${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.h
+    ${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscpdatetime.h
     ${vscp_SOURCE_DIR}/src/vscp/common/vscpdatetime.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/guid.h
@@ -360,8 +361,8 @@ else()
     ./linux/libvscphelper.h
     ./linux/libvscphelper.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp.h
-    ${vscp_SOURCE_DIR}/src/vscp/common/vscpremotetcpif.h
-    ${vscp_SOURCE_DIR}/src/vscp/common/vscpremotetcpif.cpp
+    ${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.h
+    ${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscpdatetime.h
     ${vscp_SOURCE_DIR}/src/vscp/common/vscpdatetime.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/guid.h
@@ -416,6 +417,7 @@ if (WIN32)
 
     include_directories( PUBLIC src/
         ./windows/
+        ${VSCP_HELPER_CLIENT_DIR}/
         ${vscp_SOURCE_DIR}/src/vscp/common/
         ${vscp_SOURCE_DIR}/src/common
         ${nlohmann_json_SOURCE_DIR}/include/
@@ -427,6 +429,7 @@ if (WIN32)
         ${LOCAL_SYSLOG_INCLUDE} )
 else()
     include_directories( PUBLIC src/
+        ${VSCP_HELPER_CLIENT_DIR}/
         ${vscp_SOURCE_DIR}/src/vscp/common/
         ${vscp_SOURCE_DIR}/src/common
         ${nlohmann_json_SOURCE_DIR}/include/

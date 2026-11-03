@@ -21,6 +21,11 @@ Returns VSCP_ERROR_SUCCESS if the VSCP daemon responds with +OK after receiving 
 ### Description
 Send a command over the communication link. The command should end with “\r\n”. The server's response is checked for +OK.
 
+`BINARY\r\n` is special: it negotiates [binary link mode](binary_link.md).
+Use `vscphlp_doCmdBinary` for the same operation with explicit negotiation
+errors. Other text commands are rejected with `VSCP_ERROR_PARAMETER` after
+the session has switched to binary mode.
+
 #### C example
 
 ```clike

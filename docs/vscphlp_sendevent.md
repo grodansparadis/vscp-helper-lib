@@ -22,7 +22,19 @@ Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VS
 Send a VSCP event. Whether or not the call succeeds, the caller retains
 ownership of the event and must release any dynamically allocated event data.
 
-There is no need to calculate a CRC for the data; it is only a placeholder for less secure transfer mechanisms. In most cases, head, obid, the UTC time block, and timestamp can be set to zero. The server interface sets the time block and timestamp when it receives the event.
+The library handles binary frame CRCs; the application does not need to
+calculate them. In most cases, head, obid, the UTC time block, and timestamp
+can be set to zero. The server interface sets the time block and timestamp
+when it receives the event.
+
+In [binary link mode](binary_link.md), this sends a binary event
+and returns after writing, without waiting for server confirmation. Event
+receives process asynchronous confirmations; use the raw frame API for
+encrypted frames or arbitrary commands/replies.
+
+Frames are unencrypted by default. With [frame security](frame_security.md)
+configured, this function automatically encrypts/authenticates the event
+and its later confirmations follow the same policy.
 
 [vscphlp_sendEventEx](vscphlp_sendeventex.md) may be a better choice for Python because it stores event data in the structure. However, it uses more memory.
 

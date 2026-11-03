@@ -41,7 +41,9 @@ Currently unused; pass `0`.
 Possible return values are the same as for [vscphlp_open](vscphlp_open.md).
 
 ### Description
-Opens a session to the TCP/IP interface of a VSCP server. 
+Opens a session to the TCP/IP interface of a VSCP server.
+Connections start in text mode; negotiate [binary mode](binary_link.md)
+after login to exchange binary frames over the same TCP or TLS link.
 
 #### C example
 

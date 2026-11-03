@@ -109,6 +109,68 @@ HELPERLIB_API int
 vscphlp_close( long handle );
 HELPERLIB_API int 
 vscphlp_noop( long handle );
+
+/* Negotiate binary VSCP link mode after opening/authenticating the session. */
+HELPERLIB_API int
+vscphlp_doCmdBinary(long handle);
+HELPERLIB_API int
+vscphlp_isBinaryMode(long handle, int *pBinaryMode);
+/* Raw frames include CRC/optional IV, but exclude the TCP length prefix. */
+HELPERLIB_API int
+vscphlp_sendBinaryFrame(long handle, const unsigned char *frame, size_t frameSize);
+/* On success, release *frame with vscphlp_freeBinaryFrame, not free/delete.
+ * With valid output pointers, errors leave *frame == NULL and *frameSize == 0.
+ * timeout is in milliseconds; partial input is retained across timeouts.
+ */
+HELPERLIB_API int
+vscphlp_receiveBinaryFrame(long handle,
+                          unsigned char **frame,
+                          size_t *frameSize,
+                          uint32_t timeout);
+HELPERLIB_API void
+vscphlp_freeBinaryFrame(unsigned char *frame);
+/* AES enables strict version-1 records with HMAC-SHA-256 (128-bit tags).
+ * Keys are copied per session. Configure before binary negotiation.
+ * NONE with zero key lengths restores legacy framing.
+ */
+HELPERLIB_API int
+vscphlp_setBinarySecurity(long handle,
+                         int algorithm,
+                         const unsigned char *key,
+                         size_t keyLength,
+                         const unsigned char *hmacKey,
+                         size_t hmacKeyLength);
+HELPERLIB_API int
+vscphlp_getBinarySecurity(long handle, int *pAlgorithm);
+
+/* Standalone authenticated inner-frame helpers. No stream prefix is written.
+ * Keys must have explicit AES (16/24/32) and HMAC (32) byte lengths.
+ * Output remains unchanged on failure; *outputLength is set to zero.
+ */
+HELPERLIB_API int
+vscphlp_encryptFrameV1(unsigned char *output,
+                      size_t capacity,
+                      size_t *outputLength,
+                      const unsigned char *input,
+                      size_t inputLength,
+                      const unsigned char *key,
+                      size_t keyLength,
+                      const unsigned char *hmacKey,
+                      size_t hmacKeyLength,
+                      const unsigned char *iv,
+                      size_t ivLength,
+                      int algorithm);
+HELPERLIB_API int
+vscphlp_decryptFrameV1(unsigned char *output,
+                      size_t capacity,
+                      size_t *outputLength,
+                      const unsigned char *input,
+                      size_t inputLength,
+                      const unsigned char *key,
+                      size_t keyLength,
+                      const unsigned char *hmacKey,
+                      size_t hmacKeyLength);
+
 HELPERLIB_API int 
 vscphlp_clearDaemonEventQueue( long handle );
 HELPERLIB_API int 

@@ -296,6 +296,22 @@ password.
 This C++ class is separate from the C helper API; see the
 [first C++ project](classes_first_project.md) for how to use it.
 
+## Binary link frames over TLS
+
+After opening and authenticating a TLS session, call `vscphlp_doCmdBinary`
+to negotiate binary link mode. Raw frame reads and writes then use that
+**same TLS connection**, including its configured server verification and
+client certificate. Binary mode does not disable TLS, and TLS does not
+require binary mode.
+
+See [binary link frames](binary_link.md) for the read/write APIs, library-owned
+receive buffers, timeout behavior, and C/C++ and Python examples. Binary mode
+must be negotiated again after reconnecting; per-session TLS options persist.
+
+[Frame encryption and HMAC](frame_security.md) can additionally be enabled
+per session before binary negotiation. This uses authenticated version-1
+records inside the same TLS channel; keep TLS certificate verification enabled.
+
 ## Troubleshooting
 
 * `VSCP_ERROR_PARAMETER`: check the endpoint format and port. Use brackets

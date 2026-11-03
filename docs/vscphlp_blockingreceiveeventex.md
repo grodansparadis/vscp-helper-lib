@@ -24,7 +24,7 @@ Maximum time to wait, in milliseconds. Use a positive value.
 ### Return Value
   * VSCP_ERROR_SUCCESS on success or an error code on failure.
   * VSCP_ERROR_CONNECTION is returned if not connected to the server.
-  * VSCP_ERROR_PARAMETER is returned if the event pointer is NULL or the interface is not in receive loop mode.
+  * VSCP_ERROR_PARAMETER is returned if the event pointer is NULL or the interface is outside a text receive loop and binary mode is not active.
   * VSCP_ERROR_TIMEOUT is returned if no event arrives before the timeout.
   * VSCP_ERROR_ERROR is returned if the server returns an error.
   * VSCP_ERROR_RCV_EMPTY if no event is available.
@@ -34,6 +34,11 @@ Maximum time to wait, in milliseconds. Use a positive value.
 
 ### Description
 Blocking receive of one VSCP event from the remote VSCP server. 
+
+In [binary link mode](binary_link.md), no text receive loop is needed. The
+call uses its explicit timeout, processes confirmations, validates event
+CRCs, and acknowledges received events. Use raw frame reads for encrypted
+frames or arbitrary command replies.
 
 #### C example
 

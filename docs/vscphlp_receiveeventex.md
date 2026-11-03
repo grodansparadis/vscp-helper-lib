@@ -21,6 +21,12 @@ Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VS
 ### Description
 Receive a VSCP event. Unlike vscphlp_receiveEvent, the vscphlp_vscpEventEx structure stores the data in the structure itself; vscpEvent contains a pointer to the data.
 
+In [binary link mode](binary_link.md), this waits for an asynchronous event
+using the session response timeout, without a text receive loop. It handles
+confirmations, validates event CRCs, and acknowledges received events.
+It can return `VSCP_ERROR_TIMEOUT` or `VSCP_ERROR_INVALID_FRAME`.
+Use the raw frame API for encrypted frames and arbitrary command/reply frames.
+
 #### C example
 
 ```clike

@@ -38,6 +38,12 @@ yet wrapped by this Python package. See the [TLS ctypes example](tls.md#python-e
 for programmatic CA and client-certificate configuration without changing
 the Python wrapper.
 
+The [binary link API](binary_link.md#python-example) is likewise available
+through `ctypes`; it is not yet exposed by the Python wrapper.
+
+The [frame security examples](frame_security.md) likewise use the exported C
+API for AES/HMAC session configuration and standalone authenticated frames.
+
 For an event allocated by `newVSCPevent`, call `deleteVSCPevent_v2` to release
 both its helper-owned data and the event structure. The older
 `deleteVSCPevent` releases only the data. Do not pass a Python-owned event or

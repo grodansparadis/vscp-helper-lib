@@ -24,6 +24,12 @@ Receive one VSCP event from the remote VSCP server if there is one available in 
 For Python, [vscphlp_receiveEventEx](vscphlp_receiveeventex.md) may be simpler
 to use because there is no dynamically allocated data to manage.
 
+In [binary link mode](binary_link.md), this waits for an asynchronous event
+using the session response timeout, without a text receive loop. It handles
+confirmations, validates event CRCs, and acknowledges received events.
+It can return `VSCP_ERROR_TIMEOUT` or `VSCP_ERROR_INVALID_FRAME`.
+Use the raw frame API for encrypted frames and arbitrary command/reply frames.
+
 #### C example
 
 ```clike

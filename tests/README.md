@@ -39,6 +39,21 @@ and directories, mutual TLS with an encrypted client key, verification
 failures, transport-mode precedence, per-session isolation, and reconnects.
 Certificates and loopback ports are created temporarily by the test runner.
 
+Binary-link tests cover negotiation, mode/reset behavior, raw reads/writes
+over TCP and TLS, 1-byte and 65,535-byte transport boundaries, coalesced frames,
+partial-prefix/payload timeouts, malformed/disconnected streams, library-owned
+receive buffers, and existing event APIs operating in binary mode.
+
+Authenticated framing tests cover all three AES key sizes, an independently
+published deterministic AES/HMAC vector, wrong/tampered records, version and
+algorithm downgrade rejection, partial/coalesced records, maximum plaintext
+length, and encrypted event confirmations. The Python peer uses OpenSSL's CLI
+for AES and Python's `hmac` module independently of the library implementation.
+No additional Python packages are needed.
+
+The client transport patch is applied only to a build-local copy.
+`test_dependency_fetch` also checks that fetched source files remain unchanged.
+
 From the repository root, run:
 
 ```bash

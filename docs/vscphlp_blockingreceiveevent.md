@@ -18,13 +18,20 @@ Pointer to an event that will receive the event data on success. See [vscphlp_re
 Maximum time to wait, in milliseconds. Use a positive value.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called outside a receive loop (see vscphlp_enterReceiveLoop).
+Returns VSCP_ERROR_SUCCESS on success or an error code on failure. Returns
+VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER
+if called outside a text receive loop unless binary mode is active.
 
 ### Description
 Blocking receive of one VSCP event from the remote VSCP server. Data for the event is dynamically allocated and must be deleted by the application.
 
 For Python, [vscphlp_blockingReceiveEventEx](vscphlp_blockingreceiveeventex.md)
 may be simpler to use because there is no dynamically allocated data to manage.
+
+In [binary link mode](binary_link.md), no text receive loop is needed. The
+call uses its explicit timeout, processes confirmations, validates event
+CRCs, and acknowledges received events. Use raw frame reads for encrypted
+frames or arbitrary command replies.
 
 #### C example
 

@@ -33,6 +33,22 @@ variables are needed. OpenSSL's default trust locations and `SSL_CERT_FILE` /
 See the [TLS connection guide](docs/tls.md) for examples, certificate setup,
 mutual TLS, transport-mode selection, and troubleshooting.
 
+## Binary VSCP link protocol
+
+After connecting and authenticating, call `vscphlp_doCmdBinary` to negotiate
+binary mode. `vscphlp_sendBinaryFrame` and `vscphlp_receiveBinaryFrame` transfer
+raw frames over the same TCP or TLS connection. Release each received
+allocation with `vscphlp_freeBinaryFrame`.
+See [binary link frames](docs/binary_link.md) for ownership, timeouts,
+existing event API behavior, and C/C++ and Python examples.
+
+For authenticated frame encryption, configure `vscphlp_setBinarySecurity`
+before binary negotiation. It enables strict version-1 framing with
+AES-128/192/256-CBC and HMAC-SHA-256 (128-bit tags) over TCP or TLS.
+Standalone `vscphlp_encryptFrameV1` / `vscphlp_decryptFrameV1` helpers are also
+exported. See [frame security](docs/frame_security.md) for keys, limits, and
+examples. Legacy framing remains the default.
+
 ## Library versioning
 
 The library version has the form `major.minor.revision.patch`. Set

@@ -22,6 +22,7 @@ find_package(Python3 3.7 COMPONENTS Interpreter QUIET)
 if(Python3_Interpreter_FOUND)
   add_custom_target(test_tcp_transport
     COMMAND ${Python3_EXECUTABLE}
+            "${CMAKE_CURRENT_SOURCE_DIR}/run_transport_tests.py"
             "${vscp_SOURCE_DIR}/tests/tcpiptls/run_transport_tests.py"
             $<TARGET_FILE:unittest_tcp_transport>
     DEPENDS unittest_tcp_transport
