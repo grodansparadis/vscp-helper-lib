@@ -47,6 +47,8 @@
 #include <vscphelper.h>
 #include <vscpremotetcpif.h>
 
+#include "libversion.h"
+
 #ifdef WIN32
 #include "windows/libvscphelper.h"
 #else
@@ -55,6 +57,8 @@
 
 #ifdef WIN32
 #define DllExport __declspec(dllexport)
+#else
+#define DllExport
 #endif
 
 struct vscphlpobj
@@ -572,6 +576,16 @@ vscphlp_getVersion(long handle,
     }
 
     return pvscpif->doCmdVersion(pMajorVer, pMinorVer, pSubMinorVer);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// vscphlp_getVersionString
+//
+
+extern "C" DllExport const char*
+vscphlp_getVersionString(void)
+{
+    return VSCP_HELPER_LIB_VERSION;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

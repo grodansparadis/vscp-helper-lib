@@ -39,7 +39,9 @@ patch is the Git first-parent commit count and can exceed 255. When the
 repository's pre-commit hook is enabled, it synchronizes the version
 automatically for the pending commit. Run
 `python3 tools/update_docs_metadata.py` afterward to refresh the documentation
-metadata locally.
+metadata locally. Applications can query the loaded library's version with
+[`vscphlp_getVersionString`](docs/vscphlp_getversionstring.md), without opening
+a session.
 
 Windows numeric version resources limit each component to 65535; CMake
 rejects a larger patch on Windows rather than truncating it.

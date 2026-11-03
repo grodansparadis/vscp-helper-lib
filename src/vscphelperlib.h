@@ -113,6 +113,9 @@ vscphlp_getVersion( long handle,
                       unsigned char *pMajorVer,
                       unsigned char *pMinorVer,
                       unsigned char *pSubMinorVer );
+/* The returned library-owned string remains valid until the library is unloaded. */
+HELPERLIB_API const char *
+vscphlp_getVersionString(void);
 HELPERLIB_API int 
 vscphlp_getDLLVersion( long handle, unsigned long *pVersion );
 HELPERLIB_API int 

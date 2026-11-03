@@ -26,7 +26,9 @@ VSCP server sub minor version.
 Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ### Description
-Get the version of the remote VSCP server. 
+Get the version of the remote VSCP server. To get the helper library's own
+four-part version, use [vscphlp_getVersionString](vscphlp_getversionstring.md)
+instead.
 
 #### C example
 

@@ -55,3 +55,12 @@ From the repository root, run:
 ```bash
 python3 -B -m unittest discover -s tests -p 'test_versioning.py'
 ```
+
+To test the exported library-version function without a running VSCP daemon:
+
+```bash
+cmake -S . -B build -DBUILD_ALLTEST=ON
+cmake --build build --target unittest
+cd build/tests/alltest
+../../unittest 1 --gtest_filter='LibraryVersion.*'
+```

@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <algorithm>
+#include <libversion.h>
 #include <vscphelperlib.h>
 #include <gtest/gtest.h>
 
@@ -21,6 +23,21 @@
 #define INTERFACE1_HOST       "vscp2.vscp.org:9598"
 #define INTERFACE1_USER 	    "admin"
 #define INTERFACE1_PASSWORD   "secret"
+
+TEST(LibraryVersion, ReturnsFullVersionWithoutSession)
+{
+    const char* version = vscphlp_getVersionString();
+    ASSERT_NE(nullptr, version);
+    EXPECT_STREQ(VSCP_HELPER_LIB_VERSION, version);
+    EXPECT_EQ(3, std::count(version, version + strlen(version), '.'));
+    EXPECT_STREQ(version, vscphlp_getVersionString());
+}
+
+TEST(LibraryVersion, ServerVersionStillRequiresSession)
+{
+    unsigned char major = 0, minor = 0, subminor = 0;
+    EXPECT_EQ(VSCP_ERROR_INVALID_HANDLE, vscphlp_getVersion(0, &major, &minor, &subminor));
+}
 
 TEST(GuidParser, ParsesSupportedFormats)
 {

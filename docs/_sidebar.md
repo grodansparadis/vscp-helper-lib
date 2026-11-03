@@ -15,6 +15,7 @@
 
    * [vscphlp_newSession](vscphlp_newsession.md)
    * [vscphlp_closeSession](vscphlp_closesession.md)
+   * [vscphlp_getVersionString](vscphlp_getversionstring.md)
    * [vscphlp_setResponseTimeout](vscphlp_setresponsetimeout.md)
    * [vscphlp_setAfterCommandSleep](vscphlp_setaftercommandsleep.md)
 
