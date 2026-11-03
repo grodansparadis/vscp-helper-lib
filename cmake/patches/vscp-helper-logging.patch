@@ -1,0 +1,39 @@
+--- a/vscpremotetcpif.cpp
++++ b/vscpremotetcpif.cpp
+@@ -76,6 +76,7 @@
+ #include "vscp.h"
+ #include "vscpdatetime.h"
+ #include "vscpremotetcpif.h"
++#include "vscphelperlogging.h"
+ 
+ #include <iostream>
+ 
+@@ -122,8 +123,6 @@
+   va_list arguments;
+   va_start(arguments, format);
+-  std::fputs("VSCP TCP: ", stderr);
+-  std::vfprintf(stderr, format, arguments);
+-  std::fputc('\n', stderr);
++  vscphlp_logTransportError(format, arguments);
+   va_end(arguments);
+ }
+ 
+--- a/vscphelper.cpp
++++ b/vscphelper.cpp
+@@ -94,6 +94,7 @@
+ #include <vscp.h>
+ #include <vscp-socket-address.h>
+ #include <vscphelper.h>
++#include "vscphelperlogging.h"
+ 
+ #include <algorithm>
+ #include <atomic>
+@@ -5812,7 +5813,7 @@
+     }
+   }
+   catch (json::parse_error) {
+-    fprintf(stderr, "Parse error");
++    vscphlp_logHelperError("Parse error");
+     return false;
+   }
+   catch (...) {
