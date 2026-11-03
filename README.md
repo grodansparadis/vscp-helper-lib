@@ -49,6 +49,15 @@ Standalone `vscphlp_encryptFrameV1` / `vscphlp_decryptFrameV1` helpers are also
 exported. See [frame security](docs/frame_security.md) for keys, limits, and
 examples. Legacy framing remains the default.
 
+## Logging
+
+`vscphlp_configureLogging` routes underlying TCP/TLS and helper diagnostics to
+stderr, rotating files, or both, with independent severity thresholds.
+Configuration is thread-safe and library-wide; the application's spdlog
+logger is untouched. Existing stderr diagnostics remain the default.
+Use `vscphlp_disableLogging` to silence library diagnostics.
+See [logging](docs/logging.md) for C examples, limits, flushing, and errors.
+
 ## Library versioning
 
 The library version has the form `major.minor.revision.patch`. Set

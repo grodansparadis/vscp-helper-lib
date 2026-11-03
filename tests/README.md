@@ -68,6 +68,21 @@ checkout or network access, run:
 cmake --build build --target test_dependency_fetch
 ```
 
+## Logging tests
+
+Run the library-wide logging tests without a VSCP daemon:
+
+```bash
+cmake -S . -B build -DBUILD_ALLTEST=ON
+cmake --build build --target test_logging
+```
+
+They cover default stderr diagnostics, file/console/both routing, independent
+thresholds, disable/re-enable, bounded rotation, long messages, configuration
+failure retention, host-spdlog isolation, helper JSON parse errors, thread-local
+errors, explicit runtime sink failures, and concurrent configuration while an
+existing session emits.
+
 ## Version metadata tests
 
 From the repository root, run:

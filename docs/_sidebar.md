@@ -8,6 +8,7 @@
  * [TLS connections](tls.md)
  * [Binary link frames](binary_link.md)
  * [HMAC and frame encryption](frame_security.md)
+ * [Logging](logging.md)
  * [Return values and error handling](error_handling.md)
  * [Using with C/C++](c_using.md)
  * [Using with Python](python_using.md)
@@ -19,6 +20,10 @@
    * [vscphlp_newSession](vscphlp_newsession.md)
    * [vscphlp_closeSession](vscphlp_closesession.md)
    * [vscphlp_getVersionString](vscphlp_getversionstring.md)
+   * [vscphlp_configureLogging](logging.md#console-file-or-both)
+   * [vscphlp_flushLogging](logging.md#rotation-flushing-and-disabling)
+   * [vscphlp_disableLogging](logging.md#rotation-flushing-and-disabling)
+   * [vscphlp_getLastLoggingError](logging.md#errors-and-safety)
    * [vscphlp_setResponseTimeout](vscphlp_setresponsetimeout.md)
    * [vscphlp_setAfterCommandSleep](vscphlp_setaftercommandsleep.md)
    * [vscphlp_setTLSOptions](vscphlp_tls.md#vscphlp_settlsoptions)
@@ -286,5 +291,4 @@
 
 * Other documentation
   * [VSCP documentation portal](https://docs.vscp.org)
-
 

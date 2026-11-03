@@ -45,6 +45,37 @@
 extern "C" {
 #endif
 
+#define VSCPHELPER_LOG_LEVEL_TRACE 0
+#define VSCPHELPER_LOG_LEVEL_DEBUG 1
+#define VSCPHELPER_LOG_LEVEL_INFO 2
+#define VSCPHELPER_LOG_LEVEL_WARN 3
+#define VSCPHELPER_LOG_LEVEL_ERROR 4
+#define VSCPHELPER_LOG_LEVEL_CRITICAL 5
+#define VSCPHELPER_LOG_LEVEL_OFF 6
+
+/* Library-wide, thread-safe logging; console means stderr.
+ * Defaults to the original stderr diagnostics. OFF disables a sink.
+ * File logging appends and rotates at maxFileSize bytes, keeping maxFiles
+ * archives (1..200000). File arguments are ignored when file logging is OFF.
+ * Failed configuration retains the previous logger. No spdlog objects cross
+ * the C ABI, and the application's spdlog registry/default logger is untouched.
+ */
+HELPERLIB_API int
+vscphlp_configureLogging(int consoleLevel,
+                         int fileLevel,
+                         const char *filePath,
+                         size_t maxFileSize,
+                         size_t maxFiles);
+HELPERLIB_API int
+vscphlp_disableLogging(void);
+HELPERLIB_API int
+vscphlp_flushLogging(void);
+/* Thread-local, library-owned diagnostic; valid until this thread's next
+ * configure/disable/flush or logging error. Empty if that call succeeded.
+ */
+HELPERLIB_API const char *
+vscphlp_getLastLoggingError(void);
+
 HELPERLIB_API long 
 vscphlp_newSession(void);
 HELPERLIB_API void 

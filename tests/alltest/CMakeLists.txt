@@ -6,6 +6,13 @@ target_link_libraries(unittest PRIVATE libvscphelper GTest::gtest)
 add_executable(unittest_tcp_transport tcp_transport.cpp)
 target_link_libraries(unittest_tcp_transport PRIVATE libvscphelper GTest::gtest_main)
 
+add_executable(unittest_logging logging.cpp)
+target_link_libraries(unittest_logging PRIVATE libvscphelper GTest::gtest Threads::Threads)
+add_custom_target(test_logging
+  COMMAND $<TARGET_FILE:unittest_logging>
+  DEPENDS unittest_logging
+  USES_TERMINAL)
+
 add_custom_target(test_dependency_fetch
   COMMAND "${CMAKE_COMMAND}"
           -S "${PROJECT_SOURCE_DIR}/tests/dependency_fetch"

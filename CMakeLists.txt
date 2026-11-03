@@ -339,7 +339,7 @@ add_library(libvscphelper SHARED
     ${vscp_SOURCE_DIR}/src/vscp/common/guid.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp-guid-parser.c
     ${vscp_SOURCE_DIR}/src/vscp/common/vscphelper.h
-    ${vscp_SOURCE_DIR}/src/vscp/common/vscphelper.cpp
+    ${VSCP_HELPER_CLIENT_DIR}/vscphelper.cpp
     ${vscp_SOURCE_DIR}/src/common/vscphelper-common.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/canal.h
     ${vscp_SOURCE_DIR}/src/common/vscpbase64.h
@@ -369,7 +369,7 @@ else()
     ${vscp_SOURCE_DIR}/src/vscp/common/guid.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp-guid-parser.c
     ${vscp_SOURCE_DIR}/src/vscp/common/vscphelper.h
-    ${vscp_SOURCE_DIR}/src/vscp/common/vscphelper.cpp
+    ${VSCP_HELPER_CLIENT_DIR}/vscphelper.cpp
     ${vscp_SOURCE_DIR}/src/common/vscphelper-common.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/canal.h
     ${vscp_SOURCE_DIR}/src/common/vscpbase64.h
@@ -383,6 +383,12 @@ else()
     ${vscp_SOURCE_DIR}/src/common/vscpmd5.h
     ${vscp_SOURCE_DIR}/src/common/vscpmd5.c       
   ) 
+endif()
+
+target_sources(libvscphelper PRIVATE src/vscphelperlogging.cpp)
+if(NOT WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  set_source_files_properties(src/vscphelperlogging.cpp PROPERTIES
+    COMPILE_OPTIONS "-fvisibility=hidden;-fvisibility-inlines-hidden")
 endif()
 
   #set_target_properties(libvscphelper PROPERTIES LIBRARY_OUTPUT_NAME "vscphelper.so.${LIBVSCPHELPER_VERSION}")
