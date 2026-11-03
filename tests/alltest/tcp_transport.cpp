@@ -650,6 +650,106 @@ TEST(FrameSecurity, StandaloneKnownAnswerAndFailureIsolation)
     EXPECT_EQ(expectedPlain, std::vector<unsigned char>(inPlace.begin(), inPlace.begin() + length));
 }
 
+TEST(FrameSecurity, StandaloneRejectsInvalidArguments)
+{
+    FrameKeys keys;
+    const auto plain = plainCommand();
+    std::array<unsigned char, 64> output{};
+    std::array<unsigned char, 16> iv{};
+    struct {
+        int algorithm;
+        size_t keyLength, macLength, ivLength;
+        bool explicitIv;
+    } cases[] = {
+        {0, 32, 32, 0, false}, {4, 32, 32, 0, false}, {-1, 32, 32, 0, false},
+        {1, 15, 32, 0, false}, {1, 17, 32, 0, false}, {2, 16, 32, 0, false},
+        {3, 31, 32, 0, false}, {3, 33, 32, 0, false}, {3, 32, 31, 0, false},
+        {3, 32, 33, 0, false}, {3, 32, 32, 16, false}, {3, 32, 32, 0, true},
+        {3, 32, 32, 15, true}, {3, 32, 32, 17, true},
+    };
+    for (const auto& test : cases) {
+        output.fill(0xa5);
+        size_t length = 99;
+        EXPECT_EQ(VSCP_ERROR_PARAMETER, vscphlp_encryptFrameV1(output.data(), output.size(), &length,
+                  plain.data(), plain.size(), keys.aes.data(), test.keyLength, keys.mac.data(), test.macLength,
+                  test.explicitIv ? iv.data() : nullptr, test.ivLength, test.algorithm));
+        EXPECT_EQ(0u, length);
+        EXPECT_EQ(std::vector<unsigned char>(output.size(), 0xa5),
+                  std::vector<unsigned char>(output.begin(), output.end()));
+    }
+    size_t length = 99;
+    EXPECT_EQ(VSCP_ERROR_PARAMETER, vscphlp_encryptFrameV1(nullptr, output.size(), &length,
+              plain.data(), plain.size(), keys.aes.data(), 32, keys.mac.data(), 32, nullptr, 0, 3));
+    EXPECT_EQ(0u, length);
+    EXPECT_EQ(VSCP_ERROR_PARAMETER, vscphlp_encryptFrameV1(output.data(), output.size(), nullptr,
+              plain.data(), plain.size(), keys.aes.data(), 32, keys.mac.data(), 32, nullptr, 0, 3));
+    EXPECT_EQ(VSCP_ERROR_PARAMETER, vscphlp_encryptFrameV1(output.data(), output.size(), &length,
+              nullptr, plain.size(), keys.aes.data(), 32, keys.mac.data(), 32, nullptr, 0, 3));
+    EXPECT_EQ(VSCP_ERROR_PARAMETER, vscphlp_encryptFrameV1(output.data(), output.size(), &length,
+              plain.data(), 4, keys.aes.data(), 32, keys.mac.data(), 32, nullptr, 0, 3));
+    EXPECT_EQ(VSCP_ERROR_PARAMETER, vscphlp_encryptFrameV1(output.data(), output.size(), &length,
+              plain.data(), plain.size(), nullptr, 32, keys.mac.data(), 32, nullptr, 0, 3));
+    EXPECT_EQ(VSCP_ERROR_PARAMETER, vscphlp_encryptFrameV1(output.data(), output.size(), &length,
+              plain.data(), plain.size(), keys.aes.data(), 32, nullptr, 32, nullptr, 0, 3));
+    EXPECT_EQ(VSCP_ERROR_PARAMETER, vscphlp_encryptFrameV1(output.data(), output.size(), &length,
+              plain.data(), plain.size(), keys.aes.data(), 32, keys.aes.data(), 32, nullptr, 0, 3));
+    output.fill(0xa5);
+    EXPECT_EQ(VSCP_ERROR_BUFFER_TO_SMALL, vscphlp_encryptFrameV1(output.data(), 48, &length,
+              plain.data(), plain.size(), keys.aes.data(), 32, keys.mac.data(), 32, nullptr, 0, 3));
+    EXPECT_EQ(0u, length);
+    EXPECT_EQ(std::vector<unsigned char>(output.size(), 0xa5),
+              std::vector<unsigned char>(output.begin(), output.end()));
+}
+
+TEST(FrameSecurity, StandaloneSizeBoundaryAndInPlaceEncryption)
+{
+    FrameKeys keys;
+    auto plain = plainCommand(8144);
+    std::vector<unsigned char> encrypted(plain.size() + 48), output(plain.size());
+    size_t length = 0, decoded = 0;
+    ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_encryptFrameV1(encrypted.data(), encrypted.size(), &length,
+               plain.data(), plain.size(), keys.aes.data(), 32, keys.mac.data(), 32, nullptr, 0, 3));
+    EXPECT_EQ(8177u, length);
+    ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_decryptFrameV1(output.data(), output.size(), &decoded,
+               encrypted.data(), length, keys.aes.data(), 32, keys.mac.data(), 32));
+    plain[0] |= 3;
+    EXPECT_EQ(plain, output);
+    plain = plainCommand(8145);
+    encrypted.assign(plain.size() + 48, 0xa5);
+    EXPECT_EQ(VSCP_ERROR_SIZE, vscphlp_encryptFrameV1(encrypted.data(), encrypted.size(), &length,
+              plain.data(), plain.size(), keys.aes.data(), 32, keys.mac.data(), 32, nullptr, 0, 3));
+    EXPECT_EQ(0u, length);
+    EXPECT_EQ(std::vector<unsigned char>(encrypted.size(), 0xa5), encrypted);
+
+    plain = plainCommand();
+    plain[0] |= 3;
+    auto inPlace = plain;
+    inPlace.resize(plain.size() + 48);
+    ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_encryptFrameV1(inPlace.data(), inPlace.size(), &length,
+               inPlace.data(), plain.size(), keys.aes.data(), 32, keys.mac.data(), 32, nullptr, 0,
+               VSCP_ENCRYPTION_FROM_TYPE_BYTE));
+    ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_decryptFrameV1(inPlace.data(), inPlace.size(), &decoded,
+               inPlace.data(), length, keys.aes.data(), 32, keys.mac.data(), 32));
+    EXPECT_EQ(plain, std::vector<unsigned char>(inPlace.begin(), inPlace.begin() + decoded));
+    for (bool wrongMac : {false, true}) {
+        auto wrongKeys = keys;
+        if (wrongMac) {
+            wrongKeys.mac[0] ^= 1;
+        }
+        else {
+            wrongKeys.aes[0] ^= 1;
+        }
+        std::vector<unsigned char> wire(plain.size() + 48);
+        ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_encryptFrameV1(wire.data(), wire.size(), &length,
+                   plain.data(), plain.size(), keys.aes.data(), 32, keys.mac.data(), 32, nullptr, 0, 3));
+        output.assign(plain.size(), 0xa5);
+        EXPECT_EQ(VSCP_ERROR_INVALID_FRAME, vscphlp_decryptFrameV1(output.data(), output.size(), &decoded,
+                  wire.data(), length, wrongKeys.aes.data(), 32, wrongKeys.mac.data(), 32));
+        EXPECT_EQ(0u, decoded);
+        EXPECT_EQ(std::vector<unsigned char>(output.size(), 0xa5), output);
+    }
+}
+
 TEST(FrameSecurity, StandaloneAlgorithmsAndRandomIvs)
 {
     FrameKeys keys;
@@ -702,6 +802,19 @@ TEST(FrameSecurity, AutomaticEncryptedRoundtripOverTcpAndTls)
             int configured = -1;
             ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_getBinarySecurity(session.handle, &configured));
             EXPECT_EQ(algorithm, configured);
+            const char* address = std::getenv(endpoint);
+            ASSERT_NE(nullptr, address);
+            ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_open(session.handle, address, "admin", "secret"));
+            const std::string scenario = "SCENARIO secure-" + std::to_string(algorithm) + "\r\n";
+            ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_doCommand(session.handle, scenario.c_str()));
+            ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_doCmdBinary(session.handle));
+            const auto sent = plainCommand();
+            ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_sendBinaryFrame(session.handle, sent.data(), sent.size()));
+            ReceivedFrame received;
+            ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_receiveBinaryFrame(session.handle, &received.data, &received.size, 1000));
+            ASSERT_NE(nullptr, received.data);
+            EXPECT_EQ(sent, std::vector<unsigned char>(received.data, received.data + received.size));
+            ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_close(session.handle));
             ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_setBinarySecurity(session.handle, 0, nullptr, 0, nullptr, 0));
         }
     }

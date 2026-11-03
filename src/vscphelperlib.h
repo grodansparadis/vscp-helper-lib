@@ -115,7 +115,10 @@ HELPERLIB_API int
 vscphlp_doCmdBinary(long handle);
 HELPERLIB_API int
 vscphlp_isBinaryMode(long handle, int *pBinaryMode);
-/* Raw frames include CRC/optional IV, but exclude the TCP length prefix. */
+/* Legacy raw frames include CRC/optional IV, but exclude the TCP prefix.
+ * With binary security enabled, supply plaintext with CRC and clear
+ * encryption bits; transport encryption and HMAC are automatic.
+ */
 HELPERLIB_API int
 vscphlp_sendBinaryFrame(long handle, const unsigned char *frame, size_t frameSize);
 /* On success, release *frame with vscphlp_freeBinaryFrame, not free/delete.

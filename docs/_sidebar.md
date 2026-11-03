@@ -4,6 +4,7 @@
 
 * Using the library
  * [Using the library](using.md)
+ * [Sending and receiving events](events.md)
  * [TLS connections](tls.md)
  * [Binary link frames](binary_link.md)
  * [HMAC and frame encryption](frame_security.md)
