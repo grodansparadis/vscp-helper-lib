@@ -29,13 +29,49 @@
 #pragma once
 
 #include <cstdarg>
+#include <exception>
+#include <memory>
+#include <utility>
+
+#include <spdlog/logger.h>
 
 #if defined(__GNUC__) && !defined(_WIN32)
 __attribute__((visibility("hidden")))
 #endif
-void vscphlp_logTransportError(const char* format, va_list arguments) noexcept;
+void vscphelper_logTransportError(const char* format, va_list arguments) noexcept;
 
 #if defined(__GNUC__) && !defined(_WIN32)
 __attribute__((visibility("hidden")))
 #endif
-void vscphlp_logHelperError(const char* message) noexcept;
+std::shared_ptr<spdlog::logger> vscphelper_getLogger() noexcept;
+
+#if defined(__GNUC__) && !defined(_WIN32)
+__attribute__((visibility("hidden")))
+#endif
+void vscphelper_reportLoggingFailure(const char* message) noexcept;
+
+template <typename... Args>
+void vscphlp_log(spdlog::level::level_enum level,
+                 spdlog::format_string_t<Args...> format,
+                 Args&&... args) noexcept
+{
+    try {
+        auto logger = vscphelper_getLogger();
+        if (logger && logger->should_log(level)) {
+            logger->log(level, format, std::forward<Args>(args)...);
+        }
+    }
+    catch (const std::exception& error) {
+        vscphelper_reportLoggingFailure(error.what());
+    }
+    catch (...) {
+        vscphelper_reportLoggingFailure("Unknown exception while logging");
+    }
+}
+
+#define VSCPHLP_LOG_TRACE(...) vscphlp_log(spdlog::level::trace, __VA_ARGS__)
+#define VSCPHLP_LOG_DEBUG(...) vscphlp_log(spdlog::level::debug, __VA_ARGS__)
+#define VSCPHLP_LOG_INFO(...) vscphlp_log(spdlog::level::info, __VA_ARGS__)
+#define VSCPHLP_LOG_WARN(...) vscphlp_log(spdlog::level::warn, __VA_ARGS__)
+#define VSCPHLP_LOG_ERROR(...) vscphlp_log(spdlog::level::err, __VA_ARGS__)
+#define VSCPHLP_LOG_CRITICAL(...) vscphlp_log(spdlog::level::critical, __VA_ARGS__)

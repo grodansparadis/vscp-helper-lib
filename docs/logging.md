@@ -5,10 +5,27 @@ TCP/TLS transport and helper diagnostics. No spdlog pointers, C++ objects, or
 callbacks cross the C ABI. The application does not need to link spdlog.
 The library never changes spdlog's default logger, registry, global levels,
 thread pool, or shutdown state.
+Internal C++ code uses the private `VSCPHLP_LOG_*` macros and private logger
+accessor rather than spdlog's process-wide free-function/default-logger API.
+This keeps host applications using another spdlog version, or no spdlog at
+all, independent of the library's bundled version.
+The shared library hides its C++ and spdlog symbols; on Linux a linker export
+map additionally exposes only the `vscphlp_*` C API.
 
-Before configuration, existing diagnostics still go to stderr in their
-original format. Configuration is library-wide, not per session, and applies
-immediately to both existing and future sessions.
+Internal C++ sources include `vscphelperlogging.h` and use the level macros:
+
+```cpp
+VSCPHLP_LOG_DEBUG("Connected to {}", hostname);
+VSCPHLP_LOG_ERROR("TLS setup failed: {}", reason);
+```
+
+These macros log through the library-owned logger and do not call
+`spdlog::debug`, `spdlog::error`, or other process-default logger functions.
+
+Before configuration, transport errors still go to stderr in their original
+format. Internal `VSCPHLP_LOG_*` calls use a private stderr logger at ERROR and
+above. Configuration is library-wide, not per session, and applies immediately
+to both existing and future sessions.
 
 ## Console, file, or both
 
@@ -82,9 +99,10 @@ durability guarantee.
 It is also valid before any configuration. Re-enable with another
 `vscphlp_configureLogging` call; closing a session does not disable logging.
 
-Configuration, emission, flushing, and disabling are serialized. A successful
-disable returns after earlier emissions finish; logging creates no background
-threads. Slow disk/console writes can therefore delay library calls.
+Configuration, emission, flushing, and disabling are thread-safe. Each
+in-flight log call retains its logger while configuration changes, so it may
+finish on the previous sink after reconfiguration returns. Logging creates no
+background threads. Slow disk/console writes can therefore delay library calls.
 Do not unload the library while sessions or library calls are still active.
 
 ## Errors and safety

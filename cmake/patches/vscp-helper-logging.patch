@@ -14,7 +14,7 @@
 -  std::fputs("VSCP TCP: ", stderr);
 -  std::vfprintf(stderr, format, arguments);
 -  std::fputc('\n', stderr);
-+  vscphlp_logTransportError(format, arguments);
++  vscphelper_logTransportError(format, arguments);
    va_end(arguments);
  }
  
@@ -33,7 +33,7 @@
    }
    catch (json::parse_error) {
 -    fprintf(stderr, "Parse error");
-+    vscphlp_logHelperError("Parse error");
++    VSCPHLP_LOG_ERROR("VSCP helper: Parse error");
      return false;
    }
    catch (...) {

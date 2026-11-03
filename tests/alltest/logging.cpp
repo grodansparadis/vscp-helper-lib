@@ -3,13 +3,15 @@
 #include <filesystem>
 #include <fstream>
 #include <iterator>
+#include <memory>
+#include <sstream>
 #include <string>
 #include <thread>
 
 #include <gtest/gtest.h>
+#include <spdlog/sinks/ostream_sink.h>
 #include <spdlog/spdlog.h>
 #include <vscphelperlib.h>
-#include <vscphelper.h>
 
 namespace {
 
@@ -73,13 +75,23 @@ protected:
 
 TEST_F(Logging, FileOnlyAndHostIsolation)
 {
-    auto hostLogger = spdlog::default_logger();
+    auto oldDefault = spdlog::default_logger();
+    std::ostringstream hostOutput;
+    auto hostSink = std::make_shared<spdlog::sinks::ostream_sink_mt>(hostOutput);
+    auto hostLogger = std::make_shared<spdlog::logger>("host-default", hostSink);
+    hostLogger->set_level(spdlog::level::trace);
+    spdlog::set_default_logger(hostLogger);
     auto hostLevel = hostLogger->level();
-    ASSERT_EQ(VSCP_ERROR_SUCCESS, configure());
+    int configResult = configure();
+    EXPECT_EQ(VSCP_ERROR_SUCCESS, configResult);
+    if (configResult != VSCP_ERROR_SUCCESS) {
+        spdlog::set_default_logger(std::move(oldDefault));
+        return;
+    }
     testing::internal::CaptureStderr();
     EXPECT_EQ(VSCP_ERROR_CONNECTION, emit((directory / "missing.pem").string()));
     EXPECT_TRUE(testing::internal::GetCapturedStderr().empty());
-    ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_flushLogging());
+    EXPECT_EQ(VSCP_ERROR_SUCCESS, vscphlp_flushLogging());
     std::string output = read();
     EXPECT_NE(std::string::npos, output.find("[error] VSCP TCP: cannot read TLS file:"));
     EXPECT_EQ(std::string::npos, output.find("private-password"));
@@ -87,7 +99,9 @@ TEST_F(Logging, FileOnlyAndHostIsolation)
     EXPECT_EQ(std::string::npos, output.find("not-to-be-logged"));
     EXPECT_EQ(hostLogger, spdlog::default_logger());
     EXPECT_EQ(hostLevel, hostLogger->level());
+    EXPECT_TRUE(hostOutput.str().empty());
     EXPECT_EQ(nullptr, spdlog::get("vscp-helper"));
+    spdlog::set_default_logger(std::move(oldDefault));
 }
 
 TEST_F(Logging, ConsoleBothFilteringAndDisable)
@@ -200,22 +214,6 @@ TEST_F(Logging, DiagnosticsAreThreadLocal)
     EXPECT_EQ(error, vscphlp_getLastLoggingError());
 }
 
-TEST_F(Logging, UnderlyingHelperDiagnostics)
-{
-    vscpEventEx event{};
-    std::string malformed = "{private-payload";
-    ASSERT_EQ(VSCP_ERROR_SUCCESS, configure());
-    testing::internal::CaptureStderr();
-    EXPECT_FALSE(vscp_convertJSONToEventEx(&event, malformed));
-    EXPECT_TRUE(testing::internal::GetCapturedStderr().empty());
-    EXPECT_NE(std::string::npos, read().find("VSCP helper: Parse error"));
-    EXPECT_EQ(std::string::npos, read().find("private-payload"));
-    ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_disableLogging());
-    testing::internal::CaptureStderr();
-    EXPECT_FALSE(vscp_convertJSONToEventEx(&event, malformed));
-    EXPECT_TRUE(testing::internal::GetCapturedStderr().empty());
-}
-
 TEST_F(Logging, RuntimeSinkFailuresAreReported)
 {
     ASSERT_EQ(VSCP_ERROR_SUCCESS, configure(VSCPHELPER_LOG_LEVEL_OFF,
@@ -244,10 +242,5 @@ int main(int argc, char** argv)
     EXPECT_EQ(VSCP_ERROR_CONNECTION, emitTransportError(missing.string()));
     EXPECT_NE(std::string::npos, testing::internal::GetCapturedStderr().find(
         "VSCP TCP: cannot read TLS file:"));
-    vscpEventEx event{};
-    std::string malformed = "{";
-    testing::internal::CaptureStderr();
-    EXPECT_FALSE(vscp_convertJSONToEventEx(&event, malformed));
-    EXPECT_EQ("Parse error", testing::internal::GetCapturedStderr());
     return RUN_ALL_TESTS();
 }

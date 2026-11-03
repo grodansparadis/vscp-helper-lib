@@ -4,6 +4,7 @@ add_executable(unittest unittest.cpp)
 target_link_libraries(unittest PRIVATE libvscphelper GTest::gtest)
 
 add_executable(unittest_tcp_transport tcp_transport.cpp)
+target_sources(unittest_tcp_transport PRIVATE ${vscp_SOURCE_DIR}/src/common/crc.c)
 target_link_libraries(unittest_tcp_transport PRIVATE libvscphelper GTest::gtest_main)
 
 add_executable(unittest_logging logging.cpp)
@@ -12,6 +13,23 @@ add_custom_target(test_logging
   COMMAND $<TARGET_FILE:unittest_logging>
   DEPENDS unittest_logging
   USES_TERMINAL)
+
+add_executable(logging_c_host logging_c_host.c)
+target_link_libraries(logging_c_host PRIVATE libvscphelper)
+set_target_properties(logging_c_host PROPERTIES LINKER_LANGUAGE CXX)
+add_custom_target(test_logging_c_host
+  COMMAND $<TARGET_FILE:logging_c_host>
+  DEPENDS logging_c_host
+  USES_TERMINAL)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  add_custom_target(test_library_exports
+    COMMAND "${CMAKE_COMMAND}"
+            "-DLIBRARY=$<TARGET_FILE:libvscphelper>"
+            -P "${PROJECT_SOURCE_DIR}/cmake/CheckLibraryExports.cmake"
+    DEPENDS libvscphelper
+    USES_TERMINAL)
+endif()
 
 add_custom_target(test_dependency_fetch
   COMMAND "${CMAKE_COMMAND}"

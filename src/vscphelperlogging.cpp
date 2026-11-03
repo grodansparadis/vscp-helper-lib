@@ -60,6 +60,15 @@ struct LoggingState {
     std::mutex mutex;
     std::shared_ptr<spdlog::logger> logger;
     bool defaultStderr = true;
+
+    LoggingState()
+    {
+        auto sink = std::make_shared<spdlog::sinks::stderr_sink_mt>();
+        logger = std::make_shared<spdlog::logger>("vscp-helper", sink);
+        logger->set_level(spdlog::level::err);
+        logger->set_pattern("%v");
+        logger->set_error_handler([](const std::string& message) { reportError(message.c_str()); });
+    }
 };
 
 LoggingState& loggingState()
@@ -174,17 +183,18 @@ vscphlp_getLastLoggingError(void)
     return loggingError.data();
 }
 
-void vscphlp_logTransportError(const char* format, va_list arguments) noexcept
+void vscphelper_logTransportError(const char* format, va_list arguments) noexcept
 {
     try {
         auto& state = loggingState();
         std::lock_guard<std::mutex> lock(state.mutex);
+        if (state.defaultStderr) {
+            std::fputs("VSCP TCP: ", stderr);
+            std::vfprintf(stderr, format, arguments);
+            std::fputc('\n', stderr);
+            return;
+        }
         if (!state.logger) {
-            if (state.defaultStderr) {
-                std::fputs("VSCP TCP: ", stderr);
-                std::vfprintf(stderr, format, arguments);
-                std::fputc('\n', stderr);
-            }
             return;
         }
         if (!state.logger->should_log(spdlog::level::err)) {
@@ -214,19 +224,20 @@ void vscphlp_logTransportError(const char* format, va_list arguments) noexcept
     }
 }
 
-void vscphlp_logHelperError(const char* message) noexcept
+std::shared_ptr<spdlog::logger> vscphelper_getLogger() noexcept
 {
     try {
         auto& state = loggingState();
         std::lock_guard<std::mutex> lock(state.mutex);
-        if (state.logger) {
-            state.logger->error("VSCP helper: {}", message);
-        }
-        else if (state.defaultStderr) {
-            std::fputs(message, stderr);
-        }
+        return state.logger;
     }
     catch (const std::exception& error) {
         reportError(error.what());
+        return {};
     }
+}
+
+void vscphelper_reportLoggingFailure(const char* message) noexcept
+{
+    reportError(message);
 }

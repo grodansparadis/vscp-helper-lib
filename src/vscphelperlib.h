@@ -28,7 +28,11 @@
 
 #ifndef WIN32
 #define __LINUX__
+#if defined(__GNUC__) || defined(__clang__)
+#define HELPERLIB_API __attribute__((visibility("default")))
+#else
 #define HELPERLIB_API
+#endif
 #else
 #ifdef HELPERLIB_EXPORTS
 #define HELPERLIB_API __declspec(dllexport)
@@ -54,7 +58,8 @@ extern "C" {
 #define VSCPHELPER_LOG_LEVEL_OFF 6
 
 /* Library-wide, thread-safe logging; console means stderr.
- * Defaults to the original stderr diagnostics. OFF disables a sink.
+ * Existing transport errors remain on stderr until configured. Internal
+ * VSCPHLP_LOG_* calls default to stderr at ERROR and above. OFF disables a sink.
  * File logging appends and rotates at maxFileSize bytes, keeping maxFiles
  * archives (1..200000). File arguments are ignored when file logging is OFF.
  * Failed configuration retains the previous logger. No spdlog objects cross
@@ -283,7 +288,7 @@ vscphlp_getCANALidFromEventEx( const vscpEventEx *pEvent );
 HELPERLIB_API unsigned short 
 vscphlp_calc_crc_Event( vscpEvent *pEvent, short bSet );
 HELPERLIB_API unsigned short 
-vscphlp_calc_crc_EventEx( vscpEvent *pEvent, short bSet );
+vscphlp_calc_crc_EventEx( vscpEventEx *pEvent, short bSet );
 HELPERLIB_API unsigned char 
 vscphlp_calcCRC4GUIDArray( unsigned char *pguid );
 HELPERLIB_API unsigned char 
@@ -303,7 +308,7 @@ vscphlp_writeGuidToStringEx( const vscpEventEx *pEvent, char *pStr, size_t len )
 HELPERLIB_API int 
 vscphlp_writeGuidToString4Rows( const vscpEvent *pEvent,
                                 char *strGUID,
-                                int size );
+                                size_t len );
 HELPERLIB_API int 
 vscphlp_writeGuidToString4RowsEx( const vscpEventEx *pEvent,
                                   char *strGUID,
@@ -377,9 +382,9 @@ vscphlp_writeVscpDataToString( char *pstr,
                                 size_t len,
                                 int bUseHtmlBreak );
 HELPERLIB_API int
-vscphlp_writeVscpDataWithSizeToString( const unsigned char *pData,
+vscphlp_writeVscpDataWithSizeToString( char *pStr,
+                                          const unsigned char *pData,
                                           const unsigned short sizeData,
-                                          char *pStr,
                                           size_t len,
                                           int bUseHtmlBreak,
                                           int bBreak );
@@ -391,9 +396,9 @@ vscphlp_getVscpDataArrayFromString( unsigned char *pData,
                                       unsigned short *psizeData,
                                       const char *pstr );
 HELPERLIB_API int 
-vscphlp_writeVscpEventToString( const vscpEvent *pEvent, char *p, size_t len );
+vscphlp_writeVscpEventToString( vscpEvent *pEvent, char *p, size_t len );
 HELPERLIB_API int 
-vscphlp_writeVscpEventExToString( const vscpEventEx *pEvent, char *p, size_t len );
+vscphlp_writeVscpEventExToString( vscpEventEx *pEvent, char *p, size_t len );
 HELPERLIB_API int 
 vscphlp_setVscpEventFromString( vscpEvent *pEvent, const char *p );
 HELPERLIB_API int 
@@ -456,7 +461,7 @@ vscphlp_makeStringMeasurementEvent( vscpEvent *pEvent,
                                       unsigned char unit,
                                       unsigned char sensoridx );
 HELPERLIB_API int 
-vscphlp_makeStringMeasurementEventEx( vscpEvent *pEvent,
+vscphlp_makeStringMeasurementEventEx( vscpEventEx *pEventEx,
                                         float value,
                                         unsigned char unit,
                                         unsigned char sensoridx );                                                                                 

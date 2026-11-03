@@ -26,7 +26,7 @@ if(security_method_position EQUAL -1)
   message(FATAL_ERROR "The build-local client does not include authenticated framing")
 endif()
 file(READ "${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.cpp" patched_client_source)
-string(FIND "${patched_client_source}" "vscphlp_logTransportError(format, arguments)"
+string(FIND "${patched_client_source}" "vscphelper_logTransportError(format, arguments)"
        logging_method_position)
 if(logging_method_position EQUAL -1)
   message(FATAL_ERROR "The build-local client does not route transport diagnostics")

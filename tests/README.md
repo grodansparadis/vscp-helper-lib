@@ -77,11 +77,15 @@ cmake -S . -B build -DBUILD_ALLTEST=ON
 cmake --build build --target test_logging
 ```
 
+`test_logging_c_host` also builds and runs a C-only consumer that links the
+shared library without including or linking spdlog.
+On Linux, `test_library_exports` verifies that the shared library exports only
+its `vscphlp_*` C API.
+
 They cover default stderr diagnostics, file/console/both routing, independent
 thresholds, disable/re-enable, bounded rotation, long messages, configuration
-failure retention, host-spdlog isolation, helper JSON parse errors, thread-local
-errors, explicit runtime sink failures, and concurrent configuration while an
-existing session emits.
+failure retention, host-spdlog isolation, thread-local errors, explicit runtime
+sink failures, and concurrent configuration while an existing session emits.
 
 ## Version metadata tests
 

@@ -51,6 +51,7 @@
 #include <vscphelper.h>
 #include <vscpremotetcpif.h>
 
+#include "vscphelperlib.h"
 #include "libversion.h"
 
 #ifdef WIN32

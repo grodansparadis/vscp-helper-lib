@@ -151,13 +151,11 @@ message(STATUS "CMAKE_LIBRARY_ARCHITECTURE=${CMAKE_LIBRARY_ARCHITECTURE}")
 message(STATUS "CMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}")
 
 if(WIN32)
-  add_definitions(-DHELPERLIB_EXPORTS)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
   add_definitions(-DWIN32_LEAN_AND_MEANS)
   add_definitions(-DOPENSSL_API_1_1)
   add_definitions(-D_POSIX_C_SOURCE)    
   add_definitions(-DVCPKG_TARGET_TRIPLET=x64-windows)
-  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
   set(LIBS_SYSTEM ws2_32)
 endif(WIN32)
 
@@ -385,10 +383,20 @@ else()
   ) 
 endif()
 
+if(WIN32)
+  target_compile_definitions(libvscphelper PRIVATE HELPERLIB_EXPORTS)
+endif()
+
 target_sources(libvscphelper PRIVATE src/vscphelperlogging.cpp)
-if(NOT WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-  set_source_files_properties(src/vscphelperlogging.cpp PROPERTIES
-    COMPILE_OPTIONS "-fvisibility=hidden;-fvisibility-inlines-hidden")
+if(NOT WIN32)
+  set_target_properties(libvscphelper PROPERTIES
+    C_VISIBILITY_PRESET hidden
+    CXX_VISIBILITY_PRESET hidden
+    VISIBILITY_INLINES_HIDDEN YES)
+endif()
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  target_link_options(libvscphelper PRIVATE
+    "LINKER:--version-script=${CMAKE_CURRENT_SOURCE_DIR}/cmake/libvscphelper.map")
 endif()
 
   #set_target_properties(libvscphelper PROPERTIES LIBRARY_OUTPUT_NAME "vscphelper.so.${LIBVSCPHELPER_VERSION}")

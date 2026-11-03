@@ -2,7 +2,8 @@
 find_package(Git REQUIRED)
 set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
   "${CMAKE_CURRENT_LIST_DIR}/patches/vscp-authenticated-binary.patch"
-  "${CMAKE_CURRENT_LIST_DIR}/patches/vscp-helper-logging.patch")
+  "${CMAKE_CURRENT_LIST_DIR}/patches/vscp-helper-logging.patch"
+  "${CMAKE_CURRENT_LIST_DIR}/libvscphelper.map")
 
 set(VSCP_HELPER_CLIENT_DIR "${CMAKE_CURRENT_BINARY_DIR}/vscp-client")
 set(_vscp_client_work "${VSCP_HELPER_CLIENT_DIR}/patch-work")
