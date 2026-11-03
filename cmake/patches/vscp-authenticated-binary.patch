@@ -1,0 +1,168 @@
+--- a/vscpremotetcpif.h
++++ b/vscpremotetcpif.h
+@@ -65,6 +65,7 @@
+ #include <stdint.h>
+ #include <stdlib.h>
+ #include <memory>
++#include <array>
+ #include <vector>
+ 
+ #include <canal.h>
+@@ -281,6 +282,11 @@
+   int sendBinaryFrame(const std::vector<uint8_t> &frame);
+   int receiveBinaryFrame(std::vector<uint8_t> &frame, uint32_t timeout = TCPIP_DEFAULT_RESPONSE_TIMEOUT);
+ 
++  // AES enables strict version-1 framing with an independent HMAC-SHA-256 key.
++  int setBinarySecurity(uint8_t algorithm, const uint8_t *key, size_t keyLength,
++                         const uint8_t *hmacKey, size_t hmacKeyLength);
++  uint8_t getBinarySecurity(void) const { return m_binaryEncryption; }
++
+   /*!
+       Open communication interface.
+       @param strInterface should contain "ip-addr:port;username;password" if
+@@ -700,6 +706,9 @@
+   bool m_bModeReceiveLoop;
+   bool m_bBinaryMode;
+   std::vector<uint8_t> m_binaryInput;
++  uint8_t m_binaryEncryption = VSCP_ENCRYPTION_NONE;
++  std::array<uint8_t, 32> m_binaryKey{};
++  std::array<uint8_t, 32> m_binaryHmacKey{};
+ 
+   int receiveBinaryEvent(vscpEvent *event, uint32_t timeout);
+ 
+--- a/vscpremotetcpif.cpp
++++ b/vscpremotetcpif.cpp
+@@ -55,6 +55,7 @@
+ 
+ #include <crc.h>
+ #include <openssl/pem.h>
++#include <openssl/crypto.h>
+ #include <openssl/err.h>
+ #include <openssl/ssl.h>
+ 
+@@ -1081,6 +1082,8 @@
+ VscpRemoteTcpIf::~VscpRemoteTcpIf()
+ {
+   doCmdClose();
++  OPENSSL_cleanse(m_binaryKey.data(), m_binaryKey.size());
++  OPENSSL_cleanse(m_binaryHmacKey.data(), m_binaryHmacKey.size());
+ }
+ 
+ ///////////////////////////////////////////////////////////////////////////////
+@@ -1306,6 +1309,37 @@
+ }
+ 
+ int
++VscpRemoteTcpIf::setBinarySecurity(uint8_t algorithm, const uint8_t *key, size_t keyLength,
++                                   const uint8_t *hmacKey, size_t hmacKeyLength)
++{
++  if (isConnected() && m_bBinaryMode) {
++    return VSCP_ERROR_PARAMETER;
++  }
++  if (algorithm == VSCP_ENCRYPTION_NONE) {
++    if (keyLength || hmacKeyLength) {
++      return VSCP_ERROR_PARAMETER;
++    }
++  }
++  else {
++    const size_t required = algorithm == VSCP_ENCRYPTION_AES128 ? 16 :
++                            algorithm == VSCP_ENCRYPTION_AES192 ? 24 :
++                            algorithm == VSCP_ENCRYPTION_AES256 ? 32 : 0;
++    if (!required || !key || keyLength != required || !hmacKey || hmacKeyLength != 32 ||
++        CRYPTO_memcmp(key, hmacKey, required) == 0) {
++      return VSCP_ERROR_PARAMETER;
++    }
++  }
++  OPENSSL_cleanse(m_binaryKey.data(), m_binaryKey.size());
++  OPENSSL_cleanse(m_binaryHmacKey.data(), m_binaryHmacKey.size());
++  if (algorithm != VSCP_ENCRYPTION_NONE) {
++    std::copy(key, key + keyLength, m_binaryKey.begin());
++    std::copy(hmacKey, hmacKey + hmacKeyLength, m_binaryHmacKey.begin());
++  }
++  m_binaryEncryption = algorithm;
++  return VSCP_ERROR_SUCCESS;
++}
++
++int
+ VscpRemoteTcpIf::sendBinaryFrame(const std::vector<uint8_t> &frame)
+ {
+   if (!isConnected()) {
+@@ -1315,6 +1349,28 @@
+     return VSCP_ERROR_PARAMETER;
+   }
+ 
++  if (m_binaryEncryption != VSCP_ENCRYPTION_NONE) {
++    if (frame.size() < 5 || frame.size() > 4048 || (frame[0] & 0x0f) ||
++        ((frame[0] >> 4) > 1 && (frame[0] >> 4) < 14)) {
++      return VSCP_ERROR_PARAMETER;
++    }
++    const uint16_t expectedCrc = (static_cast<uint16_t>(frame[frame.size() - 2]) << 8) | frame.back();
++    if (crcSlow(frame.data() + 1, static_cast<int>(frame.size() - 3)) != expectedCrc) {
++      return VSCP_ERROR_INVALID_FRAME;
++    }
++    std::vector<uint8_t> packet(frame.size() + 51);
++    const size_t length = vscp_encryptFrameV1(packet.data() + 3, packet.size() - 3,
++                                               frame.data(), frame.size(), m_binaryKey.data(),
++                                               m_binaryHmacKey.data(), nullptr, m_binaryEncryption);
++    if (!length || length > 4096) {
++      return VSCP_ERROR_ERROR;
++    }
++    packet[0] = 0x55;
++    packet[1] = static_cast<uint8_t>(0x20 | (length >> 8));
++    packet[2] = static_cast<uint8_t>(length);
++    return transportWrite(packet.data(), length + 3, m_responseTimeOut);
++  }
++
+   std::vector<uint8_t> packet;
+   packet.reserve(frame.size() + 2);
+   packet.push_back(static_cast<uint8_t>(frame.size() >> 8));
+@@ -1335,17 +1391,44 @@
+ 
+   const auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(timeout);
+   while (true) {
+-    size_t needed = 2;
+-    if (m_binaryInput.size() >= 2) {
+-      const size_t length = (static_cast<size_t>(m_binaryInput[0]) << 8) | m_binaryInput[1];
+-      if (!length) {
++    const bool authenticated = m_binaryEncryption != VSCP_ENCRYPTION_NONE;
++    const size_t prefixSize = authenticated ? 3 : 2;
++    size_t needed = prefixSize;
++    if (m_binaryInput.size() >= prefixSize) {
++      const size_t word = (static_cast<size_t>(m_binaryInput[prefixSize - 2]) << 8) |
++                          m_binaryInput[prefixSize - 1];
++      const size_t length = authenticated ? word & 0x1fff : word;
++      if (!length || (authenticated && (m_binaryInput[0] != 0x55 || (word >> 13) != 1 ||
++                                        length < 49 || length > 4096 || (length - 33) % 16))) {
+         transportClose();
+         m_binaryInput.clear();
+         return VSCP_ERROR_INVALID_FRAME;
+       }
+       needed += length;
+       if (m_binaryInput.size() == needed) {
+-        frame.assign(m_binaryInput.begin() + 2, m_binaryInput.end());
++        if (authenticated) {
++          const uint8_t type = m_binaryInput[prefixSize];
++          if ((type & 0x0f) != m_binaryEncryption || ((type >> 4) > 1 && (type >> 4) < 14)) {
++            transportClose();
++            m_binaryInput.clear();
++            return VSCP_ERROR_INVALID_FRAME;
++          }
++          std::vector<uint8_t> plaintext(length);
++          const size_t plainLength = vscp_decryptFrameV1(plaintext.data(), plaintext.size(),
++                                                         m_binaryInput.data() + prefixSize, length,
++                                                         m_binaryKey.data(), m_binaryHmacKey.data());
++          if (!plainLength) {
++            transportClose();
++            m_binaryInput.clear();
++            return VSCP_ERROR_INVALID_FRAME;
++          }
++          plaintext.resize(plainLength);
++          plaintext[0] &= 0xf0;
++          frame.swap(plaintext);
++        }
++        else {
++          frame.assign(m_binaryInput.begin() + prefixSize, m_binaryInput.end());
++        }
+         m_binaryInput.clear();
+         return VSCP_ERROR_SUCCESS;
+       }
