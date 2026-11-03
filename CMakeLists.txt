@@ -2,7 +2,7 @@
 #
 # Build instructions for VSCP Works.
 #
-# Copyright (C) 2000-2026 Åke Hedman, the VSCP Project
+# Copyright (C) 2000-2026 Åke Hedman and contributors, the VSCP Project
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -100,6 +100,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 option(BUILD_ALLTEST "Build the alltest test executable" OFF)
+option(BUILD_RAW_TRANSPORT_SAMPLES "Build the raw TCP/TLS transport samples" OFF)
 
 # Default location for VSCP level II drivers
 set(VSCP_LEVEL2_DRV_DIR /var/lib/vscp/drivers/level2/)
@@ -241,9 +242,6 @@ else()
   include_directories(${EXPAT_INCLUDE_DIRS})
 endif(WIN32)
 
-# Set sockettcp build flags
-add_definitions(-DUSE_IPV6)
-
 set(OPENSSL_VER "OPENSSL_API_${OPENSSL_VERSION_MAJOR}_${OPENSSL_VERSION_MINOR}")
 message(STATUS "OPENSSL Version: ${OPENSSL_VER}")
 add_definitions(-D${OPENSSL_VER}) 
@@ -304,8 +302,6 @@ add_library(libvscphelper SHARED
     ${vscp_SOURCE_DIR}/src/vscp/common/vscphelper.cpp
     ${vscp_SOURCE_DIR}/src/common/vscphelper-common.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/canal.h
-    ${vscp_SOURCE_DIR}/src/common/sockettcp.h
-    ${vscp_SOURCE_DIR}/src/common/sockettcp.c
     ${vscp_SOURCE_DIR}/src/common/vscpbase64.h
     ${vscp_SOURCE_DIR}/src/common/vscpbase64.c
     ${vscp_SOURCE_DIR}/src/common/vscp-aes.h
@@ -336,8 +332,6 @@ else()
     ${vscp_SOURCE_DIR}/src/vscp/common/vscphelper.cpp
     ${vscp_SOURCE_DIR}/src/common/vscphelper-common.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/canal.h
-    ${vscp_SOURCE_DIR}/src/common/sockettcp.h
-    ${vscp_SOURCE_DIR}/src/common/sockettcp.c
     ${vscp_SOURCE_DIR}/src/common/vscpbase64.h
     ${vscp_SOURCE_DIR}/src/common/vscpbase64.c
     ${vscp_SOURCE_DIR}/src/common/vscp-aes.h
@@ -406,6 +400,7 @@ if (WIN32)
         OpenSSL::SSL 
         OpenSSL::Crypto
         expat::expat
+        ws2_32
     )
         
 else()
@@ -478,4 +473,29 @@ endif()
 
 if(BUILD_ALLTEST)
   add_subdirectory(tests/alltest)
+endif()
+
+if(BUILD_RAW_TRANSPORT_SAMPLES)
+  add_library(vscphelper_sample_transport STATIC linux/samples/raw_transport.c)
+  target_link_libraries(vscphelper_sample_transport PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+  if(WIN32)
+    target_link_libraries(vscphelper_sample_transport PUBLIC ws2_32)
+  endif()
+
+  add_executable(stcptest linux/samples/stcptest.c)
+  target_link_libraries(stcptest PRIVATE vscphelper_sample_transport)
+
+  add_executable(stcp_tls_client linux/samples/stcp_tls_client.c)
+  target_link_libraries(stcp_tls_client PRIVATE vscphelper_sample_transport)
+
+  find_package(Python3 3.8 COMPONENTS Interpreter QUIET)
+  if(Python3_Interpreter_FOUND)
+    add_custom_target(test_raw_transport_samples
+      COMMAND ${Python3_EXECUTABLE} "${PROJECT_SOURCE_DIR}/tests/raw_transport_samples.py"
+              $<TARGET_FILE:stcptest> $<TARGET_FILE:stcp_tls_client>
+      DEPENDS stcptest stcp_tls_client
+      USES_TERMINAL)
+  else()
+    message(STATUS "Python 3.8 or later not found; test_raw_transport_samples target is unavailable")
+  endif()
 endif()

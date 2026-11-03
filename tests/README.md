@@ -27,3 +27,23 @@ to build the unittest.   Run the test with
 ```
 ./unittest
 ```
+
+## Local TCP/TLS transport tests
+
+The transport tests use the pinned VSCP project's loopback test servers and do
+not require a running VSCP daemon. They require Google Test, Python 3.7 or
+later, and the `openssl` command.
+
+From the repository root, run:
+
+```bash
+cmake -S . -B build -DBUILD_ALLTEST=ON
+cmake --build build --target test_tcp_transport
+```
+
+To check that the dependency configuration works without a Mongoose source
+checkout or network access, run:
+
+```bash
+cmake --build build --target test_dependency_fetch
+```

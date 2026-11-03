@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.14)
+project(vscp_helper_dependency_check NONE)
+
+if(NOT DEFINED VSCP_HELPER_SOURCE_DIR)
+  message(FATAL_ERROR "VSCP_HELPER_SOURCE_DIR is required")
+endif()
+if(EXISTS "${FETCHCONTENT_SOURCE_DIR_VSCP_MONGOOSE}")
+  message(FATAL_ERROR "The unavailable Mongoose source path must not exist")
+endif()
+
+include("${VSCP_HELPER_SOURCE_DIR}/cmake/VscpHelperDependencies.cmake")
+FetchContent_GetProperties(vscp_mongoose POPULATED mongoose_populated)
+if(mongoose_populated)
+  message(FATAL_ERROR "The helper library must not fetch Mongoose")
+endif()

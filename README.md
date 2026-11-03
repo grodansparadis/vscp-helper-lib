@@ -8,10 +8,10 @@
 ![Windows Build](https://github.com/grodansparadis/vscp-helper-lib/actions/workflows/msbuild.yml/badge.svg)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
+![VSCP Helper Library](./docs/images/libvscphelper.jpeg)
+
 
 Helper functionality packed in a shared library for [VSCP](https://www.vscp.org)
-
-![VSCP Logo](./docs/images/logo-48x48.png)
 
 **Available for**: Linux, Raspberry Pi,  Windows, Macintosh
 
@@ -52,6 +52,11 @@ The VSCP helper lib is built using a standard cmake build (cmake 3.14 or later).
 ```
 
 Third party code (the [VSCP main project](https://github.com/grodansparadis/vscp), [spdlog](https://github.com/gabime/spdlog) and [nlohmann JSON](https://github.com/nlohmann/json)) is downloaded automatically by cmake (FetchContent) when the project is configured, so no submodules or separate clones are needed. Pinned versions are set in _cmake/VscpHelperDependencies.cmake_. To use a local checkout instead of downloading, use for example _-DFETCHCONTENT_SOURCE_DIR_VSCP="path to vscp"_.
+
+Use a fresh build directory after an earlier Mongoose-based build; CMake does
+not remove previously downloaded sources or build artifacts.
+
+TLS connections (`stcp://host:port`) verify server certificates and hostnames by default. For a private CA, configure OpenSSL's trust store or use `SSL_CERT_FILE` or `SSL_CERT_DIR`.
 
 For the ssl build, additional openssl is necessary:
 

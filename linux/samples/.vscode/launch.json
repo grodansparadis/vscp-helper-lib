@@ -8,7 +8,7 @@
             "name": "stcptest",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/stcptest",
+            "program": "${workspaceFolder}/../../build/stcptest",
             "additionalSOLibSearchPath": "${workspaceFolder}/..",
             "args": [],
             "stopAtEntry": false,

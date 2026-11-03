@@ -1099,7 +1099,7 @@ vscphlp_getGuidFromStringToArray(uint8_t* pGUID, const char* pStr)
 extern "C" int
 vscphlp_parseGuid(uint8_t* pGUID, const char* pStr)
 {
-    return vscp_guid_parse(pGUID, pStr, nullptr);
+    return cguid::vscp_guid_parse(pGUID, pStr, nullptr);
 }
 
 /*!

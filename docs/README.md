@@ -4,8 +4,10 @@
 
 Author 2000-2026 Åke Hedman and contributors, [the VSCP Project](https://www.vscp.org);
 
-**Document created**: *${/var/creation-time}*  
-**Document version**: ${/var/document-version} 
+**Document created**: *${/var/creation-time}*
+**Document version**: ${/var/document-version}
+
+!["VSCP Helper Library"](./images/libvscphelper.jpeg )
 
 The VSCP helper library is a collection of library tools for VSCP program development. This library includes most of the helper functionality that is needed by a programmer to interface Level I drivers (previously called CANAL drivers) and functionality to interface a local or remote VSCP daemon (Level II) over TCP/IP and a lot of other things. All helper functionality and all communication functionality is included in the library.
 
@@ -27,7 +29,7 @@ Viewable/downloadable documentation for the VSCP helper library is available [he
 
 VSCP releases are versioned as year.month.patch where year is the last two digits of the year and month is the two digits of the month. Patch is an incremental number for each release within the same month.
 
-For libraries, the versioning of the release follows this pattern as well. But for the library binaries another schema is used. The reason is that higher ens software that use the library should be able to use the versioning to now if the library is compatible with the version they depend on. So here a number built from major, minor and patch is used. A changed major number means that (possible) breaking features has been added to the library. A changed minor number means that only backward compatible bug fixes have been added. The patch number is incremented for each release within the same minor version.
+For libraries, the versioning of the release follows this pattern as well. But for the library binaries another schema is used. The reason is that higher end software that use the library should be able to use the versioning to know if the library is compatible with the version they depend on. So here a number built from major, minor and patch is used. A changed major number means that (possible) breaking features has been added to the library. A changed minor number means that only backward compatible bug fixes have been added. The patch number is incremented for each release within the same minor version.
 
 So the package that ships the library on a specific platform will have a version based on the release date of the library it contains. The library itself will use the major.minor.patch versioning scheme described above.
 

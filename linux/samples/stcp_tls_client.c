@@ -1,99 +1,131 @@
-
-// stcp_tcl_client.c 
-//
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#else
+#include <arpa/inet.h>
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <math.h>
 
-#include <unistd.h>
-#include <sys/wait.h>
-#include <sys/socket.h>
-#include <sys/poll.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/time.h>
-#include <sys/utsname.h>
-#include <stdint.h>
-#include <inttypes.h>
-#include <netdb.h>
-#include <netinet/tcp.h>
-#include <sockettcp.h>
-#include <vscphelperlib.h>
+#include <openssl/ssl.h>
+#include <openssl/x509.h>
 
-#ifndef UNUSED
-# define UNUSED(x) ((void)(x))
-#endif
+#include "raw_transport.h"
 
-#ifndef TRUE
-# define TRUE 1
-#endif
+#define TLS_TIMEOUT_MS 5000
 
-#ifndef FALSE
-# define FALSE 0
-#endif
-
-
-char errbuf[200];
-char buf[128000];
-struct stcp_connection *conn;
-
-///////////////////////////////////////////////////////////////////////////////
-// current_timestamp
-//
-
-long long current_timestamp() {
-    struct timeval te;
-    gettimeofday(&te, NULL); // get current time
-    long long milliseconds = te.tv_sec*1000LL + te.tv_usec/1000; // calculate milliseconds
-    // printf("milliseconds: %lld\n", milliseconds);
-    return milliseconds;
-}
-
-
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
-    long handle;
-    long long t1,t2;
+    const char *address = argc > 1 ? argv[1] : "localhost:4433";
+    const char *default_ca = getenv(X509_get_default_cert_file_env());
+    const char *ca_path = argc > 2 ? argv[2] :
+                          (default_ca && *default_ca ? default_ca : X509_get_default_cert_file());
+    const char *cert_path = argc > 3 ? argv[3] : NULL;
+    const char *key_path = argc > 4 ? argv[4] : cert_path;
+    struct sample_endpoint endpoint;
+    SSL_CTX *context = NULL;
+    SSL *tls = NULL;
+    BIO *connection = NULL;
+    int result = EXIT_FAILURE;
 
-    UNUSED(argc); UNUSED(argv);
+    if (argc > 5) {
+        fprintf(stderr, "Usage: %s [host:port] [ca.pem] [client-cert.pem [client-key.pem]]\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+    if (sample_parse_endpoint(&endpoint, address) != 0 || sample_initialize() != 0) {
+        return EXIT_FAILURE;
+    }
 
-    t1 = t2 = current_timestamp();
-
-    printf("Raw TLS test with stcp\n");
-    printf("----------------------\n");
-
-    struct stcp_secure_options opts;
-    opts.client_cert_path = NULL;
-    opts.server_cert_path = NULL;
-    opts.pem = "civitweb_client.pem";
-    opts.chain = NULL;
-    //"kEECDH:kEDH:kRSA:AESGCM:AES256:AES128:3DES:SHA256:SHA84:SHA1:!aNULL:!eNULL:!EXP:!LOW:!MEDIUM!ADH:!AECDH";
-    opts.ca_path = NULL;
-    opts.ca_file = NULL;
-
-    //conn = stcp_connect_remote( "localhost", 4433, errbuf, sizeof( errbuf ), 5 );
-    conn = stcp_connect_remote_secure( "localhost", 4433, &opts, 5 );
-    if ( NULL != conn ) {
-
-        printf( "Connect OK\n");
-
-        char buf[8192];
-        memset( buf, 0, sizeof( buf ) );
-        if ( stcp_read( conn, buf, sizeof( buf ), 5000 ) > 0 ) {
-            printf( "%s\n", buf );
+    context = SSL_CTX_new(TLS_client_method());
+    if (!context) {
+        sample_report_error("TLS transport error");
+        goto cleanup;
+    }
+    SSL_CTX_set_options(context, SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3 |
+                                 SSL_OP_NO_TLSv1 | SSL_OP_NO_TLSv1_1);
+    SSL_CTX_set_verify(context, SSL_VERIFY_PEER, NULL);
+    if (SSL_CTX_load_verify_locations(context, ca_path, NULL) != 1) {
+        fprintf(stderr, "Cannot read PEM file: %s\n", ca_path);
+        sample_report_error("TLS transport error");
+        goto cleanup;
+    }
+    if (cert_path) {
+        if (SSL_CTX_use_certificate_chain_file(context, cert_path) != 1) {
+            fprintf(stderr, "Cannot read PEM file: %s\n", cert_path);
+            sample_report_error("TLS transport error");
+            goto cleanup;
         }
-        
+        if (SSL_CTX_use_PrivateKey_file(context, key_path, SSL_FILETYPE_PEM) != 1) {
+            fprintf(stderr, "Cannot read PEM file: %s\n", key_path);
+            sample_report_error("TLS transport error");
+            goto cleanup;
+        }
+        if (SSL_CTX_check_private_key(context) != 1) {
+            sample_report_error("TLS transport error");
+            goto cleanup;
+        }
+    }
 
-        stcp_close_connection( conn );
-        conn = NULL;
-
-        stcp_uninit_ssl();
+    connection = BIO_new_ssl_connect(context);
+    if (!connection || BIO_get_ssl(connection, &tls) <= 0 || !tls) {
+        sample_report_error("TLS transport error");
+        goto cleanup;
+    }
+    unsigned char address_bytes[16];
+    int ipv4 = inet_pton(AF_INET, endpoint.host, address_bytes);
+    int ipv6 = ipv4 == 1 ? 0 : inet_pton(AF_INET6, endpoint.host, address_bytes);
+    if (ipv4 < 0 || ipv6 < 0) {
+        sample_report_error("TLS address error");
+        goto cleanup;
+    }
+    if (ipv4 == 1 || ipv6 == 1) {
+        if (X509_VERIFY_PARAM_set1_ip_asc(SSL_get0_param(tls), endpoint.host) != 1) {
+            sample_report_error("TLS transport error");
+            goto cleanup;
+        }
     }
     else {
-        printf("Failed to open connection\n");
+        if (SSL_set1_host(tls, endpoint.host) != 1 ||
+            SSL_set_tlsext_host_name(tls, endpoint.host) != 1) {
+            sample_report_error("TLS transport error");
+            goto cleanup;
+        }
     }
 
-    return 0;
+    uint64_t deadline = sample_millis() + TLS_TIMEOUT_MS;
+    int status = sample_connect(connection, &endpoint, deadline);
+    if (status != SAMPLE_IO_OK) {
+        if (status == SAMPLE_IO_TIMEOUT) {
+            fprintf(stderr, "Timed out waiting for the TLS response\n");
+        }
+        else {
+            sample_report_error("TLS transport error");
+        }
+        goto cleanup;
+    }
+    puts("TLS connection established");
+
+    char buffer[4096];
+    status = sample_read(connection, buffer, sizeof(buffer), deadline);
+    if (status == SAMPLE_IO_TIMEOUT) {
+        fprintf(stderr, "Timed out waiting for the TLS response\n");
+    }
+    else if (status == SAMPLE_IO_CLOSED) {
+        fprintf(stderr, "Server closed the TLS connection before sending data\n");
+    }
+    else if (status == SAMPLE_IO_ERROR) {
+        sample_report_error("TLS transport error");
+    }
+    else if (fwrite(buffer, 1, (size_t)status, stdout) != (size_t)status) {
+        fprintf(stderr, "Failed to print the TLS response\n");
+    }
+    else {
+        result = EXIT_SUCCESS;
+    }
+
+cleanup:
+    BIO_free_all(connection);
+    SSL_CTX_free(context);
+    return result;
 }
