@@ -29,19 +29,57 @@ cmake_minimum_required(VERSION 3.14)
 set(PACKAGE_AUTHOR "Ake Hedman, the VSCP Project")
 
 file(STRINGS "${CMAKE_SOURCE_DIR}/src/libversion.h" LIBVSCPHELPER_VERSION_DEFINE
-  REGEX "^#define[ \\t]+VSCP_HELPER_LIB_VERSION[ \\t]+\"[0-9]+\\.[0-9]+\\.[0-9]+\"")
+  REGEX "^#define[ \\t]+VSCP_HELPER_LIB_VERSION[ \\t]+\"[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+\"[ \\t]*$")
 if(NOT LIBVSCPHELPER_VERSION_DEFINE)
-  message(FATAL_ERROR "Unable to read VSCP_HELPER_LIB_VERSION from src/libversion.h")
+  message(FATAL_ERROR "Unable to read a four-part VSCP_HELPER_LIB_VERSION from src/libversion.h")
 endif()
-string(REGEX REPLACE ".*\"([0-9]+\\.[0-9]+\\.[0-9]+)\".*" "\\1"
+string(REGEX REPLACE ".*\"([0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)\".*" "\\1"
   LIBVSCPHELPER_VERSION "${LIBVSCPHELPER_VERSION_DEFINE}")
 string(REPLACE "." ";" LIBVSCPHELPER_VERSION_PARTS "${LIBVSCPHELPER_VERSION}")
 list(GET LIBVSCPHELPER_VERSION_PARTS 0 MAJOR_VERSION)
 list(GET LIBVSCPHELPER_VERSION_PARTS 1 MINOR_VERSION)
-list(GET LIBVSCPHELPER_VERSION_PARTS 2 PATCH_VERSION)
+list(GET LIBVSCPHELPER_VERSION_PARTS 2 REVISION_VERSION)
+list(GET LIBVSCPHELPER_VERSION_PARTS 3 PATCH_VERSION)
+
+file(STRINGS "${CMAKE_SOURCE_DIR}/src/libversion.h" LIBVSCPHELPER_REVISION_DEFINE
+  REGEX "^#define[ \\t]+VSCP_HELPER_LIB_VERSION_REVISION[ \\t]+(0|[1-9][0-9]*)[ \\t]*$")
+if(NOT LIBVSCPHELPER_REVISION_DEFINE)
+  message(FATAL_ERROR "VSCP_HELPER_LIB_VERSION_REVISION must be an unpadded decimal integer between 0 and 255")
+endif()
+string(REGEX REPLACE "^#define[ \\t]+VSCP_HELPER_LIB_VERSION_REVISION[ \\t]+([0-9]+)[ \\t]*$" "\\1"
+  LIBVSCPHELPER_MANUAL_REVISION "${LIBVSCPHELPER_REVISION_DEFINE}")
+if(LIBVSCPHELPER_MANUAL_REVISION GREATER 255)
+  message(FATAL_ERROR "VSCP_HELPER_LIB_VERSION_REVISION must be between 0 and 255")
+endif()
+if(NOT "${REVISION_VERSION}" STREQUAL "${LIBVSCPHELPER_MANUAL_REVISION}")
+  message(FATAL_ERROR "The library version and manual revision disagree; run python3 tools/update_libversion.py")
+endif()
 
 set(APP_VERSION "${LIBVSCPHELPER_VERSION}")
-project(libvscphelper VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}" LANGUAGES CXX C)
+project(libvscphelper VERSION "${LIBVSCPHELPER_VERSION}" LANGUAGES CXX C)
+
+if(WIN32 AND PATCH_VERSION GREATER 65535)
+  message(FATAL_ERROR "Windows VERSIONINFO cannot store a patch greater than 65535")
+endif()
+
+function(vscp_set_macho_compatibility_version target major minor revision patch)
+  if(NOT APPLE)
+    return()
+  endif()
+
+  # Mach-O cannot encode the full Git count; retain the previous compatibility
+  # version within its 8-bit limit without lowering the manual revision.
+  set(macho_component "${patch}")
+  if(macho_component GREATER 255)
+    set(macho_component 255)
+  endif()
+  if(revision GREATER macho_component)
+    set(macho_component "${revision}")
+  endif()
+  set(macho_version "${major}.${minor}.${macho_component}")
+  set_target_properties("${target}" PROPERTIES VERSION "${macho_version}" SOVERSION "${macho_version}")
+  message(STATUS "Mach-O binary version: ${macho_version} (library version: ${LIBVSCPHELPER_VERSION})")
+endfunction()
 
 # Set compiler options
 if(WIN32)
@@ -72,7 +110,7 @@ set(APP_URL "https://github.com/grodansparadis/vscp-helper-lib")
 endif()
 
 if(NOT DEFINED APP_VERSION)
-set(APP_VERSION "${MAJOR_VERSION}-${MINOR_VERSION}-${PATCH_VERSION}")
+set(APP_VERSION "${MAJOR_VERSION}-${MINOR_VERSION}-${REVISION_VERSION}-${PATCH_VERSION}")
 endif()
 
 # --- System Libraries ---
@@ -152,7 +190,8 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
 
   SET(CPACK_PACKAGE_VERSION_MAJOR "${MAJOR_VERSION}")
   SET(CPACK_PACKAGE_VERSION_MINOR "${MINOR_VERSION}")
-  SET(CPACK_PACKAGE_VERSION_PATCH "${PATCH_VERSION}")
+  SET(CPACK_PACKAGE_VERSION_PATCH "${REVISION_VERSION}")
+  SET(CPACK_PACKAGE_VERSION "${LIBVSCPHELPER_VERSION}")
 
   if(NOT DEFINED PACKAGE_OS)
     if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
@@ -345,7 +384,7 @@ else()
   ) 
 endif()
 
-  #set_target_properties(libvscphelper PROPERTIES LIBRARY_OUTPUT_NAME "vscphelper.so.${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
+  #set_target_properties(libvscphelper PROPERTIES LIBRARY_OUTPUT_NAME "vscphelper.so.${LIBVSCPHELPER_VERSION}")
 
 if(WIN32)
   set_target_properties(libvscphelper
@@ -353,18 +392,21 @@ if(WIN32)
     LIBRARY_OUTPUT_NAME "libvscphelper"
     PREFIX ""
     SUFFIX "${MAJOR_VERSION}.dll"
-    VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
-    SOVERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
+    VERSION "${LIBVSCPHELPER_VERSION}"
+    SOVERSION "${LIBVSCPHELPER_VERSION}")
 else()
   set_target_properties(libvscphelper
     PROPERTIES
     LIBRARY_OUTPUT_NAME "libvscphelper"
     PREFIX ""
     SUFFIX "${MAJOR_VERSION}.so"
-    VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
-    SOVERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+    VERSION "${LIBVSCPHELPER_VERSION}"
+    SOVERSION "${LIBVSCPHELPER_VERSION}"
     NO_SONAME 1)
 endif()    
+
+vscp_set_macho_compatibility_version(
+  libvscphelper "${MAJOR_VERSION}" "${MINOR_VERSION}" "${REVISION_VERSION}" "${PATCH_VERSION}")
 
 set_target_properties(libvscphelper PROPERTIES PUBLIC_HEADER "${PROJECT_SOURCE_DIR}/src/vscphelperlib.h")
 

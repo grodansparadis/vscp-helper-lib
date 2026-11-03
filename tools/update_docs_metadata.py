@@ -7,18 +7,20 @@ from datetime import datetime, timezone
 from pathlib import Path
 import re
 
+if __package__:
+    from .update_libversion import read_version_components
+else:
+    from update_libversion import read_version_components
+
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VARIABLES_PATH = REPO_ROOT / "docs" / "variables.xml"
 VERSION_PATH = REPO_ROOT / "src" / "libversion.h"
-VERSION_PATTERN = re.compile(r'^#define VSCP_HELPER_LIB_VERSION "([0-9]+\.[0-9]+\.[0-9]+)"$', re.MULTILINE)
 
 
 def get_library_version() -> str:
-    version_match = VERSION_PATTERN.search(VERSION_PATH.read_text(encoding="utf-8"))
-    if version_match is None:
-        raise ValueError("libversion.h must define VSCP_HELPER_LIB_VERSION")
-    return version_match.group(1)
+    components = read_version_components(VERSION_PATH.read_text(encoding="utf-8"))
+    return ".".join(str(component) for component in components)
 
 
 def main() -> None:

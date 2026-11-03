@@ -28,11 +28,16 @@
 
 /*
   Library version information for the VSCP Helper Library.
-  The major, minor, and patch version numbers are defined below.
-  These differ from the release version, which uses the year.month.patch format.
+  The format is major.minor.revision.patch. Set the revision manually to an
+  unpadded decimal value from 0 to 255; the patch is the Git first-parent count.
 */
 
-#define VSCP_HELPER_LIB_VERSION "15.3.249"
+#define VSCP_HELPER_LIB_VERSION "15.3.0.250"
 #define VSCP_HELPER_LIB_VERSION_MAJOR 15
 #define VSCP_HELPER_LIB_VERSION_MINOR 3
-#define VSCP_HELPER_LIB_VERSION_PATCH 249
+#define VSCP_HELPER_LIB_VERSION_REVISION 0
+#define VSCP_HELPER_LIB_VERSION_PATCH 250
+
+#if VSCP_HELPER_LIB_VERSION_REVISION < 0 || VSCP_HELPER_LIB_VERSION_REVISION > 255
+#error "VSCP_HELPER_LIB_VERSION_REVISION must be between 0 and 255"
+#endif

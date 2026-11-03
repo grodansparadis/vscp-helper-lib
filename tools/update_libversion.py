@@ -11,12 +11,50 @@ import subprocess
 
 VERSION_PATH = Path(__file__).resolve().parents[1] / "src" / "libversion.h"
 VERSION_PATTERN = re.compile(
-    r'^(#define VSCP_HELPER_LIB_VERSION ")([0-9]+)\.([0-9]+)\.([0-9]+)("\s*)$',
+    r'^(#define VSCP_HELPER_LIB_VERSION ")([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)("[ \t]*)$',
+    re.MULTILINE,
+)
+REVISION_PATTERN = re.compile(
+    r"^#define[ \t]+VSCP_HELPER_LIB_VERSION_REVISION[ \t]+(0|[1-9][0-9]*)[ \t]*$",
     re.MULTILINE,
 )
 PATCH_PATTERN = re.compile(
-    r"^(#define VSCP_HELPER_LIB_VERSION_PATCH )([0-9]+)(\s*)$", re.MULTILINE
+    r"^(#define VSCP_HELPER_LIB_VERSION_PATCH[ \t]+)([0-9]+)([ \t]*)$",
+    re.MULTILINE,
 )
+
+
+def read_version_components(
+    content: str, *, allow_unsynchronized_revision: bool = False
+) -> tuple[int, int, int, int]:
+    version_match = VERSION_PATTERN.search(content)
+    revision_match = REVISION_PATTERN.search(content)
+    patch_match = PATCH_PATTERN.search(content)
+    if version_match is None or patch_match is None:
+        raise ValueError(
+            "libversion.h must define a four-part VSCP_HELPER_LIB_VERSION, "
+            "and VSCP_HELPER_LIB_VERSION_PATCH"
+        )
+    if revision_match is None:
+        raise ValueError(
+            "VSCP_HELPER_LIB_VERSION_REVISION must be an unpadded decimal "
+            "integer between 0 and 255"
+        )
+
+    major, minor, displayed_revision, displayed_patch = (
+        int(version_match.group(index)) for index in range(2, 6)
+    )
+    revision = int(revision_match.group(1))
+    if revision > 255:
+        raise ValueError("VSCP_HELPER_LIB_VERSION_REVISION must be between 0 and 255")
+    if displayed_patch != int(patch_match.group(2)):
+        raise ValueError("VSCP_HELPER_LIB_VERSION and VSCP_HELPER_LIB_VERSION_PATCH disagree")
+    if not allow_unsynchronized_revision and displayed_revision != revision:
+        raise ValueError(
+            "VSCP_HELPER_LIB_VERSION and VSCP_HELPER_LIB_VERSION_REVISION disagree; "
+            "run python3 tools/update_libversion.py"
+        )
+    return major, minor, revision, displayed_patch
 
 
 def get_patch_version(include_pending_commit: bool) -> int:
@@ -38,20 +76,12 @@ def main() -> None:
     arguments = parser.parse_args()
 
     content = VERSION_PATH.read_text(encoding="utf-8")
-    version_match = VERSION_PATTERN.search(content)
-    patch_match = PATCH_PATTERN.search(content)
-    if version_match is None or patch_match is None:
-        raise ValueError("libversion.h must define VSCP_HELPER_LIB_VERSION and its patch component")
-
-    major, minor, current_patch = (
-        int(version_match.group(index)) for index in range(2, 5)
+    major, minor, revision, _ = read_version_components(
+        content, allow_unsynchronized_revision=True
     )
-    if current_patch != int(patch_match.group(2)):
-        raise ValueError("VSCP_HELPER_LIB_VERSION and VSCP_HELPER_LIB_VERSION_PATCH disagree")
-
     patch_version = get_patch_version(arguments.next_commit)
     content = VERSION_PATTERN.sub(
-        rf"\g<1>{major}.{minor}.{patch_version}\g<5>", content, count=1
+        rf"\g<1>{major}.{minor}.{revision}.{patch_version}\g<6>", content, count=1
     )
     content = PATCH_PATTERN.sub(rf"\g<1>{patch_version}\g<3>", content, count=1)
     VERSION_PATH.write_text(content, encoding="utf-8")

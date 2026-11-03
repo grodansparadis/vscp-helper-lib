@@ -29,6 +29,26 @@ private CA, configure OpenSSL's trust locations or set `SSL_CERT_FILE` or
 See the [TLS connection guide](docs/tls.md) for examples, certificate setup,
 client-certificate limitations, and troubleshooting.
 
+## Library versioning
+
+The library version has the form `major.minor.revision.patch`. Set
+`VSCP_HELPER_LIB_VERSION_REVISION` in [`src/libversion.h`](src/libversion.h) to
+a decimal value from 0 through 255 without leading zeros, then run
+`python3 tools/update_libversion.py` to synchronize the version string. The
+patch is the Git first-parent commit count and can exceed 255. When the
+repository's pre-commit hook is enabled, it synchronizes the version
+automatically for the pending commit. Run
+`python3 tools/update_docs_metadata.py` afterward to refresh the documentation
+metadata locally.
+
+Windows numeric version resources limit each component to 65535; CMake
+rejects a larger patch on Windows rather than truncating it.
+
+Mach-O stores only three version components. To preserve compatibility with
+older macOS builds, the binary's compatibility and current versions use the
+larger of the manual revision and the legacy patch, with the latter capped at
+255. Package and pkg-config metadata retain the full four-part version.
+
 ## How to install on Linux
 
 Download the latest Debian packages for your system from this repository's

@@ -47,3 +47,11 @@ checkout or network access, run:
 ```bash
 cmake --build build --target test_dependency_fetch
 ```
+
+## Version metadata tests
+
+From the repository root, run:
+
+```bash
+python3 -B -m unittest discover -s tests -p 'test_versioning.py'
+```
