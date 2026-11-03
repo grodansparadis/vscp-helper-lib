@@ -1,7 +1,7 @@
 
 
 ```clike
-int vscphlp_makeLevel2StringMeasurementEvent( vscpEventEx *pEventEx, 
+int vscphlp_makeLevel2StringMeasurementEventEx( vscpEventEx *pEventEx,
                                                 uint16_t type,
                                                 double value,
                                                 uint8_t unit,
@@ -13,7 +13,7 @@ int vscphlp_makeLevel2StringMeasurementEvent( vscpEventEx *pEventEx,
 ### Parameters
 
 #### pEventEx
-Pointer to event ex that data should be written to.
+Pointer to the event ex to which data should be written.
 
 #### type
 The VSCP type for the event. Must be one of the types in [CLASS1.MEASUREMENT](https://grodansparadis.gitbooks.io/the-vscp-specification/class1.measurement.html)
@@ -34,10 +34,21 @@ Zone (0-255) for the measurement.
 Sub zone (0-255) for the measurement. 
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned if the measurement event is constructed correctly, VSCP_ERROR_ERROR is returned if not. 
+Returns VSCP_ERROR_SUCCESS if the measurement event is constructed successfully or VSCP_ERROR_ERROR otherwise.
 
 ### Description
 Construct a Level II string measurement event from supplied data. **Note** that the GUID must be set externally. 
+
+> **Known limitation:** The current implementation calls the floating-point
+> constructor instead and produces a Level II floating-point event, not a
+> string measurement. It also has the byte-order limitation described in
+> [vscphlp_makeLevel2FloatMeasurementEventEx](vscphlp_makelevel2floatmeasurementeventex.md).
+> The C and Python APIs share this implementation. Do not use it to create
+> string measurements until it is corrected.
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_makeLevel2StringMeasurementEvent](vscphlp_makelevel2stringmeasurementevent.md)

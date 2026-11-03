@@ -39,4 +39,20 @@ else {
 
 
 
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+data = bytearray([0x80, 0x02, 0x1B, 0x22])
+print(vscphelper.getDataCodingNormalizedInteger(data))
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
+
 [filename](./bottom_copyright.md ':include')

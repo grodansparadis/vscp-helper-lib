@@ -1,7 +1,7 @@
 
 
 ```clike
-int vscphlp_getGuidFromStringEx( vscpEvent *pEvent, 
+int vscphlp_getGuidFromStringEx( vscpEventEx *pEvent,
                             const char * pGUID )
 ```
 
@@ -11,28 +11,24 @@ int vscphlp_getGuidFromStringEx( vscpEvent *pEvent,
 VSCP event ex.
 
 #### pGUID
-Pointer to GUID in string form.
+Pointer to a GUID in string form.
 
 
 ### Return Value
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 ### Description
 Write GUID into VSCP event ex from a string. 
 
-#### C example
+> **Known limitation:** The VSCP implementation currently pinned by this
+> library can stop after parsing the first GUID byte while returning success.
+> Do not rely on this function until the implementation is corrected.
 
-```clike
-char strguid[64], strguid2[64];
- 
-if ( VSCP_ERROR_SUCCESS == vscphlp_getGuidFromStringEx( &ex3, strguid ) ) {        
-    vscphlp_writeGuidToStringEx( &ex3, strguid2, sizeof( strguid2 )-1 );
-    printf( "GUID=%s\n", strguid2 );
-}
-else {
-    printf( "\aError: vscphlp_writeGuidArrayToString\n");
-}
-```
+The C and Python APIs use the same implementation and have this limitation.
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_getGuidFromString](vscphlp_getguidfromstring.md)

@@ -32,7 +32,7 @@ A session handle or zero if a session could not be created.
 
 ## vscphlp_closeSession
 
-Close an open session. This is the last operation that should be done after you are done with a TCP/IP session.
+Close an open session. Call this after you have finished using the TCP/IP session.
 
 `<code="c">`
 void vscphlp_closeSession( long handle )
@@ -46,7 +46,7 @@ Nothing
 
 ##### Example
 
-This is a simple windows console example that log on to a server that is on the host 192.618.1.9 and standard port 9598 and issue the **NOOP** command and then terminates. You link to the **vscphelper.lib** library and make sure the **vscphelper.dll** is in the path.
+This Windows console example connects to a server on the standard port 9598, issues the **NOOP** command, and then exits. Link against **vscphelper.lib** and ensure that **vscphelper.dll** is in the path.
 
 `<code="c">`
 

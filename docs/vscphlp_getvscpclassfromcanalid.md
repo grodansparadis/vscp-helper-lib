@@ -31,4 +31,20 @@ else {
 
 
 
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+canal_id = vscphelper.getCANALidFromData(7, 10, 6)
+print(vscphelper.getVSCPclassFromCANALid(canal_id))
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
+
 [filename](./bottom_copyright.md ':include')

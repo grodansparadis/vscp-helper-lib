@@ -11,153 +11,150 @@
 ![VSCP Helper Library](./docs/images/libvscphelper.jpeg)
 
 
-Helper functionality packed in a shared library for [VSCP](https://www.vscp.org)
+Helper functionality for [VSCP](https://www.vscp.org), packaged as a shared library.
 
-**Available for**: Linux, Raspberry Pi,  Windows, Macintosh
+**Available on**: Linux, Raspberry Pi, Windows, and macOS
 
-  - Full documentation is [here](https://docs.vscp.org/#vscphelper).
-  - Wrapper for Python is [here](https://github.com/grodansparadis/pyvscp)
-  - Wrapper for node.js is [here](https://github.com/grodansparadis/node-vscp-helper).
+- Full documentation is available [here](https://docs.vscp.org/#vscphelper).
+- The Python wrapper is available [here](https://github.com/grodansparadis/pyvscp).
+- The Node.js wrapper is available [here](https://github.com/grodansparadis/node-vscp-helper).
+
+## TLS connections
+
+Use an `stcp://host:port` endpoint to connect to a TLS-enabled VSCP daemon.
+The library verifies the server certificate and hostname by default. For a
+private CA, configure OpenSSL's trust locations or set `SSL_CERT_FILE` or
+`SSL_CERT_DIR` before starting the application.
+
+See the [TLS connection guide](docs/tls.md) for examples, certificate setup,
+client-certificate limitations, and troubleshooting.
 
 ## How to install on Linux
 
-Download the latest Debian install file(s) for your system from the release section of this repository. If you just want to use a binary that depend on this library there is no need to download the dev version. If you, on the other hand, expect to use the library for development you should download and install both (the dev version holds header files etc).
+Download the latest Debian packages for your system from this repository's
+Releases page. If you only need to run an application that uses the library,
+install the runtime package. If you are developing an application, install
+both the runtime and development packages; the development package includes
+the header files.
 
 ```bash
-> sudo apt install ./libvscphelper14_14.0.0-1_amd64.deb
-> ./libvscphelper14-dev_14.0.0-1_amd64.deb
+sudo apt install ./libvscphelper14_14.0.0-1_amd64.deb
+sudo apt install ./libvscphelper14-dev_14.0.0-1_amd64.deb
 ```
 
-If you get 
+These are example filenames; use the package files downloaded for your system.
 
-*couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)* 
-
-it is good to know that it is a [known apt problem](https://forums.linuxmint.com/viewtopic.php?t=280054) that you safely can ignore. If it feels bad use *apt-get* to install instead.
-
-or 
+If `apt` reports that the local package could not be accessed by the `_apt`
+user, this is a known warning for local `.deb` files. You can ignore it if
+the installation succeeds. Otherwise, install the packages with `dpkg`:
 
 ```bash
-> sudo dpkg -i ./libvscphelper14_14.0.0-1_amd64.deb
-> sudo dpkg -i ./libvscphelper14-dev_14.0.0-1_amd64.deb
+sudo dpkg -i ./libvscphelper14_14.0.0-1_amd64.deb
+sudo dpkg -i ./libvscphelper14-dev_14.0.0-1_amd64.deb
 ```
 
 ## How to install on Windows
-Install using the windows installation script available in the release section och this repository.
+
+Run the Windows installation script available on this repository's Releases
+page.
 
 ## How to build on Linux
-The VSCP helper lib is built using a standard cmake build (cmake 3.14 or later).
+
+The VSCP helper library uses CMake 3.14 or later and requires the OpenSSL
+development files. On Debian or Ubuntu, install them before configuring:
 
 ```bash
-  git clone https://github.com/grodansparadis/vscp-helper-lib.git
+sudo apt-get install libssl-dev
 ```
-
-Third party code (the [VSCP main project](https://github.com/grodansparadis/vscp), [spdlog](https://github.com/gabime/spdlog) and [nlohmann JSON](https://github.com/nlohmann/json)) is downloaded automatically by cmake (FetchContent) when the project is configured, so no submodules or separate clones are needed. Pinned versions are set in _cmake/VscpHelperDependencies.cmake_. To use a local checkout instead of downloading, use for example _-DFETCHCONTENT_SOURCE_DIR_VSCP="path to vscp"_.
-
-Use a fresh build directory after an earlier Mongoose-based build; CMake does
-not remove previously downloaded sources or build artifacts.
-
-TLS connections (`stcp://host:port`) verify server certificates and hostnames by default. For a private CA, configure OpenSSL's trust store or use `SSL_CERT_FILE` or `SSL_CERT_DIR`.
-
-For the ssl build, additional openssl is necessary:
 
 ```bash
-apt-get install libssl-dev
+git clone https://github.com/grodansparadis/vscp-helper-lib.git
+cd vscp-helper-lib
+cmake -S . -B build
+cmake --build build
+sudo cmake --build build --target install
 ```
 
-Now do 
+Third-party code (the [VSCP main project](https://github.com/grodansparadis/vscp),
+[spdlog](https://github.com/gabime/spdlog), and
+[nlohmann/json](https://github.com/nlohmann/json)) is downloaded automatically
+by CMake when the project is configured. No submodules or separate clones are
+needed. Pinned versions are listed in
+[`cmake/VscpHelperDependencies.cmake`](cmake/VscpHelperDependencies.cmake). To
+use a local VSCP checkout, pass
+`-DFETCHCONTENT_SOURCE_DIR_VSCP=/path/to/vscp` to CMake.
 
-```
-  cd vscp-helper-lib
-  mkdir build
-  cd build
-  cmake ..
-  make
-  make install
-```
-
+If you previously configured a Mongoose-based build, use a fresh build
+directory. CMake does not remove previously downloaded sources or build
+artifacts.
 
 ## How to build on Windows
 
-### Install Visual Studio 2022 Buildtools
+### Install Visual Studio 2022 Build Tools
 
-You can install them from: https://visualstudio.microsoft.com/en/downloads. You find them in the _Tools for Visual Studio 2022_ on the lower part of the page. 
+Download Visual Studio 2022 Build Tools from
+<https://visualstudio.microsoft.com/downloads/>. In the Visual Studio
+Installer, select the **Desktop development with C++** workload.
 
-In the Visual Studio Installer, select:
-  
-  - Tab "Workloads": Buildtools for the universal windows platform
+### Install CMake and Git
 
-### Install the latest cmake
+Install the latest version of [CMake](https://cmake.org/download/) and
+[Git for Windows](https://gitforwindows.org/).
 
-You find it here https://cmake.org/install/
+### Install vcpkg
 
-### Install git
+Open a Visual Studio 2022 x64 Native Tools Command Prompt and run:
 
-You find it here https://gitforwindows.org/
-### Install the vcpkg package manager
-
-Open a Visual Studio 2022 command prompt (_x64 Native Tools Command Prompt_) window and type:
-    
-```bash    
-  git clone https://github.com/microsoft/vcpkg.git
-  cd vcpkg
-  bootstrap-vcpkg.bat
-``` 
-  
-### Integrate vcpkg with Visual Studio 
-
-``` bash
-  vcpkg integrate install
-```
-  
-###  Install needed vspkg packages
-
-```bash
-  vcpkg install dlfcn-win32:x64-windows
-  vcpkg install expat:x64-windows
-  vcpkg install openssl:x64-windows
-  vcpkg install pthreads:x64-windows
+```bat
+git clone https://github.com/microsoft/vcpkg.git
+cd vcpkg
+bootstrap-vcpkg.bat
+vcpkg integrate install
+vcpkg install dlfcn-win32:x64-windows
+vcpkg install expat:x64-windows
+vcpkg install openssl:x64-windows
+vcpkg install pthreads:x64-windows
 ```
 
-### Clone needed VSCP code
+### Clone the repository
 
 ```bash
-  git clone https://github.com/grodansparadis/vscp-helper-lib.git
-```
-Third party code (VSCP main project, spdlog and nlohmann JSON) is downloaded automatically by cmake when the project is configured.
-
-### Build vscp-helper-lib
-
-```bash
-  cd vscp-helper-lib
-  mkdir build
-  cd build
-
-  cmake .. -G "Visual Studio 17 2022" -DVCPKG_TARGET_TRIPLET=x64-windows -D CMAKE_BUILD_TYPE=Release -DVCPKG_ROOT=G:/vcpkg/-DCMAKE_TOOLCHAIN_FILE=g:\vcpkg\scripts\buildsystems\vcpkg.cmake
-
+git clone https://github.com/grodansparadis/vscp-helper-lib.git
 ```
 
-The path to the vspkg build script (_E:\vcpkg\scripts\buildsystems.._) is obviously different in your case.
+Third-party code (the VSCP main project, spdlog, and nlohmann/json) is
+downloaded automatically by CMake when you configure the project.
 
-Now use
+### Build the library
 
 ```bash
-  cmake --build . --config Release
+cd vscp-helper-lib
+cmake -S . -B build -G "Visual Studio 17 2022" -A x64 ^
+-DVCPKG_TARGET_TRIPLET=x64-windows ^
+-DVCPKG_ROOT=G:/vcpkg ^
+-DCMAKE_TOOLCHAIN_FILE=G:/vcpkg/scripts/buildsystems/vcpkg.cmake
 ```
 
-to build the dynamic library (Relase or Debug). 
+Adjust the vcpkg paths if you installed it somewhere other than `G:/vcpkg`.
 
-An alternative is to use
+Build the library in Release mode with:
 
 ```bash
-  msbuild libvscphelper.sln /p:Configuration=Release
+cmake --build build --config Release
 ```
 
-You can also open the _vscphelper.sln_ in Visual Studio 2019 and work with it there.
-
-Now you can use 
+You can also build with MSBuild:
 
 ```bash
+msbuild build\libvscphelper.sln /p:Configuration=Release
+```
+
+Alternatively, open `build\libvscphelper.sln` in Visual Studio 2022.
+
+To create an installation package for Windows, run this from the build
+directory:
+
+```bash
+cd build
 cpack
 ```
-
-to build an installation package for windows.

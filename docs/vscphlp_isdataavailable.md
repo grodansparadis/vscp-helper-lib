@@ -5,9 +5,6 @@ int vscphlp_isDataAvailable( long handle,
                                 unsigned int *pCount )
 ```
 
-```python
-int pyvscphlp_isDataAvailable( handle, count )
-```
 
 ### Parameters
 
@@ -22,7 +19,7 @@ Variable that gets the number of events waiting in the queue on a successful cal
 
 
 ### Return Value
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop. 
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ### Description
 Check the number of events (if any) that are available in the remote input queue. 
@@ -43,23 +40,24 @@ else {
 
 #### Python example
 
+With an open session handle named `handle` (see the [TLS guide](tls.md#python-example)):
+
 ```python
-print "Waiting for incoming data..."
- 
-cntAvailable = ctypes.c_uint(0)
-while cntAvailable.value==0:
-    print 'Still waiting...'
-    time.sleep(1)
-    pyvscphlp_isDataAvailable(h1,cntAvailable)
- 
-print '%d event(s) is available' % cntAvailable.value
- 
-for i in range(0,cntAvailable.value):
-    ex = vscpEventEx()
-    if VSCP_ERROR_SUCCESS == pyvscphlp_receiveEventEx(h1,ex):
-        ex.dump()
+from ctypes import c_uint
+
+import vscp
+import vscphelper
+
+count = c_uint()
+
+result = vscphelper.isDataAvailable(handle, count)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("isDataAvailable failed (error {})".format(result))
+print("Available events: {}".format(count.value))
 ```
 
+#### JavaScript availability
 
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

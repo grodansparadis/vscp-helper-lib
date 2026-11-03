@@ -15,7 +15,7 @@ Pointer to string containing UTF8 XML definition of table.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableDelete
 
@@ -31,11 +31,11 @@ Name of an existing table.
 
 #####  bDeleteFile
 
-If TRUE (!=0) the database **file** also should be deleted. If not it will be reused if a table with the same name is created later.
+If TRUE (!=0), delete the database **file** as well. Otherwise, it is reused if a table with the same name is created later.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableList
 
@@ -47,11 +47,11 @@ Get a list of all defined tables.
 
 #####  pLists
 
-List of null terminated strings that will get filled with table names. The list is allocated on the heap and must be freed by the user. If no result is returned set to a NULL pointer.
+List of null-terminated strings that will receive table names. The list is allocated on the heap and must be freed by the user. If there are no results, it is set to a NULL pointer.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableListInfo
 
@@ -69,15 +69,15 @@ Name of an existing table.
 
 #####  pTableInfo
 
-Pointer to string that contain information about the table. The list is allocated on the heap and must be freed by the user. If no result is returned set to a NULL pointer.
+Pointer to a string containing information about the table. The list is allocated on the heap and must be freed by the user. If there is no result, it is set to a NULL pointer.
 
 ##### bXML
 
-If TREU (!=0) info will be returned as BASE64 encoded XML data.
+If TRUE (!=0), information is returned as Base64-encoded XML data.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGet
 
@@ -89,7 +89,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                                 BOOL bFull ); 
 `</code>`
 
-Get data from a named table in a range to-from. One can fetch all columns of the table (bFull) or just datetime and value (default).
+Get data from a named table for a date/time range. You can fetch all columns (bFull) or just the datetime and value (the default).
 
 #####  tblName
 
@@ -97,15 +97,15 @@ Name of an existing table.
 
 #####  from
 
-Datetime from which data should be fetched. Should be given on ISO 8601 format YY-MM-DDTHH:MM:SS. 
+Start datetime for the data to fetch, in ISO 8601 format YY-MM-DDTHH:MM:SS.
 
 #####  to
 
-Datetime up to which data is fetched. Should be given on ISO 8601 format YY-MM-DDTHH:MM:SS. 
+End datetime for the data to fetch, in ISO 8601 format YY-MM-DDTHH:MM:SS.
 
 ##### pResultArray
 
-List of null terminated strings that will get filled with rows (if any) from the table. The list is allocated on the heap and must be freed by the user. If no result is returned set to a NULL pointer.
+List of null-terminated strings that will receive rows, if any, from the table. The list is allocated on the heap and must be freed by the user. If there are no results, it is set to a NULL pointer.
 
     YY-MM-DDTHH:MM:SSsss, value1[,other fields]`<CR>``<LF>`
     YY-MM-DDTHH:MM:SSsss, value2[,other fields]`<CR>``<LF>`
@@ -115,11 +115,11 @@ List of null terminated strings that will get filled with rows (if any) from the
 
 ##### bFull
 
-If TREU (!=0) all fields of a table row is returned (//other fields// above) in a comma separated list. Note that datetime is always listed first followed by value regardless of how the columns of the table is arranged.
+If TRUE (!=0), all fields of a table row are returned (//other fields// above) in a comma-separated list. Datetime is always listed first, followed by value, regardless of the table's column order.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetRaw
 
@@ -130,7 +130,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                          unsigned char **pResultArray ); 
 `</code>`
 
-Get data from a named table in a range to-from. All columns of the table is always returned.
+Get data from a named table for a date/time range. All columns of the table are always returned.
 
 #####  tblName
 
@@ -138,15 +138,15 @@ Name of an existing table.
 
 #####  from
 
-Datetime from which data should be fetched. Should be given on ISO 8601 format YY-MM-DDTHH:MM:SS. 
+Start datetime for the data to fetch, in ISO 8601 format YY-MM-DDTHH:MM:SS.
 
 #####  to
 
-Datetime up to which data is fetched. Should be given on ISO 8601 format YY-MM-DDTHH:MM:SS. 
+End datetime for the data to fetch, in ISO 8601 format YY-MM-DDTHH:MM:SS.
 
 ##### resultArray
 
-List of null terminated strings that will get filled with rows (if any) from the table. The list is allocated on the heap and must be freed by the user. If no result is returned set to a NULL pointer.
+List of null-terminated strings that will receive rows, if any, from the table. The list is allocated on the heap and must be freed by the user. If there are no results, it is set to a NULL pointer.
 
     comma separated row of database columns`<CR>``<LF>`
     comma separated row of database columns`<CR>``<LF>`
@@ -156,7 +156,7 @@ List of null terminated strings that will get filled with rows (if any) from the
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## tableLog
@@ -179,11 +179,11 @@ Value to log.
 
 #####  pdt
 
-Pointer to date/time value. Can be NULL (or empty) and in which case the current date/time is used. 
+Pointer to a date/time value. If NULL or empty, the current date and time are used.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableLogSQL
 
@@ -192,7 +192,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                         const unsigned char *psql ); 
 `</code>`
 
-Log data to with a SQL expression. 
+Log data using an SQL expression.
 
 #####  tblName
 
@@ -200,11 +200,11 @@ Name of an existing table.
 
 #####  psql
 
-Pointer to string that contain SQL expression used to log data. 
+Pointer to a string containing the SQL expression used to log data.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetNumRecords
 
@@ -215,7 +215,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                                 size_t *pRecords ); 
 `</code>`
 
-Get number of records for an interval in a named table.
+Get the number of records for an interval in a named table.
 
 #####  tblName
 
@@ -223,19 +223,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pRecords
 
-size_t that will get number of records in the interval on success. 
+A size_t that will receive the number of records in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetFirstDate
 
@@ -246,7 +246,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                                 char *pFirst ); 
 `</code>`
 
-Get the first data/time for an interval in a named table.
+Get the first date/time for an interval in a named table.
 
 #####  tblName
 
@@ -254,19 +254,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pFirst
 
-A string buffer that will get the first date/time in the interval on success. The buffer is supposed to hold a ISO formatted date/time value (YYYY-MM-DDTHH:MM:SS) so it should be able to hold at least twenty characters.
+A string buffer that will receive the first date/time in the interval on success. The buffer must hold an ISO-formatted date/time value (YYYY-MM-DDTHH:MM:SS), so it should hold at least twenty characters.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetLastDate
 
@@ -277,7 +277,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                                 char *pLast ); 
 `</code>`
 
-Get the last data/time for an interval in a named table.
+Get the last date/time for an interval in a named table.
 
 #####  tblName
 
@@ -285,19 +285,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pLast
 
-A string buffer that will get the last date/time in the interval on success. The buffer is supposed to hold a ISO formatted date/time value (YYYY-MM-DDTHH:MM:SS) so it should be able to hold at least twenty characters.
+A string buffer that will receive the last date/time in the interval on success. The buffer must hold an ISO-formatted date/time value (YYYY-MM-DDTHH:MM:SS), so it should hold at least twenty characters.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetSum
 
@@ -316,19 +316,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pSum
 
-Pointer to a double that will get the sum of all values in the interval on success. 
+Pointer to a double that will receive the sum of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetMin
 
@@ -347,19 +347,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pMin
 
-Pointer to a double that will get the minimum of all values in the interval on success. 
+Pointer to a double that will receive the minimum of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetMax
 
@@ -378,19 +378,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pMax
 
-Pointer to a double that will get the maximum of all values in the interval on success. 
+Pointer to a double that will receive the maximum of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## tableGetAverage
@@ -410,19 +410,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pAverage
 
-Pointer to a double that will get the average of all values in the interval on success. 
+Pointer to a double that will receive the average of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetMedian
 
@@ -441,19 +441,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pMedian
 
-Pointer to a double that will get the median of all values in the interval on success. 
+Pointer to a double that will receive the median of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetStdDev
 
@@ -472,19 +472,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pStdDev
 
-Pointer to a double that will get the standard deviation of all values in the interval on success. 
+Pointer to a double that will receive the standard deviation of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetVariance
 
@@ -503,19 +503,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pVariance
 
-Pointer to a double that will get the variance of all values in the interval on success. 
+Pointer to a double that will receive the variance of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetMode
 
@@ -534,19 +534,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pMode
 
-Pointer to a double that will get the mode of all values in the interval on success. 
+Pointer to a double that will receive the mode of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetLowerQ
 
@@ -565,19 +565,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pLowerQ
 
-Pointer to a double that will get the lower quartile of all values in the interval on success. 
+Pointer to a double that will receive the lower quartile of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetUpperQ
 
@@ -596,19 +596,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pUpperQ
 
-Pointer to a double that will get the upper quartile of all values in the interval on success. 
+Pointer to a double that will receive the upper quartile of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableClear
 
@@ -626,15 +626,15 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 \\ 
 ----

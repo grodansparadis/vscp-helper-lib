@@ -4,9 +4,6 @@
 int vscphlp_reverseGUID(unsigned char *pGUID)
 ```
 
-```python
-xxxx
-```
 
 ### Parameters
 
@@ -35,5 +32,26 @@ else {
 ```
 
 
+
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+from ctypes import c_ubyte
+
+import vscp
+import vscphelper
+
+guid = (c_ubyte * 16)(*range(16))
+result = vscphelper.reverseGUID(guid)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("reverseGUID failed (error {})".format(result))
+print(list(guid))
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

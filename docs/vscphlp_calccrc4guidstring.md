@@ -7,14 +7,14 @@ unsigned char vscphlp_calcCRC4GUIDString( unsigned char *strguid)
 ### Parameters
 
 #### strguid
-String containing GUID on standard string form.
+String containing a GUID in standard string form.
 
 
 ### Return Value
 8-bit CRC for GUID. 
 
 ### Description
-Calculate 8-bit crc for a GUID string. 
+Calculate the 8-bit CRC for a GUID string.
 
 #### C example
 
@@ -27,5 +27,20 @@ printf("CRC = %02X\n", crc8 )
 ```
 
 
+
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+print(vscphelper.calcCRC4GUIDString("FF:FF:FF:FF:FF:FF:FF:F5:00:00:00:00:00:00:00:01"))
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

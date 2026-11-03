@@ -4,7 +4,7 @@
 
 *  2017-05-08 AKHE vscphlp_setRemoteVariableValue - synonym for vscphlp_setRemoteVariableString vscphlp_getRemoteVariableValue - synonym for vscphlp_getRemoteVariableString added
 
-*  2017-05-08 AKHE All methods with buffer size now have the size in unit **size_t** Methods that did not have a size have it added. 
+*  2017-05-08 AKHE All methods with a buffer size now use **size_t** for the size. A size parameter has been added to methods that did not have one.
 
 	
 	vscphlp_writeVscpDataToString*
@@ -59,7 +59,7 @@ vscphlp_setRemoteVariableUser, vscphlp_getRemoteVariableFilter, vscphlp_setRemot
 
 *  2017-03-08 AKHE Added **vscphlp_deleteVSCPevent_v2**
 
-*  2017-03-08 AKHE From version 2 names has been changed to **vscphlp_xxxxRemoteVariable** instead of **vscphlp_xxxxVariable**
+*  2017-03-08 AKHE From version 2, names have been changed to **vscphlp_xxxxRemoteVariable** instead of **vscphlp_xxxxVariable**.
 
 *  2017-03-07 AKHE **vscphlp_setVariableMeasurement** / **vscphlp_getVariableMeasurement** had wrong parameters.
 
@@ -77,10 +77,9 @@ vscphlp_setRemoteVariableUser, vscphlp_getRemoteVariableFilter, vscphlp_setRemot
 
 *  2016-10-27 AKHE - Added info about filter string read/write methods. 
 
-*  2015-09-24 AKHE - vscphlp_setResponseTimeout has timeout value changed to millseconds instead of seconds.
+*  2015-09-24 AKHE - The vscphlp_setResponseTimeout timeout value changed to milliseconds instead of seconds.
 
 *  2015-09-19 AKHE - Added vscphlp_setAfterCommandSleep. Bumped version to 4
 
 *  2015-09-09 AKHE - The string parameter for [vscphlp_readFilterFromString] and [[https://www.vscp.org/docs/vscphelper/doku.php?id=helper_lib_api_helpers#vscphlp_readmaskfromstring](https://www.vscp.org/docs/vscphelper/doku.php?id=helper_lib_api_helpers#vscphlp_readfilterfromstring) can now be empty or just have some of the arguments defined. 
-
 

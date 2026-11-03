@@ -12,14 +12,14 @@ int vscphlp_writeGuidToString( const vscpEvent *pEvent,
 VSCP event.
 
 #### pStr
-Pointer to GUID in string form.
+Pointer to a GUID in string form.
 
 #### len
-Size of string buffer.
+Size of the string buffer.
 
 
 ### Return Value
-VSCP_ERROR_SUCCESS on success. 
+Returns VSCP_ERROR_SUCCESS on success.
 
 ### Description
 Write GUID from VSCP event to string. 
@@ -36,6 +36,28 @@ else {
     printf( "\aError: vscphlp_writeGuidArrayToString\n");
 }
 ```
+
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+event = vscp.vscpEvent()
+result = vscphelper.getGuidFromString(event, "FF:FF:FF:FF:FF:FF:FF:F5:00:00:00:00:00:00:00:01")
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("getGuidFromString failed (error {})".format(result))
+result, value = vscphelper.writeGuidToString(event)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("writeGuidToString failed (error {})".format(result))
+print(value)
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_writeGuidToStringEx](vscphlp_writeguidtostringex.md)

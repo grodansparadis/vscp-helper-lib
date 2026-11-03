@@ -1,13 +1,10 @@
 
 
 ```clike
-const char * vscphlp_getStatus( long handle, 
-                                VSCPStatus *pstatus )
+int vscphlp_getStatus( long handle,
+                       VSCPStatus *pstatus )
 ```
 
-```python
-const char * pyvscphlp_getStatus( handle, status)
-```
 
 ### Parameters
 
@@ -21,7 +18,7 @@ Pointer to [VSCPStatus](https://github.com/grodansparadis/vscp_software/blob/mas
 [VSCPStatus](https://github.com/grodansparadis/vscp_software/blob/master/src/vscp/common/vscp.h) structure that will hold status information after a successful call.
 
 ### Return Value
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop. 
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ### Description
 Fetch the status structure from the VSCP server. 
@@ -40,18 +37,23 @@ else {
 
 #### Python example
 
+With an open session handle named `handle` (see the [TLS guide](tls.md#python-example)):
+
 ```python
-print "Get status"
-status = VSCPStatus()
-rv = pyvscphlp_getStatus( h1, status )
-if VSCP_ERROR_SUCCESS != rv :
-    pyvscphlp_closeSession(h1)
-    raise ValueError('Command error: pyvscphlp_setFilter  Error code=%d' % rv )
-print "Channel status = %d" % status.channel_status 
-print "Channel status = %d" % status.lasterrorcode 
-print "Channel status = %d" % status.lasterrorsubcode 
+import vscp
+import vscphelper
+
+status = vscp.VSCPStatus()
+
+result = vscphelper.getStatus(handle, status)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("getStatus failed (error {})".format(result))
+print("Last error: {}".format(status.lasterrorcode))
+print("Last error subcode: {}".format(status.lasterrorsubcode))
 ```
 
+#### JavaScript availability
 
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

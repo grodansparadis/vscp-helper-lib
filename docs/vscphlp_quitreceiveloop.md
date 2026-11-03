@@ -4,9 +4,6 @@
 int vscphlp_quitReceiveLoop( long handle )
 ```
 
-```python
-int vscphlp_quitReceiveLoop( handle )
-```
 
 ### Parameters
 
@@ -14,7 +11,7 @@ int vscphlp_quitReceiveLoop( handle )
 Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
 ### Return Value
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop. 
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ### Description
 Quit the receive loop. 
@@ -32,14 +29,21 @@ else {
 ```
 
 #### Python example
-mmm
+
+With `handle` already in a receive loop (see [vscphlp_enterReceiveLoop](vscphlp_enterreceiveloop.md)):
 
 ```python
-if VSCP_ERROR_SUCCESS == pyvscphlp_quitReceiveLoop(h1):
-        print "Successfully left receive loop"
-    else:
-        print "failed to leave receive loop"
+import vscp
+import vscphelper
+
+result = vscphelper.quitReceiveLoop(handle)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("quitReceiveLoop failed (error {})".format(result))
 ```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_enterReceiveLoop](vscphlp_enterreceiveloop.md)  

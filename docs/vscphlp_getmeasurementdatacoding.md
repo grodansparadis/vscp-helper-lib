@@ -18,29 +18,36 @@ Get the [measurement data coding byte](https://grodansparadis.gitbooks.io/the-vs
 
 #### C example
 
+With the helper-library headers and standard C headers included:
+
 ```clike
-pEvent = new vscpEvent;
-pEvent->head = 0;
-pEvent->vscp_class = 10;
-pEvent->vscp_type = 6;
-pEvent->obid = 0;
-pEvent->timestamp = 0;
-memset( pEvent->GUID, 0, 16 );
-pEvent->sizeData = 3;
-pEvent->pdata = new unsigned char[3];
-pEvent->pdata[ 0 ] = 138;
-pEvent->pdata[ 1 ] = 0;
-pEvent->pdata[ 2 ] = 30;
- 
-unsigned char dataCoding = vscphlp_getMeasurementDataCoding( pEvent );
-if ( dataCoding = 138 ) {
-    printf("Data Coding = %d\n", dataCoding );
-}
-else {
-    printf("Error: Data Coding = %d\n", dataCoding );
-}
+uint8_t data[] = {0x4A, '3', '.', '1', '4'};
+vscpEvent event = {0};
+event.vscp_class = 10; event.vscp_type = 6;
+event.sizeData = sizeof(data); event.pdata = data;
+printf("%d\n", vscphlp_getMeasurementDataCoding(&event));
 ```
 
+#### Python example
 
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+from ctypes import POINTER, c_ubyte, cast
+
+event = vscp.vscpEvent()
+data = (c_ubyte * 5)(0x4A, ord('3'), ord('.'), ord('1'), ord('4'))
+event.vscpclass = 10
+event.vscptype = 6
+event.sizedata = len(data)
+event.pdata = cast(data, POINTER(c_ubyte))
+print(vscphelper.getMeasurementDataCoding(event))
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

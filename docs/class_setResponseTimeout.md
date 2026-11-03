@@ -16,9 +16,21 @@ Timeout value in milliseconds.
 Nothing
 
 ### Description
-Set response timeout value in milliseconds. Default is 1000 milliseconds. 
+Set the response timeout in milliseconds. The default is 2000 milliseconds; values below 100 milliseconds are treated as 1000 milliseconds.
 
 
 
+
+#### C++ example
+
+With a `VscpRemoteTcpIf client`, set the response timeout to three seconds:
+
+```cpp
+client.setResponseTimeout(3000);
+```
+
+#### Python and JavaScript availability
+
+The official bindings do not expose `VscpRemoteTcpIf` directly. Python applications can use the separate C helper wrappers; the current Node.js binding does not expose these methods. See [language bindings](bindings.md).
 
 [filename](./bottom_copyright.md ':include')

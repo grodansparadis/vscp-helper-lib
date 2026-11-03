@@ -2,7 +2,7 @@
 
 ```clike
 unsigned long 
-vscphlp_getCANALidFromVSCPdata( unsigned char priority, 
+vscphlp_getCANALidFromData( unsigned char priority,
                                 unsigned short vscp_class, 
                                 unsigned short vscp_type )
 ```
@@ -26,16 +26,27 @@ Construct a CANAL id (CAN id ) from a VSCP event.
 
 #### C example
 
+With the helper-library headers and standard C headers included:
+
 ```clike
-unsigned long constr_canal_id2 = vscphlp_getCANALidFromVSCPdata( 3, 10, 6 ); 
-if ( 0x0c0a0600 == constr_canal_id2 ) {
-    printf("Nickname = %08X\n", constr_canal_id2 );
-}
-else {
-   printf("\aError: vscphlp_getVSCPnicknameFromCANALid = %08X\n", constr_canal_id2 );
-} 
+unsigned long canal_id = vscphlp_getCANALidFromData(3, 10, 6);
+printf("0x%08lX\n", canal_id);
 ```
 
+#### Python example
 
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+canal_id = vscphelper.getCANALidFromData(3, 10, 6)
+print("0x{:08X}".format(canal_id))
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

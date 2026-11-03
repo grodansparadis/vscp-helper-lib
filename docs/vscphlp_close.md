@@ -4,9 +4,6 @@
 int vscphlp_close( long handle )
 ```
 
-```python
-int pyvscphlp_close( handle )
-```
 
 ### Parameters
 
@@ -14,7 +11,7 @@ int pyvscphlp_close( handle )
 Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on sucess. VSCP_ERROR_INVALID_HANDLE will be returned if the interface is not initialized. 
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_INVALID_HANDLE if the interface is not initialized.
 
 ### Description
 Close the interface. 
@@ -23,19 +20,26 @@ Close the interface.
 
 ```clike
 if ( VSCP_ERROR_SUCCESS == vscphlp_close( handle1 ) ) {
-    prinf("Closed successfully.\n");
+    printf("Closed successfully.\n");
  }
 ```
 
 #### Python example
 
+With an open session handle named `handle` (see the [TLS guide](tls.md#python-example)): This closes the connection; the session must still be closed.
+
 ```python
-print "command: close"
-rv = pyvscphlp_close(h1)
-if VSCP_ERROR_SUCCESS != rv :
-    pyvscphlp_closeSession(h1)
-    raise ValueError('Command error: close  Error code=%d' % rv )
+import vscp
+import vscphelper
+
+result = vscphelper.close(handle)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("close failed (error {})".format(result))
 ```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_open](vscphlp_open.md)  

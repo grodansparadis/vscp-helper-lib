@@ -1,30 +1,15 @@
-# Defining Methods
+# API methods and examples
 
-Methods allow you to smoothly display code examples in different languages.
+The method references in the sidebar document the C helper API and the
+`VscpRemoteTcpIf` C++ class.
 
+* For C and C++, see the [C/C++ guide](c_using.md) and
+  [first C++ project](classes_first_project.md).
+* For Python, see the [Python guide](python_using.md) and the Python examples
+  in the C helper references.
+* The official Node.js binding does not currently expose the helper methods;
+  see [language bindings](bindings.md#nodejs).
 
-## My first method
+For C, Python, and C++ TLS connection guidance, see [TLS connections](tls.md).
 
-My first method exposes how to print a message in JavaScript and Go.
-
-{% sample lang="js" %}
-Here is how to print a message to `stdout` using JavaScript.
-
-```js
-console.log('My first method');
-```
-
-{% sample lang="go" %}
-Here is how to print a message to `stdout` using Go.
-
-```go
-fmt.Println("My first method")
-```
-
-#### Common example
-Whatever language you are using, the result will be the same.
-
-```bash
-$ My first method
-```
-
+[filename](./bottom_copyright.md ':include')

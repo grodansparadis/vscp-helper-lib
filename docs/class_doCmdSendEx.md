@@ -8,17 +8,39 @@ int doCmdSendEx(const vscpEventEx *pEventEx)
 ### Parameters
 
 #### pEventEx
-Pointer to VSCP Level II event ex to send. If the event have a GUID all set to zero the GUID of the VSCP remote server interface (“-”) will be used.
+Pointer to the VSCP Level II event ex to send. If its GUID is all zeros, the GUID of the remote VSCP server interface (“-”) is used.
 
 ### Return Value
-CANAL_ERROR_SUCCESS on success or an error code on failure. 
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ### Description
 Send a VSCP Level II event ex to the VSCP remote server.
 
-*A vscpEvent structure contains a pointer to the data part of the event, while the vscpEventEx have the max data storage allocated in every event and therefore waste a lot of memory that can be used in a better way.*
+*A vscpEvent structure contains a pointer to the event data, while each vscpEventEx allocates storage for the maximum amount of data and can therefore use considerably more memory.*
 
 
 
+
+#### C++ example
+
+With an authenticated `VscpRemoteTcpIf client` (see [TLS connections](tls.md)) and `<iostream>` included:
+
+```cpp
+vscpEventEx event = {};
+event.vscp_class = 10;
+event.vscp_type = 6;
+event.sizeData = 3;
+event.data[0] = 138;
+event.data[1] = 0;
+event.data[2] = 6;
+int result = client.doCmdSendEx(&event);
+if (result != VSCP_ERROR_SUCCESS) {
+    std::cerr << "doCmdSendEx failed (error " << result << ")\n";
+}
+```
+
+#### Python and JavaScript availability
+
+The official bindings do not expose `VscpRemoteTcpIf` directly. Python applications can use the separate C helper wrappers; the current Node.js binding does not expose these methods. See [language bindings](bindings.md).
 
 [filename](./bottom_copyright.md ':include')

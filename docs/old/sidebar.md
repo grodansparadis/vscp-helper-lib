@@ -29,7 +29,7 @@
 
 * [ Available Methods](classes_vscpremotetcpipif_metods )
 
-**The CANAL helper libray**
+**The CANAL helper library**
 
 
 * [ libcanal](graphic_lib_api )
@@ -54,5 +54,4 @@
 * [ HTML & Javascript](https///www.vscp.org/docs/html5/doku.php )
 
 * [ General VSCP wiki ](https///www.vscp.org/wiki/doku.php )
-
 

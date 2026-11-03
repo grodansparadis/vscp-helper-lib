@@ -5,7 +5,7 @@
             "languages": [
                 {
                     "lang": "c",
-                    "name": "c/c+",
+                    "name": "C/C++",
                     "default": true
                 },
                 {

@@ -1,17 +1,17 @@
-# VSCP Helper library Introduction
+# VSCP Helper Library Introduction
 
 
-VSCP helper library is a software library for VSCP program development. This library includes most of the stuff that is needed by a programmer to interface Level I drivers (previously called CANAL drivers) and the talk to a VSCP daemon remotely over TCP/IP as well as a lot of other things. All helper functionality and all communication functionality is included in the library. Also ready to work with threads for receiving and transmitting events.
+The VSCP helper library provides tools for developing VSCP applications. It includes functions for working with Level I drivers (formerly called CANAL drivers), communicating with a remote VSCP daemon over TCP/IP, and performing other common tasks. It includes helper and communication functions and supports threads for receiving and transmitting events.
 
 
 ##### Error handling
 
 
-*  A positive response form a driver is either an object or an integer **VSCP_ERROR_SUCCESS**
+*  A successful response from a driver is either an object or the integer **VSCP_ERROR_SUCCESS**.
 
-*  A negative response from a driver is either NULL or an integer **VSCP_ERROR_ERROR**
+*  A failed response from a driver is either NULL or the integer **VSCP_ERROR_ERROR**.
 
-*  All other return code can be found in [vscp.h](https///github.com/grodansparadis/vscp_software/blob/master/src/vscp/common/vscp.h)
+*  Other return codes are listed in [vscp.h](https///github.com/grodansparadis/vscp_software/blob/master/src/vscp/common/vscp.h).
 
 \\ 
 ----

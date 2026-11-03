@@ -18,7 +18,7 @@ GUID2 to compare.
 True (non-zero) if GUIDs are the same. 
 
 ### Description
-Check if two GUID's is equal to each other. 
+Check whether two GUIDs are equal.
 
 #### C example
 
@@ -32,5 +32,24 @@ else {
 ```
 
 
+
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+from ctypes import c_ubyte
+
+import vscp
+import vscphelper
+
+first = (c_ubyte * 16)(*range(16))
+second = (c_ubyte * 16)(*range(16))
+print(bool(vscphelper.isSameGuid(first, second)))
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

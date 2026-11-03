@@ -8,33 +8,33 @@ int vscphlp_readFilterFromString( vscpEventFilter *pFilter,
 ### Parameters
 
 #### pFilter
-Filter structure to write filter to.
+Filter structure to which the filter will be written.
 
 #### strFilter
-Filter in string form
+Filter in string form:
 
     filter-priority, filter-class, filter-type, filter-GUID
 
-as in this example
+For example:
 
     1,0x0000,0x0006,ff:ff:ff:ff:ff:ff:ff:01:00:00:00:00:00:00:00:00
 
-and all is optional but if given must be given in order. This means
+All values are optional, but those supplied must be in order. For example:
 
     1,0x0000,0x0006
 
-for example is OK setting GUID to all zeros.
+This sets the GUID to all zeros.
 
 
 ### Return Value
-VSCP_ERROR_SUCCESS on success. 
+Returns VSCP_ERROR_SUCCESS on success.
 
 ### Description
-Read a filter from a string. If strFilter is an empty string all elements in filter will be set to zero. Arguments is
+Read a filter from a string. If strFilter is empty, all filter elements are set to zero. The arguments are:
 
     priority,class,type,GUID 
 
-and all is optional but if given must be given in order. 
+All arguments are optional, but those supplied must be in order.
 
 #### C example
 
@@ -44,6 +44,26 @@ if ( VSCP_ERROR_SUCCESS != vscphlp_readFilterFromString( &filter,
     printf( "\aError: vscphlp_readFilterFromString\n");   
 }
 ```
+
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+event_filter = vscp.vscpEventFilter()
+value = "1,0,6,FF:FF:FF:FF:FF:FF:FF:F5:00:00:00:00:00:00:00:01"
+result = vscphelper.readFilterFromString(event_filter, value)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("readFilterFromString failed (error {})".format(result))
+print(event_filter.filter_type)
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_writeFilterToString](vscphlp_writefiltertostring.md)

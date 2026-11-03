@@ -18,7 +18,7 @@ The size of the measurement data including the data coding byte.
 A double precision floating point value that is the decimal representation of the measurement data. 
 
 ### Description
-Get measurement data that is coded as a aigned integer (1-7 bytes) as a 64-bit integer. 
+Get measurement data encoded as a signed integer (1-7 bytes) as a 64-bit integer.
 
 #### C example
 
@@ -38,5 +38,21 @@ else {
 ```
 
 
+
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+data = bytearray([0x60, 0x01, 0x02])
+print(vscphelper.getDataCodingInteger(data))
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

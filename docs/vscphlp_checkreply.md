@@ -3,9 +3,6 @@
 int vscphlp_checkReply( long handle, int bclear )
 ```
 
-```python
-int pyvscphlp_checkReply( handle, bclear )
-```
 
 ### Parameters
 
@@ -13,11 +10,11 @@ int pyvscphlp_checkReply( handle, bclear )
 Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
 #### bclear
-If TRUE (not zero) the input buffer will be cleared before starting to wait for a +OK/-OK in the incoming data.
+If TRUE (nonzero), clear the input buffer before waiting for +OK or -OK in the incoming data.
 
 
 ### Return Value
-VSCP_ERROR_SUCCESS if the VSCP daemon respond with “+OK” after it has received the command and VSCP_ERROR_ERROR if not or no response before the timeout expires. 
+Returns VSCP_ERROR_SUCCESS if the VSCP daemon responds with “+OK” after receiving the command, or VSCP_ERROR_ERROR if it does not or no response arrives before the timeout expires.
 
 ### Description
 Check reply data for “+OK”/“-OK” on server. 
@@ -34,13 +31,20 @@ if ( VSCP_ERROR_SUCCESS == vscphlp_checkReply( handle1, TRUE ) ) {
 
 #### Python example
 
+With an open session `handle` and a reply pending:
+
 ```python
-print "command: vscphlp_checkReply"
-rv = lib.vscphlp_checkReply( h1, command, 1)
-if VSCP_ERROR_SUCCESS != rv :
-    pyvscphlp_closeSession(h1)
-    raise ValueError('Command error: ''vscphlp_checkReply''  Error code=%d' % rv ) 
+import vscp
+import vscphelper
+
+result = vscphelper.checkReply(handle, False)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("checkReply failed (error {})".format(result))
 ```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_doCommand](vscphlp_docommand.md)

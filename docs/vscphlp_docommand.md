@@ -5,9 +5,6 @@ int vscphlp_doCommand( long handle,
                         const char *cmd )
 ```
 
-```python
-int vscphlp_doCommand( handle, command )
-```
 
 ### Parameters
 
@@ -19,10 +16,10 @@ This is the command that should be sent to the server. It should be terminated w
 
 
 ### Return Value
-VSCP_ERROR_SUCCESS if the VSCP daemon respond with +OK after it has received the command and VSCP_ERROR_ERROR if not (-OK) or no response before the timeout expires. VSCP_ERROR_CONNECTION is returned if the communication channel is not open. VSCP_ERROR_INVALID_HANDLE is returned if an invalid handle is given. 
+Returns VSCP_ERROR_SUCCESS if the VSCP daemon responds with +OK after receiving the command, or VSCP_ERROR_ERROR if it responds with -OK or no response arrives before the timeout expires. Returns VSCP_ERROR_CONNECTION if the communication channel is not open and VSCP_ERROR_INVALID_HANDLE if the handle is invalid.
 
 ### Description
-Send a command over the communication link. The command should have “\r\n” to it's end. The response from the server will be checked for +OK. 
+Send a command over the communication link. The command should end with “\r\n”. The server's response is checked for +OK.
 
 #### C example
 
@@ -34,14 +31,20 @@ if ( VSCP_ERROR_SUCCESS == vscphlp_doCommand( handle1, "NOOP\r\n" ) ) {
 
 #### Python example
 
+With an open session handle named `handle` (see the [TLS guide](tls.md#python-example)):
+
 ```python
-print "command: doCommand"
-command = "NOOP\r\n"
-rv = pyvscphlp_doCommand( h1, command )
-if VSCP_ERROR_SUCCESS != rv :
-    pyvscphlp_closeSession(h1)
-    raise ValueError('Command error: ''doCommand''  Error code=%d' % rv ) 
+import vscp
+import vscphelper
+
+result = vscphelper.doCommand(handle, "NOOP\r\n")
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("doCommand failed (error {})".format(result))
 ```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_checkReply](vscphlp_checkreply.md)  

@@ -6,64 +6,67 @@ int vscphlp_openInterface( long handle,
                             unsigned long flags )
 ```
 
-```python
-int pyvscphlp_openInterface( handle,
-                               interface, 
-                               flags )
-```
 
 ### Parameters
 
 #### handle
-Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).one
+Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
 #### interface
-Pointer to a string with the name of interface to open. The format of this string is
+The endpoint and credentials, separated by semicolons:
 
-    host;username;password
+    stcp://host:port;username;password
 
-or
+The `stcp://` prefix selects TLS. Use `tcp://host:port;username;password` or
+`host:port;username;password` for plain, unencrypted TCP. The server must
+listen for the selected transport on that port.
 
-    tcp://host;username;password
+The interface string contains credentials; keep it private and do not log it.
+There is no escaping for semicolons in the username or password. If either
+contains a semicolon, use [vscphlp_open](vscphlp_open.md) with separate
+arguments instead.
 
-where in both cases host is
-
-    host-address:port
+See [TLS connections](tls.md) for server verification, CA setup, and examples.
 
 #### flags
-Flags to use for the interface. Currently not used.
+Currently unused; pass `0`.
 
 
 ### Return Value
-Possible return values are the same as for [vscphlp_Open](vscphlp_open.md)
+Possible return values are the same as for [vscphlp_open](vscphlp_open.md).
 
 ### Description
 Opens a session to the TCP/IP interface of a VSCP server. 
 
 #### C example
 
-```clike
- // Open Channel 1
-rv=vscphlp_open( handle1, "192.168.1.9:9598;admin;secret" ); 
-if ( VSCP_ERROR_SUCCESS == rv ) {
-    printf("Command success: vscphlp_open on channel 1\n");
-}
-else {
-    printf("\aCommand error: vscphlp_open on channel 1  Error code=%d\n", rv);
+With an initialized `handle` and an `interface_string` constructed using
+credentials supplied by the application:
+
+```c
+int result = vscphlp_openInterface(handle, interface_string, 0);
+if (result != VSCP_ERROR_SUCCESS) {
+    fprintf(stderr, "VSCP connection failed (error %d)\n", result);
 }
 ```
 
 #### Python example
 
+With an initialized `handle` and an `interface_string` constructed using
+credentials supplied by the application:
+
 ```python
-print "\n\nConnection in progress..."
-rv = pyvscphlp_openInterface(h1,"127.0.0.1:9598;admin;secret")
-if VSCP_ERROR_SUCCESS == rv :
-    print "Command success: pyvscphlp_openInterface on channel 1"
-else:
-    pyvscphlp_closeSession(h1)
-    raise ValueError('Command error: pyvscphlp_openInterface on channel 1  Error code=%d' % rv )
+import vscp
+import vscphelper
+
+result = vscphelper.openInterface(handle, interface_string, 0)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("VSCP connection failed (error {})".format(result))
 ```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_open](vscphlp_open.md)  

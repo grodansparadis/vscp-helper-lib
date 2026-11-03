@@ -13,47 +13,35 @@ VSCP event.
 Priority. 
 
 ### Description
-Extract the event priority from a VSCP event. Priority is defined as a value between 0-7 where 0 is the highest priority. 
+Extract the event priority from a VSCP event. Priority is a value from 0 to 7, where 0 is the highest priority.
 
 #### C example
 
 ```clike
-vscpEventEx ex3;
-ex3.head = 0;
-ex3.vscp_class = 10;
-ex3.vscp_type = 6;
-ex3.obid = 0;
-ex3->year = 2017;
-ex3->month = 1;  // January
-ex3->day = 2;
-ex3->hour = 13;
-ex3->minute = 10;
-ex3->second = 43;
-ex3.timestamp = 0;
-memset( ex3.GUID, 0, 16 );
-ex3.sizeData = 3;
-ex3.data[ 0 ] = 138;
-ex3.data[ 1 ] = 0;
-ex3.data[ 2 ] = 30;
- 
-unsigned char eventPriority;
-if ( 0 == ( eventPriority = vscphlp_getVscpPriorityEx( &ex3 ) ) ) {
-    printf("EventEx priority = %d\n", eventPriority );
-}
-else {
-    printf("\aError: EventEx priority = %d\n", eventPriority );
-}
+vscpEventEx event = {0};
+vscphlp_setVscpPriorityEx(&event, 5);
+printf("Priority: %u\n", (unsigned)vscphlp_getVscpPriorityEx(&event));
 ```
 
 #### Python example
-mmm
+
+Using the official [Python helper binding](bindings.md#python):
 
 ```python
-xxx
+import vscp
+import vscphelper
+
+event = vscp.vscpEventEx()
+vscphelper.setVscpPriorityEx(event, 5)
+print(vscphelper.getVscpPriorityEx(event))
 ```
 
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
+
 ### See Also
-[vscphlp_getVscpPriority](vscphlp_getvscppriority.md.md)
+[vscphlp_getVscpPriority](vscphlp_getvscppriority.md)
 
 
 

@@ -9,29 +9,28 @@ Author 2000-2026 Åke Hedman and contributors, [the VSCP Project](https://www.vs
 
 !["VSCP Helper Library"](./images/libvscphelper.jpeg )
 
-The VSCP helper library is a collection of library tools for VSCP program development. This library includes most of the helper functionality that is needed by a programmer to interface Level I drivers (previously called CANAL drivers) and functionality to interface a local or remote VSCP daemon (Level II) over TCP/IP and a lot of other things. All helper functionality and all communication functionality is included in the library.
+The VSCP helper library provides tools for developing VSCP applications. It includes functions for working with Level I drivers (formerly called CANAL drivers), communicating with a local or remote VSCP daemon (Level II) over TCP/IP, and performing other common tasks. The library includes both helper and communication functions.
 
-You can either use the library in binary form as a set of C exported functions delivered by a dynamically loaded library or by including a number of C++ classes in your project.
+You can use the library as a dynamically loaded binary that exports C functions, or include its C++ classes in your project.
 
-The library is currently available for
+The library is currently available for:
 
-  * [c/c++](https://github.com/grodansparadis/vscp-helper-lib),
-  * [python](https://github.com/grodansparadis/pyvscp)
-  * [node.js](https://github.com/grodansparadis/node-vscp-helper)
+  * [C/C++](https://github.com/grodansparadis/vscp-helper-lib)
+  * [Python](https://github.com/grodansparadis/pyvscp)
+  * [Node.js](https://github.com/grodansparadis/node-vscp-helper)
   
-and is available on Unix/Linux, Macintosh and Windows.
+It runs on Unix/Linux, macOS, and Windows.
 
-The library is licensed: under [the  MIT License](https://opensource.org/licenses/MIT) so it can be used freely in open and closed project.
+The library is licensed under the [MIT License](https://opensource.org/licenses/MIT), so it can be used freely in open- and closed-source projects.
 
-Viewable/downloadable documentation for the VSCP helper library is available [here](https://docs.vscp.org/#vscphelper)
+You can view or download the VSCP helper library documentation [here](https://docs.vscp.org/#vscphelper).
 
 ## About versioning
 
-VSCP releases are versioned as year.month.patch where year is the last two digits of the year and month is the two digits of the month. Patch is an incremental number for each release within the same month.
+VSCP release versions use the format `year.month.patch`, where `year` is the last two digits of the year and `month` is the two-digit month. The patch number is incremented for each release within the same month.
 
-For libraries, the versioning of the release follows this pattern as well. But for the library binaries another schema is used. The reason is that higher end software that use the library should be able to use the versioning to know if the library is compatible with the version they depend on. So here a number built from major, minor and patch is used. A changed major number means that (possible) breaking features has been added to the library. A changed minor number means that only backward compatible bug fixes have been added. The patch number is incremented for each release within the same minor version.
+Library releases follow the same pattern, but library binaries use a different scheme so that software using the library can determine whether it is compatible with the version it depends on. Binary versions use `major.minor.patch`. A change to the major number means potentially breaking features have been added. A change to the minor number means only backward-compatible bug fixes have been added. The patch number is incremented for each release within the same minor version.
 
-So the package that ships the library on a specific platform will have a version based on the release date of the library it contains. The library itself will use the major.minor.patch versioning scheme described above.
+A package that ships the library for a particular platform therefore has a version based on the release date of the library it contains. The library itself uses the `major.minor.patch` scheme described above.
 
 [filename](./bottom_copyright.md ':include')
-

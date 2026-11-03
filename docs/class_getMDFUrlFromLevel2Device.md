@@ -1,32 +1,49 @@
 
 
 ```clike
-int getMDFUrlFromLevel2Device( cguid& ifGUID,
+bool getMDFUrlFromLevel2Device( cguid& ifGUID,
                                 cguid& destGUID,
-                                wxString &strurl,
+                                std::string &strurl,
                                 bool bLevel2 = false )
 ```
 
 ### Parameters
 
 #### ifGUID
-GUID for interface this events should be sent on. This is used to read registers of Level I devices.
+GUID of the interface on which these events should be sent. This is used to read registers of Level I devices.
 
-#### pdestGUID
-GUID for remote node.
+#### destGUID
+GUID of the remote node.
 
 #### strURL
-Reference to string that will get the MDF url of the device if call is successful..
+Reference to a string that will receive the device's MDF URL on success.
 
 #### bLevel2
-If true this is a true Level II read operation.
+If true, this is a true Level II read operation.
 
 ### Return Value
-CANAL_ERROR_SUCCESS on success or an error code on failure. 
+Returns true on success and false on failure.
 
 ### Description
-Get MDf file from device registers.
+Get the MDF file from the device registers.
 
 
+
+#### C++ example
+
+With an authenticated `VscpRemoteTcpIf client` (see [TLS connections](tls.md)) and `<iostream>` included: Supply `interface_guid` and `device_guid` for the target device:
+
+```cpp
+std::string url;
+if (!client.getMDFUrlFromLevel2Device(interface_guid, device_guid, url)) {
+    std::cerr << "Could not read the MDF URL\n";
+} else {
+    std::cout << url << '\n';
+}
+```
+
+#### Python and JavaScript availability
+
+The official bindings do not expose `VscpRemoteTcpIf` directly. Python applications can use the separate C helper wrappers; the current Node.js binding does not expose these methods. See [language bindings](bindings.md).
 
 [filename](./bottom_copyright.md ':include')

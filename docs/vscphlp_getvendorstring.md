@@ -6,9 +6,6 @@ int vscphlp_getVendorString( long handle,
                                 size_t len )
 ```
 
-```python
-(rv,strversion) pyvscphlp_getVendorString( handle )
-```
 
 ### Parameters
 
@@ -19,16 +16,16 @@ Handle for the communication channel obtained from a call to [vscphlp_newsession
 Pointer to a string that will receive vendor information.
 
 #### len (c/c++)
-Size of supplied buffer.
+Size of the supplied buffer.
 
 
 ### Return Value
 
 #### c/c++
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop. 
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 #### Python
-A tuple that consist of the return value (see c/c++ version) and the vendorstirng is returned. 
+Returns a tuple containing the return value (see the C/C++ version) and the vendor string.
 
 ### Description
 Fetch the vendor string from the driver. 
@@ -49,17 +46,24 @@ else {
 
 #### Python example
 
+With an open session handle named `handle` (see the [TLS guide](tls.md#python-example)):
+
 ```python
-print "Get vendor string"
-(rv,strvendor) = pyvscphlp_getVendorString( h1 )
-if VSCP_ERROR_SUCCESS != rv :
-    pyvscphlp_closeSession(h1)
-    raise ValueError('Command error: pyvscphlp_getVendorString  Error code=%d' % rv )
-print "Vendor string = %s" % strvendor
+import vscp
+import vscphelper
+
+result, vendor = vscphelper.getVendorString(handle)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("getVendorString failed (error {})".format(result))
+print("Vendor: {}".format(vendor))
 ```
 
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
+
 ### See Also
-[xxx](xxx.md)
+[vscphlp_getDriverInfo](vscphlp_getdriverinfo.md)
 
 
 

@@ -16,10 +16,10 @@ A 16 byte GUID array.
 Pointer to buffer that can hold the GUID in string form.
 
 #### len
-Size of string buffer.
+Size of the string buffer.
 
 ### Return Value
-VSCP_ERROR_SUCCESS on success. 
+Returns VSCP_ERROR_SUCCESS on success.
 
 ### Description
 Write GUID from byte array to string. 
@@ -37,5 +37,26 @@ else {
 
 
 
+
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+result, guid = vscphelper.getGuidFromStringToArray("FF:FF:FF:FF:FF:FF:FF:F5:00:00:00:00:00:00:00:01")
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("getGuidFromStringToArray failed (error {})".format(result))
+result, value = vscphelper.writeGuidArrayToString(guid)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("writeGuidArrayToString failed (error {})".format(result))
+print(value)
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

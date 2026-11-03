@@ -10,16 +10,16 @@ int vscphlp_makeStringMeasurementEvent( vscpEvent *pEvent,
 ### Parameters
 
 #### pEvent
-Pointer to a VSCP event that will get the result as it's data.
+Pointer to a VSCP event that will receive the result as its data.
 
 #### value
-Floating point value to write as a 32-bit float.
+Floating-point value to encode as a string.
 
 #### unit
-A unit value 0-3
+A unit value from 0 to 3.
 
-#### sensorid
-A sensor index value 0-7
+#### sensoridx
+A sensor index from 0 to 7.
 
 ### Return Value
 VSCP_ERROR_SUCCESS is returned on success.
@@ -29,10 +29,57 @@ Make a string coded level I event from floating point data.
 
 #### C example
 
+With the helper-library headers and standard C headers included:
+
 ```clike
-Example will be added. TODO
+vscpEvent *event = NULL;
+int result = vscphlp_newVSCPevent(&event);
+if (result != VSCP_ERROR_SUCCESS || event == NULL) {
+    fprintf(stderr, "Could not allocate event (error %d)\n", result);
+} else {
+    event->vscp_class = 10; event->vscp_type = 6;
+    result = vscphlp_makeStringMeasurementEvent(event, 3.14f, 1, 2);
+    double value = 0;
+    if (result == VSCP_ERROR_SUCCESS) {
+        result = vscphlp_getVSCPMeasurementAsDouble(event, &value);
+    }
+    if (result != VSCP_ERROR_SUCCESS) {
+        fprintf(stderr, "Measurement conversion failed (error %d)\n", result);
+    } else {
+        printf("%.2f\n", value);
+    }
+    vscphlp_deleteVSCPevent_v2(&event);
+}
 ```
 
+#### Python example
 
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+from ctypes import POINTER, c_ubyte, cast
+
+result, event_ptr = vscphelper.newVSCPevent()
+if result != vscp.VSCP_ERROR_SUCCESS or not event_ptr:
+    raise RuntimeError("Could not allocate event (error {})".format(result))
+try:
+    event = event_ptr.contents
+    event.vscpclass, event.vscptype = 10, 6
+    result = vscphelper.makeStringMeasurementEvent(event, 3.14, 1, 2)
+    if result != vscp.VSCP_ERROR_SUCCESS:
+        raise RuntimeError("makeStringMeasurementEvent failed (error {})".format(result))
+    result, value = vscphelper.getVSCPMeasurementAsDouble(event)
+    if result != vscp.VSCP_ERROR_SUCCESS:
+        raise RuntimeError("getVSCPMeasurementAsDouble failed (error {})".format(result))
+    print(value)
+finally:
+    vscphelper.deleteVSCPevent_v2(event_ptr)
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

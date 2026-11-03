@@ -3,7 +3,7 @@
 \\ \\ 
 # VSCP Helper library API - Helpers 
 
-This part of the library describes the many helpers that are available to handle events, GUIDs, etc, etc.
+This section describes helpers for handling events, GUIDs, and other data.
 
 \\ \\ 
 
@@ -16,7 +16,7 @@ This part of the library describes the many helpers that are available to handle
 long vscphlp_readStringValue( const char * pStrValue )
 `</code>`
 
-Convert a string to an integer value. The string can be expressed as a decimal  (10, 00001 ) or a hexadecimal value(0xff).
+Convert a string to an integer. The string can represent a decimal value (10, 00001) or a hexadecimal value (0xff).
 
 #####  pStrValue
 
@@ -48,7 +48,7 @@ Null terminated string to convert.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 \\ \\ 
@@ -68,7 +68,7 @@ Example result:  Sun, "06 Nov 1994 08:49:37 GMT"
 
 ##### buf
 
-Buffer that will get timestring after a successful call.
+Buffer that will receive the time string on success.
 
 ##### buf_len
 
@@ -81,7 +81,7 @@ time_t is an alias of a fundamental arithmetic type capable of representing time
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 \\ \\ 
@@ -96,7 +96,7 @@ int vscphlp_getISOTimeString( char *buf, size_t buf_len, time_t *t )
 
 ##### buf
 
-Buffer that will get ISO timestring after a successful call.
+Buffer that will receive the ISO time string on success.
 
 Example result:  "2003-11-02T12:23:10Z"
 
@@ -111,7 +111,7 @@ time_t is an alias of a fundamental arithmetic type capable of representing time
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 \\ \\ 
@@ -131,7 +131,7 @@ Copy VSCP event.
 
 #####  pEventTo
 
-VSCP event that will get the result.
+VSCP event that will receive the result.
 
 #####  pEventFrom 
 
@@ -139,7 +139,7 @@ VSCP event that should be copied
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -181,7 +181,7 @@ int vscphlp_writeVscpDataToString( const vscpEvent *pEvent,
                                        int bUseHtmlBreak )
 `</code>`
 
-Write VSCP data in readable form to a possibly multi line string.
+Write VSCP data in readable form to a possibly multiline string.
 
 #####  pEvent
 
@@ -189,7 +189,7 @@ The event that contains the data to be written
 
 #####  bUseHtmlBreak 
 
-Set to true (non zero) to use "`<br>`" instead of "\n" as linebreak in string. 
+Set to true (nonzero) to use "`<br>`" instead of "\n" as the line break in the string.
 
 #####  Return value
 
@@ -243,11 +243,11 @@ Size of string receive buffer.
 
 #####  bUseHtmlBreak 
 
-Set to true (non zero) to use "`<br>`" instead of "\n" as linebreak in string. 
+Set to true (nonzero) to use "`<br>`" instead of "\n" as the line break in the string.
 
 ##### bBreak 
 
-Set to true (non zero) to add the break character.
+Set to true (nonzero) to add the break character.
 
 #####  Return value
 
@@ -269,7 +269,7 @@ VSCP Event which will have its data set.
 
 #####  pstr 
 
-Pointer to null terminated string that contains data on comma separated form.
+Pointer to a null-terminated string containing data in comma-separated form.
  
 #####  Return value 
 
@@ -313,7 +313,7 @@ The VSCP event which will be written to the string buffer.
 
 #####  pstr
 
-Pointer to string buffer that will receive result.
+Pointer to the string buffer that will receive the result.
 
 ##### len
 
@@ -353,7 +353,7 @@ The VSCP event which will be written to the string buffer.
 
 #####  pstr
 
-Pointer to string buffer that will receive result.
+Pointer to the string buffer that will receive the result.
 
 ##### len
 
@@ -393,7 +393,7 @@ The VSCP event which will be written to.
 
 #####  pstr
 
-Pointer to string buffer that contain an event in string form 
+Pointer to a string buffer containing an event in string form:
 
     head,class,type,obid,timestamp,GUID,data1,data2,data3....
 
@@ -435,7 +435,7 @@ The VSCP event ex which will be written to.
 
 #####  pstr
 
-Pointer to string buffer that contain an event in string form 
+Pointer to a string buffer containing an event in string form:
 
     head,class,type,obid,timestamp,GUID,data1,data2,data3....
 
@@ -468,7 +468,7 @@ else {
 unsigned char vscphlp_getVscpPriority( const vscpEvent *pEvent )
 `</code>`
 
-Extract the event priority from a VSCP event. Priority is defined as a value between 0-7 where 0 is the highest priority.
+Extract the event priority from a VSCP event. Priority is a value from 0 to 7, where 0 is the highest priority.
 
 #####  pEvent
 
@@ -515,7 +515,7 @@ vscphlp_deleteVSCPevent( pEvent );
 unsigned char vscphlp_getVscpPriorityEx( const vscpEventEx *pEvent )
 `</code>`
 
-Extract the event priority from a VSCP event. Priority is defined as a value between 0-7 where 0 is the highest priority.
+Extract the event priority from a VSCP event. Priority is a value from 0 to 7, where 0 is the highest priority.
 
 #####  pEvent
 
@@ -556,7 +556,7 @@ else {
 void vscphlp_setVscpPriority( vscpEvent *pEvent, unsigned char priority )
 `</code>`
 
-Set Event priority. Priority is defined as a value between 0-7 where 0 is the highest priority.
+Set the event priority. Priority is a value from 0 to 7, where 0 is the highest priority.
 
 #####  pEvent
 
@@ -604,7 +604,7 @@ unsigned char eventPriority;
 void vscphlp_setVscpPriorityEx( vscpEventEx *pEvent, unsigned char priority )
 `</code>`
 
-Set Event priority. Priority is defined as a value between 0-7 where 0 is the highest priority.
+Set the event priority. Priority is a value from 0 to 7, where 0 is the highest priority.
 
 #####  pEvent
 
@@ -711,7 +711,7 @@ else {
 unsigned short vscphlp_getVSCPtypeFromCANANALid( const unsigned long id )
 `</code>`
 
-Get the VSCP type from a a CANAL message id (CAN id).
+Get the VSCP type from a CANAL message ID (CAN ID).
 
 #####  id
 
@@ -744,7 +744,7 @@ else {
 unsigned short vscphlp_getVSCPnicknameFromCANALid( unsigned long id )
 `</code>`
 
-Get the VSCP 8-bit nickname from a a CANAL message id.
+Get the VSCP 8-bit nickname from a CANAL message ID.
 
 #####  id
 
@@ -881,7 +881,7 @@ VSCP event.
 
 ##### bSet==  
 
-If true (non zero) write the CRC into the event structure crc member.
+If true (nonzero), write the CRC to the event structure's crc member.
 
 #####  Return value
 
@@ -908,7 +908,7 @@ VSCP event.
 
 ##### bSet==  
 
-If true (non zero) write the CRC into the event structure crc member.
+If true (nonzero), write the CRC to the event structure's crc member.
 
 #####  Return value
 
@@ -940,7 +940,7 @@ VSCP event to convert to.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -961,7 +961,7 @@ int vscphlp_convertVSCPfromEx( vscpEvent *pEvent,
                                         const vscpEventEx *pEventEx )
 `</code>`
 
-Convert VSCP ex. event form to standard form.
+Convert a VSCP event from ex form to standard form.
 
 #####  pEvent
 
@@ -973,7 +973,7 @@ VSCP event ex to convert from.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 ##### Example
 
@@ -1090,7 +1090,7 @@ GUID for event.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 ##### Example
 
@@ -1137,7 +1137,7 @@ GUID for event.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -1179,7 +1179,7 @@ VSCP event that will be converted.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on succes.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -1212,7 +1212,7 @@ VSCP ex event that will be converted.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on succes.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -1307,7 +1307,7 @@ int vscphlp_getDateStringFromEvent( char *buf, size_t buf_len, vscpEvent *pEvent
 
 ##### buf
 
-Buffer that will get datestring from event
+Buffer that will receive the date string from the event.
 
 Example result:  "2003-11-02T12:23:10Z"
 
@@ -1317,11 +1317,11 @@ Length of the buffer.
 
 ##### pEvent
 
-Event to get datestring from.
+Event from which to get the date string.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 \\ \\ 
@@ -1338,7 +1338,7 @@ int vscphlp_getDateStringFromEventEx( char *buf, size_t buf_len, vscpEventEx *pE
 
 ##### buf
 
-Buffer that will get datestring from event ex.
+Buffer that will receive the date string from the event ex.
 
 Example result:  "2003-11-02T12:23:10Z"
 
@@ -1348,11 +1348,11 @@ Length of the buffer.
 
 ##### pEventEx
 
-Event to get datestring from.
+Event from which to get the date string.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 \\ \\ 
@@ -1371,7 +1371,7 @@ Clear VSCP filter.
 
 #####  pFilter
 
-Pointer to VSCP filter structure.
+Pointer to a VSCP filter structure.
 
 ##### Example
 
@@ -1409,33 +1409,33 @@ int vscphlp_readFilterFromString( vscpEventFilter *pFilter,
                                    char *strFilter )
 `</code>`
 
-Read a filter from a string. If strFilter is an empty string all elements in filter will be set to zero. Arguments is
+Read a filter from a string. If strFilter is empty, all filter elements are set to zero. The arguments are:
         priority,class,type,GUID 
-and all is optional but if given must be given in order.
+All arguments are optional, but those supplied must be in order.
 
 #####  pFilter
 
-Filter structure to write filter to. 
+Filter structure to which the filter will be written.
 
 ##### strFilter==  
 
-Filter in string form 
+Filter in string form:
 
    filter-priority, filter-class, filter-type, filter-GUID
 
-as in this example
+For example:
 
     1,0x0000,0x0006,ff:ff:ff:ff:ff:ff:ff:01:00:00:00:00:00:00:00:00
     
-and all is optional but if given must be given in order. This means
+All values are optional, but those supplied must be in order. For example:
 
     1,0x0000,0x0006
 
-for example is OK setting GUID to all zeros.
+This sets the GUID to all zeros.
     
 ##### Return value 
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 ##### Example
 
@@ -1452,21 +1452,21 @@ if ( VSCP_ERROR_SUCCESS != vscphlp_readFilterFromString( &filter,
     bool vscp_writeFilterToString(vscpEventFilter *pFilter, char * strFilter);
 `</code>`
 
-Write a filter on comma separated form to a string (//priority,class,type,GUID//).
+Write a filter on comma-separated form to a string (//priority,class,type,GUID//).
 
 #####  pFilter
 
-Filter structure to write filter to. 
+Filter structure to which the filter will be written.
 
 ##### strFilter== 
 
-Will get the filter in string form *priority,class,type,GUID*. Must be at least 65 bytes.
+Receives the filter in string form *priority,class,type,GUID*. The buffer must be at least 65 bytes.
 
     filter-priority, filter-class, filter-type, filter-GUID
 
 ##### Return value 
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 ##### Example
 
@@ -1482,33 +1482,33 @@ int vscphlp_readMaskFromString( vscpEventFilter *pFilter,
                                    const char * strMask )
 `</code>`
 
-Read a mask from a string. If strMask is an empty string elements in mask will be set to zero.
+Read a mask from a string. If strMask is empty, the mask elements are set to zero.
 
 #####  pFilter
 
-Filter structure to write mask to. 
+Filter structure to which the mask will be written.
 
 #####  strMask
 
-Mask in string form 
+Mask in string form:
 
     mask-priority, mask-class, mask-type, mask-GUID
 
-as in this example
+For example:
 
     1,0x00ff,0x00ff,ff:ff:ff:ff:ff:ff:ff:ff:ff:ff:ff:ff:ff:ff:ff:ff  
 
-and all is optional but if given must be given in order.This means that
+All values are optional, but those supplied must be in order. For example:
 
     1,0x00ff
 
-will be interpreted as
+is interpreted as:
 
     1,0x00ff,0x0000,00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00  
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -1527,7 +1527,7 @@ int vscphlp_writeMaskToString( vscpEventFilter *pFilter,
                                    char * strMask )
 `</code>`
 
-Write the mask in comma separated form to  a string. If strMask is an empty string elements in mask will be set to zero.
+Write the mask in comma-separated form to  a string. If strMask is an empty string elements in mask will be set to zero.
 
 #####  pFilter
 
@@ -1535,13 +1535,13 @@ Filter structure to write mask from.
 
 #####  strMask
 
-String that will get mask in comma separated string form. Must be at least 65 bytes.
+String buffer that will receive the mask in comma-separated form. It must be at least 65 bytes.
 
     mask-priority, mask-class, mask-type, mask-GUID
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -1601,11 +1601,11 @@ VSCP event.
 
 ##### pGUID==  
 
-Pointer to GUID in string form.
+Pointer to a GUID in string form.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -1636,11 +1636,11 @@ VSCP event ex.
 
 ##### pGUID==  
 
-Pointer to GUID in string form.
+Pointer to a GUID in string form.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -1670,11 +1670,11 @@ Pointer to VSCP GUID array to fill.
 
 ##### pStr==  
 
-Pointer to GUID in string form. 
+Pointer to a GUID in string form.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -1704,15 +1704,15 @@ VSCP event.
 
 ##### pStr==  
 
-Pointer to GUID in string form. 
+Pointer to a GUID in string form.
 
 ##### len
 
-Size of string buffer.
+Size of the string buffer.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -1741,15 +1741,15 @@ VSCP event.
 
 ##### pStr==  
 
-Pointer to GUID in string form. 
+Pointer to a GUID in string form.
 
 ##### len
 
-Size of string buffer.
+Size of the string buffer.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -1779,15 +1779,15 @@ VSCP event.
 
 ##### strGUID==  
 
-String that get formatted GUID.
+String that receives the formatted GUID.
 
 ##### len
 
-Size of string buffer.
+Size of the string buffer.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -1817,15 +1817,15 @@ VSCP event.
 
 ##### strGUID==  
 
-String that get formatted GUID.
+String that receives the formatted GUID.
 
 ##### len
 
-Size of string buffer.
+Size of the string buffer.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -1857,11 +1857,11 @@ Pointer to buffer that can hold the GUID in string form.
 
 ##### len
 
-Size of string buffer. 
+Size of the string buffer.
 
 #####  Return value
 
-VSCP_ERROR_SUCCESS on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 
 ##### Example
@@ -1890,7 +1890,7 @@ xxx
 
 #####  Return value
 
-True (non-zero) if GUID are empty.
+True (nonzero) if the GUID is empty.
 
 
 ##### Example
@@ -1921,7 +1921,7 @@ int vscphlp_isSameGUID( const unsigned char *pGUID1,
                          const unsigned char *pGUID2 )
 `</code>`
 
-Check if two GUID's is equal to each other.
+Check whether two GUIDs are equal.
 
 #####  pGUID1
 
@@ -1982,11 +1982,11 @@ else {
 unsigned char vscphlp_calcCRC4GUIDArray( unsigned char *pguid )
 `</code>`
 
-Calculate 8-bit crc for a GUID array.
+Calculate the 8-bit CRC for a GUID array.
 
 #####  pguid
 
-Array of sixteen bytes containing GUID on MSB->LSB order.
+Array of sixteen bytes containing the GUID in most-significant-byte-first order.
 
  
 #####  Return value 
@@ -2012,11 +2012,11 @@ printf("CRC = %02X\n", crc8 );
 unsigned char vscphlp_calcCRC4GUIDString( unsigned char *strguid)
 `</code>`
 
-Calculate 8-bit crc for a GUID string.
+Calculate the 8-bit CRC for a GUID string.
 
 ##### strguid== 
 
-String containing GUID on standard string form.
+String containing a GUID in standard string form.
 
  
 #####  Return value 
@@ -2092,7 +2092,7 @@ unsigned long long vscphlp_getDataCodingBitArray( const unsigned char *pNorm,
                                                     int size)
 `</code>`
 
-Get measurement data that is coed as bits as a unsigned 64-bit value.
+Get measurement data encoded as bits as an unsigned 64-bit value.
 
 #####  pNorm
 
@@ -2100,7 +2100,7 @@ Pointer to the data coding byte of event measurement data.
 
 #####  size
 
-Number of bytes the measurement data consist of including the initial data coding byte.
+Number of bytes in the measurement data, including the initial data coding byte.
 
 ##### Return value
 
@@ -2124,7 +2124,7 @@ unsigned long long vscphlp_getDataCodingInteger(const unsigned char *pCode,
                                                    int size )
 `</code>`
 
-Get measurement data that is coded as a aigned  integer (1-7 bytes) as a 64-bit integer.
+Get measurement data encoded as a signed integer (1-7 bytes) as a 64-bit integer.
 
 #####  pCode
 
@@ -2221,7 +2221,7 @@ Pointer to the buffer that will receive the resulting string.
 
 ##### len
 
-Size of the supplied buffer (strResult). Max size of the string is 7 bytes + the terminating zero so the supplied size should be 8 bytes or larger.
+Size of the supplied buffer (strResult). The string is at most 7 bytes plus the terminating zero, so the buffer should be at least 8 bytes.
 
 ##### Return value
 
@@ -2258,7 +2258,7 @@ int vscphlp_getVSCPMeasurementAsString( const vscpEvent *pEvent,
                                            size_t len )
 `</code>`
 
-This method returns a string representing the measurement data. It recognize all data coding forms and give sensible output back.
+This method returns a string representing the measurement data. It recognizes all data coding forms and returns an appropriate value.
 
 #####  pEvent
 
@@ -2274,7 +2274,7 @@ Size for the buffer in which the resulting string is written.
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS is return on success.
+Returns VSCP_ERROR_SUCCESS on success.
 
 ##### Example
 
@@ -2329,15 +2329,15 @@ int vscphlp_getVSCPMeasurementAsDouble( const vscpEvent *pEvent,
                                            double *pvalue)
 `</code>`
 
-This method returns a double representing the measurement data. It recognize all data coding forms and give sensible output back.
+This method returns a double representing the measurement data. It recognizes all data coding forms and returns an appropriate value.
 
 #####  pEvent
 
-The event that contain the measurement data.
+The event containing the measurement data.
 
 ##### pvalue
 
-A pointer to a double that will get the measurement result.
+A pointer to a double that will receive the measurement result.
 
 ##### Return value
 
@@ -2369,15 +2369,15 @@ int vscphlp_getVSCPMeasurementFloat64AsString(const vscpEvent *pEvent,
                                                  size_t len )
 `</code>`
 
-This method displays data stored in 32-bit floating point form ([IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point)) as a string
+This method displays data stored in 32-bit floating-point form ([IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point)) as a string.
 
 #####  pEvent
 
-The event that contain the measurement data.
+The event containing the measurement data.
 
 ##### pStrResult
 
-Buffer that will get the string result as a null terminated string.
+Buffer that will receive the result as a null-terminated string.
 
 ##### len
 
@@ -2438,7 +2438,7 @@ Write a 64-bit floating point value as event measurement data.
 
 #####  pdata
 
-Pointer to data buffer that will get the result. The buffer should be large enough to hold the normalized data. That is bigger than eight bytes.
+Pointer to the data buffer that will receive the result. The buffer should be large enough to hold the normalized data, which is larger than eight bytes.
 
 #####  psize
 
@@ -2450,11 +2450,11 @@ Floating point value to write as a 64-bit double.
 
 #####  unit
 
-A unit value 0-3
+A unit value from 0 to 3.
 
 #####  sensoridx
 
-A sensor index value 0-7
+A sensor index from 0 to 7.
 
 ##### Return value
 
@@ -2477,11 +2477,11 @@ int vscphlp_convertFloatToFloatEventData( unsigned char *pdata,
                                               unsigned char sensoridx )
 `</code>`
 
-Write a 32-nit floating point value as measurement event data.
+Write a 32-bit floating-point value as measurement event data.
 
 #####  pdata
 
-Pointer to data buffer that will get the result. The buffer should be large enough to hold the normalized data. That is bigger than eight bytes.
+Pointer to the data buffer that will receive the result. The buffer should be large enough to hold the normalized data, which is larger than eight bytes.
 
 #####  psize
 
@@ -2493,11 +2493,11 @@ Floating point value to write as a 32-bit float.
 
 #####  unit
 
-A unit value 0-3
+A unit value from 0 to 3.
 
 #####  sensoridx
 
-A sensor index value 0-7
+A sensor index from 0 to 7.
 
 
 ##### Return value
@@ -2525,7 +2525,7 @@ Write an integer value as measurement event data in normalized integer form.
 
 #####  pdata
 
-Pointer to data buffer that will get the result. The buffer should be large enough to hold the normalized data. That is bigger than eight bytes.
+Pointer to the data buffer that will receive the result. The buffer should be large enough to hold the normalized data, which is larger than eight bytes.
 
 #####  psize
 
@@ -2537,11 +2537,11 @@ Floating point value to write as a 64-bit float.
 
 #####  unit
 
-A unit value 0-3
+A unit value from 0 to 3.
 
 #####  sensoridx
 
-A sensor index value 0-7
+A sensor index from 0 to 7.
 
 ##### Return value
 
@@ -2564,7 +2564,7 @@ int vscphlp_makeFloatMeasurementEvent( vscpEvent *pEvent,
 
 #####  pEvent
 
-Pointer to a VSCP event that will get the result as it's data.
+Pointer to a VSCP event that will receive the result as its data.
 
 #####  psize
 
@@ -2576,11 +2576,11 @@ Floating point value to write as a 32-bit float.
 
 #####  unit
 
-A unit value 0-3
+A unit value from 0 to 3.
 
 #####  sensoridx
 
-A sensor index value 0-7
+A sensor index from 0 to 7.
 
 
 ##### Return value
@@ -2603,11 +2603,11 @@ int vscphlp_makeFloatMeasurementEvent( vscpEvent *pEvent,
                                           unsigned char sensoridx )
 `</code>`
 
-Construct a floating point (32-bit) measurement VCSP event.
+Construct a floating-point (32-bit) VSCP measurement event.
 
 #####  pEvent
 
-Pointer to a VSCP event that will get the result as it's data.
+Pointer to a VSCP event that will receive the result as its data.
 
 #####  psize
 
@@ -2619,11 +2619,11 @@ Floating point value to write as a 32-bit float.
 
 #####  unit
 
-A unit value 0-3
+A unit value from 0 to 3.
 
 #####  sensoridx
 
-A sensor index value 0-7
+A sensor index from 0 to 7.
 
 
 ##### Return value
@@ -2658,24 +2658,24 @@ VSCP_ERROR_SUCCESS is returned on success.
 int vscphlp_getMeasurementUnit( const vscpEvent *pEvent )
 `</code>`
 
-Get unit for a measurement event. Some events does not have a unit defined and for then zero is always returned as it is understood that the default unit should be used.
+Get the unit for a measurement event. For events without a defined unit, zero is always returned to indicate that the default unit should be used.
 
 ##### Return value
 
-Unit is returned as 0-3 for a Level I event and as 0-255 for a level II event.  
+The unit is returned as a value from 0 to 3 for a Level I event or from 0 to 255 for a Level II event.
 
 
 ##  vscphlp_getMeasurementSensorIndex
 
 `<code="c">`
-int vscphlp_getMeasurementSenzorIndex( const vscpEvent *pEvent )
+int vscphlp_getMeasurementSensorIndex( const vscpEvent *pEvent )
 `</code>`
 
-Get the sensor index for a measurement event. Some events does not have a sensor index defined and for them zero is always returned.
+Get the sensor index for a measurement event. For events without a defined sensor index, zero is always returned.
 
 ##### Return value
 
-Sensor index is returned as 0-7 for a Level I event and as 0-255 for a level II event. 1 is returned if the event is not a measurement event or is invalid. 
+The sensor index is returned as a value from 0 to 7 for a Level I event or from 0 to 255 for a Level II event. Returns 1 if the event is invalid or is not a measurement event.
 
 ##  vscphlp_getMeasurementZone
 
@@ -2683,11 +2683,11 @@ Sensor index is returned as 0-7 for a Level I event and as 0-255 for a level II 
 int vscphlp_getMeasurementZone( const vscpEvent *pEvent )
 `</code>`
 
-Get zone for a measurement event. Some events does not have a zone defined and for them zero is always returned.
+Get the zone for a measurement event. For events without a defined zone, zero is always returned.
 
 ##### Return value
 
-Zone is returned as 0-255 where 255 means "all zones". 1 is returned if the event is not a measurement event or is invalid. 
+The zone is returned as a value from 0 to 255, where 255 means "all zones". Returns 1 if the event is invalid or is not a measurement event.
 
 ##  vscphlp_getMeasurementSubZone
 
@@ -2699,7 +2699,7 @@ Get subzone for a measurement event.
 
 ##### Return value
 
-Zone is returned as 0-255 where 255 means "all zones". -1 is returned if the event is not a measurement event or is invalid. Some events does not have a subzone defined and for them zero is always returned.  
+The subzone is returned as a value from 0 to 255, where 255 means "all subzones". Returns -1 if the event is invalid or is not a measurement event. For events without a defined subzone, zero is always returned.
 ## vscphlp_isMeasurement
 
 `<code="c">`
@@ -2710,7 +2710,7 @@ Check if an event is a measurement.
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS is returned if the event is a measurement, VSCP_ERROR_ERROR is returned if the event is not a measurement.
+Returns VSCP_ERROR_SUCCESS if the event is a measurement or VSCP_ERROR_ERROR if it is not.
 
 
 ## vscphlp_convertLevel1MeasuremenToLevel2Double
@@ -2723,7 +2723,7 @@ Convert Level I measurement to a Level II float measurement event ([CLASS2.MEASU
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS is returned if the measurement event is converted correctly, VSCP_ERROR_ERROR is returned if not.
+Returns VSCP_ERROR_SUCCESS if the measurement event is converted successfully or VSCP_ERROR_ERROR otherwise.
 
 
 ## vscphlp_convertLevel1MeasuremenToLevel2String
@@ -2736,7 +2736,7 @@ Convert Level I measurement to a Level II string measurement event ([CLASS2.MEAS
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS is returned if the measurement event is converted correctly, VSCP_ERROR_ERROR is returned if not.
+Returns VSCP_ERROR_SUCCESS if the measurement event is converted successfully or VSCP_ERROR_ERROR otherwise.
 
 
 ## vscphlp_makeLevel2FloatMeasurementEvent
@@ -2755,7 +2755,7 @@ Note that the GUID must be set externally.
 
 #####  pEvent
 
-Pointer to event that data should be written to. 
+Pointer to the event to which data should be written.
 
 ##### type
 
@@ -2785,7 +2785,7 @@ Construct a Level II floating point measurement event from supplied data.
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS is returned if the measurement event is constructed correctly, VSCP_ERROR_ERROR is returned if not.
+Returns VSCP_ERROR_SUCCESS if the measurement event is constructed successfully or VSCP_ERROR_ERROR otherwise.
 
 ## vscphlp_makeLevel2StringMeasurementEvent
 
@@ -2803,7 +2803,7 @@ Note that the GUID must be set externally.
 
 #####  pEvent
 
-Pointer to event that data should be written to. 
+Pointer to the event to which data should be written.
 
 ##### type
 
@@ -2833,7 +2833,7 @@ Construct a Level II string measurement event from supplied data.
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS is returned if the measurement event is constructed correctly, VSCP_ERROR_ERROR is returned if not.
+Returns VSCP_ERROR_SUCCESS if the measurement event is constructed successfully or VSCP_ERROR_ERROR otherwise.
 
 ## vscphlp_convertEventToJSON
 
@@ -2841,23 +2841,23 @@ VSCP_ERROR_SUCCESS is returned if the measurement event is constructed correctly
 int vscphlp_convertEventToJSON( vscpEvent *pEvent, char *pBuffer, size_t len );
 `</code>`
 
-Write VSCP event on JSON format to string. Format is specified in [vscp.h](https///github.com/grodansparadis/vscp/blob/master/src/vscp/common/vscp.h).
+Write a VSCP event to a string in JSON format. The format is specified in [vscp.h](https///github.com/grodansparadis/vscp/blob/master/src/vscp/common/vscp.h).
 
 ##### pEvent
 
-Pointer to event.
+Pointer to an event.
 
 ##### pBuffer
 
-Buffer that will receive string result ==
+Buffer that will receive the resulting string.
 
 ##### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS is returned on success, VSCP_ERROR_BUFFER_TO_SMALL is returned if the size of the supplied buffer is to small.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_BUFFER_TO_SMALL if the supplied buffer is too small.
 
 ## vscphlp_convertEventExToJSON
 
@@ -2865,23 +2865,23 @@ VSCP_ERROR_SUCCESS is returned on success, VSCP_ERROR_BUFFER_TO_SMALL is returne
 int vscphlp_convertEventExToJSON( vscpEventEx *pEventEx, char *pBuffer, size_t len );
 `</code>`
 
-Write VSCP event-ex on JSON format to string. Format is specified in [vscp.h](https///github.com/grodansparadis/vscp/blob/master/src/vscp/common/vscp.h).
+Write a VSCP event ex to a string in JSON format. The format is specified in [vscp.h](https///github.com/grodansparadis/vscp/blob/master/src/vscp/common/vscp.h).
 
 ##### pEventEx
 
-Pointer to eventex.
+Pointer to an event ex.
 
 ##### pBuffer
 
-Buffer that will receive string result ==
+Buffer that will receive the resulting string.
 
 ##### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS is returned on success, VSCP_ERROR_BUFFER_TO_SMALL is returned if the size of the supplied buffer is to small.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_BUFFER_TO_SMALL if the supplied buffer is too small.
 
 ## vscphlp_convertEventToXML
 
@@ -2889,23 +2889,23 @@ VSCP_ERROR_SUCCESS is returned on success, VSCP_ERROR_BUFFER_TO_SMALL is returne
 int vscphlp_convertEventToXML( vscpEvent *pEvent, char *pBuffer, size_t len );
 `</code>`
 
-Write VSCP event on XML format to string. Format is specified in [vscp.h](https///github.com/grodansparadis/vscp/blob/master/src/vscp/common/vscp.h).
+Write a VSCP event to a string in XML format. The format is specified in [vscp.h](https///github.com/grodansparadis/vscp/blob/master/src/vscp/common/vscp.h).
 
 ##### pEvent
 
-Pointer to event.
+Pointer to an event.
 
 ##### pBuffer
 
-Buffer that will receive string result ==
+Buffer that will receive the resulting string.
 
 ##### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS is returned on success, VSCP_ERROR_BUFFER_TO_SMALL is returned if the size of the supplied buffer is to small.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_BUFFER_TO_SMALL if the supplied buffer is too small.
 
 ## vscphlp_convertEventExToXML
 
@@ -2913,23 +2913,23 @@ VSCP_ERROR_SUCCESS is returned on success, VSCP_ERROR_BUFFER_TO_SMALL is returne
 int vscphlp_convertEventExToXML( vscpEventEx *pEventEx, char *pBuffer, size_t len );
 `</code>`
 
-Write VSCP event-ex on XML format to string. Format is specified in [vscp.h](https///github.com/grodansparadis/vscp/blob/master/src/vscp/common/vscp.h).
+Write a VSCP event ex to a string in XML format. The format is specified in [vscp.h](https///github.com/grodansparadis/vscp/blob/master/src/vscp/common/vscp.h).
 
 ##### pEventEx
 
-Pointer to eventex.
+Pointer to an event ex.
 
 ##### pBuffer
 
-Buffer that will receive string result ==
+Buffer that will receive the resulting string.
 
 ##### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS is returned on success, VSCP_ERROR_BUFFER_TO_SMALL is returned if the size of the supplied buffer is to small.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_BUFFER_TO_SMALL if the supplied buffer is too small.
 
 ## vscphlp_convertEventToHTML
 
@@ -2937,23 +2937,23 @@ VSCP_ERROR_SUCCESS is returned on success, VSCP_ERROR_BUFFER_TO_SMALL is returne
 int vscphlp_convertEventToHTML( vscpEvent *pEvent, char *pBuffer, size_t len );
 `</code>`
 
-Write VSCP event on HTML format to string. Format is specified in [vscp.h](https///github.com/grodansparadis/vscp/blob/master/src/vscp/common/vscp.h).
+Write a VSCP event to a string in HTML format. The format is specified in [vscp.h](https///github.com/grodansparadis/vscp/blob/master/src/vscp/common/vscp.h).
 
 ##### pEvent
 
-Pointer to event.
+Pointer to an event.
 
 ##### pBuffer
 
-Buffer that will receive string result ==
+Buffer that will receive the resulting string.
 
 ##### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS is returned on success, VSCP_ERROR_BUFFER_TO_SMALL is returned if the size of the supplied buffer is to small.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_BUFFER_TO_SMALL if the supplied buffer is too small.
 
 ## vscphlp_convertEventExToHTML
 
@@ -2961,23 +2961,23 @@ VSCP_ERROR_SUCCESS is returned on success, VSCP_ERROR_BUFFER_TO_SMALL is returne
 int vscphlp_convertEventExToHTML( vscpEventEx *pEventEx, char *pBuffer, size_t len );
 `</code>`
 
-Write VSCP event-ex on HTML format to string. Format is specified in [vscp.h](https///github.com/grodansparadis/vscp/blob/master/src/vscp/common/vscp.h).
+Write a VSCP event ex to a string in HTML format. The format is specified in [vscp.h](https///github.com/grodansparadis/vscp/blob/master/src/vscp/common/vscp.h).
 
 ##### pEventEx
 
-Pointer to eventex.
+Pointer to an event ex.
 
 ##### pBuffer
 
-Buffer that will receive string result ==
+Buffer that will receive the resulting string.
 
 ##### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS is returned on success, VSCP_ERROR_BUFFER_TO_SMALL is returned if the size of the supplied buffer is to small.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_BUFFER_TO_SMALL if the supplied buffer is too small.
 
 \\ 
 ----

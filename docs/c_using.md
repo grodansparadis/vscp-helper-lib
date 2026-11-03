@@ -1,9 +1,13 @@
-# Using from C/C++ {#c_using}
+# Using the library from C/C++ {#c_using}
 
-See examples [here](https://github.com/grodansparadis/vscp/tree/master/tests/helperlib) or helperlib usage.
+See the [examples](https://github.com/grodansparadis/vscp/tree/master/tests/helperlib) of helper library usage.
 
-Install the library either by building it yourself or installing it from the deb package. you find all information about this process on the [Github repository page for the library](https://github.com/grodansparadis/vscp-helper-lib). 
+Install the library either by building it yourself or by installing the deb package. You can find instructions on the [library's GitHub repository page](https://github.com/grodansparadis/vscp-helper-lib).
 
-[Binary files available for download](https://github.com/grodansparadis/vscp-helper-lib/releases) is in the release section off the Github repository.
+[Binary downloads](https://github.com/grodansparadis/vscp-helper-lib/releases) are available in the repository's releases section.
+
+For C, C++, and Python connection examples, see [TLS connections](tls.md).
+The official Node.js binding does not yet expose the helper functions; see
+[language bindings](bindings.md#nodejs).
 
 [filename](./bottom_copyright.md ':include')

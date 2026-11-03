@@ -1,39 +1,7 @@
-## vscphlp_xxx
+# vscphlp_getSalt
 
-```clike
-long tttt(void)
-```
+The current helper library does not declare or export `vscphlp_getSalt`. This page previously contained placeholder text rather than an API reference.
 
-```python
-xxxxxxxxxx
-```
-
-### Parameters
-none
-
-### Return Value
-rrrr
-
-### Description
-bbbbbbbbbbbbbbbbbbbbbbbb
-
-#### C example
-mmmmmmmmmmmmmmmmmmmmmm
-
-```clike
-xxxxxxxxxxxxxxxxxxx
-```
-
-#### Python example
-mmmmmmmmmm
-
-```python
-xxxxxxxxxxxxx
-```
-
-### See Also
-[xxx](xxx.md)
-
-
+No verified C/C++, Python, or JavaScript example is available for this function in the current build. See [bindings](bindings.md) for the available language interfaces.
 
 [filename](./bottom_copyright.md ':include')

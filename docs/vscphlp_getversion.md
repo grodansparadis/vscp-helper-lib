@@ -1,18 +1,12 @@
 
 
 ```clike
-unsigned long vscphlp_getVersion( long handle, 
-                                    unsigned char *pMajorVer,
-                                    unsigned char *pMinorVer,
-                                    unsigned char *pSubMinorVer )
+int vscphlp_getVersion( long handle,
+                        unsigned char *pMajorVer,
+                        unsigned char *pMinorVer,
+                        unsigned char *pSubMinorVer )
 ```
 
-```python
-unsigned long pyvscphlp_getVersion( handle, 
-                                      MajorVer,
-                                      MinorVer,
-                                      SubMinorVer )
-```
 
 ### Parameters
 
@@ -29,7 +23,7 @@ VSCP server minor version.
 VSCP server sub minor version.
 
 ### Return Value
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ### Description
 Get the version of the remote VSCP server. 
@@ -50,16 +44,20 @@ else {
 
 #### Python example
 
+With an open session handle named `handle` (see the [TLS guide](tls.md#python-example)):
+
 ```python
-print "command: Get sever version"
-(rv,v1,v2,v3) = pyvscphlp_getVersion(h1)
-if VSCP_ERROR_SUCCESS != rv :
-    pyvscphlp_closeSession(h1)
-    raise ValueError('Command error: ''pyvscphlp_getVersion''  Error code=%d' % rv )
-print "Server version = %d.%d.%d" % (v1.value,v2.value,v3.value)
+import vscp
+import vscphelper
+
+result, major, minor, subminor = vscphelper.getVersion(handle)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("getVersion failed (error {})".format(result))
+print("Server version: {}.{}.{}".format(major.value, minor.value, subminor.value))
 ```
 
+#### JavaScript availability
 
-
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

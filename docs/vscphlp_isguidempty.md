@@ -10,7 +10,7 @@ int vscphlp_isGUIDEmpty( unsigned char *pGUID )
 GUID array to check for all zeros.
 
 ### Return Value
-True (non-zero) if GUID are empty. 
+True (nonzero) if the GUID is empty.
 
 ### Description
 Check if GUID is empty (all nulls). 
@@ -36,5 +36,23 @@ else {
 ```
 
 
+
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+from ctypes import c_ubyte
+
+import vscp
+import vscphelper
+
+guid = (c_ubyte * 16)()
+print(bool(vscphelper.isGuidEmpty(guid)))
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

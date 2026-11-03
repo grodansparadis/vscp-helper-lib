@@ -3,9 +3,6 @@
 int vscphlp_clearDaemonEventQueue( long handle )
 ```
 
-```python
-int pyvscphlp_clearDaemonEventQueue( handle )
-```
 
 ### Parameters
 
@@ -13,10 +10,10 @@ int pyvscphlp_clearDaemonEventQueue( handle )
 Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
 ### Return Value
-VSCP_ERROR_SUCCESS if the VSCP daemon cleared the queue and VSCP_ERROR_ERROR. if not or no response is received before the timeout expires. VSCP_ERROR_CONNECTION is returned if the communication channel is not open. VSCP_ERROR_INVALID_HANDLE is returned if an invalid handle is given. 
+Returns VSCP_ERROR_SUCCESS if the VSCP daemon clears the queue, or VSCP_ERROR_ERROR if it does not or no response arrives before the timeout expires. Returns VSCP_ERROR_CONNECTION if the communication channel is not open and VSCP_ERROR_INVALID_HANDLE if the handle is invalid.
 
 ### Description
-Clear the receiving side (to us) event queue on the VSCP daemon. 
+Clear the receiving-side event queue on the VSCP daemon.
 
 #### C example
 
@@ -31,16 +28,20 @@ else {
 ```
 
 #### Python example
+
+With an open session handle named `handle` (see the [TLS guide](tls.md#python-example)): This clears the server-side event queue.
+
 ```python
-print "Empty VSCP server queue"
-rv = pyvscphlp_clearDaemonEventQueue(h1)
-if VSCP_ERROR_SUCCESS == rv:
-    print "Server queue now is empty"
-else:
-    print "Failed to clear server queue", rv
+import vscp
+import vscphelper
+
+result = vscphelper.clearDaemonEventQueue(handle)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("clearDaemonEventQueue failed (error {})".format(result))
 ```
 
+#### JavaScript availability
 
-
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

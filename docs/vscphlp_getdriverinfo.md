@@ -1,37 +1,34 @@
 
 
 ```clike
-const char * vscphlp_getDriverInfo( long handle, 
-                                    char *pInfo, 
-                                    size_t len )
+int vscphlp_getDriverInfo( long handle,
+                           char *pInfo,
+                           size_t len )
 ```
 
-```python
-(rv,strdriverinfo) = vscphlp_getDriverInfo( handle )
-```
 
 ### Parameters
 
 #### handle
 Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
-#### pInfo /c/c++)
-A pointer to string with XML formatted information about the driver in use. This information (if available) can be used to help a user to configure the driver among other things.
+#### pInfo (C/C++)
+Pointer to a string containing XML-formatted information about the driver in use. If available, this information can help users configure the driver.
 
 #### len (c/c++)
-Size of supplied buffer.
+Size of the supplied buffer.
 
 ### Return Value
 
 #### c/c++
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 #### Python
-A touple consisting of the the return vale and the driver info string is returned. For return codes see c/c++ return value.
+Returns a tuple containing the return value and the driver information string. See the C/C++ return values for the return codes.
 
 
 ### Description
-Get driver information. A buffer with size enough to hold the XML data must be supplied. For Python 32000 byte is used. 
+Get driver information. Supply a buffer large enough to hold the XML data. For Python, 32000 bytes are used.
 
 #### C example
 
@@ -48,18 +45,21 @@ else {
 
 #### Python example
 
+With an open session handle named `handle` (see the [TLS guide](tls.md#python-example)):
+
 ```python
-print "Get driver info string"
-(rv,strdriverinfo) = pyvscphlp_getDriverInfo( h1 )
-if VSCP_ERROR_SUCCESS != rv :
-    pyvscphlp_closeSession(h1)
-    raise ValueError('Command error: pyvscphlp_getDriverInfo  Error code=%d' % rv )
-print "Driver info string = %s" % strdriverinfo
+import vscp
+import vscphelper
+
+result, driver_info = vscphelper.getDriverInfo(handle)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("getDriverInfo failed (error {})".format(result))
+print("Driver information: {}".format(driver_info))
 ```
 
+#### JavaScript availability
 
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')
-
-
 

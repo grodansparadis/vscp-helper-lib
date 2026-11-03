@@ -8,14 +8,26 @@ void setAfterCommandSleep(uint16_t to)
 ### Parameters
 
 #### to
-Sleep value in milliseconds.
+Sleep value in milliseconds. This value is currently ignored.
 
 ### Return Value
 Nothing
 
 ### Description
-Set after command sleep time (milliseconds). Default is 0 milliseconds as it is normally not needed but can be on a system that is very slow to respond to commands. 
+This method is retained for backward compatibility. It currently has no effect on the delay after a command.
 
 
+
+#### C++ example
+
+With a `VscpRemoteTcpIf client`, this retained compatibility method has no effect:
+
+```cpp
+client.setAfterCommandSleep(0);
+```
+
+#### Python and JavaScript availability
+
+The official bindings do not expose `VscpRemoteTcpIf` directly. Python applications can use the separate C helper wrappers; the current Node.js binding does not expose these methods. See [language bindings](bindings.md).
 
 [filename](./bottom_copyright.md ':include')

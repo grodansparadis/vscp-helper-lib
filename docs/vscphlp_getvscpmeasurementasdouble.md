@@ -8,34 +8,59 @@ int vscphlp_getVSCPMeasurementAsDouble( const vscpEvent *pEvent,
 ### Parameters
 
 #### pEvent
-The event that contain the measurement data.
+The event containing the measurement data.
 
 #### pvalue
-A pointer to a double that will get the measurement result.
+A pointer to a double that will receive the measurement result.
 
 
 ### Return Value
 VSCP_ERROR_SUCCESS is returned on success.
 
 ### Description
-This method returns a double representing the measurement data. It recognize all data coding forms and give sensible output back. 
+This method returns a double representing the measurement data. It recognizes all data coding forms and returns an appropriate value.
 
 #### C example
 
+With the helper-library headers and standard C headers included:
+
 ```clike
-pEventMeasurement->pdata[0] = VSCP_DATACODING_INTEGER;
-pEventMeasurement->pdata[1] = 0xFF;
-pEventMeasurement->pdata[2] = 0xFF;
-pEventMeasurement->pdata[3] = 0xFF;
- 
-if ( VSCP_ERROR_SUCCESS == vscphlp_getVSCPMeasurementAsDouble( pEventMeasurement, &value ) ) {
-    printf("OK - vscphlp_getVSCPMeasurementAsDouble value = %lf\n", value );
-}
-else {
-    printf("Error - vscphlp_getVSCPMeasurementAsDouble value = %slf \n", value );
+uint8_t data[] = {0x4A, '3', '.', '1', '4'};
+vscpEvent event = {0};
+event.vscp_class = 10; event.vscp_type = 6;
+event.sizeData = sizeof(data); event.pdata = data;
+double value = 0;
+int result = vscphlp_getVSCPMeasurementAsDouble(&event, &value);
+if (result != VSCP_ERROR_SUCCESS) {
+    fprintf(stderr, "getVSCPMeasurementAsDouble failed (error %d)\n", result);
+} else {
+    printf("%.2f\n", value);
 }
 ```
 
+#### Python example
 
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+from ctypes import POINTER, c_ubyte, cast
+
+event = vscp.vscpEvent()
+data = (c_ubyte * 5)(0x4A, ord('3'), ord('.'), ord('1'), ord('4'))
+event.vscpclass = 10
+event.vscptype = 6
+event.sizedata = len(data)
+event.pdata = cast(data, POINTER(c_ubyte))
+result, value = vscphelper.getVSCPMeasurementAsDouble(event)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("getVSCPMeasurementAsDouble failed (error {})".format(result))
+print(value)
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

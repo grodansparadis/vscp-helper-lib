@@ -7,14 +7,14 @@ unsigned char vscphlp_calcCRC4GUIDArray( unsigned char *pguid )
 ### Parameters
 
 #### pguid
-Array of sixteen bytes containing GUID on MSB→LSB order. 
+Array of sixteen bytes containing the GUID in most-significant-byte-first order.
 
 
 ### Return Value
 8-bit CRC for GUID.
 
 ### Description
-Calculate 8-bit crc for a GUID array. 
+Calculate the 8-bit CRC for a GUID array.
 
 #### C example
 
@@ -30,5 +30,23 @@ printf("CRC = %02X\n", crc8 );
 ```
 
 
+
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+from ctypes import c_ubyte
+
+import vscp
+import vscphelper
+
+guid = (c_ubyte * 16)(*range(16))
+print(vscphelper.calcCRC4GUIDArray(guid))
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

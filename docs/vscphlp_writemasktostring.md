@@ -11,15 +11,15 @@ int vscphlp_writeMaskToString( vscpEventFilter *pFilter,
 Filter structure to write mask from.
 
 #### strMask
-String that will get mask in comma separated string form. Must be at least 65 bytes.
+String buffer that will receive the mask in comma-separated form. It must be at least 65 bytes.
 
     mask-priority, mask-class, mask-type, mask-GUID
 
 ### Return Value
-VSCP_ERROR_SUCCESS on success. 
+Returns VSCP_ERROR_SUCCESS on success.
 
 ### Description
-Write the mask in comma separated form to a string. If strMask is an empty string elements in mask will be set to zero. 
+Write the mask to a comma-separated string. If strMask is empty, the mask elements are set to zero.
 
 #### C example
 
@@ -29,6 +29,26 @@ if ( VSCP_ERROR_SUCCESS != vscphlp_writeMaskToString( &filter,
     printf( "\aError: vscphlp_writeMaskToString\n");   
 } 
 ```
+
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+event_filter = vscp.vscpEventFilter()
+event_filter.mask_class = 10
+result, value = vscphelper.writeMaskToString(event_filter)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("writeMaskToString failed (error {})".format(result))
+print(value)
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_readMaskFromString](vscphlp_readmaskfromstring.md)

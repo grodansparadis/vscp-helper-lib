@@ -4,9 +4,6 @@
 int vscphlp_isConnected( long handle )
 ```
 
-```python
-int vscphlp_isConnected( handle )
-```
 
 ### Parameters
 
@@ -29,22 +26,20 @@ if ( VSCP_ERROR_SUCCESS == vscphlp_isConnected( handle1 ) ) {
 
 #### Python example
 
+With a session handle named `handle`:
+
 ```python
-print "\n\nConnection in progress..."
-rv = pyvscphlp_open(h1,"127.0.0.1:9598","admin","secret")
-if VSCP_ERROR_SUCCESS == rv :
-    print "Command success: pyvscphlp_open on channel 1"
-else:
-    pyvscphlp_closeSession(h1)
-    raise ValueError('Command error: pyvscphlp_open on channel 1  Error code=%d' % rv )
- 
-if ( VSCP_ERROR_SUCCESS == pyvscphlp_isConnected(h1) ):
-    print "CONNECTED!"
-else:
-    print "DISCONNECTED!"
+import vscp
+import vscphelper
+
+result = vscphelper.isConnected(handle)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("isConnected failed (error {})".format(result))
+print("The session is connected")
 ```
 
+#### JavaScript availability
 
-
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

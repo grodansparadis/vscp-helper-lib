@@ -4,9 +4,6 @@
 int vscphlp_noop( long handle )
 ```
 
-```python
-int pyvscphlp_noop( handle )
-```
 
 ### Parameters
 
@@ -14,10 +11,10 @@ int pyvscphlp_noop( handle )
 Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
 ### Return Value
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop. 
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ### Description
-This is a command that can be used for test purposes. It does not do anything else then to send a command over the interfaces and check the result. 
+Use this command to test the connection. It sends a command over the interface and checks the result.
 
 #### C example
 
@@ -33,15 +30,19 @@ else {
 
 #### Python example
 
+With an open session handle named `handle` (see the [TLS guide](tls.md#python-example)):
+
 ```python
-print "command: noop"
-rv = lib.vscphlp_noop( h1 )
-if VSCP_ERROR_SUCCESS != rv :
-    pyvscphlp_closeSession(h1)
-    raise ValueError('Command error: ''noop''  Error code=%d' % rv )
+import vscp
+import vscphelper
+
+result = vscphelper.noop(handle)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("noop failed (error {})".format(result))
 ```
 
+#### JavaScript availability
 
-
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

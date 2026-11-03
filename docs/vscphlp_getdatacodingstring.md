@@ -19,7 +19,7 @@ Total length of the data including the data coding byte.
 Pointer to the buffer that will receive the resulting string.
 
 #### len
-Size of the supplied buffer (strResult). Max size of the string is 7 bytes + the terminating zero so the supplied size should be 8 bytes or larger.
+Size of the supplied buffer (strResult). The string is at most 7 bytes plus the terminating zero, so the buffer should be at least 8 bytes.
 
 
 ### Return Value
@@ -29,7 +29,6 @@ VSCP_ERROR_SUCCESS is returned on success.
 Get string coded measurement data as a string value. 
 
 #### C example
-mmmm
 
 ```clike
 unsigned char stringarry[6];
@@ -52,5 +51,24 @@ else {
 ```
 
 
+
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+data = bytearray([0x40, ord('3'), ord('.'), ord('1')])
+result, value = vscphelper.getDataCodingString(data)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("getDataCodingString failed (error {})".format(result))
+print(value)
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

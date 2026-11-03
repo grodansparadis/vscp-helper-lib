@@ -24,7 +24,7 @@ Timeout value in milliseconds.
     void setAfterCommandSleep(uint16_t to);
 `</code>`
 
-Set after command sleep time (milliseconds). Default is 0 milliseconds as it is normally not needed but can be on a system that is very slow to respond to commands.
+Set the sleep time after a command, in milliseconds. The default is 0 milliseconds because a delay is normally unnecessary, but it can be useful on systems that respond slowly to commands.
 
 ##### to
 
@@ -68,15 +68,15 @@ Returns true if we are connected, false otherwise.
     bool checkReturnValue(bool bClear = false);
 `</code>`
 
-Check the response from the remote VSCP server and look for an error or a correctly carried out command.
+Check the response from the remote VSCP server for an error or a successfully completed command.
 
 ##### bClear
 
-If set to true the input queue array will be cleared before the call.
+If true, the input queue array is cleared before the call.
 
 ##### Return value
 
-True is returned if a positive response (+OK) s received from the remote VSCP server, false otherwise which can be the result of a negative reply or a timeout.
+Returns true if a positive response (+OK) is received from the remote VSCP server. Returns false for a negative response or a timeout.
 
 ## doClrInputQueue
 
@@ -92,7 +92,7 @@ Clear the input queue
     int doCommand(wxString& cmd);
 `</code>`
 
-Send a command to the remote VSCP server. Allows to send any command.
+Send any command to the remote VSCP server.
 
 ##### cmd
 
@@ -100,9 +100,13 @@ A VSCP remote server command that is terminated with `<CR>``<LF>` ("\r\n").
 
 ##### Return Value
 
-Returns VSCP_ERROR_SUCCESS if the command could be sent successfully and a positive response (+OK) is received. If not an error code will be returned.
+Returns VSCP_ERROR_SUCCESS if the command is sent successfully and a positive response (+OK) is received, or an error code otherwise.
 
 ## doCmdOpen
+
+The signatures and argument formats in this archived section describe an
+older API. For the current class and TLS behavior, see
+[doCmdOpen](../class_doCmdOpen.md) and [TLS connections](../tls.md).
 
 `<code=cpp>`
     int doCmdOpen(const wxString& strInterface = (_("")), uint32_t flags = 0L);
@@ -112,7 +116,7 @@ Open communication interface.
 
 #####  strInterface
 
-Should be set to "username;password;ip-addr;port" if used. All values including port is optional and defaults to no username/password, server as "localhost" and port as "9598"
+If used, set this to "username;password;ip-addr;port". All values, including the port, are optional. The defaults are no username or password, server "localhost", and port "9598".
 
 ##### flags
 
@@ -120,7 +124,7 @@ Currently not used.
            
 ##### Return Value
 
-VSCP_ERROR_SUCCESS is returned if the connection to the remote VSCP server could be established. If not an error code will be returned.
+Returns VSCP_ERROR_SUCCESS if the connection to the remote VSCP server is established, or an error code otherwise.
       
 ## doCmdOpen
 
@@ -146,7 +150,7 @@ Password for VSCP remote server account.
 
 ##### Return Value
 
-VSCP_ERROR_SUCCESS is returned if the connection to the remote VSCP server could be established. If not an error code will be returned.
+Returns VSCP_ERROR_SUCCESS if the connection to the remote VSCP server is established, or an error code otherwise.
 
 ## doCmdClose
 
@@ -158,7 +162,7 @@ Close connection to remote VSCP server.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
           
 ## doCmdNOOP
 
@@ -170,7 +174,7 @@ Send the NOOP (no operation) command to the VSCP remote server. This command onl
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
     
 ## doCmdClear
 
@@ -182,7 +186,7 @@ Clear input queue on the remote VSCP server.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.      
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
      
 ## doCmdGetLevel
 
@@ -194,7 +198,7 @@ Get the CANAL protocol level. Mainly used by the CANAL/VSCP combined subsystem.
     
 ##### Return Value
 
-Return the constant VSCP_LEVEL2.
+Returns the constant VSCP_LEVEL2.
        
 ## doCmdSend
 
@@ -210,7 +214,7 @@ Pointer to VSCP Level II event to send. If the event have a GUID all set to zero
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
          
 ## doCmdSendEx
 
@@ -220,7 +224,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 Send a VSCP Level II event ex to the VSCP remote server. 
 
-*A vscpEvent structure contains a pointer to the data part of the event, while the vscpEventEx have the max data storage allocated in every event and therefore waste a lot of memory that can be used in a better way.*
+*A vscpEvent structure contains a pointer to the event data, while each vscpEventEx allocates storage for the maximum amount of data and can therefore use considerably more memory.*
 
 ##### pEventEx
 
@@ -228,7 +232,7 @@ Pointer to VSCP Level II event ex to send. If the event have a GUID all set to z
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
            
 ## doCmdSendLevel1
 
@@ -244,7 +248,7 @@ A pointer to a CANAL message.
            
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## doCmdReceive
 
@@ -254,11 +258,11 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ##### pEvent
 
-Pointer to VSCP event that will receive the event from the remote VSCP server queue if the call is successful.
+Pointer to a VSCP event that will receive the event from the remote VSCP server queue on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## doCmdReceiveEx
 
@@ -268,11 +272,11 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ##### pEventEx
 
-Pointer to VSCP event ex that will receive the event ex from the remote VSCP server queue if the call is successful.
+Pointer to a VSCP event ex that will receive the event from the remote VSCP server queue on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## doCmdReceiveLevel1
 
@@ -280,15 +284,15 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int doCmdReceiveLevel1(canalMsg *pCanalMsg);
 `</code>`
 
-Receive an VSCP Level I event from the VSCP remote server queue. The low eight bits of the CAN id is fetched from GUID[15], that is from the LSB of the GUID.
+Receive a VSCP Level I event from the remote VSCP server queue. The low eight bits of the CAN ID are taken from GUID[15], the least significant byte of the GUID.
         
 ##### pCanalMsg
 
-Pointer to a CANAL message that will receive the vent from the remote VSCP server queue if the call is successful. 
+Pointer to a CANAL message that will receive the event from the remote VSCP server queue on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.       
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
        
 ## doCmdEnterReceiveLoop
 
@@ -296,13 +300,13 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int doCmdEnterReceiveLoop(void);
 `</code>` 
 
-This command sets an open interface in the receive loop (RCVLOOP) state. It does nothing other then putting the interface in the loop mode and  checking that it went there.
+This command puts an open interface into the receive loop (RCVLOOP) state and checks that it entered that state.
 
 **Note!** The only way to terminate this receive loop is to close the session with doCmdClose (or just close the socket) or send the doQuitLoop command below.      
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure. 
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
         
 ## doCmdEnterReceiveLoop
 
@@ -314,7 +318,7 @@ Quit the receive loop.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure. 
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## doCmdBlockingReceive
 
@@ -322,7 +326,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int doCmdBlockingReceive(vscpEvent *pEvent, uint32_t timeout = 500);
 `</code>`
 
-Receive an event from the remote VSCP server. The **receiveloop** command must have been issued for this method to work as.
+Receive an event from the remote VSCP server. The **receiveloop** command must be issued before calling this method.
 
 ##### pEvent
 
@@ -330,11 +334,11 @@ Pointer to a VSCP event that will receive the received event on success.
 
 ##### timeout
 
-Timeout in milliseconds to wait for data. Default is 500 milliseconds.
+Time to wait for data, in milliseconds. The default is 500 milliseconds.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure. CANAL_ERROR_FIFO_EMPTY is returned if no event was available. CANAL_ERROR_TIMEOUT on timeout. CANAL_ERROR_COMMUNICATION is returned if a socket error is detected.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure. CANAL_ERROR_FIFO_EMPTY indicates that no event was available, CANAL_ERROR_TIMEOUT indicates a timeout, and CANAL_ERROR_COMMUNICATION indicates a socket error.
         
 ## doCmdBlockingReceive
 
@@ -342,7 +346,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure. CANAL_ERROR_FIFO_EMP
     int doCmdBlockingReceive(vscpEventEx *pEventEx, uint32_t timeout = 500);
 `</code>`
 
-Receive an event ex from the remote VSCP server. The **receiveloop** command must have been issued for this method to work as.
+Receive an event ex from the remote VSCP server. The **receiveloop** command must be issued before calling this method.
 
 ##### pEventEx
 
@@ -350,11 +354,11 @@ Pointer to a VSCP event ex that will receive the received event on success.
 
 ##### timeout
 
-Timeout in milliseconds to wait for data. Default is 500 milliseconds.
+Time to wait for data, in milliseconds. The default is 500 milliseconds.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure. CANAL_ERROR_FIFO_EMPTY is returned if no event was available. CANAL_ERROR_TIMEOUT on timeout. CANAL_ERROR_COMMUNICATION is returned if a socket error is detected.        
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure. CANAL_ERROR_FIFO_EMPTY indicates that no event was available, CANAL_ERROR_TIMEOUT indicates a timeout, and CANAL_ERROR_COMMUNICATION indicates a socket error.
         
 ## doCmdDataAvailable
 
@@ -366,7 +370,7 @@ Get the number of events in the input queue of this interface
 
 ##### Return value
 
-Return the number of events available in the queue at the remote VSCP server or if a failure occur a negative error code is returned.
+Returns the number of events available in the remote VSCP server queue, or a negative error code on failure.
         
 ## doCmdStatus
 
@@ -378,11 +382,11 @@ Receive the CANAL status structure from the remote VSCP server.
 
 ##### pStatus
 
-Pointer to canalStatus structure that will get the VSCP remote server status.
+Pointer to a canalStatus structure that will receive the remote VSCP server status.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
     
 ## doCmdStatus
 
@@ -394,11 +398,11 @@ Receive the VSCP status structure from the remote VSCP server.
 
 ##### pStatus
 
-Pointer to VSCPStatus structure that will get the VSCP remote server status.
+Pointer to a VSCPStatus structure that will receive the remote VSCP server status.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## doCmdStatistics
 
@@ -410,11 +414,11 @@ Get the CANAL statistics structure from the VSCP remote server.
 
 ##### pStatistics
 
-Pointer to canalStatistics structure that will get the VSCP remote server statistics.
+Pointer to a canalStatistics structure that will receive the remote VSCP server statistics.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## doCmdStatistics
 
@@ -426,11 +430,11 @@ Get the VSCP statistics structure from the VSCP remote server.
 
 ##### pStatistics
 
-Pointer to VSCPStatistics structure that will get the VSCP remote server statistics.
+Pointer to a VSCPStatistics structure that will receive the remote VSCP server statistics.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
         
 ## doCmdFilter
 
@@ -438,7 +442,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int doCmdFilter(const vscpEventFilter *pFilter);
 `</code>`
 
-Set the receive filter on the remote VSCP server. By setting the filter on can select which events one want to receive. It is possible to open several channels ans have a filter on each for complex setups.
+Set the receive filter on the remote VSCP server to select which events to receive. For more complex setups, you can open several channels and set a filter on each one.
 
 ##### pFilter
 
@@ -446,7 +450,7 @@ Pointer to VSCP filter structure to set.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.        
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
         
 ## doCmdFilter
 
@@ -454,19 +458,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int doCmdFilter(const wxString& filter, const wxString& mask);
 `</code>`        
 
-Set the receive filter on the remote VSCP server. By setting the filter on can select which events one want to receive. It is possible to open several channels ans have a filter on each for complex setups.
+Set the receive filter on the remote VSCP server to select which events to receive. For more complex setups, you can open several channels and set a filter on each one.
 
 ##### filter
 
-Filter to set on string form ("priority,class,type,guid").
+Filter to set, in string form ("priority,class,type,guid").
 
 ##### mask
 
-Mask to set on string form ("priority,class,type,guid").
+Mask to set, in string form ("priority,class,type,guid").
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure. 
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
         
 ## doCmdFilter
 
@@ -492,7 +496,7 @@ Sub version of VSCP remote server interface.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.         
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
      
 ## doCmdDLLVersion
 
@@ -516,7 +520,7 @@ Get the vendor (maker of DL/DLL) string. This is intended for CANAL.
      
 ##### Return Value
 
-A pointer to a null terminated string containing vendor information is returned. On failure a NULL pointer is returned.      
+Returns a pointer to a null-terminated string containing vendor information, or a NULL pointer on failure.
 
 ## doCmdGetDriverInfo
 
@@ -528,7 +532,7 @@ Get the driver information string from the remote VSCP server. This is intended 
 
 ##### Return Value
 
-A pointer to a null terminated string containing driver information on XML format is returned. On failure a NULL pointer is returned.
+Returns a pointer to a null-terminated string containing driver information in XML format, or a NULL pointer on failure.
 
 ## doCmdGetGUID
 
@@ -540,11 +544,11 @@ Get GUID for the remote VSCP server interface.
 
 ##### pGUID
 
-Pointer to a 16-byte array that will get the GUID. MSB is in the first byte.
+Pointer to a 16-byte array that will receive the GUID. The most significant byte is first.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## doCmdGetGUID
 
@@ -556,11 +560,11 @@ Get GUID for the remote VSCP server interface.
 
 ##### ifguid
 
-Reference to the GUID that will get the information.
+Reference to the GUID that will receive the information.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## doCmdSetGUID
 
@@ -572,11 +576,11 @@ Set GUID for the remote VSCP server interface.
 
 ##### pGUID
 
-Pointer to a 16-byte array that contain the new GUID. MSB is in the first byte.
+Pointer to a 16-byte array containing the new GUID. The most significant byte is first.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## doCmdSetGUID
 
@@ -588,11 +592,11 @@ Set GUID for the remote VSCP server interface.
 
 ##### ifGUID
 
-Reference to GUID that contain the new GUID. 
+Reference to the GUID containing the new value.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## doCmdGetChannelInfo
 
@@ -604,7 +608,7 @@ Get information about the remote VSCP server interface channel.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## doCmdGetChannelInfo
 
@@ -616,7 +620,7 @@ Get Channel ID for the remote VSCP server interface channel.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## doCmdInterfaceList
 
@@ -628,11 +632,11 @@ Get available interfaces on the VSCP remote server.
 
 ##### arrayIf
 
-An array that will be filled with interface descriptions of interfaces available on the remote VSCP server.
+An array that will receive descriptions of the interfaces available on the remote VSCP server.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## doCmdSetBaudrate
 
@@ -648,7 +652,7 @@ CANAL baudrate.
 
 ##### Return Value
 
-Always return CANAL_ERROR_SUCCESS.
+Always returns CANAL_ERROR_SUCCESS.
 
 ## doCmdFilter
 
@@ -664,7 +668,7 @@ CANAL 32-bit filter.
 
 ##### Return Value
 
-Always return CANAL_ERROR_SUCCESS.
+Always returns CANAL_ERROR_SUCCESS.
 
 ## doCmdMask
 
@@ -680,7 +684,7 @@ CANAL 32-bit mask.
 
 ##### Return Value
 
-Always return CANAL_ERROR_SUCCESS.
+Always returns CANAL_ERROR_SUCCESS.
 
 ## doCmdShutDown
 
@@ -688,11 +692,11 @@ Always return CANAL_ERROR_SUCCESS.
     int doCmdShutDown(void);
 `</code>`
 
-Shutdown the remote VSCP server. Needless to say you need high privileges on the server to perform this command.
+Shut down the remote VSCP server. This command requires elevated privileges on the server.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 # Remote variable handling methods
 
@@ -708,7 +712,7 @@ Get a list of defined variables on remote VSCP server.
 
 ##### arrayVars
 
-A reference to a string array that Will be filed with names of VSCP remote variables.
+Reference to a string array that will be filled with the names of VSCP remote variables.
 
 #####  regexp
 
@@ -720,7 +724,7 @@ Variable type that should be listed or 0 for all variable types.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## saveRemoteVariablesToDisk
 
@@ -738,7 +742,7 @@ Path, including file name, to save variables to.
 
 ##### select
 
-Select if persistent, non-persistent or both types of variables should be written out to the file.
+Select whether to write persistent variables, non-persistent variables, or both to the file.
 
  * **1** for only writing persistent variables.
  * **2** only write non-persistent variables.
@@ -746,11 +750,11 @@ Select if persistent, non-persistent or both types of variables should be writte
 
 ##### regExp
 
-Optional regular expression that selects which variables to write. Default is all.
+Optional regular expression that selects which variables to write. By default, all variables are selected.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## loadRemoteVariablesFromDisk
 
@@ -764,7 +768,7 @@ Path to load the remote variable XML file from.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## createRemoteVariable
 
@@ -782,23 +786,23 @@ Create a new remote variable
      
 #####  name
 
-Name of remote variable to create. A user variable can not have a name that start with "vscp.".
+Name of the remote variable to create. A user variable name cannot start with "vscp.".
 
 ##### strType
 
-Type of variable either in string or numeric form.
+Type of the variable, in string or numeric form.
 
 ##### bPersistet
 
-True if the variable should be persistent (default=false)
+True if the variable should be persistent (default: false).
 
 ##### strUser
 
-Owner of variable. Can be left empty in which case the logged in user will be set as owner.
+Owner of the variable. If left empty, the logged-in user becomes the owner.
 
 ##### rights
 
-Access rights for variable.
+Access rights for the variable.
 
 ##### strValue
 
@@ -810,7 +814,7 @@ Optional note for the remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## deleteRemoteVariable
 
@@ -820,11 +824,11 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ##### name
 
-Name of remote variable to delete.
+Name of the remote variable to delete.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariable
 
@@ -839,15 +843,15 @@ Format is:
 
 #####  name
 
-Name of remote variable to get information for.
+Name of the remote variable whose information will be retrieved.
 
 #####  strVariable
 
-String that will get variable information.
+String that will receive variable information.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableLastChange
 
@@ -859,15 +863,15 @@ Get last change date/time for a remote variable.
 
 #####  name
 
-Name of remote variable to get information for.
+Name of the remote variable whose information will be retrieved.
 
 #####  lastChange
 
-Date/time when variable last was changed.
+Date and time when the variable was last changed.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## getRemoteVariableType
@@ -876,19 +880,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableType( const wxString& name, wxString& strType );
 `</code>`
 
-Get type on string form for a remote variable.
+Get the type of a remote variable in string form.
 
 #####  name
 
-Name of remote variable to get information for.
+Name of the remote variable whose information will be retrieved.
 
 #####  strType
 
-Will get the variable type for the remote variable.
+Receives the type of the remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableType
 
@@ -896,19 +900,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableType( const wxString& name, uint8_t *pType );
 `</code>`
 
-Get type on numeric form for a remote variable.
+Get the type of a remote variable in numeric form.
 
 #####  name
 
-Name of remote variable to get information for.
+Name of the remote variable whose information will be retrieved.
 
 #####  pType
 
-Pointer to uint8_t that will get the variable type for the remote variable.
+Pointer to a uint8_t that will receive the variable type for the remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariablePersistence
 
@@ -920,15 +924,15 @@ Get persistence for a remote variable.
 
 #####  name
 
-Name of remote variable to get information for.
+Name of the remote variable whose information will be retrieved.
 
 #####  pPersistent
 
-Pointer to bool that will get the persistence for the remote variable.
+Pointer to a bool that will receive the persistence for the remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableOwner
 
@@ -940,15 +944,15 @@ Get owner for a remote variable.
 
 #####  name
 
-Name of remote variable to get information for.
+Name of the remote variable whose information will be retrieved.
 
 #####  strOwner
 
-Reference to string that will get the owner for the remote variable.
+Reference to a string that will receive the owner of the remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableAccessRights
 
@@ -960,15 +964,15 @@ Get access rights for a remote variable.
 
 #####  name
 
-Name of remote variable to get information for.
+Name of the remote variable whose information will be retrieved.
 
 #####  pRights
 
-Pointer to an uint16_t that will get the rights for the remote variable.
+Pointer to a uint16_t that will receive the rights for the remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableValue
 
@@ -976,19 +980,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableValue( const wxString& name, wxString& strValue );
 `</code>`
 
-Get value on string form for a remote variable.
+Get the value of a remote variable in string form.
 
 #####  name
 
-Name of remote variable to get information for.
+Name of the remote variable whose information will be retrieved.
 
 #####  strValue
 
-Reference to string that will get the value on string form for the remote variable.
+Reference to a string that will receive the remote variable's value in string form.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableValue
 
@@ -1000,15 +1004,15 @@ Set the value for a remote variable from a string.
 
 #####  name
 
-Name of remote variable to get information for.
+Name of the remote variable whose information will be retrieved.
 
 #####  strValue
 
-Reference to string that hold the value on string form that the remote variable will be set to.
+Reference to a string containing the value to assign to the remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableNote
 
@@ -1020,15 +1024,15 @@ Get note for remote variable.
 
 #####  name
 
-Name of remote variable to get information for.
+Name of the remote variable whose information will be retrieved.
 
 #####  strNote
 
-Reference to string that will get the note for the remote variable.
+Reference to a string that will receive the note for the remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableAsString
 
@@ -1036,19 +1040,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableAsString( const wxString& name, wxString& strVariable );
 `</code>`
 
-Get a remote variables value on string form.
+Get a remote variable's value in string form.
 
 #####  name
 
-Name of remote variable to get information for.
+Name of the remote variable whose information will be retrieved.
 
 #####  strVariable
 
-Reference to string that will get the value for the remote variable on string form.
+Reference to a string that will receive the remote variable's value in string form.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableFromString
 
@@ -1063,11 +1067,11 @@ Set a remote variable value from its string form.
 
 #####  name
 
-Name of remote variable to get information for.
+Name of the remote variable whose information will be retrieved.
 
 #####  strValue
 
-Reference to string  with value to set the remote variable to on string form.
+Reference to a string containing the value to assign to the remote variable.
 
 #####  bPersistent
 
@@ -1079,7 +1083,7 @@ Access rights for the variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## getRemoteVariableBool
@@ -1088,19 +1092,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableBool( const wxString& name, bool *bValue);
 `</code>`
 
-Get remote variable value for boolean variable.
+Get the value of the boolean variable.
 
 #####  name
 
-Name of remote variable to get value for.
+Name of the remote variable whose value will be retrieved.
 
 #####  bValue
 
-Pointer to boolean value that will be set to the remote variables value.
+Pointer to boolean value that will be set to the remote variable's value.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableBool
 
@@ -1112,7 +1116,7 @@ Set variable value for boolean remote variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  bValue
 
@@ -1120,7 +1124,7 @@ Boolean value that the remote variables will be set to.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableInt
 
@@ -1128,19 +1132,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableInt( const wxString& name, int *value);
 `</code>`
 
-Get remote variable value for integer variable.
+Get the value of the integer variable.
 
 #####  name
 
-Name of remote variable to get value for.
+Name of the remote variable whose value will be retrieved.
 
 #####  value
 
-Pointer to integer value that will be set to the remote variables value.
+Pointer to integer value that will be set to the remote variable's value.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableInt
 
@@ -1152,7 +1156,7 @@ Set variable value for integer remote variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  value
 
@@ -1160,7 +1164,7 @@ Integer value that the remote variables will be set to.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableLong
 
@@ -1168,19 +1172,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableLong( const wxString& name, long *value);
 `</code>`
 
-Get remote variable value for long variable.
+Get the value of the long variable.
 
 #####  name
 
-Name of remote variable to get value for.
+Name of the remote variable whose value will be retrieved.
 
 #####  value
 
-Pointer to long value that will be set to the remote variables value.
+Pointer to long value that will be set to the remote variable's value.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableLong
 
@@ -1192,7 +1196,7 @@ Set variable value for long remote variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  value
 
@@ -1200,7 +1204,7 @@ Long value that the remote variables will be set to.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableDouble
 
@@ -1208,19 +1212,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableDouble( const wxString& name, double *value);
 `</code>`
 
-Get remote variable value for double variable.
+Get the value of the double variable.
 
 #####  name
 
-Name of remote variable to get value for.
+Name of the remote variable whose value will be retrieved.
 
 #####  value
 
-Pointer to double value that will be set to the remote variables value.
+Pointer to double value that will be set to the remote variable's value.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableDouble
 
@@ -1232,7 +1236,7 @@ Set variable value for double remote variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  value
 
@@ -1240,7 +1244,7 @@ Double value that the remote variables will be set to.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableMeasurement
 
@@ -1253,35 +1257,35 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                                         uint8_t *psubzone );
 `</code>`
 
-Get remote variable value for measurement variable.
+Get the value of the measurement variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  pvalue
 
-Pointer to a double that will get the value of the measurement.
+Pointer to a double that will receive the value of the measurement.
 
 #####  punit
 
-Pointer to uint8_t that will get the unit of the measurement.
+Pointer to a uint8_t that will receive the unit of the measurement.
 
 ##### psensoridx
 
-Pointer to uint8_t that will get the sensor index of the measurement.
+Pointer to a uint8_t that will receive the sensor index of the measurement.
 
 ##### pzone
 
-Pointer to a uint8_t that will get the zone of the measurement.
+Pointer to a uint8_t that will receive the zone of the measurement.
 
 #####  psubzone
 
-Pointer to a unit8_t that will get the sub zone of the measurement.
+Pointer to a uint8_t that will receive the subzone of the measurement.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableMeasurement
 
@@ -1298,7 +1302,7 @@ Set remote measurement variable value.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  value
 
@@ -1318,11 +1322,11 @@ The zone for the measurement.
 
 #####  subzone
 
-The sub zone for the measurement.
+The subzone for the measurement.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableEvent
 
@@ -1334,7 +1338,7 @@ Set variable value for VSCP event remote variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  value
 
@@ -1342,7 +1346,7 @@ Pointer to VSCP event value that the remote variables will be set to.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableEvent
 
@@ -1354,15 +1358,15 @@ Set remote variable value for VSCP event variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  value
 
-Pointer to VSCP event value that will be set to the remote variables value.
+Pointer to VSCP event value that will be set to the remote variable's value.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableEventEx
 
@@ -1374,7 +1378,7 @@ Set variable value for VSCP event ex remote variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  pEventEx
 
@@ -1382,7 +1386,7 @@ Pointer to VSCP event ex value that the remote variables will be set to.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableEventEx
 
@@ -1394,15 +1398,15 @@ Set remote variable value for VSCP event ex variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  pEventEx
 
-Pointer to VSCP event ex value that will be set to the remote variables value.
+Pointer to VSCP event ex value that will be set to the remote variable's value.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableEventEx
 
@@ -1410,11 +1414,11 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableGUID( const wxString& name, cguid& guid );
 `</code>`
 
-Get remote variable value for GUID variable.
+Get the value of the GUID variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  guid
 
@@ -1422,7 +1426,7 @@ Reference to GUID value that the remote variables will be set to.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableGUID
 
@@ -1434,15 +1438,15 @@ Set remote variable value for VSCP guid variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  guid
 
-Reference to guid value that will be set to the remote variables value.
+Reference to guid value that will be set to the remote variable's value.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## getRemoteVariableVSCPdata
@@ -1453,23 +1457,23 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                                         uint16_t *pData);
 `</code>`
 
-Get remote variable value from VSCP data variable.
+Get the value of the VSCP data variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### psizeData
 
-Pointer to unsigned char that will get the size of the data array.
+Pointer to an unsigned char that will receive the size of the data array.
 
 #####  pData
 
-Pointer to VSCP data array variable (unsigned char [487] ) that get the value of the remote variable.
+Pointer to a VSCP data array variable (unsigned char [487]) that will receive the value of the remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableVSCPdata
 
@@ -1481,7 +1485,7 @@ set remote variable value for VSCP data.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  sizeData
 
@@ -1493,7 +1497,7 @@ Pointer to VSCP data array to set data from.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableVSCPclass
 
@@ -1501,19 +1505,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableVSCPclass( const wxString& name, uint16_t *vscp_class);
 `</code>`
 
-Get remote variable value from VSCP class variable.
+Get the value of the VSCP class variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### vscp_class
 
-Pointer to uint16_t that get the value of the VSCP class variable.
+Pointer to a uint16_t that will receive the value of the VSCP class variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableVSCPclass
 
@@ -1525,7 +1529,7 @@ Set remote variable value from VSCP class.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  vscp_class
 
@@ -1533,7 +1537,7 @@ VSCP class to write to remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 
@@ -1543,19 +1547,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableVSCPtype( const wxString& name, uint16_t *vscp_type);
 `</code>`
 
-Get remote variable value from VSCP type variable.
+Get the value of the VSCP type variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### vscp_type
 
-Pointer to uint16_t that get the value of the VSCP type variable.
+Pointer to a uint16_t that will receive the value of the VSCP type variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableVSCPtype
 
@@ -1567,7 +1571,7 @@ Set remote variable value from VSCP type.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  vscp_type
 
@@ -1575,7 +1579,7 @@ VSCP type to write to remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableVSCPTimestamp
 
@@ -1583,19 +1587,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableVSCPTimestamp( const wxString& name, uint32_t *vscp_timestamp);
 `</code>`
 
-Get remote variable value from VSCP timestamp variable.
+Get the value of the VSCP timestamp variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### vscp_timestamp
 
-Pointer to uint32_t that get the value of the VSCP timestamp variable.
+Pointer to a uint32_t that will receive the value of the VSCP timestamp variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableVSCPTimestamp
 
@@ -1607,7 +1611,7 @@ Set remote variable value from VSCP timestamp.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  vscp_timestamp
 
@@ -1615,7 +1619,7 @@ VSCP timestamp to write to remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableDateTime
 
@@ -1623,19 +1627,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableDateTime( const wxString& name, wxDateTime& datetime );
 `</code>`
 
-Get remote variable value from VSCP datetime variable.
+Get the value of the VSCP datetime variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### datetime
 
-Pointer to date wxDateTime class that get the value of the VSCP datetime variable.
+Pointer to a wxDateTime object that will receive the value of the VSCP datetime variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableDateTime
 
@@ -1647,7 +1651,7 @@ Set remote variable value from VSCP datetime.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  datetime
 
@@ -1655,7 +1659,7 @@ VSCP datetime to write to remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableDate
 
@@ -1663,19 +1667,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableDate( const wxString& name, wxDateTime& date );
 `</code>`
 
-Get remote variable value from VSCP date variable.
+Get the value of the VSCP date variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### date
 
-Pointer to date wxDateTime class that get the value of the VSCP date variable.
+Pointer to a wxDateTime object that will receive the value of the VSCP date variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableDate
 
@@ -1687,7 +1691,7 @@ Set remote variable value from VSCP date.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  date
 
@@ -1695,7 +1699,7 @@ VSCP date to write to remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableTime
 
@@ -1703,19 +1707,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableTime( const wxString& name, wxDateTime& time );
 `</code>`
 
-Get remote variable value from VSCP time variable.
+Get the value of the VSCP time variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### time
 
-Pointer to date wxDateTime class that get the value of the VSCP time variable.
+Pointer to a wxDateTime object that will receive the value of the VSCP time variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableTime
 
@@ -1727,7 +1731,7 @@ Set remote variable value from VSCP time.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  time
 
@@ -1735,7 +1739,7 @@ VSCP time to write to remote variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableBlob
 
@@ -1743,19 +1747,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableBlob( const wxString& name, wxString& blob );
 `</code>`
 
-Get remote variable value from a base64 ENCODED blob variable.
+Get the value of a Base64-encoded blob variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### blob
 
-Reference to blob that get the value of the BASE64 encoded blob variable.
+Reference to blob that will receive the value of the Base64-encoded blob variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableBlob
 
@@ -1763,19 +1767,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int setRemoteVariableBlob( const wxString& name, wxString& blob );
 `</code>`
 
-Set remote variable from BASE64 encoded blob.
+Set remote variable from Base64-encoded blob.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  blob
 
-Reference to BASE64 encoded blob to write to variable.
+Reference to Base64-encoded blob to write to variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 
@@ -1785,19 +1789,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableMIME( const wxString& name, wxString& mime );
 `</code>`
 
-Get remote variable value from a base64 ENCODED MIME variable.
+Get the value of a Base64-encoded MIME variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### mime
 
-Reference MIME data that get the value of the BASE64 encoded MIME variable.
+Reference to MIME data that will receive the value of the Base64-encoded MIME variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableMIME
 
@@ -1805,19 +1809,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int setRemoteVariableMIME( const wxString& name, wxString& mime );
 `</code>`
 
-Set remote variable value from BASE64 encoded MIME data.
+Set remote variable value from Base64-encoded MIME data.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  mime
 
-Reference to BASE64 encoded MIME data to write to variable.
+Reference to Base64-encoded MIME data to write to variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableHTML
 
@@ -1825,19 +1829,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableHTML( const wxString& name, wxString& html );
 `</code>`
 
-Get remote variable value from a base64 ENCODED HTML variable.
+Get the value of a Base64-encoded HTML variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### html
 
-Reference to HTML data that get the value of the BASE64 encoded HTML variable.
+Reference to HTML data that will receive the value of the Base64-encoded HTML variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableHTML
 
@@ -1845,19 +1849,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int setRemoteVariableHTML( const wxString& name, wxString& html );
 `</code>`
 
-Set remote variable value from BASE64 encoded HTML data.
+Set remote variable value from Base64-encoded HTML data.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  html
 
-Reference to BASE64 encoded HTML data to write to variable.
+Reference to Base64-encoded HTML data to write to variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## getRemoteVariableJavaScript
@@ -1866,19 +1870,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableJavaScript( const wxString& name, wxString& js );
 `</code>`
 
-Get remote variable value from a base64 ENCODED JavaScript variable.
+Get the value of a Base64-encoded JavaScript variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### js
 
-Reference to JavaScript data that get the value of the BASE64 encoded JavaScript variable.
+Reference to JavaScript data that will receive the value of the Base64-encoded JavaScript variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableJavaScript
 
@@ -1886,19 +1890,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int setRemoteVariableJavaScript( const wxString& name, wxString& js ); 
 `</code>`
 
-Set remote variable value from BASE64 encoded JavaScript data.
+Set remote variable value from Base64-encoded JavaScript data.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  js
 
-Reference to BASE64 encoded JavaScript data to write to variable.
+Reference to Base64-encoded JavaScript data to write to variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableLUA
 
@@ -1906,19 +1910,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableLUA( const wxString& name, wxString& lua );
 `</code>`
 
-Get remote variable value from a base64 ENCODED LUA variable.
+Get the value of a Base64-encoded LUA variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### lua
 
-Reference to LUA data that get the value of the BASE64 encoded LUA variable.
+Reference to LUA data that will receive the value of the Base64-encoded LUA variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableLUA
 
@@ -1926,19 +1930,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int setRemoteVariableLUA( const wxString& name, wxString& lua ); 
 `</code>`
 
-Set remote variable value from BASE64 encoded LUA data.
+Set remote variable value from Base64-encoded LUA data.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  lua
 
-Reference to BASE64 encoded LUA data to write to variable.
+Reference to Base64-encoded LUA data to write to variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## getRemoteVariableLUARES
@@ -1947,19 +1951,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableLUARES( const wxString& name, wxString& luares );
 `</code>`
 
-Get remote variable value from a base64 ENCODED LUARES variable.
+Get the value of a Base64-encoded LUARES variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### luares
 
-Reference to LUARES data that get the value of the BASE64 encoded LUARES variable.
+Reference to LUARES data that will receive the value of the Base64-encoded LUARES variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableLUARES
 
@@ -1967,19 +1971,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int setRemoteVariableLUARES( const wxString& name, wxString& luares ); 
 `</code>`
 
-Set remote variable value from BASE64 encoded LUARES data.
+Set remote variable value from Base64-encoded LUARES data.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  luares
 
-Reference to BASE64 encoded LUARES data to write to variable.
+Reference to Base64-encoded LUARES data to write to variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableUX1
 
@@ -1987,19 +1991,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableUX1( const wxString& name, wxString& ux1 );
 `</code>`
 
-Get remote variable value from a base64 ENCODED UX1 variable.
+Get the value of a Base64-encoded UX1 variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### ux1
 
-Reference to UX1 data that get the value of the BASE64 encoded UX1 variable.
+Reference to UX1 data that will receive the value of the Base64-encoded UX1 variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableUX1
 
@@ -2007,19 +2011,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int setRemoteVariableUX1( const wxString& name, wxString& ux1 ); 
 `</code>`
 
-Set remote variable value from BASE64 encoded UX1 data.
+Set remote variable value from Base64-encoded UX1 data.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  ux1
 
-Reference to BASE64 encoded UX1 data to write to variable.
+Reference to Base64-encoded UX1 data to write to variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## getRemoteVariableDMROW
@@ -2028,19 +2032,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableDMROQ( const wxString& name, wxString& dmrow );
 `</code>`
 
-Get remote variable value from a base64 ENCODED DM row variable.
+Get the value of a Base64-encoded DM row variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### dmrow
 
-Reference to DM row data that get the value of the BASE64 encoded DM row variable.
+Reference to DM row data that will receive the value of the Base64-encoded DM row variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableDMROW
 
@@ -2048,19 +2052,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int setRemoteVariableDMROW( const wxString& name, wxString& dmrow ); 
 `</code>`
 
-Set remote variable value from BASE64 encoded DM row data.
+Set remote variable value from Base64-encoded DM row data.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  dmrow
 
-Reference to BASE64 encoded DM row data to write to variable.
+Reference to Base64-encoded DM row data to write to variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## getRemoteVariableDriver
@@ -2069,19 +2073,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableDriver( const wxString& name, wxString& drv );
 `</code>`
 
-Get remote variable value from a base64 ENCODED driver variable.
+Get the value of a Base64-encoded driver variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### drv
 
-Reference to driver data that get the value of the BASE64 encoded driver variable.
+Reference to driver data that will receive the value of the Base64-encoded driver variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableDriver
 
@@ -2089,19 +2093,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int setRemoteVariableDriver( const wxString& name, wxString& drv ); 
 `</code>`
 
-Set remote variable value from BASE64 encoded driver data.
+Set remote variable value from Base64-encoded driver data.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  drv
 
-Reference to BASE64 encoded driver data to write to variable.
+Reference to Base64-encoded driver data to write to variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## getRemoteVariableUser
@@ -2110,19 +2114,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableUser( const wxString& name, wxString& user );
 `</code>`
 
-Get remote variable value from a base64 ENCODED user variable.
+Get the value of a Base64-encoded user variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### user
 
-Reference to user data that get the value of the BASE64 encoded user variable.
+Reference to user data that will receive the value of the Base64-encoded user variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableUser
 
@@ -2130,19 +2134,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int setRemoteVariableUser( const wxString& name, wxString& user ); 
 `</code>`
 
-Set remote variable value from BASE64 encoded user data.
+Set remote variable value from Base64-encoded user data.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  user
 
-Reference to BASE64 encoded user data to write to variable.
+Reference to Base64-encoded user data to write to variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## getRemoteVariableFilter
 
@@ -2150,19 +2154,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int getRemoteVariableFilter( const wxString& name, wxString& filter );
 `</code>`
 
-Get remote variable value from a base64 ENCODED filter variable.
+Get the value of a Base64-encoded filter variable.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 ##### filter
 
-Reference to filter data that get the value of the BASE64 encoded filter variable.
+Reference to filter data that will receive the value of the Base64-encoded filter variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## setRemoteVariableFilter
 
@@ -2170,19 +2174,19 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int setRemoteVariableFilter( const wxString& name, wxString& filter ); 
 `</code>`
 
-Set remote variable value from BASE64 encoded filter data.
+Set remote variable value from Base64-encoded filter data.
 
 #####  name
 
-Name of remote variable to set value for.
+Name of the remote variable.
 
 #####  filter
 
-Reference to BASE64 encoded filter data to write to variable.
+Reference to Base64-encoded filter data to write to variable.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 # Table handling methods
@@ -2201,7 +2205,7 @@ XML definition of table.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableDelete
 
@@ -2217,11 +2221,11 @@ Name of an existing table.
 
 #####  bDeleteFile
 
-If true the database **file** also should be deleted. If not it will be reused if a table with the same name is created later.
+If true, delete the database **file** as well. Otherwise, it is reused if a table with the same name is created later.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableList
 
@@ -2233,11 +2237,11 @@ Get a list of all defined tables.
 
 #####  tablesArray
 
-List that will get filled with table names.
+List that will be filled with table names.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableListInfo
 
@@ -2253,15 +2257,15 @@ Name of an existing table.
 
 #####  tableInfo
 
-Parameter that will get the information about the table.
+Parameter that will receive information about the table.
 
 ##### bXML
 
-If true info will be returnd as BASE64 encoded XML data.
+If true, information is returned as Base64-encoded XML data.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGet
 
@@ -2273,7 +2277,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                                 bool bFull = false  ); 
 `</code>`
 
-Get data from a named table in a range to-from. One can fetch all columns of the table (bFull) or just datetime and value (default).
+Get data from a named table for a date/time range. You can fetch all columns (bFull) or just the datetime and value (the default).
 
 #####  tblName
 
@@ -2281,11 +2285,11 @@ Name of an existing table.
 
 #####  from
 
-Datetime from which data should be fetched. Should be given on ISO 8601 format YY-MM-DDTHH:MM:SS. 
+Start datetime for the data to fetch, in ISO 8601 format YY-MM-DDTHH:MM:SS.
 
 #####  to
 
-Datetime up to which data is fetched. Should be given on ISO 8601 format YY-MM-DDTHH:MM:SS. 
+End datetime for the data to fetch, in ISO 8601 format YY-MM-DDTHH:MM:SS.
 
 ##### resultArray
 
@@ -2301,11 +2305,11 @@ String array that is filled with resulting rows (if any) from the table. The for
 
 ##### bFull
 
-If true all fields of a table row is returned (//other fields// above) in a comma separated list. Note that datetime is always listed first followed by value regardless of how the columns of the table is arranged.
+If true, all fields of a table row are returned (//other fields// above) in a comma-separated list. Datetime is always listed first, followed by value, regardless of the table's column order.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetRaw
 
@@ -2316,7 +2320,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                                 wxArrayString& resultArray ); 
 `</code>`
 
-Get data from a named table in a range to-from. All columns of the table is always returned.
+Get data from a named table for a date/time range. All columns of the table are always returned.
 
 #####  tblName
 
@@ -2324,11 +2328,11 @@ Name of an existing table.
 
 #####  from
 
-Datetime from which data should be fetched. Should be given on ISO 8601 format YY-MM-DDTHH:MM:SS. 
+Start datetime for the data to fetch, in ISO 8601 format YY-MM-DDTHH:MM:SS.
 
 #####  to
 
-Datetime up to which data is fetched. Should be given on ISO 8601 format YY-MM-DDTHH:MM:SS. 
+End datetime for the data to fetch, in ISO 8601 format YY-MM-DDTHH:MM:SS.
 
 ##### resultArray
 
@@ -2344,7 +2348,7 @@ String array that is filled with resulting rows (if any) from the table. The for
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## tableLog
@@ -2367,11 +2371,11 @@ Value to log.
 
 #####  pdt
 
-Pointer to date/time value. Can be NULL and in which case the current date/time is used. 
+Pointer to a date/time value. If NULL, the current date and time are used.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableLogSQL
 
@@ -2380,7 +2384,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                         const wxString& sql ); 
 `</code>`
 
-Log data to with a SQL expression. 
+Log data using an SQL expression.
 
 #####  tblName
 
@@ -2392,7 +2396,7 @@ SQL expression used to log data.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetNumRecords
 
@@ -2403,7 +2407,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                                 size_t *pRecords ); 
 `</code>`
 
-Get number of records for an interval in a named table.
+Get the number of records for an interval in a named table.
 
 #####  tblName
 
@@ -2411,19 +2415,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pRecords
 
-size_t that will get number of records in the interval on success. 
+A size_t that will receive the number of records in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetFirstDate
 
@@ -2434,7 +2438,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                                 wxDateTime& first ); 
 `</code>`
 
-Get the first data/time for an interval in a named table.
+Get the first date/time for an interval in a named table.
 
 #####  tblName
 
@@ -2442,19 +2446,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  first
 
-Will get the first date/time in the interval on success. 
+Receives the first date/time in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetLastDate
 
@@ -2465,7 +2469,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                                 wxDateTime& last ); 
 `</code>`
 
-Get the last data/time for an interval in a named table.
+Get the last date/time for an interval in a named table.
 
 #####  tblName
 
@@ -2473,19 +2477,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  last
 
-Will get the last date/time in the interval on success. 
+Receives the last date/time in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetSum
 
@@ -2504,19 +2508,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pSum
 
-Pointer to a double that will get the sum of all values in the interval on success. 
+Pointer to a double that will receive the sum of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetMin
 
@@ -2535,19 +2539,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pMin
 
-Pointer to a double that will get the minimum of all values in the interval on success. 
+Pointer to a double that will receive the minimum of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetMax
 
@@ -2566,19 +2570,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pMax
 
-Pointer to a double that will get the maximum of all values in the interval on success. 
+Pointer to a double that will receive the maximum of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## tableGetAverage
@@ -2598,19 +2602,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pAverage
 
-Pointer to a double that will get the average of all values in the interval on success. 
+Pointer to a double that will receive the average of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetMedian
 
@@ -2629,19 +2633,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pMedian
 
-Pointer to a double that will get the median of all values in the interval on success. 
+Pointer to a double that will receive the median of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetStdDev
 
@@ -2660,19 +2664,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pStdDev
 
-Pointer to a double that will get the standard deviation of all values in the interval on success. 
+Pointer to a double that will receive the standard deviation of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetVariance
 
@@ -2691,19 +2695,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pVariance
 
-Pointer to a double that will get the variance of all values in the interval on success. 
+Pointer to a double that will receive the variance of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetMode
 
@@ -2722,19 +2726,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pMode
 
-Pointer to a double that will get the mode of all values in the interval on success. 
+Pointer to a double that will receive the mode of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetLowerQ
 
@@ -2753,19 +2757,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pLowerQ
 
-Pointer to a double that will get the lower quartile of all values in the interval on success. 
+Pointer to a double that will receive the lower quartile of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableGetUpperQ
 
@@ -2784,19 +2788,19 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 #####  pUpperQ
 
-Pointer to a double that will get the upper quartile of all values in the interval on success. 
+Pointer to a double that will receive the upper quartile of all values in the interval on success.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## tableClear
 
@@ -2814,15 +2818,15 @@ Name of an existing table.
 
 #####  from
 
-Date/time from which resulting data should be fetched. Set to "0000-01-01T00:00:00" for *beginning of time*.
+Start date and time for the data to fetch. Set to "0000-01-01T00:00:00" for the *beginning of time*.
 
 ##### to
 
-Date/time to which resulting data should be fetched. Set to "9999-12-31T23:59:59" for *end of time*.
+End date and time for the data to fetch. Set to "9999-12-31T23:59:59" for the *end of time*.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 # Register handling methods
@@ -2851,23 +2855,23 @@ Page to read the register from.
 
 ##### pval
 
-Pointer to eight bit value that will get read value from register.
+Pointer to an eight-bit value that will receive the value read from the register.
 
 ##### ifGUID
 
-GUID for interface this events should be sent on. This is used to read registers of Level I devices.
+GUID of the interface on which these events should be sent. This is used to read registers of Level I devices.
                 
 ##### pdestGUID
 
-GUID for remote node.
+GUID of the remote node.
 
 ##### bLevel2
 
-If true this is a true Level II read operation.
+If true, this is a true Level II read operation.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## readLevel2Registers
@@ -2898,23 +2902,23 @@ Number of registers to read.
 
 ##### pval
 
-Pointer to array that will get read value(s) from register(s).
+Pointer to an array that will receive the values read from the registers.
 
 ##### ifGUID
 
-GUID for interface this events should be sent on. This is used to read registers of Level I devices.
+GUID of the interface on which these events should be sent. This is used to read registers of Level I devices.
                 
 ##### pdestGUID
 
-GUID for remote node.
+GUID of the remote node.
 
 ##### bLevel2
 
-If true this is a true Level II read operation.
+If true, this is a true Level II read operation.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## writeLevel2Register
@@ -2940,23 +2944,23 @@ Page at which the register is located.
 
 ##### pval
 
-Pointer to byte that should be written into the register. At exit this byte contains the written value returned from the node where it got written.
+Pointer to the byte to write to the register. On return, it contains the written value returned by the node.
 
 ##### ifGUID
 
-GUID for interface this events should be sent on. This is used to read registers of Level I devices.
+GUID of the interface on which these events should be sent. This is used to read registers of Level I devices.
                 
 ##### pdestGUID
 
-GUID for remote node.
+GUID of the remote node.
 
 ##### bLevel2
 
-If true this is a true Level II read operation.
+If true, this is a true Level II read operation.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 
 ## getMDFUrlFromLevel2Device
@@ -2968,27 +2972,27 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
                                         bool bLevel2 = false );
 `</code>`
 
-Get MDf file from device registers.
+Get the MDF file from the device registers.
 
 ##### ifGUID
 
-GUID for interface this events should be sent on. This is used to read registers of Level I devices.
+GUID of the interface on which these events should be sent. This is used to read registers of Level I devices.
                 
 ##### pdestGUID
 
-GUID for remote node.
+GUID of the remote node.
 
 ##### strURL
 
-Reference to string that will get the MDF url of the device if call is successful..
+Reference to a string that will receive the device's MDF URL on success.
 
 ##### bLevel2
 
-If true this is a true Level II read operation.
+If true, this is a true Level II read operation.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ## fetchIterfaceGUID
 
@@ -2996,7 +3000,7 @@ CANAL_ERROR_SUCCESS on success or an error code on failure.
     int fetchIterfaceGUID( const wxString& ifName, cguid& guid );
 `</code>`
 
-Fetch guid for a tcp/ip interface from it's name.
+Fetch the GUID of a TCP/IP interface by name.
 
 ##### ifName
 
@@ -3004,10 +3008,8 @@ Real text name of the VSCP server interface.
                 
 ##### guid
 
-GUID for the interface if the named interface exist.
+GUID of the interface, if the named interface exists.
 
 ##### Return Value
 
-CANAL_ERROR_SUCCESS on success or an error code on failure.
-
-
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.

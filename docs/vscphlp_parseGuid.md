@@ -4,9 +4,6 @@
 int vscphlp_parseGuid( uint8_t* pGUID, const char* pStr )
 ```
 
-```python
-int pyvscphlp_parseGuid( guid, str )
-```
 
 ### Parameters
 
@@ -14,7 +11,7 @@ int pyvscphlp_parseGuid( guid, str )
 Pointer to GUID array.
 
 #### pStr
-Pointer to GUID in string form.
+Pointer to a GUID in string form.
 
 #### Return Value
 VSCP_ERROR_SUCCESS on success
@@ -25,16 +22,36 @@ Parse extended GUID from string to VSCP GUID array. Supports all valid forms of 
 
 #### C example
 
-
 ```clike
-if ( VSCP_ERROR_SUCCESS == vscphlp_parseGuid( pGUID, strguid ) ) {
-   vscphlp_writeGuidToString( pEvent, strguid2, sizeof( strguid2 )-1 );
-   printf( "GUID=%s\n", strguid2 );
-}
-else {
-    printf( "\aError: vscphlp_parseGuid\n");
+uint8_t guid[16] = {0};
+int result = vscphlp_parseGuid(
+    guid, "FF:FF:FF:FF:FF:FF:FF:F5:00:00:00:00:00:00:00:01");
+if (result != VSCP_ERROR_SUCCESS) {
+    fprintf(stderr, "parseGuid failed (error %d)\n", result);
+} else {
+    for (size_t i = 0; i < sizeof(guid); ++i) {
+        printf("%02X%s", guid[i], i + 1 == sizeof(guid) ? "\n" : ":");
+    }
 }
 ```
+
+#### Python example
+
+The wrapper returns the status and the parsed GUID:
+
+```python
+import vscp
+import vscphelper
+
+result, guid = vscphelper.parseGuid("FF:FF:FF:FF:FF:FF:FF:F5:00:00:00:00:00:00:00:01")
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("parseGuid failed (error {})".format(result))
+print(list(guid))
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_writeGuidToStringEx](vscphlp_writeguidtostringex.md)

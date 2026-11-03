@@ -18,55 +18,54 @@ The resulting measurement in string form.
 Size for the buffer in which the resulting string is written.
 
 ### Return Value
-VSCP_ERROR_SUCCESS is return on success. 
+Returns VSCP_ERROR_SUCCESS on success.
+
+> **Known limitation:** For a Level II floating-point measurement containing 3.14, the current implementation returned `0.000000` instead of the measurement value.
 
 ### Description
-This method returns a string representing the measurement data. It recognize all data coding forms and give sensible output back. 
+This method returns a string representing the measurement data. It recognizes all data coding forms and returns an appropriate value.
 
 #### C example
 
+With the helper-library headers and standard C headers included:
+
 ```clike
-vscpEvent *pEventMeasurement = new vscpEvent;
-pEventMeasurement->head = 0;
-pEventMeasurement->vscp_class = 10;
-pEventMeasurement->vscp_type = 6;
-pEventMeasurement->obid = 0;
-pEventMeasurement->timestamp = 0;
-memset( pEventMeasurement->GUID, 0, 16 );
-pEventMeasurement->sizeData = 4;
-pEventMeasurement->pdata = new unsigned char[ pEventMeasurement->sizeData ];
-pEventMeasurement->pdata[0] = 0x89;
-pEventMeasurement->pdata[1] = 0x02;
-pEventMeasurement->pdata[2] = 0x00;
-pEventMeasurement->pdata[3] = 0xF1;
- 
-if ( VSCP_ERROR_SUCCESS == vscphlp_getVSCPMeasurementAsString( pEventMeasurement, 
-                                                              stringbuf, 
-                                                              sizeof( stringbuf ) ) ) {
-    printf("OK - vscphlp_getVSCPMeasurementAsString value = %s \n", stringbuf );
+uint8_t data[] = {0x4A, '3', '.', '1', '4'};
+vscpEvent event = {0};
+event.vscp_class = 10; event.vscp_type = 6;
+event.sizeData = sizeof(data); event.pdata = data;
+char value[64] = {0};
+int result = vscphlp_getVSCPMeasurementAsString(&event, value, sizeof(value) - 1);
+if (result != VSCP_ERROR_SUCCESS) {
+    fprintf(stderr, "getVSCPMeasurementAsString failed (error %d)\n", result);
+} else {
+    printf("%s\n", value);
 }
-else {
-    printf("Error - vscphlp_getVSCPMeasurementAsString value = %s \n", stringbuf );
-}
- 
-pEventMeasurement->pdata[0] = 0x89;
-pEventMeasurement->pdata[1] = 0x02;
-pEventMeasurement->pdata[2] = 0xFF;
-pEventMeasurement->pdata[3] = 0xF1;
- 
-if ( VSCP_ERROR_SUCCESS == vscphlp_getVSCPMeasurementAsString( pEventMeasurement, 
-                                                              stringbuf, 
-                                                              sizeof( stringbuf ) ) ) {
-    printf("OK - vscphlp_getVSCPMeasurementAsString value = %s \n", stringbuf );
-}
-else {
-    printf("Error - vscphlp_getVSCPMeasurementAsString value = %s \n", stringbuf );
-}
- 
-// Free the event
-vscphlp_deleteVSCPevent( pEventMeasurement );
 ```
 
+#### Python example
 
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+from ctypes import POINTER, c_ubyte, cast
+
+event = vscp.vscpEvent()
+data = (c_ubyte * 5)(0x4A, ord('3'), ord('.'), ord('1'), ord('4'))
+event.vscpclass = 10
+event.vscptype = 6
+event.sizedata = len(data)
+event.pdata = cast(data, POINTER(c_ubyte))
+result, value = vscphelper.getVSCPMeasurementAsString(event)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("getVSCPMeasurementAsString failed (error {})".format(result))
+print(value)
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

@@ -1,6 +1,6 @@
 # VSCP Helper library API - Initialization 
 
-Here the initialization methods of the library is decribed.
+The library's initialization methods are described here.
 
 
 \\ 

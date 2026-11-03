@@ -12,47 +12,50 @@ Handle for the communication channel obtained from a call to [vscphlp_newsession
 Nothing
 
 ### Description
-Close an open session. This is the last operation that should be done after you are done with a TCP/IP session. 
+Close an open session. Call this after you have finished using the TCP/IP session.
 
 <!-- tabs:start -->
 
-#### ** C example **
+#### C example
 
-This is a simple windows console example that log on to a server that is on the host 192.618.1.9 and standard port 9598 and issue the NOOP command and then terminates. You link to the vscphelper.lib library and make sure the vscphelper.dll is in the path. 
+With `handle` referring to an open connection, close the connection and then
+release the session:
 
 ```clike
-#include "vscphelperlib.h"
- 
-int main(int argc, char* argv[])
-{
-    long handle;
-    handle = vscphlp_newSession();
- 
-    vscphlp_open( handle, 
-                 "127.0.0.1:9598",
-                 "admin",
-                 "secret" ); 
- 
-    vscphlp_noop( handle );
- 
-    vscphlp_close( handle );
-    vscphlp_closeSession( handle );
- 
-    return 0;
+int result = vscphlp_close(handle);
+if (result != VSCP_ERROR_SUCCESS) {
+    fprintf(stderr, "close failed (error %d)\n", result);
 }
+vscphlp_closeSession(handle);
 ```
 
-#### ** Python example **
-There is no Python sample yet
+#### Python example
+
+With `handle` referring to an open connection:
 
 ```python
+import vscp
+import vscphelper
 
+try:
+    result = vscphelper.close(handle)
+    if result != vscp.VSCP_ERROR_SUCCESS:
+        raise RuntimeError("close failed (error {})".format(result))
+finally:
+    vscphelper.closeSession(handle)
 ```
+
+The current Python wrapper unloads the shared library in `closeSession`; call
+it only after all wrapper work is complete. See [bindings](bindings.md#python).
 
 <!-- tabs:end -->
 
-###See Also
-[vscphlp_closeSession](vscphlp_newsession.md)
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
+
+### See Also
+[vscphlp_newSession](vscphlp_newsession.md)
 
 
 

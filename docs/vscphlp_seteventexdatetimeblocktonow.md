@@ -7,7 +7,7 @@ int vscphlp_setEventExDateTimeBlockToNow( vscpEventEx *pEventEx )
 ### Parameters
 
 #### pEventEx
-Pointer to event that willhave its daettime block set to the current time.
+Pointer to the event whose datetime block will be set to the current time.
 
 ### Return Value
 VSCP_ERROR_SUCCESS is returned on success. 
@@ -21,6 +21,25 @@ Get date/time block for an ex event.
 vscpEventEx *pEventEx;
 vscphlp_setEventExDateTimeBlockToNow( pEventEx );
 ```
+
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+event = vscp.vscpEventEx()
+result = vscphelper.setEventExDateTimeBlockToNow(event)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("setEventExDateTimeBlockToNow failed (error {})".format(result))
+print("{:04d}-{:02d}-{:02d}".format(event.year, event.month, event.day))
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_setEventDateTimeBlockToNow](vscphlp_seteventdatetimeblocktonow.md)

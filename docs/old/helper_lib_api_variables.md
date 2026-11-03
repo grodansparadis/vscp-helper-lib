@@ -1,8 +1,8 @@
 # VSCP Helper library API - Variable handling 
 
-Most functionality for handling variables on the VSCP daemon is supported by the library. The API is described here. Variables and there use is discussed [here](https://docs.vscp.org/vscpd/latest/#/decision_matrix)
+The library supports most operations for handling variables on the VSCP daemon. This section describes the API. Variables and their use are discussed [here](https://docs.vscp.org/vscpd/latest/#/decision_matrix).
 
-**note** From version 2 names has been changed to **vscphlp_xxxxRemoteVariable** instead of **vscphlp_xxxxVariable**
+**Note:** From version 2, names use **vscphlp_xxxxRemoteVariable** instead of **vscphlp_xxxxVariable**.
 
 ## vscphlp_createRemoteVariable
 
@@ -14,7 +14,7 @@ int vscphlp_createRemoteVariable( long handle,
                                     int bPersistent ) 
 `</code>`
 
-Create a variable of a specific type. All the write methods below also create a variable if it does not exist but this method also allows to set the persistence.
+Create a variable of a specific type. The write methods below also create a variable if it does not exist, but this method additionally lets you set its persistence.
 
 #### handle
 
@@ -22,11 +22,11 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 #### pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive. 
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pType
 
-Pointer to the type of the variable either as its symbolic name "string", "long" etc or to it's numerical code "1", "6".  Note that the numerical types are also in string form. The different variable types is described [here](https://docs.vscp.org/vscpd/13.1/#/./remote_variables?id=variable_types).
+Pointer to the variable type, either as a symbolic name such as "string" or "long", or as a numeric code such as "1" or "6". Numeric codes are also supplied as strings. The variable types are described [here](https://docs.vscp.org/vscpd/13.1/#/./remote_variables?id=variable_types).
 
 ####  pValue
 
@@ -34,7 +34,7 @@ Pointer to string that contains the value of the string variable.
 
 #### bPersistent
 
-If non zero the variable will be set to be persistent. This means that is will be saved to disk and will be available also in the future as long as it is not deleted.
+If nonzero, the variable is persistent: it is saved to disk and remains available until it is deleted.
 
 #### Example
 
@@ -82,7 +82,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### Example
 
@@ -138,7 +138,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive. 
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
@@ -150,7 +150,7 @@ Size of supplied buffer that will receive the value.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -188,7 +188,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
@@ -196,7 +196,7 @@ Pointer to string that contains the value to be written to the string.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -225,7 +225,7 @@ This function calls **vscphlp_setRemoteVariableString**
 int vscphlp_getRemoteVariableBool( long handle, const char *pName, bool *bValue ) 
 `</code>`
 
-Get variable value from boolean variable 
+Get the value of the boolean variable
 
 ####  handle
 
@@ -233,11 +233,11 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  bValue
 
-Pointer to boolean variable that get the value of the string variable.
+Pointer to a boolean variable that will receive the remote variable's value.
 
 
 #### Example
@@ -259,7 +259,7 @@ else {
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ## vscphlp_setRemoteVariableBool
 
@@ -267,7 +267,7 @@ Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connec
 int vscphlp_setRemoteVariableBool( long handle, const char *pName, bool bValue ) 
 `</code>`
 
-Get variable value from boolean variable
+Get the value of the boolean variable
 
 ####  handle
 
@@ -275,15 +275,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  bValue
 
-Pointer to boolean variable that get the value of the string variable.
+Pointer to a boolean variable that will receive the remote variable's value.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -306,7 +306,7 @@ else {
 `<code="c">`
 int vscphlp_getRemoteVariableInt( long handle, const char *pName, int *value ) 
 `</code>`
-Get variable value from integer variable 
+Get the value of the integer variable
 
 ####  handle
 
@@ -314,15 +314,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  value
 
-Pointer to integer variable that get the value of the string variable. 
+Pointer to an integer variable that will receive the remote variable's value.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -347,7 +347,7 @@ else {
 `<code="c">`
 int vscphlp_setRemoteVariableInt( long handle, const char *pName, int value ) 
 `</code>`
-Get variable value from integer variable 
+Get the value of the integer variable
 
 ####  handle
 
@@ -355,15 +355,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  value
 
-Pointer to integer variable that get the value of the string variable. 
+Pointer to an integer variable that will receive the remote variable's value.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -386,7 +386,7 @@ else {
 `<code="c">`
 int vscphlp_getRemoteVariableLong( long handle, const char *pName, long *value ) 
 `</code>`
-Get variable value from long variable 
+Get the value of the long variable
 
 ####  handle
 
@@ -394,15 +394,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  value
 
-Pointer to long variable that get the value of the string variable. 
+Pointer to a long variable that will receive the remote variable's value.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -427,7 +427,7 @@ else {
 `<code="c">`
 int vscphlp_setRemoteVariableLong( long handle, const char *pName, long value ) 
 `</code>`
-Get variable value from long variable
+Get the value of the long variable
 
 ####  handle
 
@@ -435,15 +435,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive. 
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  value
 
-Pointer to long variable that get the value of the string variable. 
+Pointer to a long variable that will receive the remote variable's value.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -466,7 +466,7 @@ else {
 `<code="c">`
 int vscphlp_getRemoteVariableDouble( long handle, const char *pName, double *value ) 
 `</code>`
-Get variable value from double variable 
+Get the value of the double variable
 
 ####  handle
 
@@ -474,15 +474,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive. 
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  value
 
-Pointer to double variable that get the value of the string variable. 
+Pointer to a double variable that will receive the remote variable's value.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -507,7 +507,7 @@ else {
 `<code="c">`
 int vscphlp_setRemoteVariableDouble( long handle, const char *pName, double value ) 
 `</code>`
-Get variable value from double variable 
+Get the value of the double variable
 
 ####  handle
 
@@ -515,15 +515,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive. 
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  value
 
-Pointer to double variable that get the value of the string variable. 
+Pointer to a double variable that will receive the remote variable's value.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -559,31 +559,31 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pvalue
 
-A double that get the value of the measurement. 
+A double that receives the value of the measurement.
 
 #### punit
 
-Pointer to an integer that will get the unit for a measurement. For Level I this is a value between 0-3 and for Level II a value between 0-255.
+Pointer to an integer that will receive the unit for a measurement. The value is from 0 to 3 for Level I or from 0 to 255 for Level II.
 
 #### psensoridx
 
-Pointer to an integer that will get the sensor index for a measurement. For Level I this is a value between 0-7 and for Level II a value between 0-255.
+Pointer to an integer that will receive the sensor index for a measurement. The value is from 0 to 7 for Level I or from 0 to 255 for Level II.
 
 #### pzone
 
-Pointer to an integer that will get the zone for a measurement. This is a value between 0-255 where 255 is ALL zones. Some events does not have a zone defined for measurements and in this case the value 255 should be used.
+Pointer to an integer that will receive the zone for a measurement. The value is from 0 to 255, where 255 means ALL zones. Use 255 for events without a defined measurement zone.
 
 #### psubzone
 
-Pointer to an integer that will get the sub zone for a measurement. This is a value between 0-255 where 255 is ALL sub zones. Some events does not have a sub zone defined for measurements and in this case the value 255 should be used.
+Pointer to an integer that will receive the subzone for a measurement. The value is from 0 to 255, where 255 means ALL subzones. Use 255 for events without a defined measurement subzone.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -613,7 +613,7 @@ int vscphlp_setRemoteVariableMeasurement( long handle,
                                         int zone, 
                                         int subzone ) 
 `</code>`
-Set variable value, unit sensor index, zone and sub zone for a measurement variable 
+Set variable value, unit sensor index, zone and subzone for a measurement variable
 
 ####  handle
 
@@ -621,31 +621,31 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  value
 
-Double that contain the value of a measurement. 
+Double containing the value of a measurement.
 
 #### unit
 
-Integer that contain the unit for a measurement. This should be a value between 0-3 for Level I and 0-255 for Level II.
+Integer containing the unit for a measurement. It should be a value from 0 to 3 for Level I or from 0 to 255 for Level II.
 
 #### sensoridx
 
-Integer that contain the sensor index for a measurement. This should be a value between 0-7 for Level I and 0-255 for Level II.
+Integer containing the sensor index for a measurement. It should be a value from 0 to 7 for Level I or from 0 to 255 for Level II.
 
 #### zone
 
-Integer that contain the zone for a measurement. This should be a value between 0-255 where 255 means ALL zones. Use 255 if no zone is specified as is the case for most Level I measurement events.
+Integer containing the zone for a measurement. It should be a value from 0 to 255, where 255 means ALL zones. Use 255 if no zone is specified, as with most Level I measurement events.
 
 #### subzone
 
-Integer that contain the sub zone for a measurement. This should be a value between 0-255 where 255 means ALL sub zones. Use 255 if no sub zone is specified as is the case for most Level I measurement events.
+Integer containing the subzone for a measurement. It should be a value from 0 to 255, where 255 means ALL subzones. Use 255 if no subzone is specified, as with most Level I measurement events.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -668,7 +668,7 @@ else {
 `<code="c">`
 int vscphlp_getVariableEvent( long handle, const char *pName, vscpEvent *pEvent ) 
 `</code>`
-Get variable value from event variable 
+Get the value of the event variable
 
 ####  handle
 
@@ -676,15 +676,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pEvent
 
-Pointer to event variable that get the value of the string variable. 
+Pointer to an event variable that will receive the remote variable's value.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -723,7 +723,7 @@ vscphlp_deleteVSCPevent( pEvent );
 `<code="c">`
 int vscphlp_setRemoteVariableEvent( long handle, const char *pName, vscpEvent *pEvent ) 
 `</code>`
-Get variable value from event variable 
+Get the value of the event variable
 
 #####  handle
 
@@ -731,15 +731,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive. 
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pEvent
 
-Pointer to event variable that get the value of the string variable. 
+Pointer to an event variable that will receive the remote variable's value.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 #### Example
 
@@ -778,7 +778,7 @@ vscphlp_deleteVSCPevent( pEvent );
 `<code="c">`
 int vscphlp_getRemoteVariableEventEx( long handle, const char *pName, vscpEventEx *pEvent ) 
 `</code>`
-Get variable value from event variable 
+Get the value of the event variable
 
 ####  handle
 
@@ -786,15 +786,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive. 
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pEvent
 
-Pointer to event variable that get the value of the string variable. 
+Pointer to an event variable that will receive the remote variable's value.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -829,7 +829,7 @@ else {
 `<code="c">`
 int vscphlp_setRemoteVariableEventEx( long handle, const char *pName, vscpEventEx *pEvent ) 
 `</code>`
-Get variable value from event variable 
+Get the value of the event variable
 
 ####  handle
 
@@ -837,15 +837,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pEvent
 
-Pointer to event variable that get the value of the string variable.
+Pointer to an event variable that will receive the remote variable's value.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -904,7 +904,7 @@ int vscphlp_getRemoteVariableGUIDString( long handle,
                                             const char *pGUID, size_t len ) 
 `</code>`
 
-Get variable value from GUID variable 
+Get the value of the GUID variable
 
 ####  handle
 
@@ -912,11 +912,11 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pGUID
 
-Pointer to event variable that get the value of the GUID variable. 
+Pointer to the GUID string.
 
 #### len
 
@@ -924,7 +924,7 @@ Size of buffer for GUID.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -957,7 +957,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive. 
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pGUID
 
@@ -966,7 +966,7 @@ Pointer to a string that contains the GUID on the string form
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -992,7 +992,7 @@ else {
 int vscphlp_getRemoteVariableGUIDArray( long handle, const char *pName, const char * pGUID ) 
 `</code>`
 
-Get variable value from GUID variable. Array type. 
+Get the value of the GUID variable. Array type.
 
 ####  handle
 
@@ -1000,7 +1000,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pGUID
 
@@ -1008,7 +1008,7 @@ Pointer to an array forming a 16-byte GUID.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -1037,7 +1037,7 @@ else {
 int vscphlp_getRemoteVariableGUIDArray( long handle, const char *pName, const char * pGUID ) 
 `</code>`
 
-Get variable value from GUID variable. This is a variant where the GUID is stored in an array.
+Get the value of the GUID variable. This is a variant where the GUID is stored in an array.
 
 ####  handle
 
@@ -1045,7 +1045,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive. 
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pGUID
 
@@ -1053,7 +1053,7 @@ Pointer to an array forming a 16-byte GUID.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -1081,7 +1081,7 @@ else {
 int vscphlp_getRemoteVariableVSCPdata( long handle, const char *pName, uint16_t *psizeData, uint8_t *pData ) 
 `</code>`
 
-Get variable value from VSCP data variable 
+Get the value of the VSCP data variable
 
 ####  handle
 
@@ -1089,7 +1089,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive. 
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  psizeData
 
@@ -1097,11 +1097,11 @@ Pointer to variable that will hold the size of the data array
 
 ####  pData
 
-Pointer to VSCP data array variable (unsigned char [8] ) that get the value of the string variable. 
+Pointer to a VSCP data array variable (unsigned char [8]) that will receive the remote variable's value.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1137,7 +1137,7 @@ int vscphlp_setRemoteVariableVSCPdata( long handle,
                                   uint8_t *pData ) 
 `</code>`
 
-Get variable value from VSCP data variable 
+Get the value of the VSCP data variable
 
 ####  handle
 
@@ -1145,7 +1145,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  sizeData
 
@@ -1153,11 +1153,11 @@ Pointer to variable that will hold the size of the data array
 
 ####  pData
 
-Pointer to VSCP data array variable (unsigned char [8] ) that get the value of the string variable. 
+Pointer to a VSCP data array variable (unsigned char [8]) that will receive the remote variable's value.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -1187,7 +1187,7 @@ int vscphlp_getRemoteVariableVSCPclass( long handle,
                                     const char *pName, 
                                     uint16_t *vscp_class ) 
 `</code>`
-Get variable value from class variable 
+Get the value of the class variable
 
 ####  handle
 
@@ -1195,15 +1195,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  vscp_class
 
-Pointer to int that get the value of the class variable. 
+Pointer to an int that will receive the value of the class variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1233,7 +1233,7 @@ int vscphlp_setRemoteVariableVSCPclass( long handle,
                                      unsigned short vscp_class ) 
 `</code>`
 
-Get variable value from class variable 
+Get the value of the class variable
 
 ####  handle
 
@@ -1241,15 +1241,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  vscp_class
 
-Pointer to int that get the value of the class variable. 
+Pointer to an int that will receive the value of the class variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -1275,7 +1275,7 @@ int vscphlp_getRemoteVariableVSCPtype( long handle,
                                    unsigned short *vscp_type ) 
 `</code>`
 
-Get variable value from type variable 
+Get the value of the type variable
 
 ####  handle
 
@@ -1283,15 +1283,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  vscp_type
 
-Pointer to int that get the value of the type variable. 
+Pointer to an int that will receive the value of the type variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 #### Example
@@ -1320,7 +1320,7 @@ int vscphlp_setRemoteVariableVSCPtype( long handle,
                                     unsigned short vscp_type ) 
 `</code>`
 
-Get variable value from type variable 
+Get the value of the type variable
 
 ####  handle
 
@@ -1328,15 +1328,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  vscp_type
 
-Pointer to int that get the value of the type variable. 
+Pointer to an int that will receive the value of the type variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1361,7 +1361,7 @@ int vscphlp_getRemoteVariableVSCPTimestamp( long handle,
                                                 unsigned long *vscp_timestamp ) 
 `</code>`
 
-Get variable value from VSCP timestamp variable 
+Get the value of the VSCP timestamp variable
 
 ####  handle
 
@@ -1369,15 +1369,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### vscp_timestamp
 
-Pointer to string that will get the value of the VSCP timestamp variable.
+Pointer to a string that will receive the value of the VSCP timestamp variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1395,7 +1395,7 @@ vscphlp_setRemoteVariableVSCPTimestamp( long handle,
                                             unsigned long vscp_timestamp ) 
 `</code>`
 
-Set variable value from VSCP timstamp
+Set the variable's value from a VSCP timestamp.
 
 ####  handle
 
@@ -1403,7 +1403,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  vscp_timestamp
 
@@ -1411,7 +1411,7 @@ Pointer to unsigned long that holds the VSCP timestamp to set variable to.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1430,7 +1430,7 @@ vscphlp_getRemoteVariableDateTime( long handle,
                                     size_t len ) 
 `</code>`
 
-Get variable value from datetime variable. The returned value is on ISO form "YYYY-MM-DDTHH:MM:SS" 
+Get the value of the datetime variable. The returned value is in ISO format "YYYY-MM-DDTHH:MM:SS"
 
 ####  handle
 
@@ -1438,19 +1438,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pValue
 
-Pointer to string buffer that will get the value of the datetime variable.
+Pointer to a string buffer that will receive the value of the datetime variable.
 
 #### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1467,7 +1467,7 @@ int vscphlp_setRemoteVariableDateTime( long handle,
                                         char *pValue ) 
 `</code>`
 
-Set variable value from dattime on ISO form "YYYY-MM-DDTHH:MM:SS"
+Set the variable's value from a datetime in ISO format "YYYY-MM-DDTHH:MM:SS".
 
 ####  handle
 
@@ -1475,15 +1475,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
-Pointer to string that contains the value the variable should be set to. 
+Pointer to a string containing the value to assign to the variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1502,7 +1502,7 @@ vscphlp_getRemoteVariableDate( long handle,
                                  size_t len ) 
 `</code>`
 
-Get variable value from date variable. The returned value is on ISO form "YYYY-MM-DD" 
+Get the value of the date variable. The returned value is in ISO format "YYYY-MM-DD"
 
 ####  handle
 
@@ -1510,19 +1510,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pValue
 
-Pointer to string buffer that will get the value of the date variable.
+Pointer to a string buffer that will receive the remote variable's value.
 
 #### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1540,7 +1540,7 @@ int vscphlp_setRemoteVariableDate( long handle,
                                         char *pValue ) 
 `</code>`
 
-Set variable value from dattime on ISO form "YYYY-MM-DD"
+Set the variable's value from a date in ISO format "YYYY-MM-DD".
 
 ####  handle
 
@@ -1548,15 +1548,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
-Pointer to string that contains the value the variable should be set to. 
+Pointer to a string containing the value to assign to the variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1575,7 +1575,7 @@ vscphlp_getRemoteVariableTime( long handle,
                                  size_t len ) 
 `</code>`
 
-Get variable value from time variable. The returned value is on ISO form "HH:MM:SS" 
+Get the value of the time variable. The returned value is in ISO format "HH:MM:SS"
 
 ####  handle
 
@@ -1583,19 +1583,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pValue
 
-Pointer to string buffer that will get the value of the date variable.
+Pointer to a string buffer that will receive the remote variable's value.
 
 #### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1613,7 +1613,7 @@ int vscphlp_setRemoteVariableTime( long handle,
                                         char *pValue ) 
 `</code>`
 
-Set variable value from time on ISO form "HH:MM:SS"
+Set variable value from time in ISO format "HH:MM:SS"
 
 ####  handle
 
@@ -1621,15 +1621,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
-Pointer to string that contains the value the variable should be set to. 
+Pointer to a string containing the value to assign to the variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1648,7 +1648,7 @@ vscphlp_getRemoteVariableBlob( long handle,
                                  size_t len ) 
 `</code>`
 
-Get variable value from blob variable. The returned value is BASE64 encoded. 
+Get the value of the blob variable. The returned value is Base64-encoded.
 
 ####  handle
 
@@ -1656,19 +1656,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pValue
 
-Pointer to string buffer that will get the value of the date variable.
+Pointer to a string buffer that will receive the remote variable's value.
 
 #### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1686,7 +1686,7 @@ int vscphlp_setRemoteVariableBlob( long handle,
                                         char *pValue ) 
 `</code>`
 
-Set variable value for a blob variable. The value is always expected to be BASE64 encoded.
+Set variable value for a blob variable. The value is always expected to be Base64-encoded.
 
 ####  handle
 
@@ -1694,15 +1694,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
-Pointer to string that contains the value the variable should be set to. 
+Pointer to a string containing the value to assign to the variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1720,7 +1720,7 @@ vscphlp_getRemoteVariableMIME( long handle,
                                  size_t len ) 
 `</code>`
 
-Get variable value from MIME variable. The returned value is BASE64 encoded. 
+Get the value of the MIME variable. The returned value is Base64-encoded.
 
 ####  handle
 
@@ -1728,19 +1728,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pValue
 
-Pointer to string buffer that will get the value of the date variable.
+Pointer to a string buffer that will receive the remote variable's value.
 
 #### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1758,7 +1758,7 @@ int vscphlp_setRemoteVariableMIME( long handle,
                                      char *pValue ) 
 `</code>`
 
-Set variable value for a MIME variable. The value is always expected to be BASE64 encoded.
+Set variable value for a MIME variable. The value is always expected to be Base64-encoded.
 
 ####  handle
 
@@ -1766,15 +1766,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
-Pointer to string that contains the value the variable should be set to. 
+Pointer to a string containing the value to assign to the variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1792,7 +1792,7 @@ vscphlp_getRemoteVariableHTML( long handle,
                                  size_t len ) 
 `</code>`
 
-Get variable value from HTML variable. The returned value is BASE64 encoded. 
+Get the value of the HTML variable. The returned value is Base64-encoded.
 
 ####  handle
 
@@ -1800,19 +1800,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pValue
 
-Pointer to string buffer that will get the value of the date variable.
+Pointer to a string buffer that will receive the remote variable's value.
 
 #### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1830,7 +1830,7 @@ int vscphlp_setRemoteVariableHTML( long handle,
                                         char *pValue ) 
 `</code>`
 
-Set variable value for a HTML variable. The value is always expected to be BASE64 encoded.
+Set variable value for a HTML variable. The value is always expected to be Base64-encoded.
 
 ####  handle
 
@@ -1838,15 +1838,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
-Pointer to string that contains the value the variable should be set to. 
+Pointer to a string containing the value to assign to the variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 #### Example
 
@@ -1862,7 +1862,7 @@ vscphlp_getRemoteVariableJavaScript( long handle,
                                     size_t len ) 
 `</code>`
 
-Get variable value from JavaScript variable. The returned value is BASE64 encoded. 
+Get the value of the JavaScript variable. The returned value is Base64-encoded.
 
 ####  handle
 
@@ -1870,19 +1870,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pValue
 
-Pointer to string buffer that will get the value of the date variable.
+Pointer to a string buffer that will receive the remote variable's value.
 
 #### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1900,7 +1900,7 @@ int vscphlp_setRemoteVariableJavaScript( long handle,
                                         char *pValue ) 
 `</code>`
 
-Set variable value for a JavaScript variable. The value is always expected to be BASE64 encoded.
+Set variable value for a JavaScript variable. The value is always expected to be Base64-encoded.
 
 ####  handle
 
@@ -1908,15 +1908,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
-Pointer to string that contains the value the variable should be set to. 
+Pointer to a string containing the value to assign to the variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 #### Example
 
@@ -1932,7 +1932,7 @@ vscphlp_getRemoteVariableLUA( long handle,
                                 size_t len ) 
 `</code>`
 
-Get variable value from LUA script variable. The returned value is BASE64 encoded. 
+Get the value of the LUA script variable. The returned value is Base64-encoded.
 
 ####  handle
 
@@ -1940,19 +1940,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pValue
 
-Pointer to string buffer that will get the value of the date variable.
+Pointer to a string buffer that will receive the remote variable's value.
 
 #### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -1970,7 +1970,7 @@ int vscphlp_setRemoteVariableLUA( long handle,
                                         char *pValue ) 
 `</code>`
 
-Set variable value for a LUA script variable. The value is always expected to be BASE64 encoded.
+Set variable value for a LUA script variable. The value is always expected to be Base64-encoded.
 
 ####  handle
 
@@ -1978,15 +1978,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
-Pointer to string that contains the value the variable should be set to. 
+Pointer to a string containing the value to assign to the variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -2005,7 +2005,7 @@ vscphlp_getRemoteVariableLUARES( long handle,
                                     size_t len ) 
 `</code>`
 
-Get variable value from LUARES variable. The returned value is BASE64 encoded. 
+Get the value of the LUARES variable. The returned value is Base64-encoded.
 
 ####  handle
 
@@ -2013,19 +2013,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pValue
 
-Pointer to string buffer that will get the value of the date variable.
+Pointer to a string buffer that will receive the remote variable's value.
 
 #### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -2043,7 +2043,7 @@ int vscphlp_setRemoteVariableLUARES( long handle,
                                         char *pValue ) 
 `</code>`
 
-Set variable value for a LUARES variable. The value is always expected to be BASE64 encoded.
+Set variable value for a LUARES variable. The value is always expected to be Base64-encoded.
 
 ####  handle
 
@@ -2051,15 +2051,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
-Pointer to string that contains the value the variable should be set to. 
+Pointer to a string containing the value to assign to the variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -2078,7 +2078,7 @@ vscphlp_getRemoteVariableUX1( long handle,
                                 size_t len ) 
 `</code>`
 
-Get variable value from UX1 (User interface version 1) variable. The returned value is BASE64 encoded. 
+Get the value of the UX1 (User interface version 1) variable. The returned value is Base64-encoded.
 
 ####  handle
 
@@ -2086,19 +2086,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pValue
 
-Pointer to string buffer that will get the value of the date variable.
+Pointer to a string buffer that will receive the remote variable's value.
 
 #### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -2116,7 +2116,7 @@ int vscphlp_setRemoteVariableUX1( long handle,
                                         char *pValue ) 
 `</code>`
 
-Set variable value for a UX1 (User interface version 1) variable. The value is always expected to be BASE64 encoded.
+Set variable value for a UX1 (User interface version 1) variable. The value is always expected to be Base64-encoded.
 
 ####  handle
 
@@ -2124,15 +2124,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
-Pointer to string that contains the value the variable should be set to. 
+Pointer to a string containing the value to assign to the variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -2150,7 +2150,7 @@ vscphlp_getRemoteVariableDMROW( long handle,
                                   size_t len ) 
 `</code>`
 
-Get variable value from a DM row variable. The returned value is BASE64 encoded. 
+Get the value of a DM row variable. The returned value is Base64-encoded.
 
 ####  handle
 
@@ -2158,19 +2158,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pValue
 
-Pointer to string buffer that will get the value of the date variable.
+Pointer to a string buffer that will receive the remote variable's value.
 
 #### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -2188,7 +2188,7 @@ int vscphlp_setRemoteVariableDMROW( long handle,
                                         char *pValue ) 
 `</code>`
 
-Set variable value for a DM row variable. The value is always expected to be BASE64 encoded.
+Set variable value for a DM row variable. The value is always expected to be Base64-encoded.
 
 ####  handle
 
@@ -2196,15 +2196,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
-Pointer to string that contains the value the variable should be set to. 
+Pointer to a string containing the value to assign to the variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -2222,7 +2222,7 @@ vscphlp_getRemoteVariableDriver( long handle,
                                    size_t len ) 
 `</code>`
 
-Get variable value from a driver variable. The returned value is BASE64 encoded. 
+Get the value of a driver variable. The returned value is Base64-encoded.
 
 ####  handle
 
@@ -2230,19 +2230,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pValue
 
-Pointer to string buffer that will get the value of the date variable.
+Pointer to a string buffer that will receive the remote variable's value.
 
 #### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -2260,7 +2260,7 @@ int vscphlp_setRemoteVariableDriver( long handle,
                                         char *pValue ) 
 `</code>`
 
-Set variable value for a driver variable. The value is always expected to be BASE64 encoded.
+Set variable value for a driver variable. The value is always expected to be Base64-encoded.
 
 ####  handle
 
@@ -2268,15 +2268,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
-Pointer to string that contains the value the variable should be set to. 
+Pointer to a string containing the value to assign to the variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -2294,7 +2294,7 @@ vscphlp_getRemoteVariableUser( long handle,
                                     size_t len ) 
 `</code>`
 
-Get variable value from a user variable. The returned value is BASE64 encoded. 
+Get the value of a user variable. The returned value is Base64-encoded.
 
 ####  handle
 
@@ -2302,19 +2302,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pValue
 
-Pointer to string buffer that will get the value of the date variable.
+Pointer to a string buffer that will receive the remote variable's value.
 
 #### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -2332,7 +2332,7 @@ int vscphlp_setRemoteVariableUser( long handle,
                                         char *pValue ) 
 `</code>`
 
-Set variable value for a user variable. The value is always expected to be BASE64 encoded.
+Set variable value for a user variable. The value is always expected to be Base64-encoded.
 
 ####  handle
 
@@ -2340,15 +2340,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
-Pointer to string that contains the value the variable should be set to. 
+Pointer to a string containing the value to assign to the variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -2367,7 +2367,7 @@ vscphlp_getRemoteVariableFilter( long handle,
                                     size_t len ) 
 `</code>`
 
-Get variable value from a filter variable. The returned value is BASE64 encoded. 
+Get the value of a filter variable. The returned value is Base64-encoded.
 
 ####  handle
 
@@ -2375,19 +2375,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 #### pValue
 
-Pointer to string buffer that will get the value of the date variable.
+Pointer to a string buffer that will receive the remote variable's value.
 
 #### len
 
-Size of string buffer.
+Size of the string buffer.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 
@@ -2405,7 +2405,7 @@ int vscphlp_setRemoteVariableFilter( long handle,
                                         char *pValue ) 
 `</code>`
 
-Set variable value for a filter variable. The value is always expected to be BASE64 encoded.
+Set variable value for a filter variable. The value is always expected to be Base64-encoded.
 
 ####  handle
 
@@ -2413,15 +2413,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ####  pName
 
-Pointer to a string containing the name of the variable. This name should have a character a-z as its first character and is not case sensitive.
+Pointer to a string containing the variable name. The name should begin with a letter from a to z and is not case-sensitive.
 
 ####  pValue
 
-Pointer to string that contains the value the variable should be set to. 
+Pointer to a string containing the value to assign to the variable.
 
 ####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 

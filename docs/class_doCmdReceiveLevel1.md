@@ -7,15 +7,33 @@ int doCmdReceiveLevel1(canalMsg *pCanalMsg)
 ### Parameters
 
 #### pCanalMsg
-Pointer to a CANAL message that will receive the vent from the remote VSCP server queue if the call is successful.
+Pointer to a CANAL message that will receive the event from the remote VSCP server queue on success.
 
 
 ### Return Value
-CANAL_ERROR_SUCCESS on success or an error code on failure. 
+Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
 
 ### Description
-Receive an VSCP Level I event from the VSCP remote server queue. The low eight bits of the CAN id is fetched from GUID[15], that is from the LSB of the GUID. 
+Receive a VSCP Level I event from the remote VSCP server queue. The low eight bits of the CAN ID are taken from GUID[15], the least significant byte of the GUID.
 
 
+
+#### C++ example
+
+With an authenticated `VscpRemoteTcpIf client` (see [TLS connections](tls.md)) and `<iostream>` included:
+
+```cpp
+canalMsg message = {};
+int result = client.doCmdReceiveLevel1(&message);
+if (result != VSCP_ERROR_SUCCESS) {
+    std::cerr << "doCmdReceiveLevel1 failed (error " << result << ")\n";
+} else {
+    std::cout << "CAN ID: " << message.id << '\n';
+}
+```
+
+#### Python and JavaScript availability
+
+The official bindings do not expose `VscpRemoteTcpIf` directly. Python applications can use the separate C helper wrappers; the current Node.js binding does not expose these methods. See [language bindings](bindings.md).
 
 [filename](./bottom_copyright.md ':include')

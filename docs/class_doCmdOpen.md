@@ -1,24 +1,46 @@
 
 
 
-```clike
-int doCmdOpen(const wxString& strInterface = (_("")), 
-                uint32_t flags = 0L)
+```cpp
+int doCmdOpen(const std::string& strInterface = std::string(""),
+              uint32_t flags = 0L);
 ```
 
 ### Parameters
 
 #### strInterface
-Should be set to “username;password;ip-addr;port” if used. All values including port is optional and defaults to no username/password, server as “localhost” and port as “9598”
+The endpoint and credentials in the form `host:port;username;password`.
+Use `stcp://host:port;username;password` to select TLS by default, or use
+`tcp://` or no prefix for plain TCP. A host and port are required. The
+semicolon-separated format cannot escape semicolons in credentials; use the
+[separate-argument overload](class_doCmdOpen2.md) if needed.
 
 #### flags
 Currently not used.
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned if the connection to the remote VSCP server could be established. If not an error code will be returned. 
+Returns VSCP_ERROR_SUCCESS if the connection to the remote VSCP server is established, or an error code otherwise.
 
 ### Description
-Open communication interface.
+Opens and logs in to the communication interface. The C++ class can override
+prefix-based TLS selection and configure TLS options explicitly; see
+[TLS connections](tls.md).
+
+#### C++ example
+
+With a `VscpRemoteTcpIf client`, `<iostream>` included, and `endpoint`, `username`, and `password` supplied as strings by the application (see [TLS connections](tls.md)):
+
+```cpp
+std::string interface = endpoint + ";" + username + ";" + password;
+int result = client.doCmdOpen(interface);
+if (result != VSCP_ERROR_SUCCESS) {
+    std::cerr << "doCmdOpen failed (error " << result << ")\n";
+}
+```
+
+#### Python and JavaScript availability
+
+The official bindings do not expose `VscpRemoteTcpIf` directly. Python applications can use the separate C helper wrappers; the current Node.js binding does not expose these methods. See [language bindings](bindings.md).
 
 ### See Also
 [doCmdOpen](class_doCmdOpen2.md)

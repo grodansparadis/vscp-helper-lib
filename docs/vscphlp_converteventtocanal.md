@@ -1,13 +1,10 @@
 
 
 ```clike
-bool vscphlp_convertEventToCanal( canalMsg *pcanalMsg, 
+int vscphlp_convertEventToCanal( canalMsg *pcanalMsg,
                         const vscpEvent *pvscpEvent )
 ```
 
-```python
-xxxx
-```
 
 ### Parameters
 
@@ -18,21 +15,38 @@ CANAL message that will hold result.
 VSCP event that will be converted.
 
 ### Return Value
-VSCP_ERROR_SUCCESS on succes. 
+Returns VSCP_ERROR_SUCCESS on success.
 
 ### Description
 Convert VSCP event to CANAL message. 
 
 #### C example
 
+With the helper-library headers and standard C headers included:
+
 ```clike
-if ( VSCP_ERROR_SUCCESS == vscphlp_convertEventToCanal( &canalMsg, pEvent ) ) {
-    printf( "OK vscphlp_convertEventToCanal id=%08X\n", canalMsg.id );
-}
-else {
-    printf( "\aError: vscphlp_convertEventToCanal\n");
+uint8_t data[] = {11, 22, 33};
+vscpEvent event = {0};
+event.vscp_class = 10; event.vscp_type = 6; event.GUID[15] = 1;
+event.sizeData = sizeof(data); event.pdata = data;
+vscphlp_setVscpPriority(&event, 3);
+canalMsg message = {0};
+int result = vscphlp_convertEventToCanal(&message, &event);
+if (result != VSCP_ERROR_SUCCESS) {
+    fprintf(stderr, "convertEventToCanal failed (error %d)\n", result);
+} else {
+    printf("id=0x%08lX data=%u,%u,%u\n", (unsigned long)message.id,
+           message.data[0], message.data[1], message.data[2]);
 }
 ```
+
+#### Python availability
+
+The Python wrapper exposes this conversion, but the official `pyvscp` package does not currently provide the required `canalMsg` structure. A self-contained example using only the official bindings is therefore not available. See [bindings](bindings.md#python).
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_convertCanalToEvent](vscphlp_convertcanaltoevent.md)  

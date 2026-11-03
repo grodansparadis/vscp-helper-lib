@@ -3,88 +3,91 @@
 <a id="c_c"></a>
 ## C/C++ 
 
-Available for Windows and Linux.
+Available for Windows, Linux, and macOS.
 
-The **libvscphelper library** is available in binary deb package format for 64-bit Linux, for 32/64  Raspberry Pi, for 64-bit MacOs and in standard Windows 64-bit install format.
+The **libvscphelper library** is available as a binary deb package for 64-bit Linux and 32- or 64-bit Raspberry Pi, as well as for 64-bit macOS and as a standard 64-bit Windows installer.
 
- Downloadable binary files is available [here](https://www.vscp.org/downloads/vscphelper)
+Downloadable binaries are available [here](https://www.vscp.org/downloads/vscphelper).
 
 <a id="python"></a>
 ## Python 
 
-**pyvscp** is the official Python support for VSCP & friends. 
+**pyvscp** provides VSCP data types and utilities. The separate
+**pyvscphelper** package wraps the C helper library.
 
-Install with
-
-```bash
-pip install pyvscp
-```
-
-On windows run 
+To use the helper functions, install the VSCP helper library and then run:
 
 ```bash
-cmd
+python -m pip install pyvscphelper
 ```
 
-as administrator and use
+Import the modules with:
 
-```bash
-python -m pip install pyvscp
+```python
+import vscp
+import vscphelper
 ```
 
-to install the library.
+The wrapper loads the installed shared library. If it cannot find the library,
+set `VSCPHELPER_LIB` to its full path before starting Python. Its functions
+use names such as `vscphelper.newSession()` and `vscphelper.open()`; older
+examples using `pyvscphlp_*` names do not describe this wrapper's API.
 
-On GitHub you can find the code at (https://github.com/grodansparadis/pyvscp)
+For an event allocated by `newVSCPevent`, call `deleteVSCPevent_v2` to release
+both its helper-owned data and the event structure. The older
+`deleteVSCPevent` releases only the data. Do not pass a Python-owned event or
+data buffer to the full-event deleter.
 
-To import the lib from vscp 
+The current Python wrapper unloads the shared library when `closeSession` is
+called. Call it only after all work with the wrapper is finished; do not make
+further wrapper calls or keep other sessions active afterward.
 
-import vscp, vscp_class, vscp_type, vscpudp, vscptcp, vscphelper 
+The source is available in [pyvscp](https://github.com/grodansparadis/pyvscp)
+and [pyvscphelper](https://github.com/grodansparadis/pyvscphelper).
 
-or from vscp 
-
-import *
-
-There also is code written by Salvo Musumeci available at (https://github.com/nos86/VSCP-Helper-for-Python) Currently this development appears to be stalled, but hopefully the development will continue one day by the author or by someone else forking that project.
+Code written by Salvo Musumeci is also available at (https://github.com/nos86/VSCP-Helper-for-Python). Development appears to have stalled, but it may continue in the future, either by the author or by someone who forks the project.
 
 <a id="c_net"></a>
 ## C\#/net
 
- We need someone to take this on. There is some work done already.
+ We need someone to take this on. Some work has already been done.
 
  Contact [akhe@grodansparadis.com](mailto:akhe@grodansparadis.com) if you work (or want to work) on this so we can put a link to your work here.
 
 <a id="java"></a>
 ## Java 
 
- We need someone to take on this one.
+ We need someone to take this on.
 
  Contact [akhe@grodansparadis.com](mailto:akhe@grodansparadis.com) if you work \(or want to work\) on this so we can put a link to your work here.
 
 <a id="php"></a>
 ## PHP 
 
- We need someone to take on this one.
+ We need someone to take this on.
 
  Contact [akhe@grodansparadis.com](mailto:akhe@grodansparadis.com) if you work \(or want to work\) on this so we can put a link to your work here.
 
 <a id="perl"></a>
 ## Perl
 
- We need someone to take on this one.
-
- Contact [akhe@grodansparadis.com](mailto:akhe@grodansparadis.com) if you work \(or want to work\) on this so we can  put a link to your work here.
-
-<a id="nodejs"></a>
-## node.js 
-
- We need someone to take on this one.
+ We need someone to take this on.
 
  Contact [akhe@grodansparadis.com](mailto:akhe@grodansparadis.com) if you work \(or want to work\) on this so we can put a link to your work here.
+
+<a id="nodejs"></a>
+## Node.js
+
+The [node-vscp-helper](https://github.com/grodansparadis/node-vscp-helper)
+package exists, but its current native addon exports only the `hello`
+function. It does not yet expose the helper-library or `VscpRemoteTcpIf`
+methods, so equivalent JavaScript examples for those APIs are not currently
+available.
 
 <a id="others"></a>
 ## Others 
 
-We are of course interested in other bindings as well. Let us know.
+We are also interested in other bindings. Let us know about your work.
 
 
 

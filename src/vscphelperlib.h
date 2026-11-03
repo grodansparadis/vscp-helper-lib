@@ -61,6 +61,19 @@ HELPERLIB_API int
 vscphlp_checkReply( long handle, int bClear );
 HELPERLIB_API int 
 vscphlp_clearLocalInputQueue( long handle );
+
+/*
+ * Use "stcp://host:port" for TLS, or "tcp://host:port" (or no prefix)
+ * for plain TCP. The server certificate and hostname are verified for TLS.
+ * SSL_CERT_FILE (a PEM CA bundle) and SSL_CERT_DIR (directories containing
+ * PEM CA certificates) override the corresponding OpenSSL trust locations.
+ * This C API does not expose client-certificate settings.
+ *
+ * vscphlp_openInterface takes "host:port;username;password", with the
+ * optional transport prefix on the host. Pass 0 for flags. Credentials
+ * containing semicolons must be passed separately to vscphlp_open.
+ * See docs/tls.md in the source distribution for examples.
+ */
 HELPERLIB_API int 
 vscphlp_openInterface( long handle, const char *pInterface, unsigned long flags );
 HELPERLIB_API int 

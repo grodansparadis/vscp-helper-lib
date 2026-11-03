@@ -4,8 +4,9 @@
 
 * Using the library
  * [Using the library](using.md)
- * [Return values and erro handling](error_handling.md)
- * [Using with c](c_using.md)
+ * [TLS connections](tls.md)
+ * [Return values and error handling](error_handling.md)
+ * [Using with C/C++](c_using.md)
  * [Using with Python](python_using.md)
 
 * Methods in library
@@ -81,11 +82,11 @@
    * [vscphlp_convertVSCPfromEx](vscphlp_convertvscpfromex.md)
    * [vscphlp_newVSCPevent](vscphlp_newvscpevent.md)
    * [vscphlp_deleteVSCPevent](vscphlp_deletevscpevent.md)
-   * [vscphlp_deleteVSCPevent_v2](vscphlp_deletescpevent_v2.md)
+   * [vscphlp_deleteVSCPevent_v2](vscphlp_deletevscpevent_v2.md)
    * <small>**VSCP data**</small>
     * [vscphlp_writeVscpDataToString](vscphlp_writevscpdatatostring.md)
     * [vscphlp_writeVscpDataWithSizeToString](vscphlp_writevscpdatawithsizetostring.md)
-    * [vscphlp_setVscpDataFromString](vscphlp_setvscpdatafromstring)
+    * [vscphlp_setVscpDataFromString](vscphlp_setvscpdatafromstring.md)
    * <small>**CANAL conversions**</small>
      * [vscphlp_convertCanalToEvent](vscphlp_convertcanaltoevent.md)
      * [vscphlp_convertCanalToEventEx](vscphlp_convertcanaltoeventex.md)
@@ -98,8 +99,8 @@
 
      * [vscphlp_convertEventToString](vscphlp_converteventtostring.md)
      * [vscphlp_convertEventExToString](vscphlp_converteventextostring.md) 
-     * [vscphlp_convertStringToEvent](vscphlp_convertStringToEvent.md)
-     * [vscphlp_convertStringToEventEx](vscphlp_convertStringToEventEx.md)   
+     * [vscphlp_convertStringToEvent](vscphlp_convertstringtoevent.md)
+     * [vscphlp_convertStringToEventEx](vscphlp_convertstringtoeventex.md)
      * [vscphlp_getDateStringFromEvent](vscphlp_getdatestringfromevent.md)
      * [vscphlp_getDateStringFromEventEx](vscphlp_getdatestringfromeventex.md)
      * [vscphlp_setVscpEventFromString](vscphlp_setvscpeventfromstring.md)
@@ -122,9 +123,9 @@
    * [vscphlp_getVSCPclassFromCANALid](vscphlp_getvscpclassfromcanalid.md)
    * [vscphlp_getVSCPtypeFromCANALid](vscphlp_getvscptypefromcanalid.md)
    * [vscphlp_getVSCPnicknameFromCANALid](vscphlp_getvscpnicknamefromcanalid.md)
-   * [vscphlp_getCANALidFromVSCPdata](vscphlp_getcanalidfromvscpdata.md)
-   * [vscphlp_getCANALidFromVSCPevent](vscphlp_getcanalidfromvscpevent.md)
-   * [vscphlp_getCANALidFromVSCPeventEx](vscphlp_getcanalidfromvscpeventex.md)
+   * [vscphlp_getCANALidFromData](vscphlp_getcanalidfromvscpdata.md)
+   * [vscphlp_getCANALidFromEvent](vscphlp_getcanalidfromvscpevent.md)
+   * [vscphlp_getCANALidFromEventEx](vscphlp_getcanalidfromvscpeventex.md)
    * [vscphlp_calc_crc_Event](vscphlp_calc_crc_event.md)
    * [vscphlp_calc_crc_EventEx](vscphlp_calc_crc_eventex.md)
    * <small>**Event conversions**</small>
@@ -248,7 +249,7 @@
      * [doCmdSetGUID](class_doCmdSetGUID2.md)
      * [doCmdGetChannelInfo](class_doCmdGetChannelInfo.md)
      * [doCmdGetChannelID](class_doCmdGetChannelID.md)
-     * [doCmdInterfaceList](class.doCmdInterfaceList.md)
+     * [doCmdInterfaceList](class_doCmdInterfaceList.md)
      * [doCmdSetBaudrate](class_doCmdSetBaudrate.md)
      * [doCmdFilter](class_doCmdFilter_canal.md)
      * [doCmdMask](class_doCmdMask_canal.md)
@@ -267,8 +268,5 @@
 
 * Other documentation
   * [VSCP documentation portal](https://docs.vscp.org)
-
-
-
 
 

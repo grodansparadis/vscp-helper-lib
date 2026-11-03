@@ -16,7 +16,7 @@ int vscphlp_setResponseTimeout( long handle, unsigned long timeout )
 int pyvscphlp_setResponseTimeout( handle, timeout )
 `</code>`
 
-This is the timeout in seconds used when checking for replies after commands has been sent to the server.  It can be changed anytime during a communication session. Default value is 3000 milliseconds.
+This is the timeout in seconds used when checking for replies after commands are sent to the server. It can be changed at any time during a communication session. The default is 3000 milliseconds.
 
 #####  handle
 
@@ -24,7 +24,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ##### timeout
 
-Timeout given in milliseconds. Can be set also before the session is open.
+Timeout in milliseconds. It can also be set before the session is opened.
 
 ##### Return value
 
@@ -44,7 +44,7 @@ int vscphlp_setAfterCommandSleep( long handle, unsigned short millisecondSleep )
 int vscphlp_setAfterCommandSleep( handle, millisecondSleep )
 `</code>`
 
-This is the sleep time in milliseconds used to wait for the server to reply to a command. If there is not valid response received the thread will sleep for the amount of time set here + 200 milliseconds and then check the queue again for a valid response then sleep again and so on until the time set for the response timeout has elapsed, a valid response or an error response has been received. Default value is 0 milliseconds.
+This is the sleep time in milliseconds while waiting for the server to reply to a command. If no valid response is received, the thread sleeps for this value plus 200 milliseconds, then checks the queue again. This repeats until the response timeout expires or a valid response or error response is received. The default is 0 milliseconds.
 
 #####  handle
 
@@ -52,7 +52,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ##### secondsTimeout
 
-Timeout given in seconds. Can be set also before the session is open.
+Timeout in seconds. It can also be set before the session is opened.
 
 ##### Return value
 
@@ -121,7 +121,7 @@ int vscphlp_doCommand( long handle, const char * cmd )
 int vscphlp_doCommand( handle, command )
 `</code>`
 
-Send a command over the communication link. The command should have "\r\n" to it's end. The response from the server will be checked for **+OK**. 
+Send a command over the communication link. The command should end with "\r\n". The server's response is checked for **+OK**.
 
 #####  handle
 
@@ -133,7 +133,7 @@ This is the command that should be sent to the server. It should be terminated w
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS if the VSCP daemon respond with **+OK** after it has received the command and VSCP_ERROR_ERROR if not (**-OK**) or no response before the timeout expires. VSCP_ERROR_CONNECTION is returned if the communication channel is not open. VSCP_ERROR_INVALID_HANDLE is returned if an invalid handle is given.
+Returns VSCP_ERROR_SUCCESS if the VSCP daemon responds with **+OK** after receiving the command, or VSCP_ERROR_ERROR if it responds with **-OK** or no response arrives before the timeout expires. Returns VSCP_ERROR_CONNECTION if the communication channel is not open and VSCP_ERROR_INVALID_HANDLE if the handle is invalid.
 
 ##### Example (c/c++)
 
@@ -176,11 +176,11 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ##### bClear
 
-If TRUE (not zero) the input buffer will be cleared before starting to wait for a +OK/-OK in the incoming data.
+If TRUE (nonzero), clear the input buffer before waiting for +OK or -OK in the incoming data.
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS if the VSCP daemon respond with "+OK" after it has received the command and VSCP_ERROR_ERROR if not or no response before the timeout expires.
+Returns VSCP_ERROR_SUCCESS if the VSCP daemon responds with "+OK" after receiving the command, or VSCP_ERROR_ERROR if it does not or no response arrives before the timeout expires.
 
 ##### Example /c/c++)
 
@@ -214,7 +214,7 @@ int vscphlp_clearLocalInputQueue( long handle )
 int pyvscphlp_clearLocalInputQueue( handle )
 `</code>`
 
-Clear the local communication input queue. This is the same things that is done when setting **bClear** for [vscphlp_checkReply](#vscphlp_checkReply)
+Clear the local communication input queue. This is the same operation performed when **bClear** is set for [vscphlp_checkReply](#vscphlp_checkReply).
 
 #####  handle
 
@@ -246,9 +246,12 @@ if VSCP_ERROR_SUCCESS != rv :
 
 ## vscphlp_open
 
+This is an archived reference. For current connection and TLS behavior, see
+[vscphlp_open](../vscphlp_open.md) and [TLS connections](../tls.md).
+
 **c/c++**
 `<code="c">`
-long vscphlp_open( long handle,
+int vscphlp_open( long handle,
                         const char *Host, 
                         const char *pUsername, 
                         const char *pPassword )
@@ -270,13 +273,12 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 #####  pHost
 
-String pointing to hostname of host to connect to. This can be a name that needs to be resolved e.g. “”www.grodansparadis.com” or a dotted IP-address e.g. “192.168.1.1”. The general format for the hostname is 
+The endpoint is `stcp://host:port` for TLS, or `tcp://host:port` or
+`host:port` for unencrypted TCP.
 
-    [PROTO://]HOST:PORT[:CERT][:CA_CERT] 
-    
-where **PROTO** could be **tcp:`<nowiki>`//`</nowiki>` or **ssl:`<nowiki>`//`</nowiki>`. If HOST is not an IP address, the system will resolve it - beware that standard blocking resolver will be used. It is a good practice to pre-resolve hosts beforehand and use only IP addresses to avoid blocking an IO thread.  
-
-For SSL connections, specify CERT if server is requiring client auth. Specify CA_CERT to authenticate server certificate. All certificates must be in PEM format.
+The legacy `ssl://` prefix and certificate path suffixes are not supported by
+the current API. See the [TLS guide](../tls.md) for trust configuration and
+client-certificate limitations.
 
 #####  handle
 
@@ -292,7 +294,7 @@ Password to use as credentials for login to the remote VSCP daemon.
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS is returned on success. VSCP_ERROR_INVALID_HANDLE will be returned if the interface is not initialized, VSCP_ERROR_MEMORY will there is problem to allocate needed structures, VSCP_ERROR_TIMEOUT is returned if connection or responses is not received in time, VSCP_ERROR_USER for problems with username, VSCP_ERROR_PASSWORD for problems with password and for all other error VSCP_ERROR_ERROR will be returned.
+See the current [vscphlp_open reference](../vscphlp_open.md) for return values.
 
 ##### Example (c/c++)
 
@@ -326,6 +328,10 @@ else:
 
 ## vscphlp_openInterface
 
+This is an archived reference. See the current
+[vscphlp_openInterface reference](../vscphlp_openinterface.md) for TLS and
+credential handling.
+
 **c/c++**
 `<code="c">`
 int vscphlp_openInterface( long handle,
@@ -346,7 +352,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 #####  pInterface
 
-Pointer to a string with the name of interface to open. The format of this string is
+Pointer to a string containing the name of the interface to open. The string format is:
 
     host;username;password
 
@@ -354,7 +360,11 @@ or
 
     tcp://host;username;password
 
-where in both cases **host** is
+or
+
+    stcp://host;username;password
+
+where in each case **host** is
 
     host-address:port
 
@@ -365,18 +375,18 @@ Flags to use for the interface. Currently not used.
 
 #####  Return value
 
-Possible return values are the same as for [vscphlp_doCmdOpen](./vscphlp_docmdopen.md)
+Possible return values are the same as for [vscphlp_open](../vscphlp_open.md).
 
 ##### Example (c/c++)
 
 `<code="c">`
     // Open Channel 1
-    rv=vscphlp_open( handle1, "192.168.1.9:9598;admin;secret" ); 
+    rv=vscphlp_openInterface( handle1, "192.168.1.9:9598;admin;secret", 0 );
     if ( VSCP_ERROR_SUCCESS == rv ) {
-        printf("Command success: vscphlp_open on channel 1\n");
+        printf("Command success: vscphlp_openInterface on channel 1\n");
     }
     else {
-        printf("\aCommand error: vscphlp_open on channel 1  Error code=%d\n", rv);
+        printf("\aCommand error: vscphlp_openInterface on channel 1  Error code=%d\n", rv);
     }
 `</code>`
 
@@ -414,7 +424,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ##### return==  
 
-VSCP_ERROR_SUCCESS is returned on sucess. VSCP_ERROR_INVALID_HANDLE will be returned if the interface is not initialized.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_INVALID_HANDLE if the interface is not initialized.
 
 ##### Example (c/c++)
 
@@ -448,7 +458,7 @@ int vscphlp_noop( long handle )
 int pyvscphlp_noop( handle )
 `</code>`
 
-This is a command that can be used for test purposes. It does not do anything else then to send a command over the interfaces and check the result.
+Use this command to test the connection. It sends a command over the interface and checks the result.
 
 #####  handle
 
@@ -456,7 +466,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 #####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ##### Example (c/c++)
 
@@ -494,7 +504,7 @@ int vscphlp_clearDaemonEventQueue( long handle )
 int pyvscphlp_clearDaemonEventQueue( handle )
 `</code>`
 
-Clear the receiving side (to us) event queue on the VSCP daemon.
+Clear the receiving-side event queue on the VSCP daemon.
 
 #####  handle
 
@@ -502,7 +512,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ##### Return value
 
-VSCP_ERROR_SUCCESS if the VSCP daemon cleared the queue and VSCP_ERROR_ERROR. if not or no response is received before the timeout expires. VSCP_ERROR_CONNECTION is returned if the communication channel is not open. VSCP_ERROR_INVALID_HANDLE is returned if an invalid handle is given.
+Returns VSCP_ERROR_SUCCESS if the VSCP daemon clears the queue, or VSCP_ERROR_ERROR if it does not or no response arrives before the timeout expires. Returns VSCP_ERROR_CONNECTION if the communication channel is not open and VSCP_ERROR_INVALID_HANDLE if the handle is invalid.
 
 ##### Example (c/c++)
 
@@ -541,11 +551,11 @@ int vscphlp_sendEvent( long handle, const vscpEvent *pEvent )
 int pyvscphlp_sendEvent( handle, event )
 `</code>`
 
-Send a VSCP event. If the event is successfully sent or not it's the calling programs responsibility to deallocate the event. It's easy to forget to free the data part of an event created on the stack. 
+Send a VSCP event. Whether or not the event is sent successfully, the calling program is responsible for deallocating it. Remember to free the data part of an event created on the stack.
 
 Note that there is no need to calculate a crc for the data it is only used as placeholder for more insecure transfer mechanisms. Also **head**, **obid**, the UTC timeblock and **timestamp** can be set to zero in most cases. The timeblock and timestamp will be set by the server interface when the event is received.
 
-**pyvscphlp_sendEventEx** may a better alternative to use with Python as that version does not have dynamically allocated event data but one should be aware that it is more wasteful with memory.
+**pyvscphlp_sendEventEx** may be a better choice for Python because it does not use dynamically allocated event data. However, it uses more memory.
 
 #####  handle
 
@@ -586,7 +596,7 @@ The level I or level II event to send. The structure **vscpEvent** is defined in
 
 #####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ##### Example (c/c++)
 
@@ -657,7 +667,7 @@ int vscphlp_sendEventEx( long handle, const vscpEventEx *pEvent )
 int pyvscphlp_sendEventEx( handle, eventex )
 `</code>`
 
-Send a VSCP event. If the event is not successfully sent it's the calling programs responsibility to deallocate the event. 
+Send a VSCP event. If the event is not sent successfully, the calling program is responsible for deallocating it.
 
 Note that there is no need to calculate a crc for the data it is only used as placeholder for more insecure transfer mechanisms. Also **head**, **obid**, the UTC timeblock and **timestamp** can be set to zero in most cases. The timeblock and timestamp will be set by the server interface when the event is received.
 
@@ -706,7 +716,7 @@ The level I or level II event to send. The structure **vscpEventEx** is defined 
 
 #####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 ##### Example (c/c++)
@@ -768,7 +778,7 @@ int pyvscphlp_receiveEvent( handle, event )
 
 Receive one VSCP event from the remote VSCP server if there is one available in the server queue. Data for the event is dynamically allocated and must be deleted by the application.
 
-For Python use of **pyvscphlp_receiveEvent** may be simpler as there id no dynamically allocated data to take care off.
+For Python, **pyvscphlp_receiveEvent** may be simpler to use because there is no dynamically allocated data to manage.
 
 #####  handle
 
@@ -776,7 +786,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 #####  pEvent
 
-Pointer to **vscpEvent** structure that will receive the event if the call is successful. The structure **vscpEvent** is define in [vscp.h](https///github.com/grodansparadis/vscp_software/blob/master/src/vscp/common/vscp.h) and is defined as
+Pointer to a **vscpEvent** structure that will receive the event on success. The **vscpEvent** structure is defined in [vscp.h](https///github.com/grodansparadis/vscp_software/blob/master/src/vscp/common/vscp.h) as follows:
 
 `<code=c>`
     typedef struct  {	
@@ -812,7 +822,7 @@ Pointer to **vscpEvent** structure that will receive the event if the call is su
 
 #####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ##### Example (c/c++)
 
@@ -857,7 +867,7 @@ int vscphlp_receiveEventEx( long handle, vscpEventEx *pEventEx )
 int pyvscphlp_receiveEventEx( handle, eventex )
 `</code>`
 
-Receive a VSCP event. The difference to vscphlp_receiveEvent is that the vscphlp_vscpEventEx structure have the data in the structure and vscpEvent that have a pointer to the data in the structure.
+Receive a VSCP event. Unlike vscphlp_receiveEvent, the vscphlp_vscpEventEx structure stores the data in the structure itself; vscpEvent contains a pointer to the data.
 
 #####  handle
 
@@ -869,7 +879,7 @@ Pointer to VSCP data structure that will receive the event.
 
 #####  Return value 
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ##### Example (c/c++)
 
@@ -942,7 +952,7 @@ Variable that gets the number of events waiting in the queue on a successful cal
 
 #####  Return value 
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ##### Example (c/c++)
 
@@ -1000,7 +1010,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 #####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 ##### Example (c/c++)
@@ -1067,7 +1077,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 #####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 ##### Example (c/c++)
@@ -1107,7 +1117,7 @@ int vscphlp_blockingReceiveEvent( handle, event, timeout )
 
 Blocking receive one VSCP event from the remote VSCP server if there is one available in the server queue. Data for the event is dynamically allocated and must be deleted by the application.
 
-For Python use of **pyvscphlp_receiveEvent** may be simpler as there id no dynamically allocated data to take care off.
+For Python, **pyvscphlp_receiveEvent** may be simpler to use because there is no dynamically allocated data to manage.
 
 #####  handle
 
@@ -1115,15 +1125,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ##### pEvent
 
-Pointer to event that will get event data after a sucessfull call. See [vscphlp_receiveEvent](#vscphlp_receiveEvent) for a description.
+Pointer to an event that will receive the event data on success. See [vscphlp_receiveEvent](#vscphlp_receiveEvent) for a description.
 
 ##### timeout
 
-This is the max time to block. Zero means wait forever.
+Maximum time to block. Zero means wait indefinitely.
 
 #####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while NOT in a receive loop (see [#vscphlp_enterReceiveLoop](#vscphlp_enterReceiveLoop).
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called outside a receive loop (see [#vscphlp_enterReceiveLoop](#vscphlp_enterReceiveLoop)).
 
 
 ##### Example (c/c++)
@@ -1202,19 +1212,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ##### pEvent (c/c++)
 
-Pointer to event that will get event data after a sucessfull call. See [vscphlp_receiveEvent](#vscphlp_receiveEvent) for a description.
+Pointer to an event that will receive the event data on success. See [vscphlp_receiveEvent](#vscphlp_receiveEvent) for a description.
 
 ##### pEvent (Python)
 
-Event that will get event data after a sucessfull call. See [vscphlp_receiveEvent](#vscphlp_receiveEvent) for a description.
+Event that will receive the event data on success. See [vscphlp_receiveEvent](#vscphlp_receiveEvent) for a description.
 
 ##### timeout
 
-This is the max time to block. Zero means wait forever.
+Maximum time to block. Zero means wait indefinitely.
 
 #####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 ##### Example (c/c++)
@@ -1341,7 +1351,7 @@ class vscpEventFilter(Structure):
 
 #####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 ##### Example - Set filter (c/c++)
@@ -1495,7 +1505,7 @@ class VSCPStatistics(Structure):
 
 #####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ##### Example
 
@@ -1552,11 +1562,11 @@ Pointer to **VSCPStatus** structure that will be filled with data after a succes
 
 ##### status (Python)
 
-**VSCPStatus** structure that will get status information.
+**VSCPStatus** structure that will receive status information.
 
 #####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 ##### Example (c/c++)
@@ -1625,7 +1635,7 @@ VSCP server sub minor version.
 
 #####  Return value
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 ##### Example (c/c++)
@@ -1667,7 +1677,7 @@ const char * vscphlp_getDLLVersion( long handle, unsigned long *pdllversion )
 (rv,dllversion) = pyvscphlp_getDLLVersion( handle )
 `</code>`
 
-Fetch the dll version from the VSCP server. This is the version of the interface.
+Fetch the DLL version from the VSCP server. This is the interface version.
 
 #####  handle
 
@@ -1675,15 +1685,15 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 #####  pdllversion (c/c++)
 
-Pointer to an unsigned long that will get driver version.
+Pointer to an unsigned long that will receive the driver version.
 
 #####  Return value (c/c++)
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 #####  Return value (Python)
 
-Returned a tuple consisting of return value and dllversion. See above c/c++ version for rv return values.
+Returns a tuple containing the return value and dllversion. See the C/C++ return values above for rv.
 
 #####  Example (c/c++)
 
@@ -1736,15 +1746,15 @@ Pointer to a string that will receive vendor information.
 
 #####  len (c/c++)
 
-Size of supplied buffer.
+Size of the supplied buffer.
 
 #####  Return value (c/c++)
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ##### Return value (Python)
 
-A tuple that consist of the return value (see c/c++ version) and the vendorstirng is returned.
+Returns a tuple containing the return value (see the C/C++ version) and the vendor string.
 
 ##### Example (c/c++)
 
@@ -1785,7 +1795,7 @@ const char * vscphlp_getDriverInfo( long handle, char *pInfo, size_t len )
 (rv,strdriverinfo) = vscphlp_getDriverInfo( handle )
 `</code>`
 
-Get driver information. A buffer with size enough to hold the XML data must be supplied. For Python 32000 byte is used.
+Get driver information. Supply a buffer large enough to hold the XML data. For Python, 32000 bytes are used.
 
 #####  handle
 
@@ -1793,19 +1803,19 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 ##### pInfo
 
-A pointer to string with XML formatted information about the driver in use. This information (if available) can be used to help a user to configure the driver among other things.
+Pointer to a string containing XML-formatted information about the driver in use. If available, this information can help users configure the driver.
 
 #####  len
 
-Size of supplied buffer.
+Size of the supplied buffer.
 
 #####  Return value (c/c++)
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 #####  Return value (Python)
 
-A touple consisting of the the return vale and the driver info string is returned. For return codes see c/c++ return value.
+Returns a tuple containing the return value and the driver information string. See the C/C++ return values for the return codes.
 
 ##### Example (c/c++)
 
@@ -1853,7 +1863,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newSession
 
 #####  Return value 
 
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop.
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 
 ##### Example (c/c++)

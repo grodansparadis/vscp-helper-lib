@@ -11,7 +11,7 @@ int vscphlp_setVscpEventExFromString( vscpEventEx *pEvent,
 The VSCP event ex which will be written to.
 
 #### pstr
-Pointer to string buffer that contain an event in string form
+Pointer to a string buffer containing an event in string form:
 
     head,class,type,obid,datetime,timestamp,GUID,data1,data2,data3....
 
@@ -25,17 +25,40 @@ Set VSCP event ex from a string.
 
 #### C example
 
+With the helper-library headers and standard C headers included:
+
 ```clike
-vscpEventEx ex6;
-if ( VSCP_ERROR_SUCCESS == vscphlp_setVscpEventExFromString( &ex6,  
-      "0,10,6,0,20170102T19:32:48,0,FF:FF:FF:FF:FF:FF:FF:00:00:00:00:7F:00:01:01:FD,0x8A,0x00,0x1E" ) ) 
-    printf( "OK vscphlp_setVscpEventExFromString class=%d Type=%d\n", 
-                   ex6.vscp_class, ex6.vscp_type );
-}
-else {
-    printf( "\aError: vscphlp_setVscpEventExFromString\n");
+const char *text = "0,10,6,0,2020-11-24T17:28:11Z,4216090068,FF:FF:FF:FF:FF:FF:FF:F5:00:00:00:00:00:00:00:01,11,22,33";
+vscpEventEx event = {0};
+int result = vscphlp_setVscpEventExFromString(&event, text);
+if (result != VSCP_ERROR_SUCCESS) {
+    fprintf(stderr, "setVscpEventExFromString failed (error %d)\n", result);
+} else {
+    printf("class=%u type=%u data=%u,%u,%u\n",
+           event.vscp_class, event.vscp_type,
+           event.data[0], event.data[1], event.data[2]);
 }
 ```
+
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+event = vscp.vscpEventEx()
+text = "0,10,6,0,2020-11-24T17:28:11Z,4216090068,FF:FF:FF:FF:FF:FF:FF:F5:00:00:00:00:00:00:00:01,11,22,33"
+result = vscphelper.setVscpEventExFromString(event, text)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("setVscpEventExFromString failed (error {})".format(result))
+print(event.vscpclass, event.vscptype, list(event.data[:event.sizedata]))
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_setVscpEventFromString](vscphlp_setvscpeventfromstring.md)

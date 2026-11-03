@@ -12,28 +12,52 @@ int vscphlp_writeGuidToString4RowsEx( const vscpEventEx *pEvent,
 VSCP event.
 
 #### strGUID
-String that get formatted GUID.
+String that receives the formatted GUID.
 
 #### len
-Size of string buffer.
+Size of the string buffer.
 
 ### Return Value
-VSCP_ERROR_SUCCESS on success. 
+Returns VSCP_ERROR_SUCCESS on success.
 
 ### Description
 Write GUID from VSCP event to string with four bytes on each row separated by “\r\n”. 
 
 #### C example
 
+With the helper-library headers and standard C headers included:
+
 ```clike
-if ( VSCP_ERROR_SUCCESS == vscphlp_writeGuidToString4RowsEx( &ex3, strguid2, sizeof( strguid2 )-1 ) ) {
-    printf( "GUID\n%s\n", strguid2 );
-}
-else {
-    printf( "Error: vscphlp_writeGuidArrayToString\n");
+vscpEventEx event = {0};
+for (unsigned i = 0; i < 16; ++i) event.GUID[i] = (uint8_t)i;
+char text[128] = {0};
+int result = vscphlp_writeGuidToString4RowsEx(&event, text, sizeof(text) - 1);
+if (result != VSCP_ERROR_SUCCESS) {
+    fprintf(stderr, "writeGuidToString4RowsEx failed (error %d)\n", result);
+} else {
+    printf("%s\n", text);
 }
 ```
 
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+event = vscp.vscpEventEx()
+event.guid[:] = range(16)
+result, text = vscphelper.writeGuidToString4RowsEx(event)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("writeGuidToString4RowsEx failed (error {})".format(result))
+print(text)
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_writeGuidToString4Rows](vscphlp_writeguidtostring4rows.md)

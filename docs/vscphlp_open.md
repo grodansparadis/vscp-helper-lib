@@ -1,18 +1,12 @@
 
 
-```clike
-long vscphlp_open( long handle,
-                        const char *host, 
-                        const char *username, 
-                        const char *password )
+```c
+int vscphlp_open(long handle,
+                 const char *host,
+                 const char *username,
+                 const char *password);
 ```
 
-```python
-long pyvscphlp_open( handle,
-                     host, 
-                     username, 
-                     password )
-```
 
 ### Parameters
 
@@ -21,56 +15,72 @@ Handle for the communication channel obtained from a call to [vscphlp_newsession
 
 #### host
 
-String pointing to hostname of host to connect to. This can be a name that needs to be resolved e.g. “”www.grodansparadis.com” or a dotted IP-address e.g. “192.168.1.1”. The general format for the hostname is
+The server endpoint, including a port:
 
-    [PROTO://]HOST:PORT[:CERT][:CA_CERT] 
+* `stcp://host:port` uses TLS.
+* `tcp://host:port` or `host:port` uses plain, unencrypted TCP.
 
-where PROTO could be tcp:// or ssl://. If HOST is not an IP address, the system will resolve it - beware that standard blocking resolver will be used. It is a good practice to pre-resolve hosts beforehand and use only IP addresses to avoid blocking an IO thread.
+The server must be listening for the selected transport on that port. For TLS,
+use a hostname matching the server certificate. IPv6 literals must be enclosed
+in brackets, for example `[::1]:9598`.
 
-For SSL connections, specify CERT if server is requiring client auth. Specify CA_CERT to authenticate server certificate. All certificates must be in PEM format.
-handle
+The legacy `ssl://` prefix and `:CERT:CA_CERT` suffixes are not supported.
+See [TLS connections](tls.md) for trust configuration, limitations, and a
+complete example.
 
 #### username
 Username to use as credentials for login to the remote VSCP daemon.
-pPassword
 
 #### password
 Password to use as credentials for login to the remote VSCP daemon.
 
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success. VSCP_ERROR_INVALID_HANDLE will be returned if the interface is not initialized, VSCP_ERROR_MEMORY will there is problem to allocate needed structures, VSCP_ERROR_TIMEOUT is returned if connection or responses is not received in time, VSCP_ERROR_USER for problems with username, VSCP_ERROR_PASSWORD for problems with password and for all other error VSCP_ERROR_ERROR will be returned. 
+Returns `VSCP_ERROR_SUCCESS` on success. Possible errors include
+`VSCP_ERROR_INVALID_HANDLE` for an invalid session, `VSCP_ERROR_PARAMETER` for
+an invalid endpoint, `VSCP_ERROR_CONNECTION` for a connection or TLS failure,
+`VSCP_ERROR_TIMEOUT` for a timeout, and `VSCP_ERROR_USER` or
+`VSCP_ERROR_PASSWORD` for login-command failures.
 
 ### Description
-Opens a session to the TCP/IP interface of a VSCP server. 
+Connects and logs in to the TCP/IP interface of a VSCP server. The call waits
+for connection and login to complete, so applications should avoid calling it
+on a thread that must remain responsive.
 
-#### C example
+#### C example (TLS)
 
-```clike
-// Open Channel 1
-rv=vscphlp_open( handle1, 
-                    "127.0.0.1:9598",
-                    "admin",
-                    "secret" ); 
-if ( VSCP_ERROR_SUCCESS == rv ) {
-    printf("Command success: vscphlp_open on channel 1\n");
-}
-else {
-    printf("\aCommand error: vscphlp_open on channel 1  Error code=%d\n", rv);
+With an initialized `handle` and credentials supplied by the application:
+
+```c
+int result = vscphlp_open(handle, "stcp://server.example.com:9598",
+                          username, password);
+if (result != VSCP_ERROR_SUCCESS) {
+    fprintf(stderr, "VSCP connection failed (error %d)\n", result);
 }
 ```
 
-#### Python example
+Port 9598 is an example; use the port configured for TLS on your server.
+The [TLS guide](tls.md) includes a complete C program.
+
+#### Python example (TLS)
+
+With an initialized `handle` and credentials supplied by the application:
 
 ```python
-print "\n\nConnection in progress..."
-rv = pyvscphlp_open(h1,"127.0.0.1:9598","admin","secret")
-if VSCP_ERROR_SUCCESS == rv :
-    print "Command success: pyvscphlp_open on channel 1"
-else:
-    pyvscphlp_closeSession(h1)
-    raise ValueError('Command error: pyvscphlp_open on channel 1  Error code=%d' % rv )
+import vscp
+import vscphelper
+
+result = vscphelper.open(handle, "stcp://server.example.com:9598",
+                         username, password)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("VSCP connection failed (error {})".format(result))
 ```
+
+See the [TLS guide](tls.md) for a complete program and CA configuration.
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_openInterface](vscphlp_openinterface.md)  

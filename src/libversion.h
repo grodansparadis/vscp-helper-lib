@@ -28,12 +28,11 @@
 
 /*
   Library version information for the VSCP Helper Library.
-  Major, minor, and patch version numbers are defined below. 
-  This not the same as the released version which is year.month.patch
+  The major, minor, and patch version numbers are defined below.
+  These differ from the release version, which uses the year.month.patch format.
 */
 
-#define VSCP_HELPER_LIB_VERSION "15.3.248"
+#define VSCP_HELPER_LIB_VERSION "15.3.249"
 #define VSCP_HELPER_LIB_VERSION_MAJOR 15
 #define VSCP_HELPER_LIB_VERSION_MINOR 3
-#define VSCP_HELPER_LIB_VERSION_PATCH 248
-
+#define VSCP_HELPER_LIB_VERSION_PATCH 249

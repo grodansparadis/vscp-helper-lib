@@ -28,4 +28,23 @@ vscphlp_clearVSCPFilter( pFilter )
 
 
 
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+source = vscp.vscpEventFilter()
+source.filter_class = 10
+destination = vscp.vscpEventFilter()
+vscphelper.copyVSCPFilter(destination, source)
+print(destination.filter_class)
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
+
 [filename](./bottom_copyright.md ':include')

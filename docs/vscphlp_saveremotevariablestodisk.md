@@ -10,24 +10,20 @@ int vscphlp_saveRemoteVariablesToDisk( long handle )
 Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
 ### Return Value
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop. 
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ### Description
-Saves variables marked as persistent to disk. 
+Historically, this function saved persistent variables to disk.
 
-#### C example
-
-```clike
-// Save variables marked as persistent
-if ( VSCP_ERROR_SUCCESS == 
-       ( rv = vscphlp_saveRemoteVariablesToDisk( handle1 ) ) )  {
-    printf( "Command success: vscphlp_saveRemoteVariablesToDisk on channel 1\n" );
-}
-else {
-    printf("\aCommand error: vscphlp_saveRemoteVariablesToDisk on channel 1  Error code=%d\n", rv);
-}
-```
+> **Availability:** The current helper library does not declare or export
+> this function, and the official Python wrapper does not expose it. The
+> signature above is historical; no working C/C++ or Python example is
+> available for the current build.
 
 
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

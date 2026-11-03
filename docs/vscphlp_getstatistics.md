@@ -3,12 +3,9 @@
 
 ```clike
 int vscphlp_getStatistics( long handle, 
-                            canalStatistics *pStatistics )
+                            VSCPStatistics *pStatistics )
 ```
 
-```python
-int vscphlp_getStatistics( handle, statistics )
-```
 
 ### Parameters
 
@@ -32,36 +29,19 @@ typedef struct structVSCPStatistics {
 ```
 
 #### statistics (Python)
-```python
-# Transmission statistics structure
-class VSCPStatistics(Structure):
-    _fields_ = [("cntReceiveFrames", c_uint32),
-                ("cntTransmitFrames", c_uint32),
-                ("cntReceiveData", c_uint32),
-                ("cntTransmitData", c_uint32),
-                ("cntOverruns", c_uint32),
-                ("x", c_uint32),    # Placeholder
-                ("y", c_uint32),    # Placeholder
-                ("z", c_uint32) ]   # Placeholder
- 
-    def __init__(self):
-        self.cntReceiveFrames = 0
-        self.cntTransmitFrames = 0
-        self.cntReceiveData = 0
-        self.cntTransmitData = 0
-        self.cntOverruns = 0
-        self.x = 0
-        self.y = 0
-        self.z = 0
-
-
-```
+Use the `vscp.VSCPStatistics` structure supplied by `pyvscp`.
 
 ### Return Value
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop. 
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ### Description
-Get VSCP statistics. 
+Get VSCP statistics.
+
+> **Known limitation:** In the VSCP implementation currently pinned by this
+> library, the `STAT` response parser can copy the first response value into
+> multiple counters. A successful call does not guarantee that the reported
+> counters match the server response; verify the behavior of the VSCP version
+> in use before relying on them.
 
 #### C example
 
@@ -80,22 +60,23 @@ else {
 
 #### Python example
 
-Get statistics
+With an open session handle named `handle` (see the [TLS guide](tls.md#python-example)):
 
 ```python
-print "Get statistics"
-statistics = VSCPStatistics()
-rv = pyvscphlp_getStatistics( h1, statistics )
-if VSCP_ERROR_SUCCESS != rv :
-    pyvscphlp_closeSession(h1)
-    raise ValueError('Command error: pyvscphlp_setStatistics  Error code=%d' % rv )      
-print "Received frames = %d" % statistics.cntReceiveFrames
-print "Transmitted frames = %d" % statistics.cntTransmitFrames
-print "Receive data = %d" % statistics.cntReceiveData
-print "Transmitted data = %d" % statistics.cntTransmitData
-print "Overruns = %d" % statistics.cntOverruns
+import vscp
+import vscphelper
+
+statistics = vscp.VSCPStatistics()
+
+result = vscphelper.getStatistics(handle, statistics)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("getStatistics failed (error {})".format(result))
+print("Received frames: {}".format(statistics.cntReceiveFrames))
+print("Transmitted frames: {}".format(statistics.cntTransmitFrames))
 ```
 
+#### JavaScript availability
 
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')

@@ -57,4 +57,13 @@ int main(int argc, char* argv[])
 Run it with `./noop host:port user password`, or use `./noop` for the default
 connection parameters.
 
+For TLS, use an `stcp://host:port` endpoint and configure the server's CA as
+described in [TLS connections](tls.md). The example credentials and
+command-line arguments are for development only; avoid exposing production
+credentials in command lines or logs.
+
+For C and Python examples of the same command, see
+[vscphlp_noop](vscphlp_noop.md). The official Node.js binding does not yet
+expose it; see [language bindings](bindings.md#nodejs).
+
 [filename](./bottom_copyright.md ':include')

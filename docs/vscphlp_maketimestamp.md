@@ -23,4 +23,22 @@ printf( "vscphlp_makeTimeStamp  %04X\n", vscphlp_makeTimeStamp() );
 
 
 
+#### Python example
+
+Using the official [Python helper binding](bindings.md#python):
+
+```python
+import vscp
+import vscphelper
+
+timestamp = vscphelper.makeTimeStamp()
+if timestamp <= 0:
+    raise RuntimeError("Invalid timestamp")
+print(timestamp)
+```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
+
 [filename](./bottom_copyright.md ':include')

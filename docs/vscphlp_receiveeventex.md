@@ -5,24 +5,21 @@ int vscphlp_receiveEventEx( long handle,
                             vscpEventEx *pEventEx )
 ```
 
-```python
-int pyvscphlp_receiveEventEx( handle, eventex )
-```
 
 ### Parameters
 
 #### handle
-Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).e
+Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
 #### pEventEx
 Pointer to VSCP ex data structure that will receive the event.
 
 
 ### Return Value
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure. If the connection is closed VSCP_ERROR_CONNECTION is returned. VSCP_ERROR_PARAMETER is returned if called while in a receive loop. 
+Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
 
 ### Description
-Receive a VSCP event. The difference to vscphlp_receiveEvent is that the vscphlp_vscpEventEx structure have the data in the structure and vscpEvent that have a pointer to the data in the structure. 
+Receive a VSCP event. Unlike vscphlp_receiveEvent, the vscphlp_vscpEventEx structure stores the data in the structure itself; vscpEvent contains a pointer to the data.
 
 #### C example
 
@@ -48,22 +45,24 @@ else {
 
 #### Python example
 
+With an open session handle named `handle` (see the [TLS guide](tls.md#python-example)):
+
 ```python
-print "Waiting for incoming data..."
- 
-cntAvailable = ctypes.c_uint(0)
-while cntAvailable.value==0:
-    print 'Still waiting...'
-    time.sleep(1)
-    pyvscphlp_isDataAvailable(h1,cntAvailable)
- 
-print '%d event(s) is available' % cntAvailable.value
- 
-for i in range(0,cntAvailable.value):
-    ex = vscpEventEx()
-    if VSCP_ERROR_SUCCESS == pyvscphlp_receiveEventEx(h1,ex):
-        ex.dump()
+import vscp
+import vscphelper
+
+event = vscp.vscpEventEx()
+
+result = vscphelper.receiveEventEx(handle, event)
+if result != vscp.VSCP_ERROR_SUCCESS:
+    raise RuntimeError("receiveEventEx failed (error {})".format(result))
+print("class={}, type={}, data={}".format(
+    event.vscpclass, event.vscptype, list(event.data[:event.sizedata])))
 ```
+
+#### JavaScript availability
+
+The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 ### See Also
 [vscphlp_receiveEvent](vscphlp_receiveevent.md)
