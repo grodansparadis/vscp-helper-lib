@@ -18,6 +18,11 @@
    * [vscphlp_getVersionString](vscphlp_getversionstring.md)
    * [vscphlp_setResponseTimeout](vscphlp_setresponsetimeout.md)
    * [vscphlp_setAfterCommandSleep](vscphlp_setaftercommandsleep.md)
+   * [vscphlp_setTLSOptions](vscphlp_tls.md#vscphlp_settlsoptions)
+   * [vscphlp_enableTLS](vscphlp_tls.md#vscphlp_enabletls)
+   * [vscphlp_setTLSAutoSelect](vscphlp_tls.md#vscphlp_settlsautoselect)
+   * [vscphlp_setTLSMode](vscphlp_tls.md#vscphlp_settlsmode)
+   * [vscphlp_getTLSMode](vscphlp_tls.md#vscphlp_gettlsmode)
 
   * Communication link methods
 

@@ -160,6 +160,87 @@ vscphlp_setAfterCommandSleep(long handle, unsigned short sleeptime)
     return VSCP_ERROR_SUCCESS;
 }
 
+extern "C" DllExport int
+vscphlp_enableTLS(long handle, int enable)
+{
+    VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
+    if (NULL == pvscpif) {
+        return VSCP_ERROR_INVALID_HANDLE;
+    }
+
+    pvscpif->enableTLS(enable != 0);
+    return VSCP_ERROR_SUCCESS;
+}
+
+extern "C" DllExport int
+vscphlp_setTLSAutoSelect(long handle)
+{
+    VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
+    if (NULL == pvscpif) {
+        return VSCP_ERROR_INVALID_HANDLE;
+    }
+
+    pvscpif->setTLSAutoSelect();
+    return VSCP_ERROR_SUCCESS;
+}
+
+extern "C" DllExport int
+vscphlp_setTLSMode(long handle, int mode)
+{
+    VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
+    if (NULL == pvscpif) {
+        return VSCP_ERROR_INVALID_HANDLE;
+    }
+
+    switch (mode) {
+        case static_cast<int>(VscpRemoteTcpIf::tls_mode::auto_select):
+        case static_cast<int>(VscpRemoteTcpIf::tls_mode::force_tls):
+        case static_cast<int>(VscpRemoteTcpIf::tls_mode::force_plain):
+            pvscpif->setTLSMode(static_cast<VscpRemoteTcpIf::tls_mode>(mode));
+            return VSCP_ERROR_SUCCESS;
+        default:
+            return VSCP_ERROR_PARAMETER;
+    }
+}
+
+extern "C" DllExport int
+vscphlp_getTLSMode(long handle, int* pMode)
+{
+    VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
+    if (NULL == pvscpif) {
+        return VSCP_ERROR_INVALID_HANDLE;
+    }
+    if (NULL == pMode) {
+        return VSCP_ERROR_PARAMETER;
+    }
+
+    *pMode = static_cast<int>(pvscpif->getTLSMode());
+    return VSCP_ERROR_SUCCESS;
+}
+
+extern "C" DllExport int
+vscphlp_setTLSOptions(long handle,
+                     int verifyPeer,
+                     const char* caFile,
+                     const char* caPath,
+                     const char* certFile,
+                     const char* keyFile,
+                     const char* keyPassword)
+{
+    VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
+    if (NULL == pvscpif) {
+        return VSCP_ERROR_INVALID_HANDLE;
+    }
+
+    pvscpif->setTLSOptions(verifyPeer != 0,
+                           caFile ? caFile : "",
+                           caPath ? caPath : "",
+                           certFile ? certFile : "",
+                           keyFile ? keyFile : "",
+                           keyPassword ? keyPassword : "");
+    return VSCP_ERROR_SUCCESS;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // vscphlp_isConnected
 //

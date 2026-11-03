@@ -24,6 +24,12 @@ The server must be listening for the selected transport on that port. For TLS,
 use a hostname matching the server certificate. IPv6 literals must be enclosed
 in brackets, for example `[::1]:9598`.
 
+These prefixes apply in the default auto-select mode. The per-session
+[TLS configuration functions](vscphlp_tls.md) override transport selection:
+`vscphlp_setTLSOptions` or `vscphlp_enableTLS(handle, 1)` forces TLS;
+`vscphlp_enableTLS(handle, 0)` forces plain TCP. Configure trust and client
+certificates with `vscphlp_setTLSOptions` before opening.
+
 The legacy `ssl://` prefix and `:CERT:CA_CERT` suffixes are not supported.
 See [TLS connections](tls.md) for trust configuration, limitations, and a
 complete example.
@@ -76,7 +82,9 @@ if result != vscp.VSCP_ERROR_SUCCESS:
     raise RuntimeError("VSCP connection failed (error {})".format(result))
 ```
 
-See the [TLS guide](tls.md) for a complete program and CA configuration.
+See the [TLS guide](tls.md) for a complete program and per-session CA
+configuration through `ctypes`; the Python wrapper does not yet expose the
+new TLS setters.
 
 #### JavaScript availability
 

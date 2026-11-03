@@ -278,7 +278,7 @@ The endpoint is `stcp://host:port` for TLS, or `tcp://host:port` or
 
 The legacy `ssl://` prefix and certificate path suffixes are not supported by
 the current API. See the [TLS guide](../tls.md) for trust configuration and
-client-certificate limitations.
+per-session CA and client-certificate configuration.
 
 #####  handle
 

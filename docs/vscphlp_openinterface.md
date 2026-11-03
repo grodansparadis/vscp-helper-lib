@@ -21,6 +21,11 @@ The `stcp://` prefix selects TLS. Use `tcp://host:port;username;password` or
 `host:port;username;password` for plain, unencrypted TCP. The server must
 listen for the selected transport on that port.
 
+These prefixes apply in the default auto-select mode.
+[Per-session TLS settings](vscphlp_tls.md) apply to this function too:
+`vscphlp_setTLSOptions` forces TLS and supplies trust/client credentials;
+an explicit forced mode overrides the endpoint prefix.
+
 The interface string contains credentials; keep it private and do not log it.
 There is no escaping for semicolons in the username or password. If either
 contains a semicolon, use [vscphlp_open](vscphlp_open.md) with separate

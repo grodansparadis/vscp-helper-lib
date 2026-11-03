@@ -34,6 +34,11 @@ The transport tests use the pinned VSCP project's loopback test servers and do
 not require a running VSCP daemon. They require Google Test, Python 3.7 or
 later, and the `openssl` command.
 
+They exercise the exported C API's TLS options, including explicit CA files
+and directories, mutual TLS with an encrypted client key, verification
+failures, transport-mode precedence, per-session isolation, and reconnects.
+Certificates and loopback ports are created temporarily by the test runner.
+
 From the repository root, run:
 
 ```bash

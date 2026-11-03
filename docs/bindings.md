@@ -33,6 +33,11 @@ set `VSCPHELPER_LIB` to its full path before starting Python. Its functions
 use names such as `vscphelper.newSession()` and `vscphelper.open()`; older
 examples using `pyvscphlp_*` names do not describe this wrapper's API.
 
+The new per-session TLS setters are exported by the C library but are not
+yet wrapped by this Python package. See the [TLS ctypes example](tls.md#python-example)
+for programmatic CA and client-certificate configuration without changing
+the Python wrapper.
+
 For an event allocated by `newVSCPevent`, call `deleteVSCPevent_v2` to release
 both its helper-owned data and the event structure. The older
 `deleteVSCPevent` releases only the data. Do not pass a Python-owned event or

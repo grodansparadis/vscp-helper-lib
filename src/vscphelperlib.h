@@ -53,6 +53,31 @@ HELPERLIB_API int
 vscphlp_setResponseTimeout(long handle, unsigned long timeout );
 HELPERLIB_API int 
 vscphlp_setAfterCommandSleep(long handle, unsigned short sleeptime );
+
+#define VSCPHELPER_TLS_MODE_AUTO_SELECT 0
+#define VSCPHELPER_TLS_MODE_FORCE_TLS 1
+#define VSCPHELPER_TLS_MODE_FORCE_PLAIN 2
+
+/* TLS settings are copied per session and apply to subsequent connections.
+ * Optional strings may be NULL or empty. setTLSOptions forces TLS.
+ */
+HELPERLIB_API int
+vscphlp_enableTLS(long handle, int enable);
+HELPERLIB_API int
+vscphlp_setTLSAutoSelect(long handle);
+HELPERLIB_API int
+vscphlp_setTLSMode(long handle, int mode);
+HELPERLIB_API int
+vscphlp_getTLSMode(long handle, int *pMode);
+HELPERLIB_API int
+vscphlp_setTLSOptions(long handle,
+                     int verifyPeer,
+                     const char *caFile,
+                     const char *caPath,
+                     const char *certFile,
+                     const char *keyFile,
+                     const char *keyPassword);
+
 HELPERLIB_API int 
 vscphlp_isConnected(const long handle);
 HELPERLIB_API int 
@@ -64,10 +89,12 @@ vscphlp_clearLocalInputQueue( long handle );
 
 /*
  * Use "stcp://host:port" for TLS, or "tcp://host:port" (or no prefix)
- * for plain TCP. The server certificate and hostname are verified for TLS.
- * SSL_CERT_FILE (a PEM CA bundle) and SSL_CERT_DIR (directories containing
- * PEM CA certificates) override the corresponding OpenSSL trust locations.
- * This C API does not expose client-certificate settings.
+ * for plain TCP in auto-select mode. TLS verifies the server certificate
+ * and hostname by default. When no explicit CA locations are supplied,
+ * SSL_CERT_FILE (a PEM CA bundle) and SSL_CERT_DIR (PEM CA directories)
+ * override the corresponding OpenSSL trust locations.
+ * vscphlp_setTLSOptions configures per-session trust and client certificates.
+ * Explicit TLS modes override the endpoint prefix.
  *
  * vscphlp_openInterface takes "host:port;username;password", with the
  * optional transport prefix on the host. Pass 0 for flags. Credentials

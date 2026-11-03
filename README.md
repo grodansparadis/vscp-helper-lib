@@ -23,11 +23,15 @@ Helper functionality for [VSCP](https://www.vscp.org), packaged as a shared libr
 
 Use an `stcp://host:port` endpoint to connect to a TLS-enabled VSCP daemon.
 The library verifies the server certificate and hostname by default. For a
-private CA, configure OpenSSL's trust locations or set `SSL_CERT_FILE` or
-`SSL_CERT_DIR` before starting the application.
+private CA or mutual TLS, call
+[`vscphlp_setTLSOptions`](docs/vscphlp_tls.md#vscphlp_settlsoptions) before
+opening the session to supply a CA file/directory, client certificate, private
+key, and optional key passphrase. Settings are per session; no TLS environment
+variables are needed. OpenSSL's default trust locations and `SSL_CERT_FILE` /
+`SSL_CERT_DIR` remain available when no explicit CA locations are supplied.
 
 See the [TLS connection guide](docs/tls.md) for examples, certificate setup,
-client-certificate limitations, and troubleshooting.
+mutual TLS, transport-mode selection, and troubleshooting.
 
 ## Library versioning
 
