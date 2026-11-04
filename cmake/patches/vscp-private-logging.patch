@@ -1,0 +1,13 @@
+--- a/vscphelperlogging-internal.h
++++ b/vscphelperlogging-internal.h
+@@ -45,7 +45,9 @@
+  * building the functions; other Windows libraries import them.
+  */
+-#if defined(_WIN32) && defined(VSCP_HELPER_LOGGING_BACKEND_EXPORTS)
++#if defined(VSCP_HELPER_LOGGING_PRIVATE)
++#define VSCP_HELPER_LOGGING_BACKEND_API
++#elif defined(_WIN32) && defined(VSCP_HELPER_LOGGING_BACKEND_EXPORTS)
+ #define VSCP_HELPER_LOGGING_BACKEND_API __declspec(dllexport)
+ #elif defined(_WIN32)
+ #define VSCP_HELPER_LOGGING_BACKEND_API __declspec(dllimport)
+ #elif defined(__GNUC__)

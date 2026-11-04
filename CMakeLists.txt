@@ -387,7 +387,11 @@ if(WIN32)
   target_compile_definitions(libvscphelper PRIVATE HELPERLIB_EXPORTS)
 endif()
 
-target_sources(libvscphelper PRIVATE src/vscphelperlogging.cpp)
+target_sources(libvscphelper PRIVATE
+  ${VSCP_HELPER_LOGGING_SOURCES}
+  ${VSCP_HELPER_LOGGING_DIR}/vscphelperlogging.h)
+target_compile_definitions(libvscphelper PRIVATE
+  VSCP_ENABLE_HELPER_LOGGING VSCP_HELPER_LOGGING_PRIVATE)
 if(NOT WIN32)
   set_target_properties(libvscphelper PROPERTIES
     C_VISIBILITY_PRESET hidden

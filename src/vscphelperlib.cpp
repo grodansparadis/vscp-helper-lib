@@ -49,6 +49,7 @@
 #include <guid.h>
 #include <vscp-guid-parser.h>
 #include <vscphelper.h>
+#include <vscphelperlogging.h>
 #include <vscpremotetcpif.h>
 
 #include "vscphelperlib.h"
@@ -65,6 +66,43 @@
 #else
 #define DllExport
 #endif
+
+static_assert(VSCPHELPER_LOG_LEVEL_TRACE == VSCP_HELPER_LOG_LEVEL_TRACE &&
+              VSCPHELPER_LOG_LEVEL_DEBUG == VSCP_HELPER_LOG_LEVEL_DEBUG &&
+              VSCPHELPER_LOG_LEVEL_INFO == VSCP_HELPER_LOG_LEVEL_INFO &&
+              VSCPHELPER_LOG_LEVEL_WARN == VSCP_HELPER_LOG_LEVEL_WARN &&
+              VSCPHELPER_LOG_LEVEL_ERROR == VSCP_HELPER_LOG_LEVEL_ERROR &&
+              VSCPHELPER_LOG_LEVEL_CRITICAL == VSCP_HELPER_LOG_LEVEL_CRITICAL &&
+              VSCPHELPER_LOG_LEVEL_OFF == VSCP_HELPER_LOG_LEVEL_OFF,
+              "Public and VSCP core logging levels must match");
+
+extern "C" HELPERLIB_API int
+vscphlp_configureLogging(int consoleLevel,
+                         int fileLevel,
+                         const char* filePath,
+                         size_t maxFileSize,
+                         size_t maxFiles)
+{
+    return vscphelper_configureLogging(consoleLevel, fileLevel, filePath, maxFileSize, maxFiles);
+}
+
+extern "C" HELPERLIB_API int
+vscphlp_disableLogging(void)
+{
+    return vscphelper_disableLogging();
+}
+
+extern "C" HELPERLIB_API int
+vscphlp_flushLogging(void)
+{
+    return vscphelper_flushLogging();
+}
+
+extern "C" HELPERLIB_API const char*
+vscphlp_getLastLoggingError(void)
+{
+    return vscphelper_getLastLoggingError();
+}
 
 struct vscphlpobj
 {

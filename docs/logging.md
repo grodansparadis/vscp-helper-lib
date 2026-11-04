@@ -5,8 +5,9 @@ TCP/TLS transport and helper diagnostics. No spdlog pointers, C++ objects, or
 callbacks cross the C ABI. The application does not need to link spdlog.
 The library never changes spdlog's default logger, registry, global levels,
 thread pool, or shutdown state.
-Internal C++ code uses the private `VSCPHLP_LOG_*` macros and private logger
-accessor rather than spdlog's process-wide free-function/default-logger API.
+Internal C++ code uses the private `VSCPHLP_LOG_*` macros and VSCP's
+library-owned logging interface rather than spdlog's process-wide
+free-function/default-logger API. No spdlog types cross that interface.
 This keeps host applications using another spdlog version, or no spdlog at
 all, independent of the library's bundled version.
 The shared library hides its C++ and spdlog symbols; on Linux a linker export
@@ -21,6 +22,21 @@ VSCPHLP_LOG_ERROR("TLS setup failed: {}", reason);
 
 These macros log through the library-owned logger and do not call
 `spdlog::debug`, `spdlog::error`, or other process-default logger functions.
+
+The logger implementation lives in the VSCP repository alongside
+`vscphelper.cpp` and `vscpremotetcpif.cpp`. The helper library compiles its own
+private instance and preserves the existing `vscphlp_*` C API. The pinned VSCP
+revision includes the logger. Its backend and API forwarder are compiled into
+the helper library with private symbol visibility; all sources use its canonical
+public header to avoid duplicate definitions. Source overrides without it use a
+compatibility patch in the build directory. The authenticated-binary transport
+patch must stay synchronized with the pinned VSCP client, preserving its logging
+and binary-write locking. These patches do not modify the fetched VSCP checkout. CRLF
+checkout line endings are normalized only in those build-local copies. A
+separate VSCP core library has its own logging configuration.
+The optional `test_logging_host_compat` build target exercises a host using
+different spdlog headers when `VSCP_TEST_HOST_SPDLOG_INCLUDE_DIR` is set to
+their include directory.
 
 Before configuration, transport errors still go to stderr in their original
 format. Internal `VSCPHLP_LOG_*` calls use a private stderr logger at ERROR and
@@ -100,9 +116,10 @@ It is also valid before any configuration. Re-enable with another
 `vscphlp_configureLogging` call; closing a session does not disable logging.
 
 Configuration, emission, flushing, and disabling are thread-safe. Each
-in-flight log call retains its logger while configuration changes, so it may
-finish on the previous sink after reconfiguration returns. Logging creates no
-background threads. Slow disk/console writes can therefore delay library calls.
+in-flight write retains its logger while configuration changes. A log call
+racing with reconfiguration can use the previous or new sink, or be filtered
+if logging was disabled. Logging creates no background threads. Slow
+disk/console writes can therefore delay library calls.
 Do not unload the library while sessions or library calls are still active.
 
 ## Errors and safety
