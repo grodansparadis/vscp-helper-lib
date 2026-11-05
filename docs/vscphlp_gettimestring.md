@@ -19,7 +19,8 @@ Pointer to a time_t object containing a time value. time_t is an alias for an ar
 
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`,
+`VSCP_ERROR_PARAMETER`.
 
 ### Description
 Get GMT time https://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3.

@@ -13,7 +13,7 @@ Timeout value in milliseconds.
 
 
 ### Return Value
-Nothing
+Returns no value or error code.
 
 ### Description
 Set the response timeout in milliseconds. The default is 2000 milliseconds; values below 100 milliseconds are treated as 1000 milliseconds.

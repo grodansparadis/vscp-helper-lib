@@ -4,4 +4,7 @@ This historical function is not declared or exported by the current helper libra
 
 See [bindings](bindings.md) for the available language interfaces.
 
+### Return Value
+This function is not implemented or exported by the current helper library, so no return codes are available for this build.
+
 [filename](./bottom_copyright.md ':include')

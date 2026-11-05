@@ -33,6 +33,21 @@ system DNS resolution may take longer.
 and times one and then 101 NOOP commands. It defaults to `127.0.0.1:9598`.
 For helper-library API examples, see `bigtest` and the tests in `tests/alltest`.
 
+## UDP and multicast clients
+
+Build the helper-library datagram examples from the repository root:
+
+```sh
+cmake -S . -B build -DBUILD_DATAGRAM_SAMPLES=ON
+cmake --build build --target datagram_udp datagram_multicast
+```
+
+`build/datagram_udp` sends to the VSCP UDP broadcast endpoint by default;
+`build/datagram_multicast` joins the VSCP multicast group. Both examples wait
+for an event from a peer, so they time out if no compatible peer is active.
+See [the datagram client guide](../../docs/datagram_clients.md) for
+configuration details and network requirements.
+
 `build/stcp_tls_client [host:port] [ca.pem] [client-cert.pem [client-key.pem]]`
 connects to a TLS server and prints its first response. It defaults to
 `localhost:4433` and verifies the server certificate and hostname using the

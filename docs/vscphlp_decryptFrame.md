@@ -9,4 +9,7 @@ For the supported authenticated API, use
 or configure automatic per-session authentication/decryption with
 [`vscphlp_setBinarySecurity`](frame_security.md#automatic-per-session-security).
 
+### Return Value
+This function is not implemented or exported by the current helper library, so no return codes are available for this build.
+
 [filename](./bottom_copyright.md ':include')

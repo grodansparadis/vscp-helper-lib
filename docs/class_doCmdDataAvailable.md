@@ -8,7 +8,11 @@ int doCmdDataAvailable(void)
 None
 
 ### Return Value
-Returns the number of events available in the remote VSCP server queue, or a negative error code on failure.
+Returns a nonnegative event count, or `VSCP_ERROR_ERROR` (`-1`) if disconnected, in a
+receive loop, or the command fails. The count is a value, not a success code.
+The response is parsed without strict validation: an empty or nonnumeric
+response can appear as `0`, and a negative numeric response can be returned
+as a negative value.
 
 ### Description
 Get the number of events in the input queue of this interface 

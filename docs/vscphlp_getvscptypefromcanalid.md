@@ -2,7 +2,7 @@
 
 ```clike
 unsigned short 
-vscphlp_getVSCPtypeFromCANANALid( const unsigned long id )
+vscphlp_getVSCPtypeFromCANALid( const unsigned long id )
 ```
 
 ### Parameters
@@ -11,7 +11,7 @@ vscphlp_getVSCPtypeFromCANANALid( const unsigned long id )
 Extended 29-bit CANAL id to get head from.
 
 ### Return Value
-VSCP type. 
+Returns the extracted VSCP type, not an error code.
 
 ### Description
 Get the VSCP type from a CANAL message ID (CAN ID).

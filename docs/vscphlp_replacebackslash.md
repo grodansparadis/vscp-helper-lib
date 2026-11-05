@@ -6,12 +6,11 @@ int vscphlp_replaceBackslash( char *pStr )
 
 ### Parameters
 
-### Return Value
-VSCP_ERROR_SUCCESS is returned on success.
-
 #### pStr
 Pointer to a writable null-terminated string to convert in place.
 
+### Return Value
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Replace all backslashes (“\”) in a string with forward slashes (“/”). 
@@ -50,6 +49,5 @@ print(path)
 The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
 
 [filename](./bottom_copyright.md ':include')
-
 
 

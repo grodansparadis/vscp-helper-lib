@@ -16,7 +16,13 @@ Pointer to VSCP ex data structure that will receive the event.
 
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_PARAMETER`,
+`VSCP_ERROR_ERROR`, `VSCP_ERROR_MEMORY`, `VSCP_ERROR_READ`, `VSCP_ERROR_INVALID_FRAME`,
+`VSCP_ERROR_TIMEOUT`, `VSCP_ERROR_STOPPED`, `VSCP_ERROR_RCV_EMPTY`,
+`VSCP_ERROR_INVALID_FORMAT`.
+
+In binary mode, a nonzero error code from a server confirmation can also be returned.
 
 ### Description
 Receive a VSCP event. Unlike vscphlp_receiveEvent, the vscphlp_vscpEventEx structure stores the data in the structure itself; vscpEvent contains a pointer to the data.

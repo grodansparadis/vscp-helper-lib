@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <array>
 #include <string>
+#include <thread>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -140,6 +141,75 @@ TEST(TlsOptions, ModesAndInvalidArguments)
     ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_setTLSAutoSelect(session.handle));
     ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_getTLSMode(session.handle, &mode));
     EXPECT_EQ(VSCPHELPER_TLS_MODE_AUTO_SELECT, mode);
+}
+
+TEST(SingleChannel, ConfigurationAndInvalidArguments)
+{
+    Session session;
+    int enabled = -1;
+
+    ASSERT_NE(0, session.handle);
+    EXPECT_EQ(VSCP_ERROR_INVALID_HANDLE, vscphlp_setSingleChannelReceiveLoop(0, 1));
+    EXPECT_EQ(VSCP_ERROR_INVALID_HANDLE, vscphlp_isSingleChannelReceiveLoopEnabled(0, &enabled));
+    EXPECT_EQ(VSCP_ERROR_PARAMETER,
+              vscphlp_isSingleChannelReceiveLoopEnabled(session.handle, nullptr));
+    ASSERT_EQ(VSCP_ERROR_SUCCESS,
+              vscphlp_isSingleChannelReceiveLoopEnabled(session.handle, &enabled));
+    EXPECT_EQ(0, enabled);
+
+    ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_setSingleChannelReceiveLoop(session.handle, 1));
+    ASSERT_EQ(VSCP_ERROR_SUCCESS,
+              vscphlp_isSingleChannelReceiveLoopEnabled(session.handle, &enabled));
+    EXPECT_EQ(1, enabled);
+    ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_setSingleChannelReceiveLoop(session.handle, 0));
+    ASSERT_EQ(VSCP_ERROR_SUCCESS,
+              vscphlp_isSingleChannelReceiveLoopEnabled(session.handle, &enabled));
+    EXPECT_EQ(0, enabled);
+}
+
+TEST(SingleChannel, SendsAndReceivesOnOneConnection)
+{
+    const char* endpoint = std::getenv("VSCP_TEST_SINGLE");
+    ASSERT_NE(nullptr, endpoint);
+    Session session;
+    ASSERT_NE(0, session.handle);
+    ASSERT_EQ(VSCP_ERROR_SUCCESS,
+              vscphlp_setSingleChannelReceiveLoop(session.handle, 1));
+    ASSERT_EQ(VSCP_ERROR_SUCCESS,
+              vscphlp_open(session.handle, endpoint, "admin", "secret"));
+    ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_enterReceiveLoop(session.handle));
+    EXPECT_EQ(VSCP_ERROR_PARAMETER,
+              vscphlp_setSingleChannelReceiveLoop(session.handle, 0));
+
+    vscpEventEx initial = {};
+    ASSERT_EQ(VSCP_ERROR_SUCCESS,
+              vscphlp_blockingReceiveEventEx(session.handle, &initial, 1000));
+    EXPECT_EQ(10, initial.vscp_class);
+    EXPECT_EQ(6, initial.vscp_type);
+
+    vscpEventEx outgoing = {};
+    outgoing.vscp_class = 10;
+    outgoing.vscp_type = 6;
+    outgoing.sizeData = 2;
+    outgoing.data[0] = 4;
+    outgoing.data[1] = 5;
+
+    vscpEventEx incoming = {};
+    int receiveResult = VSCP_ERROR_ERROR;
+    std::thread receiver([&]() {
+        receiveResult = vscphlp_blockingReceiveEventEx(session.handle, &incoming, 2000);
+    });
+    const int sendResult = vscphlp_sendEventEx(session.handle, &outgoing);
+    receiver.join();
+
+    EXPECT_EQ(VSCP_ERROR_SUCCESS, sendResult);
+    ASSERT_EQ(VSCP_ERROR_SUCCESS, receiveResult);
+    EXPECT_EQ(10, incoming.vscp_class);
+    EXPECT_EQ(6, incoming.vscp_type);
+    ASSERT_EQ(3, incoming.sizeData);
+    EXPECT_EQ(4, incoming.data[0]);
+    EXPECT_EQ(5, incoming.data[1]);
+    EXPECT_EQ(VSCP_ERROR_SUCCESS, vscphlp_quitReceiveLoop(session.handle));
 }
 
 TEST(TlsOptions, ExplicitCAFileAndForcedTls)

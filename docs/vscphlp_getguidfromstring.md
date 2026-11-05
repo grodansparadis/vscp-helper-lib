@@ -13,7 +13,7 @@ VSCP event.
 Pointer to a GUID in string form.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Write GUID into VSCP event from a string. 

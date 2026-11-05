@@ -10,7 +10,8 @@ int doCmdFilter(const vscpEventFilter *pFilter)
 Pointer to VSCP filter structure to set.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_CONNECTION`,
+`VSCP_ERROR_PARAMETER`, `VSCP_ERROR_ERROR`.
 
 ### Description
 Set the receive filter on the remote VSCP server to select which events to receive. For more complex setups, you can open several channels and set a filter on each one.

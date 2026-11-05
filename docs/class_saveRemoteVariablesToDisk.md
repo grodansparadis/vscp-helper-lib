@@ -27,7 +27,8 @@ Select whether to write persistent variables, non-persistent variables, or both 
 Optional regular expression that selects which variables to write. By default, all variables are selected.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+This method is not present in the pinned `VscpRemoteTcpIf` implementation, so
+no return codes are available for this build.
 
 ### Description
 Save (selected) variables to external disk space in XML format. 

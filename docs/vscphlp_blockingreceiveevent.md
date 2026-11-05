@@ -18,9 +18,12 @@ Pointer to an event that will receive the event data on success. See [vscphlp_re
 Maximum time to wait, in milliseconds. Use a positive value.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success or an error code on failure. Returns
-VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER
-if called outside a text receive loop unless binary mode is active.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_PARAMETER`,
+`VSCP_ERROR_ERROR`, `VSCP_ERROR_READ`, `VSCP_ERROR_INVALID_FRAME`, `VSCP_ERROR_TIMEOUT`,
+`VSCP_ERROR_STOPPED`.
+
+In binary mode, a nonzero error code from a server confirmation can also be returned.
 
 ### Description
 Blocking receive of one VSCP event from the remote VSCP server. Data for the event is dynamically allocated and must be deleted by the application.

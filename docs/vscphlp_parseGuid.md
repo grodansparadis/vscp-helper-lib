@@ -13,9 +13,12 @@ Pointer to GUID array.
 #### pStr
 Pointer to a GUID in string form.
 
-#### Return Value
-VSCP_ERROR_SUCCESS on success
+### Return Value
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_POINTER`, `VSCP_ERROR_INVALID_SYNTAX`.
 
+The parser may accept abbreviated forms; success does not imply strict validation of every
+character.
 
 ### Description
 Parse extended GUID from string to VSCP GUID array. Supports all valid forms of GUID strings. For a list of valid formats [see](https://grodansparadis.github.io/vscp-doc-spec/#/./vscp_globally_unique_identifiers).

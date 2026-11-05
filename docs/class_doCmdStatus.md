@@ -11,7 +11,10 @@ Pointer to a canalStatus structure that will receive the remote VSCP server stat
 
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_CONNECTION`,
+`VSCP_ERROR_PARAMETER`, `VSCP_ERROR_ERROR`, `VSCP_ERROR_GENERIC`.
+The status pointer must be valid; it is not checked for null. The output
+may be partially modified even when an error is returned; use it only on success.
 
 ### Description
 Receive the CANAL status structure from the remote VSCP server. 

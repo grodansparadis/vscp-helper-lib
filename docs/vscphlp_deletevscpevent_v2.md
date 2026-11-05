@@ -12,7 +12,7 @@ null after the event is released.
 
 
 ### Return Value
-None.
+Returns no value or error code.
 
 ### Description
 Release the event's helper-allocated data and the event structure itself. Do

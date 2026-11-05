@@ -22,7 +22,7 @@ Set to true (nonzero) to use “\<br\>” instead of “\n” as the line break 
 
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success. 
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Write VSCP data in readable form to a possibly multiline string.

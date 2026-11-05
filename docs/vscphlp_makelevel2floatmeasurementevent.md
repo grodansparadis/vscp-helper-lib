@@ -34,7 +34,7 @@ Zone (0-255) for the measurement.
 Sub zone (0-255) for the measurement.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS if the measurement event is constructed successfully or VSCP_ERROR_ERROR otherwise.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Construct a Level II floating point measurement event from supplied data. **Note** that the GUID must be set externally. 

@@ -12,7 +12,10 @@ After creating a session and connecting with
 [vscphlp_openInterface](vscphlp_openinterface.md), choose how to receive:
 
 * **Text mode:** call [vscphlp_enterReceiveLoop](vscphlp_enterreceiveloop.md)
-  before using a blocking receive API. Leave the loop with
+  before using a blocking receive API. By default, commands are restricted
+  while the receive loop is active; opt in to
+  [single-channel mode](single_channel.md) to send events while receiving on
+  the same TCP/TLS connection. Leave the loop with
   [vscphlp_quitReceiveLoop](vscphlp_quitreceiveloop.md).
 * **Binary mode:** negotiate with `vscphlp_doCmdBinary` after login. A text
   receive loop is not used; the event receive APIs handle binary event frames,

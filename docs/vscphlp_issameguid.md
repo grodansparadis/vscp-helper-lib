@@ -15,7 +15,8 @@ GUID2 to compare.
 
 
 ### Return Value
-True (non-zero) if GUIDs are the same. 
+Returns `1` if the GUIDs are equal and `0` otherwise. A null pointer also returns `0`; these
+are boolean values, not VSCP error codes.
 
 ### Description
 Check whether two GUIDs are equal.

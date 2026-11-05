@@ -11,7 +11,7 @@ No session or server connection is required.
 
 The return value is a non-null, null-terminated, read-only string owned by the
 library. Do not modify or free it. It remains valid until the library is
-unloaded and can be read concurrently by multiple threads.
+unloaded and can be read concurrently by multiple threads. It does not return an error code.
 
 ## C example
 
@@ -57,6 +57,7 @@ print("Helper library version: {}".format(get_version().decode("ascii")))
 ## JavaScript availability
 
 The official [Node.js binding](bindings.md#nodejs) does not currently expose
-this function.
+this function. A Node.js FFI example is available in
+[Using with JavaScript](using.md#using-with-javascript).
 
 [filename](./bottom_copyright.md ':include')

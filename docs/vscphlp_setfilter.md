@@ -36,7 +36,9 @@ typedef struct  {
 Use the `vscp.vscpEventFilter` structure supplied by `pyvscp`.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_PARAMETER`,
+`VSCP_ERROR_ERROR`.
 
 ### Description
 Set VSCP filter/mask.

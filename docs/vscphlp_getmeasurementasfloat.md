@@ -12,7 +12,7 @@ int vscphlp_getMeasurementAsFloat(const unsigned char *pData,
 Pointer to VSCP event data for measurement event.
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success. 
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Get a coded measurement as a float. 

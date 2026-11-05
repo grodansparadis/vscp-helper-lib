@@ -10,7 +10,7 @@ int vscphlp_convertLevel1MeasuremenToLevel2Double( vscpEvent *pEvent )
 Pointer to a VSCP event.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS if the event is a measurement or VSCP_ERROR_ERROR if it is not.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Convert Level I measurement to a Level II float measurement event [CLASS2.MEASUREMENT_FLOAT](https://grodansparadis.gitbooks.io/the-vscp-specification/class2.measurement_float.html). 

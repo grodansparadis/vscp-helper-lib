@@ -14,7 +14,7 @@ Event whose priority will be changed.
 Priority from 0 to 7.
 
 ### Return Value
-None
+Returns no value or error code.
 
 ### Description
 Set the event priority. Priority is a value from 0 to 7, where 0 is the highest priority.

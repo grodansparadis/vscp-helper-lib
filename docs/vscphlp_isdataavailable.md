@@ -19,7 +19,10 @@ Variable that gets the number of events waiting in the queue on a successful cal
 
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_PARAMETER`,
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_ERROR`.
+An empty or nonnumeric count response can be reported as a successful count
+of zero. A negative count is mapped to `VSCP_ERROR_ERROR`.
 
 ### Description
 Check the number of events (if any) that are available in the remote input queue. 

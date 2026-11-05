@@ -11,7 +11,8 @@ VSCP event.
 
 
 ### Return Value
-Priority. 
+Returns the event priority (`0` to `7`), not an error code. A null event returns `0`, which
+is also a valid priority.
 
 ### Description
 Extract the event priority from a VSCP event. Priority is a value from 0 to 7, where 0 is the highest priority.

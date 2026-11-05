@@ -1,5 +1,10 @@
 # Methods in the VscpRemoteTcpIf class
 
+> **Archived reference:** APIs, signatures, return values, and examples on this
+> historical page may not match the pinned implementation. Use the
+> [current C++ method references](../classes_methods.md) and
+> [return-value guide](../error_handling.md) instead.
+
 This is a description of the public methods of the [VscpRemoteTcpIf](https///github.com/grodansparadis/vscp/blob/master/src/vscp/common/vscpremotetcpif.h) class. 
 
 \\ \\ 

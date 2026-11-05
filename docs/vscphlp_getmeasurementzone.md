@@ -10,7 +10,8 @@ int vscphlp_getMeasurementZone( const vscpEvent *pEvent )
 Pointer to a VSCP measurement event.
 
 ### Return Value
-The zone is returned as a value from 0 to 255, where 255 means “all zones”. Returns -1 if the event is invalid or is not a measurement event.
+Returns the zone (`0` to `255`) on success or `-1` (`VSCP_ERROR_ERROR`) for an invalid or
+unsupported measurement. `255` denotes all zones.
 
 > **Known limitation:** For a Level II measurement with zone 3 and subzone 4,
 > the current implementation returns 4 instead of 3. For a Level I

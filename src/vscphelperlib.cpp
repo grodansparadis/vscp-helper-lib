@@ -1115,6 +1115,32 @@ vscphlp_enterReceiveLoop(const long handle)
     return pvscpif->doCmdEnterReceiveLoop();
 }
 
+extern "C" DllExport int
+vscphlp_setSingleChannelReceiveLoop(long handle, int enable)
+{
+    VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
+    if (NULL == pvscpif) {
+        return VSCP_ERROR_INVALID_HANDLE;
+    }
+
+    return pvscpif->setSingleChannelReceiveLoop(enable != 0);
+}
+
+extern "C" DllExport int
+vscphlp_isSingleChannelReceiveLoopEnabled(long handle, int* pEnabled)
+{
+    VscpRemoteTcpIf* pvscpif = getDriverObject(handle);
+    if (NULL == pvscpif) {
+        return VSCP_ERROR_INVALID_HANDLE;
+    }
+    if (NULL == pEnabled) {
+        return VSCP_ERROR_PARAMETER;
+    }
+
+    *pEnabled = pvscpif->isSingleChannelReceiveLoopEnabled() ? 1 : 0;
+    return VSCP_ERROR_SUCCESS;
+}
+
 /*!
     Quit the receiveloop
 */

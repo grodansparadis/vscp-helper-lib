@@ -11,7 +11,7 @@ void setAfterCommandSleep(uint16_t to)
 Sleep value in milliseconds. This value is currently ignored.
 
 ### Return Value
-Nothing
+Returns no value or error code. This compatibility setter is a no-op.
 
 ### Description
 This method is retained for backward compatibility. It currently has no effect on the delay after a command.

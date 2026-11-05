@@ -16,7 +16,13 @@ This is the command that should be sent to the server. It should be terminated w
 
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS if the VSCP daemon responds with +OK after receiving the command, or VSCP_ERROR_ERROR if it responds with -OK or no response arrives before the timeout expires. Returns VSCP_ERROR_CONNECTION if the communication channel is not open and VSCP_ERROR_INVALID_HANDLE if the handle is invalid.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_PARAMETER`,
+`VSCP_ERROR_ERROR`, `VSCP_ERROR_TIMEOUT`, `VSCP_ERROR_STOPPED`, `VSCP_ERROR_INVALID_FRAME`.
+
+For ordinary text commands, a rejected response, reply timeout, or write
+failure is reported as `VSCP_ERROR_ERROR`. The explicit timeout, stopped,
+and invalid-frame codes can result from `BINARY` negotiation.
 
 ### Description
 Send a command over the communication link. The command should end with “\r\n”. The server's response is checked for +OK.

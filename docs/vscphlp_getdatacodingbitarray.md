@@ -16,7 +16,8 @@ Number of bytes in the measurement data, including the initial data coding byte.
 
 
 ### Return Value
-A 64-bit unsigned integer is returned. The bits in the measurement data array are in MSB - LSB order and this is preserved in the unsigned 64-bit integer. 
+Returns the decoded unsigned bit array in most-significant-byte-first order, not an error
+code. A null input or rejected length returns `0`, which is also a valid decoded value.
 
 ### Description
 Get measurement data encoded as bits as an unsigned 64-bit value.
@@ -28,7 +29,7 @@ unsigned char bitarry[3];
 bitarry[0] = VSCP_DATACODING_BIT; // Data cding byte. Default unit, sensoridx=0
 bitarry[1] = 0x55;
 bitarry[2] = 0xAA;
-unsigned long long bitarray64 = vscphlp_getDataCodingBitArray( bitarry, sizeof( bitarry ) )
+unsigned long long bitarray64 = vscphlp_getDataCodingBitArray( bitarry, sizeof( bitarry ) );
 ```
 
 

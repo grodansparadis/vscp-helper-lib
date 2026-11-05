@@ -11,7 +11,7 @@ vscphlp_getVSCPclassFromCANALid( unsigned long id )
 Extended 29-bit CANAL id to get head from.
 
 ### Return Value
-VSCP class. 
+Returns the extracted VSCP class, not an error code.
 
 ### Description
 Get the VSCP class from a CANAL message id. 

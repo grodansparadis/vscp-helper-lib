@@ -23,7 +23,12 @@ Size of the supplied buffer (strResult). The string is at most 7 bytes plus the 
 
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success. 
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
+`VSCP_ERROR_ERROR` is returned if `pData` or `strResult` is null.
+
+Truncation is not reported; the output may lack a terminating null byte if the buffer is too
+small. The input length is not validated; it must include the coding byte and
+fit the documented maximum of eight bytes.
 
 ### Description
 Get string coded measurement data as a string value. 

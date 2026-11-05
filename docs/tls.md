@@ -108,7 +108,7 @@ int main(int argc, char **argv)
     }
 
     long session = vscphlp_newSession();
-    if (session == 0) {
+    if (session <= 0) {
         fprintf(stderr, "Could not create a VSCP session\n");
         return EXIT_FAILURE;
     }
@@ -210,7 +210,7 @@ key_password = (
 )
 
 session = library.vscphlp_newSession()
-if not session:
+if session <= 0:
     raise RuntimeError("Could not create a VSCP session")
 
 try:
@@ -291,7 +291,8 @@ The `true` argument enables certificate and hostname verification.
 `setTLSOptions` forces TLS; a nonempty CA file or directory replaces the
 default trust locations for that client. Leave both CA arguments empty to
 use the defaults. An optional final argument supplies an encrypted key's
-password.
+password. The C++ `setTLSOptions` method returns `void` and does not report an
+error code; connection and TLS failures are reported by `doCmdOpen`.
 
 This C++ class is separate from the C helper API; see the
 [first C++ project](classes_first_project.md) for how to use it.

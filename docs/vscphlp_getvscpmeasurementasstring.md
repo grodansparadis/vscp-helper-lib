@@ -18,7 +18,7 @@ The resulting measurement in string form.
 Size for the buffer in which the resulting string is written.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 > **Known limitation:** For a Level II floating-point measurement containing 3.14, the current implementation returned `0.000000` instead of the measurement value.
 

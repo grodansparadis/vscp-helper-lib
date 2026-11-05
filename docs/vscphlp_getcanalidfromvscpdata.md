@@ -19,7 +19,7 @@ VSCP Class.
 VSCP type.
 
 ### Return Value
-CANAL (CAN) id. 
+Returns the constructed CANAL identifier, not an error code.
 
 ### Description
 Construct a CANAL id (CAN id ) from a VSCP event. 

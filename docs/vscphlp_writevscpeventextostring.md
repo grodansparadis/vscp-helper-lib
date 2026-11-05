@@ -19,7 +19,7 @@ Pointer to the string buffer that will receive the result.
 Size of buffer.
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Write VSCP event ex content to a string. 

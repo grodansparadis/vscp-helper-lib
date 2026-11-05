@@ -17,7 +17,10 @@ Receives the filter in string form: priority,class,type,GUID. The buffer must be
     filter-priority, filter-class, filter-type, filter-GUID
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
+
+The caller must provide a sufficiently large output buffer; this API has no capacity
+argument.
 
 ### Description
 Write a filter to a comma-separated string (priority,class,type,GUID).

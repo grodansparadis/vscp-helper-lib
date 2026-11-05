@@ -1,7 +1,7 @@
 
 
 ```clike
-long vscphlp_readStringValue( const char * pStrValue )
+unsigned long vscphlp_readStringValue( const char * pStrValue )
 ```
 
 ### Parameters
@@ -10,7 +10,9 @@ long vscphlp_readStringValue( const char * pStrValue )
 Pointer to string representation of value.
 
 ### Return Value
-The converted number as a signed long.
+The parsed number is returned as `unsigned long`, not as an error code. Invalid or
+out-of-range text produces `0`, which is also a valid value. Negative numbers are converted
+to unsigned. The input pointer must be non-null.
 
 ### Description
 Convert a string to an integer. The string can represent a decimal value (10, 00001) or a hexadecimal value (0xff).
@@ -18,7 +20,7 @@ Convert a string to an integer. The string can represent a decimal value (10, 00
 #### C example
 
 ```clike
-long readValue = vscphlp_readStringValue("0x22");
+unsigned long readValue = vscphlp_readStringValue("0x22");
 ```
 
 
@@ -37,6 +39,8 @@ print(value)
 
 #### JavaScript availability
 
-The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
+The official [Node.js binding](bindings.md#nodejs) does not currently expose
+this function. A Node.js FFI example is available in
+[Using with JavaScript](using.md#using-with-javascript).
 
 [filename](./bottom_copyright.md ':include')

@@ -18,7 +18,10 @@ Buffer that will receive the resulting string.
 Size of the string buffer.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_BUFFER_TO_SMALL if the supplied buffer is too small.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_BUFFER_TO_SMALL`.
+
+The conversion helper's own success/failure result is not checked by this wrapper.
 
 ### Description
 Write a VSCP event ex to a string in HTML format. The format is specified in [vscp.h](https://github.com/grodansparadis/vscp/blob/master/src/vscp/common/vscp.h).

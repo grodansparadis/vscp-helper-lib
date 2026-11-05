@@ -16,7 +16,9 @@ The level I or level II event to send. The `vscpEventEx` structure is defined
 in [vscp.h](https://github.com/grodansparadis/vscp_software/blob/master/src/vscp/common/vscp.h).
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_PARAMETER`,
+`VSCP_ERROR_ERROR`, `VSCP_ERROR_INVALID_FRAME`, `VSCP_ERROR_TIMEOUT`, `VSCP_ERROR_STOPPED`.
 
 ### Description
 Send a VSCP event. Whether or not the call succeeds, the caller retains

@@ -10,7 +10,7 @@ const char *doCmdVendorString(void)
 Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
 ### Return Value
-Returns a pointer to a null-terminated string containing vendor information, or a NULL pointer on failure.
+Returns a pointer to the local vendor string, not an error code.
 
 ### Description
 Get the vendor (maker of DL/DLL) string. This is intended for CANAL. 

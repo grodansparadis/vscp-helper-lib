@@ -15,7 +15,9 @@ A pointer to the data coding byte of the measurement data.
 The size of the measurement data including the data coding byte.
 
 ### Return Value
-A double precision floating point value that is the decimal representation of the measurement data. 
+Returns the decoded integer as `unsigned long long`, not an error code. Negative decoded
+values are converted to unsigned. A null input or an 8-bit length below two returns `0`,
+which is also a valid decoded value. The supplied size is converted to an 8-bit length.
 
 ### Description
 Get measurement data encoded as a signed integer (1-7 bytes) as a 64-bit integer.
@@ -23,18 +25,9 @@ Get measurement data encoded as a signed integer (1-7 bytes) as a 64-bit integer
 #### C example
 
 ```clike
-unsigned char normarry[4];
-normarry[0] = 0x60; // Data coding byte:integer, unit=0, sensoridx=0
-normarry[1] = 0xFF;
-normarry[2] = 0xFF;
-normarry[3] = 0xFF;
-double value =  vscphlp_getDataCodingInteger (normarry, sizeof( normarry ) );
-if ( 3.1 == value ) {
-    printf("OK - vscphlp_getDataCodingInteger value = %f \n", value );
-}
-else {
-    printf("Error - vscphlp_getDataCodingNormalizedInteger value = %f \n", value );
-}
+unsigned char data[] = {0x60, 0x01, 0x02};
+unsigned long long value = vscphlp_getDataCodingInteger(data, sizeof(data));
+printf("Decoded value: %llu\n", value); // 258
 ```
 
 

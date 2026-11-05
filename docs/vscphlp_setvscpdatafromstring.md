@@ -15,7 +15,7 @@ VSCP Event which will have its data set.
 Pointer to a null-terminated string containing data in comma-separated form.
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success. 
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Set data in VSCP event from a string. 

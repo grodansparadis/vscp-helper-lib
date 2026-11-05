@@ -15,7 +15,7 @@ A pointer to a double that will receive the measurement result.
 
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 This method returns a double representing the measurement data. It recognizes all data coding forms and returns an appropriate value.

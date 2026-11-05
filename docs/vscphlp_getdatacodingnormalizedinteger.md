@@ -15,7 +15,8 @@ A pointer to the data coding byte of the measurement data.
 The size of the measurement data including the data coding byte.
 
 ### Return Value
-A double precision floating point value that is the decimal representation of the measurement data. 
+Returns the decoded `double`, not an error code. A null input or rejected length returns
+`0.0`, which is also a valid decoded value.
 
 ### Description
 Get measurement data that is coded as a normalized integer as a floating point value.
@@ -23,18 +24,9 @@ Get measurement data that is coded as a normalized integer as a floating point v
 #### C example
 
 ```clike
-unsigned char normarry[4];
-normarry[0] = 0x89; // Data coding byte: Normalized integer, unit=1, sensoridx=1
-normarry[1] = 0x02;
-normarry[2] = 0x01;
-normarry[3] = 0x36;
-double value =  vscphlp_getDataCodingNormalizedInteger (normarry, sizeof( normarry ) );
-if ( 3.1 == value ) {
-    printf("OK - vscphlp_getDataCodingNormalizedInteger value = %f \n", value );
-}
-else {
-    printf("Error - vscphlp_getDataCodingNormalizedInteger value = %f \n", value );
-}
+unsigned char data[] = {0x89, 0x82, 0x01, 0x36};
+double value = vscphlp_getDataCodingNormalizedInteger(data, sizeof(data));
+printf("Decoded value: %.2f\n", value); // 3.10
 ```
 
 

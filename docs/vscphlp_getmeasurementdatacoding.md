@@ -11,7 +11,8 @@ Event that the data coding is fetched from.
 
 
 ### Return Value
-Data coding byte.
+Returns the data-coding byte, not an error code. `255` (`0xff`) is returned for missing data
+or an unsupported event class; it is an unsigned-byte sentinel.
 
 ### Description
 Get the [measurement data coding byte](https://grodansparadis.gitbooks.io/the-vscp-specification/vscp_data_coding.html) from an event. The measurement data coding byte specifies how the data in the event should be interpreted. 

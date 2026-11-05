@@ -11,7 +11,9 @@ int doCmdMask(uint32_t mask)
 CANAL 32-bit mask.
 
 ### Return Value
-Always returns CANAL_ERROR_SUCCESS.
+The method returns `CANAL_ERROR_SUCCESS` (`0`) and does not report a failure code.
+
+The method is a no-op.
 
 ### Description
 Dummy for required CANAL method. 
@@ -25,7 +27,7 @@ With an authenticated `VscpRemoteTcpIf client` (see [TLS connections](tls.md)) a
 
 ```cpp
 int result = client.doCmdMask(0);
-if (result != VSCP_ERROR_SUCCESS) {
+if (result != CANAL_ERROR_SUCCESS) {
     std::cerr << "doCmdMask failed (error " << result << ")\n";
 }
 ```

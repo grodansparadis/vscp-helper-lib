@@ -14,7 +14,8 @@ If TRUE (nonzero), clear the input buffer before waiting for +OK or -OK in the i
 
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS if the VSCP daemon responds with “+OK” after receiving the command, or VSCP_ERROR_ERROR if it does not or no response arrives before the timeout expires.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_ERROR`.
 
 ### Description
 Check reply data for “+OK”/“-OK” on server. 

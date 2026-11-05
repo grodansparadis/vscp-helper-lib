@@ -18,7 +18,11 @@ Minor version of VSCP remote server interface.
 Sub version of VSCP remote server interface.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_CONNECTION`,
+`VSCP_ERROR_PARAMETER`, `VSCP_ERROR_ERROR`.
+All three version pointers must be valid; they are not checked for null.
+`VSCP_ERROR_PARAMETER` indicates that the operation is not allowed in the
+current receive-loop mode, not a null-pointer check.
 
 ### Description
 Get the interface version from the remote VSCP server. 

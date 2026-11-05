@@ -11,10 +11,32 @@ int vscphlp_enterReceiveLoop( long handle )
 Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_PARAMETER`,
+`VSCP_ERROR_ERROR`.
 
 ### Description
-Enter the receive loop. After this command, only vscphlp_quitReceiveLoop, vscphlp_Close, and the blocking receive methods [vscphlp_blockingReceiveEvent](vscphlp_blockingreceiveevent.md) and [vscphlp_blockingReceiveEventEx](vscphlp_blockingreceiveeventex.md) are available. This is intended for threaded communication in which one thread sends events and another receives them using blocking calls.
+Enter the receive loop. By default, commands and the receive loop use separate
+connections. To use one connection for both, configure
+[single-channel mode](vscphlp_setsinglechannelreceiveloop.md) before entering
+the loop. In that mode, `SEND`, `NOOP`, `CLRA`, and `QUITLOOP` are the only
+supported commands while receiving. Other commands return
+`VSCP_ERROR_PARAMETER`.
+
+#### C example
+
+```c
+int result = vscphlp_setSingleChannelReceiveLoop(handle, 1);
+if (result == VSCP_ERROR_SUCCESS) {
+    result = vscphlp_enterReceiveLoop(handle);
+}
+if (result != VSCP_ERROR_SUCCESS) {
+    fprintf(stderr, "Could not enter single-channel receive loop (error %d)\n", result);
+}
+```
+
+See [single-channel TCP/IP receive loop](single_channel.md) for a threaded
+send/receive example and server requirements.
 
 #### C example
 ```clike

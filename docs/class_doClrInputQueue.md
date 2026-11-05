@@ -8,7 +8,7 @@ void doClrInputQueue(void)
 None
 
 ### Return Value
-None
+Returns no value or error code.
 
 ### Description
 Clear the input queue 

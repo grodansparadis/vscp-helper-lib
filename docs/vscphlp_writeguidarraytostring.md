@@ -19,7 +19,7 @@ Pointer to buffer that can hold the GUID in string form.
 Size of the string buffer.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Write GUID from byte array to string. 

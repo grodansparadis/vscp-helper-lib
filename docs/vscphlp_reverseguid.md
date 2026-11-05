@@ -12,7 +12,7 @@ GUID array to be reversed.
 
 
 ### Return Value
-Return VSCP_ERROR_SUCCESS on success. 
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Reverse a GUID array. 

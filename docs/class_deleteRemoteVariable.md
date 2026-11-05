@@ -14,7 +14,8 @@ int deleteRemoteVariable( const wxString& name )
 Name of the remote variable to delete.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+This method is not present in the pinned `VscpRemoteTcpIf` implementation, so
+no return codes are available for this build.
 
 ### Description
 Delete the named remote variable.

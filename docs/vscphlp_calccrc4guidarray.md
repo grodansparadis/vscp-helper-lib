@@ -11,7 +11,7 @@ Array of sixteen bytes containing the GUID in most-significant-byte-first order.
 
 
 ### Return Value
-8-bit CRC for GUID.
+Returns the 8-bit GUID CRC, not an error code. The array pointer must be valid.
 
 ### Description
 Calculate the 8-bit CRC for a GUID array.

@@ -16,7 +16,12 @@ Pointer to a `vscpEvent` that receives the event on success. The structure is
 defined in [vscp.h](https://github.com/grodansparadis/vscp_software/blob/master/src/vscp/common/vscp.h).
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_PARAMETER`,
+`VSCP_ERROR_ERROR`, `VSCP_ERROR_MEMORY`, `VSCP_ERROR_READ`, `VSCP_ERROR_INVALID_FRAME`,
+`VSCP_ERROR_TIMEOUT`, `VSCP_ERROR_STOPPED`.
+
+In binary mode, a nonzero error code from a server confirmation can also be returned.
 
 ### Description
 Receive one VSCP event from the remote VSCP server if there is one available in the server queue. Data for the event is dynamically allocated and must be deleted by the application. 

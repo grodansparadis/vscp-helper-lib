@@ -35,7 +35,10 @@ GUID of the remote node.
 If true, this is a true Level II read operation.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`CANAL_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`CANAL_ERROR_PARAMETER` if a required pointer is null or `count` exceeds 128,
+and `CANAL_ERROR_TIMEOUT` if the expected replies do not arrive. Send/receive
+errors are not propagated directly and can result in a timeout.
 
 ### Description
 Read one or more level II registers. 
@@ -49,7 +52,7 @@ With an authenticated `VscpRemoteTcpIf client` (see [TLS connections](tls.md)) a
 ```cpp
 uint8_t values[4] = {};
 int result = client.readLevel2Registers(0x10, 0, 4, values, interface_guid, &device_guid);
-if (result != VSCP_ERROR_SUCCESS) {
+if (result != CANAL_ERROR_SUCCESS) {
     std::cerr << "readLevel2Registers failed (error " << result << ")\n";
 } else {
     std::cout << "First value: " << static_cast<unsigned>(values[0]) << '\n';

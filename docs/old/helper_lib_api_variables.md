@@ -1,5 +1,10 @@
 # VSCP Helper library API - Variable handling 
 
+> **Archived reference:** APIs, signatures, return values, and examples on this
+> historical page may not match the current build. Use the
+> [current method references](../methods.md) and
+> [return-value guide](../error_handling.md) instead.
+
 The library supports most operations for handling variables on the VSCP daemon. This section describes the API. Variables and their use are discussed [here](https://docs.vscp.org/vscpd/latest/#/decision_matrix).
 
 **Note:** From version 2, names use **vscphlp_xxxxRemoteVariable** instead of **vscphlp_xxxxVariable**.

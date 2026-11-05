@@ -11,7 +11,8 @@ int doCmdGetGUID(unsigned char *pGUID)
 Pointer to a 16-byte array that will receive the GUID. The most significant byte is first.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_CONNECTION`,
+`VSCP_ERROR_PARAMETER`, `VSCP_ERROR_ERROR`, `VSCP_ERROR_GENERIC`.
 
 ### Description
 Get GUID for the remote VSCP server interface. 

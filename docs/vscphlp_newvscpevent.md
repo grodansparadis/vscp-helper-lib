@@ -10,7 +10,7 @@ int vscphlp_newVSCPevent( vscpEvent **ppEvent )
 Pointer to pointer to a VSCP event.
 
 ### Return Value
-Return VSCP_ERROR_SUCCESS on success, VSCP_ERROR_ERROR on failure.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Creates a new VSCP event and initializes its data pointer and size. Initialize

@@ -10,7 +10,7 @@ int vscphlp_convertLevel1MeasuremenToLevel2StringEx( vscpEventEx *pEventEx )
 Pointer to a VSCP event ex.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS if the measurement event is converted successfully or VSCP_ERROR_ERROR otherwise.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 > **C API limitation:** The header declares this name with `Measuremen`, but the library exports it with `Measurement`. The Python wrapper resolves the exported name.
 

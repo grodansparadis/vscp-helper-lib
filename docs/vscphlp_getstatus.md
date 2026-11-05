@@ -18,7 +18,11 @@ Pointer to [VSCPStatus](https://github.com/grodansparadis/vscp_software/blob/mas
 [VSCPStatus](https://github.com/grodansparadis/vscp_software/blob/master/src/vscp/common/vscp.h) structure that will hold status information after a successful call.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_PARAMETER`,
+`VSCP_ERROR_ERROR`, `VSCP_ERROR_GENERIC`.
+The status pointer must be valid; it is not checked for null. The output
+may be modified even when an error is returned; use it only on success.
 
 ### Description
 Fetch the status structure from the VSCP server. 

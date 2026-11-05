@@ -38,7 +38,10 @@ Currently unused; pass `0`.
 
 
 ### Return Value
-Possible return values are the same as for [vscphlp_open](vscphlp_open.md).
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_PARAMETER`, `VSCP_ERROR_CONNECTION`,
+`VSCP_ERROR_TIMEOUT`, `VSCP_ERROR_USER`, `VSCP_ERROR_PASSWORD`.
+See [vscphlp_open](vscphlp_open.md#return-value) for the corresponding causes.
 
 ### Description
 Opens a session to the TCP/IP interface of a VSCP server.

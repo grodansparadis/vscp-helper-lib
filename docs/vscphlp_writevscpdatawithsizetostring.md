@@ -31,7 +31,7 @@ Set to true (nonzero) to add the break character.
 
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success. 
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Write VSCP data in readable form to a possibly multi line string from a data array with size.

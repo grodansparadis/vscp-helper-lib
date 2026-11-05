@@ -16,7 +16,10 @@ String buffer that will receive the mask in comma-separated form. It must be at 
     mask-priority, mask-class, mask-type, mask-GUID
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
+
+The caller must provide a sufficiently large output buffer; this API has no capacity
+argument.
 
 ### Description
 Write the mask to a comma-separated string. If strMask is empty, the mask elements are set to zero.

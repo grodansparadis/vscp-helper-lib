@@ -11,7 +11,7 @@ VSCP event.
 
 
 ### Return Value
-None.
+Returns no value or error code.
 
 ### Description
 Releases an event's helper-allocated data buffer and sets its data pointer to

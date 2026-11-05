@@ -3,6 +3,9 @@
 The method references in the sidebar document the C helper API and the
 `VscpRemoteTcpIf` C++ class.
 
+Each reference describes its return convention and possible error codes; see
+[return values and error handling](error_handling.md) for shared code meanings.
+
 * For C and C++, see the [C/C++ guide](c_using.md) and
   [first C++ project](classes_first_project.md).
 * For Python, see the [Python guide](python_using.md) and the Python examples

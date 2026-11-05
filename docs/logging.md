@@ -81,7 +81,8 @@ int result = vscphlp_configureLogging(
     5u * 1024u * 1024u, 3);
 ```
 
-All calls return a VSCP error code; check each result. Thresholds are:
+The configure, flush, and disable calls return VSCP status codes; check each
+result. Thresholds are:
 
 | Constant | Value |
 | --- | --- |
@@ -124,11 +125,17 @@ Do not unload the library while sessions or library calls are still active.
 
 ## Errors and safety
 
-Invalid arguments return `VSCP_ERROR_PARAMETER`. File-open, allocation, and
-other logging failures return `VSCP_ERROR_ERROR`. Failed configuration leaves
-the previous logger active, although attempts to open a new file may create
-files/directories. Logging failures are always reported to stderr, including
-when console logging is disabled, rather than silently discarded.
+| Function | Return values |
+| --- | --- |
+| `vscphlp_configureLogging` | `VSCP_ERROR_SUCCESS`, `VSCP_ERROR_PARAMETER` for invalid levels/path/rotation limits, or `VSCP_ERROR_ERROR` for a logging failure. |
+| `vscphlp_disableLogging` | `VSCP_ERROR_SUCCESS` or `VSCP_ERROR_ERROR` if disabling or flushing fails. |
+| `vscphlp_flushLogging` | `VSCP_ERROR_SUCCESS` or `VSCP_ERROR_ERROR` if flushing fails. |
+| `vscphlp_getLastLoggingError` | A pointer to the diagnostic string, not an error code. |
+
+Failed configuration leaves the previous logger active, although attempts to
+open a new file may create files/directories. Logging failures are always
+reported to stderr, including when console logging is disabled, rather than
+silently discarded. See [error handling](error_handling.md) for code values.
 
 `vscphlp_getLastLoggingError()` returns a thread-local, library-owned diagnostic
 (up to 511 bytes). Do not free it. It remains valid until the same thread's

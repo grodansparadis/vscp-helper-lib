@@ -15,7 +15,8 @@ int loadRemoteVariablesFromDisk( const wxString& path )
 Path to load the remote variable XML file from.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+This method is not present in the pinned `VscpRemoteTcpIf` implementation, so
+no return codes are available for this build.
 
 ### Description
 Load remote variables from disk.

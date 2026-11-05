@@ -38,7 +38,8 @@ Value for the remote variable.
 Optional note for the remote variable.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+This method is not present in the pinned `VscpRemoteTcpIf` implementation, so
+no return codes are available for this build.
 
 ### Description
 Create a new remote variable.

@@ -9,7 +9,7 @@ bool isConnected(void)
 None
 
 ### Return Value
-Returns true if we are connected, false otherwise.
+Returns `true` if connected and `false` otherwise; it does not return an error code.
 
 ### Description
 Check if connected to remote VSCP server. 

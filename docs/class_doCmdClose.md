@@ -8,7 +8,7 @@ int doCmdClose(void)
 None
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+The method returns `VSCP_ERROR_SUCCESS` (`0`) and does not report a failure code.
 
 ### Description
 Close connection to remote VSCP server. 

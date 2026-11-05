@@ -11,7 +11,9 @@ A VSCP remote server command that is terminated with \<CR\>\<LF\> (“\r\n”).
 
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS if the command is sent successfully and a positive response (+OK) is received, or an error code otherwise.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_CONNECTION`,
+`VSCP_ERROR_PARAMETER`, `VSCP_ERROR_ERROR`, `VSCP_ERROR_TIMEOUT`, `VSCP_ERROR_STOPPED`,
+`VSCP_ERROR_INVALID_FRAME`, `VSCP_ERROR_READ`.
 
 ### Description
 Send any command to the remote VSCP server.

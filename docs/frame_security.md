@@ -340,13 +340,20 @@ Automatic transport performs these checks and never silently falls back.
 
 ## Errors and availability
 
-Functions return `VSCP_ERROR_SUCCESS` on success. Invalid pointers, key/IV
-lengths, algorithms, or attempts to reconfigure a connected binary session
-return `VSCP_ERROR_PARAMETER`. Other errors include `VSCP_ERROR_INVALID_HANDLE`,
-`VSCP_ERROR_BUFFER_TO_SMALL`, `VSCP_ERROR_SIZE`, `VSCP_ERROR_MEMORY`, and
-`VSCP_ERROR_INVALID_FRAME` for failed authentication/decryption. Standalone
-encryption reports `VSCP_ERROR_ERROR` if the cryptographic operation fails.
-Always check the return value before using an output length or plaintext.
+Each function returns `VSCP_ERROR_SUCCESS` on success. Possible errors are:
+
+| Function | Error codes |
+| --- | --- |
+| `vscphlp_setBinarySecurity` | `VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_PARAMETER` |
+| `vscphlp_getBinarySecurity` | `VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_PARAMETER` |
+| `vscphlp_encryptFrameV1` | `VSCP_ERROR_PARAMETER`, `VSCP_ERROR_SIZE`, `VSCP_ERROR_BUFFER_TO_SMALL`, `VSCP_ERROR_ERROR`, `VSCP_ERROR_MEMORY` |
+| `vscphlp_decryptFrameV1` | `VSCP_ERROR_PARAMETER`, `VSCP_ERROR_INVALID_FRAME`, `VSCP_ERROR_BUFFER_TO_SMALL`, `VSCP_ERROR_MEMORY` |
+
+`VSCP_ERROR_PARAMETER` covers invalid pointers, key/IV lengths or algorithms,
+and attempts to reconfigure a connected binary session. Decryption reports
+`VSCP_ERROR_INVALID_FRAME` for failed authentication, padding, or CRC checks.
+Always check the return value before using an output length or plaintext. See
+[error handling](error_handling.md) for code values.
 
 The official [Node.js binding](bindings.md#nodejs) does not currently expose
 these APIs.

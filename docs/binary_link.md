@@ -117,19 +117,21 @@ safe. Free each result exactly once, using the same loaded library.
 
 ## Return values
 
-Except for the release function, all functions return `VSCP_ERROR_SUCCESS`
-on success. Depending on the operation, errors include:
+Except for the release function, these functions return `VSCP_ERROR_SUCCESS`
+on success. Possible errors for each function are:
 
-| Error | Meaning |
+| Function | Error codes |
 | --- | --- |
-| `VSCP_ERROR_INVALID_HANDLE` | The session handle is invalid. |
-| `VSCP_ERROR_CONNECTION` | The session is not connected. |
-| `VSCP_ERROR_PARAMETER` | A pointer/size is invalid, raw I/O is attempted outside binary mode, or negotiation is attempted in a text receive loop. |
-| `VSCP_ERROR_TIMEOUT` | Negotiation/read/write timed out. A receive timeout retains partial input. |
-| `VSCP_ERROR_ERROR` | The server rejected negotiation or a transport operation failed. |
-| `VSCP_ERROR_INVALID_FRAME` | Malformed negotiation response or a zero-length incoming frame; the connection is closed. |
-| `VSCP_ERROR_STOPPED` | The connection ended or a read failed during negotiation/reception. |
-| `VSCP_ERROR_MEMORY` | A frame allocation failed. Receive closes the connection to avoid continuing after a potentially consumed, undeliverable frame. |
+| `vscphlp_doCmdBinary` | `VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_PARAMETER`, `VSCP_ERROR_TIMEOUT`, `VSCP_ERROR_STOPPED`, `VSCP_ERROR_ERROR`, `VSCP_ERROR_INVALID_FRAME` |
+| `vscphlp_isBinaryMode` | `VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_PARAMETER` |
+| `vscphlp_sendBinaryFrame` | `VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_PARAMETER`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_INVALID_FRAME`, `VSCP_ERROR_ERROR`, `VSCP_ERROR_TIMEOUT`, `VSCP_ERROR_STOPPED`, `VSCP_ERROR_MEMORY` |
+| `vscphlp_receiveBinaryFrame` | `VSCP_ERROR_PARAMETER`, `VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_INVALID_FRAME`, `VSCP_ERROR_STOPPED`, `VSCP_ERROR_TIMEOUT`, `VSCP_ERROR_MEMORY` |
+| `vscphlp_freeBinaryFrame` | None: this function returns `void`. |
+
+A receive timeout retains partial input. An invalid frame or authentication
+failure closes the connection. A receive allocation failure also closes the
+connection to avoid continuing after a potentially consumed, undeliverable
+frame. See [error handling](error_handling.md) for code values and meanings.
 
 ## C example
 

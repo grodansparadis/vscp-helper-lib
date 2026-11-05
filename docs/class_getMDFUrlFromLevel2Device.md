@@ -22,7 +22,8 @@ Reference to a string that will receive the device's MDF URL on success.
 If true, this is a true Level II read operation.
 
 ### Return Value
-Returns true on success and false on failure.
+Returns `true` when the URL is read and `false` on failure; no error code is returned. On
+failure the output string is cleared.
 
 ### Description
 Get the MDF file from the device registers.

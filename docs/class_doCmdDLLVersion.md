@@ -10,7 +10,7 @@ unsigned long doCmdDLLVersion(void)
 Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
 ### Return Value
-DL/DLL version. A negative error code is returned on failure. 
+Returns the local interface version constant, not an error code.
 
 ### Description
 Get DL/DLL version. This is intended for CANAL. 

@@ -85,6 +85,35 @@ HELPERLIB_API long
 vscphlp_newSession(void);
 HELPERLIB_API void 
 vscphlp_closeSession(long handle);
+
+/* UDP and multicast clients use a separate handle family from TCP sessions. */
+HELPERLIB_API long
+vscphlp_newUdpClient(void);
+HELPERLIB_API long
+vscphlp_newMulticastClient(void);
+HELPERLIB_API int
+vscphlp_configureDatagramClient(long handle, const char *jsonConfig);
+HELPERLIB_API int
+vscphlp_connectDatagramClient(long handle);
+HELPERLIB_API int
+vscphlp_disconnectDatagramClient(long handle);
+HELPERLIB_API int
+vscphlp_closeDatagramClient(long handle);
+HELPERLIB_API int
+vscphlp_isDatagramClientConnected(long handle, int *pConnected);
+HELPERLIB_API int
+vscphlp_sendDatagramEventEx(long handle, const vscpEventEx *pEvent);
+HELPERLIB_API int
+vscphlp_receiveDatagramEventEx(long handle,
+                               vscpEventEx *pEvent,
+                               long timeoutMs);
+HELPERLIB_API int
+vscphlp_setDatagramClientFilter(long handle, const vscpEventFilter *pFilter);
+HELPERLIB_API int
+vscphlp_getDatagramClientCount(long handle, uint16_t *pCount);
+HELPERLIB_API int
+vscphlp_clearDatagramClientQueue(long handle);
+
 HELPERLIB_API int 
 vscphlp_setResponseTimeout(long handle, unsigned long timeout );
 HELPERLIB_API int 
@@ -224,6 +253,13 @@ HELPERLIB_API int
 vscphlp_blockingReceiveEvent( long handle, vscpEvent *pEvent, unsigned long timout );
 HELPERLIB_API int 
 vscphlp_blockingReceiveEventEx( long handle, vscpEventEx *pEventEx, unsigned long timout );
+/* Enable the single-channel text receive loop before entering RCVLOOP.
+ * The server must support command replies while the receive loop is active.
+ */
+HELPERLIB_API int
+vscphlp_setSingleChannelReceiveLoop(long handle, int enable);
+HELPERLIB_API int
+vscphlp_isSingleChannelReceiveLoopEnabled(long handle, int *pEnabled);
 HELPERLIB_API int 
 vscphlp_enterReceiveLoop(const long handle);
 HELPERLIB_API int 

@@ -9,7 +9,7 @@ Handle for the communication channel obtained from a call to [vscphlp_newsession
 
 
 ### Return Value
-Nothing
+No value or error code is returned. An invalid handle is not reported to the caller.
 
 ### Description
 Close an open session. Call this after you have finished using the TCP/IP session.

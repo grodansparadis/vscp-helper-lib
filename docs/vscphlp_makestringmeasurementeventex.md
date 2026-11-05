@@ -22,7 +22,7 @@ A unit value from 0 to 3.
 A sensor index from 0 to 7.
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 > **C API limitation:** The public header declares the event parameter as `vscpEvent *`, but the implementation requires `vscpEventEx *`. Do not call it through this declaration until the header is corrected.
 

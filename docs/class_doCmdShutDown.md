@@ -8,7 +8,8 @@ int doCmdShutDown(void)
 None
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_CONNECTION`,
+`VSCP_ERROR_ERROR`.
 
 ### Description
 Shut down the remote VSCP server. This command requires elevated privileges on the server.

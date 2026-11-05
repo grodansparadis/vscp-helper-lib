@@ -19,7 +19,8 @@ semicolon-separated format cannot escape semicolons in credentials; use the
 Currently not used.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS if the connection to the remote VSCP server is established, or an error code otherwise.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_PARAMETER`,
+`VSCP_ERROR_CONNECTION`, `VSCP_ERROR_TIMEOUT`, `VSCP_ERROR_USER`, `VSCP_ERROR_PASSWORD`.
 
 ### Description
 Opens and logs in to the communication interface. The C++ class can override

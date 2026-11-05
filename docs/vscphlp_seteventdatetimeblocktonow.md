@@ -10,7 +10,7 @@ int vscphlp_setEventDateTimeBlockToNow( vscpEvent *pEvent )
 Pointer to the event whose datetime block will be set to **now**.
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success. 
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Get date/time block for an event. 

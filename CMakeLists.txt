@@ -140,6 +140,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 option(BUILD_ALLTEST "Build the alltest test executable" OFF)
 option(BUILD_RAW_TRANSPORT_SAMPLES "Build the raw TCP/TLS transport samples" OFF)
+option(BUILD_DATAGRAM_SAMPLES "Build the UDP and multicast client samples" OFF)
 
 # Default location for VSCP level II drivers
 set(VSCP_LEVEL2_DRV_DIR /var/lib/vscp/drivers/level2/)
@@ -326,9 +327,17 @@ if(WIN32)
 add_library(libvscphelper SHARED
     ./src/vscphelperlib.h
     ./src/vscphelperlib.cpp
+    ./src/vscphelperdatagram.cpp
     ./windows/libvscphelper.h
     ./windows/libvscphelper.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-base.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-base.cpp
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-datagram.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-udp.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-udp.cpp
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-multicast.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-multicast.cpp
     ${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.h
     ${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscpdatetime.h
@@ -356,9 +365,17 @@ else()
   add_library(libvscphelper SHARED   
     ./src/vscphelperlib.h
     ./src/vscphelperlib.cpp 
+    ./src/vscphelperdatagram.cpp
     ./linux/libvscphelper.h
     ./linux/libvscphelper.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-base.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-base.cpp
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-datagram.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-udp.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-udp.cpp
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-multicast.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-multicast.cpp
     ${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.h
     ${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscpdatetime.h
@@ -561,4 +578,12 @@ if(BUILD_RAW_TRANSPORT_SAMPLES)
   else()
     message(STATUS "Python 3.8 or later not found; test_raw_transport_samples target is unavailable")
   endif()
+endif()
+
+if(BUILD_DATAGRAM_SAMPLES)
+  foreach(sample IN ITEMS datagram_udp datagram_multicast)
+    add_executable("${sample}" "linux/samples/${sample}.c")
+    target_link_libraries("${sample}" PRIVATE libvscphelper)
+    set_target_properties("${sample}" PROPERTIES LINKER_LANGUAGE CXX)
+  endforeach()
 endif()

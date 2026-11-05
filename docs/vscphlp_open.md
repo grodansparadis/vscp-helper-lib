@@ -42,10 +42,10 @@ Password to use as credentials for login to the remote VSCP daemon.
 
 
 ### Return Value
-Returns `VSCP_ERROR_SUCCESS` on success. Possible errors include
-`VSCP_ERROR_INVALID_HANDLE` for an invalid session, `VSCP_ERROR_PARAMETER` for
-an invalid endpoint, `VSCP_ERROR_CONNECTION` for a connection or TLS failure,
-`VSCP_ERROR_TIMEOUT` for a timeout, and `VSCP_ERROR_USER` or
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible errors are
+`VSCP_ERROR_INVALID_HANDLE` for an invalid session, `VSCP_ERROR_PARAMETER`
+for an invalid endpoint, `VSCP_ERROR_CONNECTION` for a connection or TLS
+failure, `VSCP_ERROR_TIMEOUT` for a timeout, and `VSCP_ERROR_USER` or
 `VSCP_ERROR_PASSWORD` for login-command failures.
 
 ### Description

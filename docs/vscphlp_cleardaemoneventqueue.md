@@ -10,7 +10,9 @@ int vscphlp_clearDaemonEventQueue( long handle )
 Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS if the VSCP daemon clears the queue, or VSCP_ERROR_ERROR if it does not or no response arrives before the timeout expires. Returns VSCP_ERROR_CONNECTION if the communication channel is not open and VSCP_ERROR_INVALID_HANDLE if the handle is invalid.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_PARAMETER`,
+`VSCP_ERROR_ERROR`.
 
 ### Description
 Clear the receiving-side event queue on the VSCP daemon.

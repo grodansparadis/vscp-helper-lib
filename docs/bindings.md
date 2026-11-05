@@ -92,8 +92,8 @@ Code written by Salvo Musumeci is also available at (https://github.com/nos86/VS
 The [node-vscp-helper](https://github.com/grodansparadis/node-vscp-helper)
 package exists, but its current native addon exports only the `hello`
 function. It does not yet expose the helper-library or `VscpRemoteTcpIf`
-methods, so equivalent JavaScript examples for those APIs are not currently
-available.
+methods. For a Node.js example that calls the C API through a third-party FFI,
+see [Using with JavaScript](using.md#using-with-javascript).
 
 <a id="others"></a>
 ## Others 

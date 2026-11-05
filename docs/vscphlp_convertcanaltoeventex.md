@@ -18,7 +18,7 @@ CANAL message that should be converted.
 GUID for event.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Convert CANAL message to VSCP ex event. 

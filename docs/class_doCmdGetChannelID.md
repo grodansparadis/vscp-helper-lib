@@ -10,7 +10,8 @@ int doCmdGetChannelID(uint32_t *pChannelID)
 Pointer to a uint32 that will receive the channel ID.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_CONNECTION`,
+`VSCP_ERROR_PARAMETER`, `VSCP_ERROR_ERROR`.
 
 ### Description
 Get Channel ID for the remote VSCP server interface channel. 

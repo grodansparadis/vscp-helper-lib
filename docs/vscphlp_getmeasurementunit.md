@@ -10,7 +10,9 @@ int vscphlp_getMeasurementUnit( const vscpEvent *pEvent )
 Pointer to a VSCP measurement event.
 
 ### Return Value
-The unit is returned as a value from 0 to 3 for a Level I event or from 0 to 255 for a Level II event.
+Returns the unit value (`0` to `3` for Level I or `0` to `255` for Level II) on success, or
+`-1` (`VSCP_ERROR_ERROR`) for an unsupported event or invalid measurement data. The event
+pointer itself must be valid.
 
 ### Description
 Get the unit for a measurement event. For events without a defined unit, zero is always returned to indicate that the default unit should be used.

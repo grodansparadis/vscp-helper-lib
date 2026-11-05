@@ -20,9 +20,11 @@ Size of the supplied buffer.
 
 
 ### Return Value
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_PARAMETER`,
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`.
 
-#### c/c++
-Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
+Truncation is not reported; the output may lack a terminating null byte if the buffer is too
+small.
 
 #### Python
 Returns a tuple containing the return value (see the C/C++ version) and the vendor string.

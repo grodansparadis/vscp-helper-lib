@@ -11,7 +11,8 @@ int vscphlp_close( long handle )
 Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_INVALID_HANDLE if the interface is not initialized.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`.
 
 ### Description
 Close the interface. 

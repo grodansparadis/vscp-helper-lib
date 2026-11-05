@@ -10,7 +10,7 @@ void vscphlp_clearVSCPFilter( vscpEventFilter *pFilter )
 Pointer to a VSCP filter structure.
 
 ### Return Value
-None
+Returns no value or error code.
 
 ### Description
 Clear VSCP filter. 

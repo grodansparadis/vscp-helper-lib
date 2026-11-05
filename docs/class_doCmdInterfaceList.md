@@ -10,7 +10,8 @@ int doCmdInterfaceList(std::deque<std::string> &arrayIf)
 An array that will receive descriptions of the interfaces available on the remote VSCP server.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_CONNECTION`,
+`VSCP_ERROR_ERROR`.
 
 ### Description
 Get available interfaces on the VSCP remote server. 

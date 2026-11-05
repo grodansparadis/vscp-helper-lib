@@ -14,7 +14,9 @@ Pointer to event that should be filtered.
 Filter/mask to use for the filtering.
 
 ### Return Value
-Return true (non-zero) if the event is accepted by the filter. 
+`VSCP_ERROR_SUCCESS` (`0`) means the event passes the filter; `VSCP_ERROR_ERROR` (`-1`)
+means the helper did not accept it. This return convention is a status, not a true/false
+result.
 
 ### Description
 Check VSCP filter condition. 
@@ -22,7 +24,7 @@ Check VSCP filter condition.
 #### C example
 
 ```clike
-if ( vscphlp_doLevel2Filter( pEvent, &filter ) ) {
+if ( VSCP_ERROR_SUCCESS == vscphlp_doLevel2Filter( pEvent, &filter ) ) {
     printf( "Event pass:  vscphlp_doLevel2Filter\n");
 }
 else {

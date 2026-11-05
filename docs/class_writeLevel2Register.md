@@ -18,7 +18,8 @@ Register to write to (32-bit value for true Level II).
 Page at which the register is located.
 
 #### pval
-Pointer to the byte to write to the register. On return, it contains the written value returned by the node.
+Pointer to the byte to write to the register. The implementation compares it
+with the reply but does not replace it with the returned value.
 
 #### ifGUID
 GUID of the interface on which these events should be sent. This is used to read registers of Level I devices.
@@ -30,7 +31,14 @@ GUID of the remote node.
 If true, this is a true Level II write operation.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`CANAL_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`CANAL_ERROR_PARAMETER` for a null value pointer, `CANAL_ERROR_REGISTER` if
+the checked reply value differs, and `CANAL_ERROR_TIMEOUT` if no matching
+reply arrives.
+
+The destination GUID must also be valid; it is dereferenced without a null
+check. Send/receive errors are not propagated directly and can result in a
+timeout.
 
 ### Description
 Write a level 2 register.
@@ -44,7 +52,7 @@ With an authenticated `VscpRemoteTcpIf client` (see [TLS connections](tls.md)) a
 ```cpp
 uint8_t value = 42;
 int result = client.writeLevel2Register(0x10, 0, &value, interface_guid, &device_guid);
-if (result != VSCP_ERROR_SUCCESS) {
+if (result != CANAL_ERROR_SUCCESS) {
     std::cerr << "writeLevel2Register failed (error " << result << ")\n";
 } else {
     std::cout << "Read-back value: " << static_cast<unsigned>(value) << '\n';

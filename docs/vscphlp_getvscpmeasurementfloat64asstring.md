@@ -18,7 +18,7 @@ Buffer that will receive the result as a null-terminated string.
 The size of the buffer.
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 > **Known limitation:** The implementation interprets the data as an aligned `double` in host byte order. Do not pass an arbitrary wire-format buffer without accounting for alignment and byte order.
 

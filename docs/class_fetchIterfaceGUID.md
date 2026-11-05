@@ -14,7 +14,8 @@ Real text name of the VSCP server interface.
 GUID of the interface, if the named interface exists.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_NOT_OPEN`,
+`VSCP_ERROR_OPERATION_FAILED`.
 
 ### Description
 Fetch the GUID of a TCP/IP interface by name.

@@ -8,7 +8,7 @@ const char *doCmdGetDriverInfo(void)
 None
 
 ### Return Value
-Returns a pointer to a null-terminated string containing driver information in XML format, or a NULL pointer on failure.
+Returns a pointer to the local driver-information string, not an error code.
 
 ### Description
 Get the driver information string from the remote VSCP server. This is intended for CANAL. 

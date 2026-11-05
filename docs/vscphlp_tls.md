@@ -11,10 +11,19 @@ Settings belong to one session, survive `vscphlp_close`, and are released by
 existing connection: they do not renegotiate TLS or upgrade/downgrade a live
 socket. Close and reopen to apply them. Serialize calls using the same session.
 
-All five functions return `VSCP_ERROR_SUCCESS` on success or
-`VSCP_ERROR_INVALID_HANDLE` for an invalid session. The mode setter and getter
-also return `VSCP_ERROR_PARAMETER` as described below. An invalid argument
-does not change the configuration or the getter's output.
+All five functions return `VSCP_ERROR_SUCCESS` on success. Possible errors are:
+
+| Function | Error codes |
+| --- | --- |
+| `vscphlp_setTLSOptions` | `VSCP_ERROR_INVALID_HANDLE` |
+| `vscphlp_enableTLS` | `VSCP_ERROR_INVALID_HANDLE` |
+| `vscphlp_setTLSAutoSelect` | `VSCP_ERROR_INVALID_HANDLE` |
+| `vscphlp_setTLSMode` | `VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_PARAMETER` |
+| `vscphlp_getTLSMode` | `VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_PARAMETER` |
+
+`VSCP_ERROR_PARAMETER` indicates an invalid mode or a null output pointer,
+respectively. An invalid argument does not change the configuration or the
+getter's output. See [error handling](error_handling.md) for code values.
 
 ## vscphlp_setTLSOptions
 

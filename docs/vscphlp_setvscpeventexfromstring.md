@@ -18,7 +18,7 @@ Pointer to a string buffer containing an event in string form:
 
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success. 
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Set VSCP event ex from a string. 

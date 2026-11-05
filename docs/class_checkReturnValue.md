@@ -10,7 +10,8 @@ bool checkReturnValue(bool bClear = false)
 If true, the input queue array is cleared before the call.
 
 ### Return Value
-Returns true if a positive response (+OK) is received from the remote VSCP server. Returns false for a negative response or a timeout.
+`true` means a positive server response was received; `false` covers a negative response,
+timeout, read failure, or binary mode. It does not return an error code.
 
 ### Description
 Check the response from the remote VSCP server for an error or a successfully completed command.

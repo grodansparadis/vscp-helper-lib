@@ -11,7 +11,9 @@ int doCmdSendEx(const vscpEventEx *pEventEx)
 Pointer to the VSCP Level II event ex to send. If its GUID is all zeros, the GUID of the remote VSCP server interface (“-”) is used.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_CONNECTION`,
+`VSCP_ERROR_PARAMETER`, `VSCP_ERROR_ERROR`, `VSCP_ERROR_TIMEOUT`, `VSCP_ERROR_STOPPED`,
+`VSCP_ERROR_INVALID_FRAME`, `VSCP_ERROR_READ`.
 
 ### Description
 Send a VSCP Level II event ex to the VSCP remote server.

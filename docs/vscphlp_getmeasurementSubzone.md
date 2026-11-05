@@ -10,7 +10,8 @@ int vscphlp_getMeasurementSubZone( const vscpEvent *pEvent )
 Pointer to a VSCP measurement event.
 
 ### Return Value
-The subzone is returned as a value from 0 to 255, where 255 means “all subzones”. Returns -1 if the event is invalid or is not a measurement event. For events without a defined subzone, zero is always returned.
+Returns the subzone (`0` to `255`) on success or `-1` (`VSCP_ERROR_ERROR`) for an invalid or
+unsupported measurement. `255` denotes all subzones.
 
 ### Description
 Get subzone for a measurement event. 

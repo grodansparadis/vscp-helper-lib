@@ -14,7 +14,8 @@ VSCP event.
 If true (nonzero), write the CRC to the event structure's crc member.
 
 ### Return Value
-VSCP CRC. 
+Returns the CRC, not an error code. A null event or allocation failure returns `0`, which
+can also be a valid CRC.
 
 ### Description
 Calculate VSCP CRC and optionally set it.

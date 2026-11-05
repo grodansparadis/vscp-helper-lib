@@ -16,7 +16,8 @@ Sleep time in milliseconds. This value is currently ignored.
 
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success. VSCP_ERROR_INVALID_HANDLE is returned if an invalid handle is given. 
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`.
 
 ### Description
 This function is retained for backward compatibility. It currently has no effect on the delay after a command.

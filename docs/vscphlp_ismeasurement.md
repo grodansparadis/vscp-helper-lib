@@ -10,7 +10,8 @@ int vscphlp_isMeasurement( const vscpEvent *pEvent )
 Pointer to a VSCP measurement event.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS if the event is a measurement or VSCP_ERROR_ERROR if it is not.
+`VSCP_ERROR_SUCCESS` (`0`) means the event is a supported measurement; `VSCP_ERROR_ERROR`
+(`-1`) means it is not. This is a status, not a boolean.
 
 ### Description
 Check if an event is a measurement. 

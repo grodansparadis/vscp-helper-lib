@@ -1,17 +1,17 @@
 
 
 ```clike
-unsigned short 
-vscphlp_getVSCPnicknameFromCANALid( unsigned long id )
+unsigned char
+vscphlp_getVSCPnicknameFromCANALid( const unsigned long id )
 ```
 
 ### Parameters
 
 #### id
-Extended 29-bit CAN id to get head from.
+Extended 29-bit CAN id to get the nickname from.
 
 ### Return Value
-VSCP 8-bit nickname. 
+Returns the extracted node nickname, not an error code.
 
 ### Description
 Get the VSCP 8-bit nickname from a CANAL message ID.
@@ -21,12 +21,7 @@ Get the VSCP 8-bit nickname from a CANAL message ID.
 ```clike
 unsigned long canalid = 0x0c0a0601;
 unsigned char canal_nickname = vscphlp_getVSCPnicknameFromCANALid( canalid );
-if ( 1 == canal_nickname ) {
-    printf("VSCP Type = %d\n", canal_vscptype );
-}
-else {
-    printf("\aError: vscphlp_getVSCPnicknameFromCANALid = %d\n", canal_nickname );
-}
+printf("VSCP nickname = %u\n", (unsigned int)canal_nickname);
 ```
 
 

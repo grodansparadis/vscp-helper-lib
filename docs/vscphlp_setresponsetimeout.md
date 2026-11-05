@@ -17,7 +17,8 @@ Timeout in milliseconds. It can also be set before a session is opened.
 
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success. VSCP_ERROR_INVALID_HANDLE is returned if an invalid handle is given. 
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`.
 
 ### Description
 Set the timeout used when waiting for replies to commands sent to the server. It can be changed at any time during a communication session. The default is 2000 milliseconds; values below 100 milliseconds are treated as 1000 milliseconds.

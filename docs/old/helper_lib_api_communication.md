@@ -1,5 +1,10 @@
 # VSCP Helper library API - Communication 
 
+> **Archived reference:** APIs, signatures, return values, and examples on this
+> historical page may not match the current build. Use the
+> [current method references](../methods.md) and
+> [return-value guide](../error_handling.md) instead.
+
 This part describes the main functionality and communication methods available in the library.
 
 ----

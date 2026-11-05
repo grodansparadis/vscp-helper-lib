@@ -10,7 +10,11 @@ int doCmdReceive(vscpEvent *pEvent)
 Pointer to a VSCP event that will receive the event from the remote VSCP server queue on success.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_CONNECTION`,
+`VSCP_ERROR_PARAMETER`, `VSCP_ERROR_ERROR`, `VSCP_ERROR_MEMORY`, `VSCP_ERROR_READ`,
+`VSCP_ERROR_INVALID_FRAME`, `VSCP_ERROR_TIMEOUT`, `VSCP_ERROR_STOPPED`.
+
+In binary mode, a nonzero error code from a server confirmation can also be returned.
 
 ### Description
 Receive one event if one is available.

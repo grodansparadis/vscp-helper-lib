@@ -10,7 +10,9 @@ int doCmdStatistics(canalStatistics *pStatistics)
 Pointer to a canalStatistics structure that will receive the remote VSCP server statistics.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`VSCP_ERROR_PARAMETER` is returned if the pointer is null. With a non-null pointer, this
+overload calls itself recursively and can overflow the stack instead of returning a status;
+do not rely on a success or failure code.
 
 ### Description
 Get the CANAL statistics structure from the VSCP remote server. 

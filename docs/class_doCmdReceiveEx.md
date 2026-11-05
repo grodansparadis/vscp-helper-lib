@@ -10,14 +10,12 @@ int doCmdReceiveEx(vscpEventEx *pEventEx)
 Pointer to a VSCP event ex that will receive the event from the remote VSCP server queue on success.
 
 ### Return Value
- * CANAL_ERROR_SUCCESS on success or an error code on failure. 
- * VSCP_ERROR_CONNECTION is returned if not connected to the server. 
- * VSCP_ERROR_PARAMETER is returned if the pointer to the event ex is NULL or if the interface is in the receive loop mode. 
- * VSCP_ERROR_ERROR is returned if the server returns an error. 
- * VSCP_ERROR_RCV_EMPTY if no event is available.
- * VSCP_ERROR_MEMORY if memory allocation fails. 
- * VSCP_ERROR_READ if the read operation to get event fails. 
- * VSCP_ERROR_CONVERSION if the conversion of the event fails.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_CONNECTION`,
+`VSCP_ERROR_PARAMETER`, `VSCP_ERROR_ERROR`, `VSCP_ERROR_MEMORY`, `VSCP_ERROR_READ`,
+`VSCP_ERROR_INVALID_FRAME`, `VSCP_ERROR_TIMEOUT`, `VSCP_ERROR_STOPPED`,
+`VSCP_ERROR_RCV_EMPTY`, `VSCP_ERROR_INVALID_FORMAT`.
+
+In binary mode, a nonzero error code from a server confirmation can also be returned.
 
 ### Description
 Receive one event ex if one is available.

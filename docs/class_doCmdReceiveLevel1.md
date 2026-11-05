@@ -11,7 +11,8 @@ Pointer to a CANAL message that will receive the event from the remote VSCP serv
 
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_CONNECTION`,
+`VSCP_ERROR_PARAMETER`, `VSCP_ERROR_GENERIC`.
 
 ### Description
 Receive a VSCP Level I event from the remote VSCP server queue. The low eight bits of the CAN ID are taken from GUID[15], the least significant byte of the GUID.

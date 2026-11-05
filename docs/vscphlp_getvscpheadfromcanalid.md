@@ -1,8 +1,8 @@
 
 
 ```clike
-unsigned unsigned char 
-vscphlp_getVSCPheadFromCANALid( const unsigned long id ))
+unsigned char
+vscphlp_getVSCPheadFromCANALid( const unsigned long id )
 ```
 
 ### Parameters
@@ -11,7 +11,7 @@ vscphlp_getVSCPheadFromCANALid( const unsigned long id ))
 Extended 29-bit CANBUS id to get head from.
 
 ### Return Value
-VSCP head byte.
+Returns the extracted VSCP header byte, not an error code.
 
 ### Description
 Get the VSCP head from a CANAL message id. The VSCP head is defined as shown in the [vscp.h](https://github.com/grodansparadis/vscp_software/blob/master/src/vscp/common/vscp.h) header file. 

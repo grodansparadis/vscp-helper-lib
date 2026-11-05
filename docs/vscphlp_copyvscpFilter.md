@@ -15,7 +15,7 @@ Pointer to VSCP filter structure that data will be copied from.
 
 
 ### Return Value
-None
+Returns no value or error code.
 
 ### Description
 Copy VSCP filter from one to another. 

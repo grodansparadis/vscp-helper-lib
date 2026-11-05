@@ -27,7 +27,7 @@ A sensor index from 0 to 7.
 
 
 ### Return Value
-VSCP_ERROR_SUCCESS is returned on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Write an integer value as measurement event data in normalized integer form.

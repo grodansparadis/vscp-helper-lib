@@ -10,7 +10,9 @@ int doCmdSendLevel1(const canalMsg *pMsg)
 A pointer to a CANAL message.
 
 ### Return Value
-Returns CANAL_ERROR_SUCCESS on success or an error code on failure.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_CONNECTION`,
+`VSCP_ERROR_PARAMETER`, `VSCP_ERROR_ERROR`, `VSCP_ERROR_TIMEOUT`, `VSCP_ERROR_STOPPED`,
+`VSCP_ERROR_INVALID_FRAME`, `VSCP_ERROR_READ`.
 
 ### Description
 Send a Level I event to the VSCP remote server. The GUID of the interface will be used for the resulting VSCP event. 

@@ -11,7 +11,8 @@ String containing a GUID in standard string form.
 
 
 ### Return Value
-8-bit CRC for GUID. 
+Returns the 8-bit GUID CRC, not an error code. The string pointer must be non-null; the
+parser's result is not returned separately.
 
 ### Description
 Calculate the 8-bit CRC for a GUID string.

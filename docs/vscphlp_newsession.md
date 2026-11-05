@@ -9,7 +9,10 @@ long vscphlp_newSession( void );
 none
 
 ### Return Value
-A session handle or zero if a session could not be created. 
+A positive session handle is returned on success. `0` indicates that the allocation returned
+null; on Windows, `VSCP_ERROR_ERROR` (`-1`) is returned if Winsock initialization fails.
+Check for a positive handle, not merely a nonzero value. Allocation may also throw rather
+than returning an error code.
 
 ### Description
 
@@ -23,7 +26,7 @@ Initialize the library using C.
 
 ```clike
 handle1 = vscphlp_newSession();
-if (0 != handle1 ) {
+if (handle1 > 0) {
     printf( "Handle for channel 1 OK %ld\n", handle1 );
 }
 else {
@@ -39,7 +42,7 @@ Create a session before connecting and release it when finished:
 import vscphelper
 
 handle = vscphelper.newSession()
-if not handle:
+if handle <= 0:
     raise RuntimeError("Could not create a VSCP session")
 
 try:

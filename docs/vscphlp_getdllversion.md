@@ -15,15 +15,13 @@ Handle for the communication channel obtained from a call to [vscphlp_newsession
 Pointer to an unsigned long that will receive the driver version.
 
 ### Return Value
-
-#### c/c++
-
-Returns VSCP_ERROR_SUCCESS on success or VSCP_ERROR_ERROR on failure. Returns VSCP_ERROR_CONNECTION if the connection is closed and VSCP_ERROR_PARAMETER if called while in a receive loop.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
+`VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`.
+The version pointer must be valid; it is not checked for null.
 
 #### Python
 
 Returns a tuple containing the return value and dllversion. See the C/C++ return values above for rv.
-
 
 ### Description
 Fetch the DLL version from the VSCP server. This is the interface version.

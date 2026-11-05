@@ -14,7 +14,7 @@ VSCP event ex to convert to
 VSCP event to convert to.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Convert VSCP standard event form to ex form. 

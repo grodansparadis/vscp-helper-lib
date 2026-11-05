@@ -10,7 +10,7 @@ unsigned long vscphlp_makeTimeStamp( void )
 Handle for the communication channel obtained from a call to [vscphlp_newsession](vscphlp_newsession.md).
 
 ### Return Value
-Timestamp in microseconds.
+Returns a timestamp value, not an error code.
 
 ### Description
 Get new VSCP timestamp. 
@@ -18,7 +18,7 @@ Get new VSCP timestamp.
 #### C example
 
 ```clike
-printf( "vscphlp_makeTimeStamp  %04X\n", vscphlp_makeTimeStamp() );
+printf( "vscphlp_makeTimeStamp  %04lX\n", vscphlp_makeTimeStamp() );
 ```
 
 
@@ -32,8 +32,6 @@ import vscp
 import vscphelper
 
 timestamp = vscphelper.makeTimeStamp()
-if timestamp <= 0:
-    raise RuntimeError("Invalid timestamp")
 print(timestamp)
 ```
 

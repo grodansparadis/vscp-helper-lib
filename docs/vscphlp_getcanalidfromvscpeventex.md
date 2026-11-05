@@ -10,7 +10,8 @@ vscphlp_getCANALidFromEventEx( const vscpEventEx *pEvent )
 VSCP event.
 
 ### Return Value
-CANAL (CAN) id.
+Returns the constructed CANAL identifier, not an error code. The event pointer must be
+valid.
 
 ### Description
 Get CANAL id (CAN id) from VSCP event. 

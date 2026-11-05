@@ -27,7 +27,7 @@ This sets the GUID to all zeros.
 
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
 ### Description
 Read a filter from a string. If strFilter is empty, all filter elements are set to zero. The arguments are:

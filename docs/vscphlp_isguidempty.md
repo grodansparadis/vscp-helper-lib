@@ -10,7 +10,8 @@ int vscphlp_isGUIDEmpty( unsigned char *pGUID )
 GUID array to check for all zeros.
 
 ### Return Value
-True (nonzero) if the GUID is empty.
+Returns `1` if the GUID is empty and `0` otherwise. A null pointer also returns `0`; these
+are boolean values, not VSCP error codes.
 
 ### Description
 Check if GUID is empty (all nulls). 

@@ -20,7 +20,7 @@ Error timeout in milliseconds before giving up a read register operation.
 
 
 ### Return Value
-None
+Returns no value or error code.
 
 ### Description
 Set register read/write timings.

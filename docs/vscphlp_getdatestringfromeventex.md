@@ -20,7 +20,8 @@ Length of the buffer.
 Event from which to get the date string.
 
 ### Return Value
-Returns VSCP_ERROR_SUCCESS on success.
+`VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`,
+`VSCP_ERROR_PARAMETER`.
 
 ### Description
 Extract an ISO date string from the datetime block of an event.

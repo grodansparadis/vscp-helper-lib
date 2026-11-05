@@ -3,6 +3,11 @@
 \\ \\ 
 # VSCP Helper library API - Helpers 
 
+> **Archived reference:** APIs, signatures, return values, and examples on this
+> historical page may not match the current build. Use the
+> [current method references](../methods.md) and
+> [return-value guide](../error_handling.md) instead.
+
 This section describes helpers for handling events, GUIDs, and other data.
 
 \\ \\ 

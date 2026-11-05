@@ -7,6 +7,16 @@ add_executable(unittest_tcp_transport tcp_transport.cpp)
 target_sources(unittest_tcp_transport PRIVATE ${vscp_SOURCE_DIR}/src/common/crc.c)
 target_link_libraries(unittest_tcp_transport PRIVATE libvscphelper GTest::gtest_main)
 
+add_executable(unittest_datagram_clients datagram_clients.cpp)
+target_link_libraries(unittest_datagram_clients PRIVATE libvscphelper GTest::gtest_main)
+if(WIN32)
+  target_link_libraries(unittest_datagram_clients PRIVATE ws2_32)
+endif()
+add_custom_target(test_datagram_clients
+  COMMAND $<TARGET_FILE:unittest_datagram_clients>
+  DEPENDS unittest_datagram_clients
+  USES_TERMINAL)
+
 add_executable(unittest_logging logging.cpp)
 target_link_libraries(unittest_logging PRIVATE libvscphelper GTest::gtest Threads::Threads)
 add_custom_target(test_logging
