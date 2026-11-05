@@ -335,9 +335,9 @@ add_library(libvscphelper SHARED
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-base.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-datagram.h
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-udp.h
-    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-udp.cpp
+    ${VSCP_HELPER_CLIENT_DIR}/vscp-client-udp.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-multicast.h
-    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-multicast.cpp
+    ${VSCP_HELPER_CLIENT_DIR}/vscp-client-multicast.cpp
     ${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.h
     ${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscpdatetime.h
@@ -373,9 +373,9 @@ else()
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-base.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-datagram.h
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-udp.h
-    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-udp.cpp
+    ${VSCP_HELPER_CLIENT_DIR}/vscp-client-udp.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-multicast.h
-    ${vscp_SOURCE_DIR}/src/vscp/common/vscp-client-multicast.cpp
+    ${VSCP_HELPER_CLIENT_DIR}/vscp-client-multicast.cpp
     ${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.h
     ${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/vscpdatetime.h
