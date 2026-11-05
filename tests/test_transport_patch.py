@@ -12,11 +12,32 @@ ROOT = Path(__file__).resolve().parents[1]
 PATCHES = (
     Path("cmake/patches/vscp-authenticated-binary.patch"),
     Path("cmake/patches/vscp-helper-logging.patch"),
+    Path("cmake/patches/vscp-windows-getopt.patch"),
 )
 
 
 @unittest.skipUnless(shutil.which("git"), "Git is required")
 class TransportPatchTests(unittest.TestCase):
+    def test_windows_getopt_patch_removes_unavailable_header(self) -> None:
+        patch = ROOT / "cmake/patches/vscp-windows-getopt.patch"
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for name in ("vscp-client-udp.cpp", "vscp-client-multicast.cpp"):
+                (root / name).write_text(
+                    "\n" * 46
+                    + "#include <stdbool.h>\n"
+                    "#include <getopt.h>\n"
+                    "#include <vscp.h>\n",
+                    encoding="utf-8",
+                )
+            subprocess.run(
+                ["git", "apply", "--no-index", str(patch)],
+                cwd=root,
+                check=True,
+            )
+            for name in ("vscp-client-udp.cpp", "vscp-client-multicast.cpp"):
+                self.assertNotIn("<getopt.h>", (root / name).read_text(encoding="utf-8"))
+
     def test_patches_stay_lf_with_windows_checkout_settings(self) -> None:
         for patch_path in PATCHES:
             original = (ROOT / patch_path).read_bytes().replace(b"\r\n", b"\n")

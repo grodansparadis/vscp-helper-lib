@@ -1,0 +1,12 @@
+--- a/vscp-client-udp.cpp
++++ b/vscp-client-udp.cpp
+@@ -47,3 +47,2 @@
+ #include <stdbool.h>
+-#include <getopt.h>
+ #include <vscp.h>
+--- a/vscp-client-multicast.cpp
++++ b/vscp-client-multicast.cpp
+@@ -47,3 +47,2 @@
+ #include <stdbool.h>
+-#include <getopt.h>
+ #include <vscp.h>

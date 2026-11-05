@@ -2,6 +2,7 @@
 find_package(Git REQUIRED)
 set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
   "${CMAKE_CURRENT_LIST_DIR}/patches/vscp-authenticated-binary.patch"
+  "${CMAKE_CURRENT_LIST_DIR}/patches/vscp-windows-getopt.patch"
   "${CMAKE_CURRENT_LIST_DIR}/patches/vscp-helper-logging.patch"
   "${CMAKE_CURRENT_LIST_DIR}/patches/vscp-private-logging.patch"
   "${CMAKE_CURRENT_LIST_DIR}/libvscphelper.map")
@@ -9,7 +10,8 @@ set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
 set(VSCP_HELPER_CLIENT_DIR "${CMAKE_CURRENT_BINARY_DIR}/vscp-client")
 set(_vscp_client_work "${VSCP_HELPER_CLIENT_DIR}/patch-work")
 file(MAKE_DIRECTORY "${_vscp_client_work}")
-foreach(_file vscpremotetcpif.h vscpremotetcpif.cpp vscphelper.cpp)
+foreach(_file vscpremotetcpif.h vscpremotetcpif.cpp vscphelper.cpp
+              vscp-client-udp.cpp vscp-client-multicast.cpp)
   configure_file("${vscp_SOURCE_DIR}/src/vscp/common/${_file}"
                  "${_vscp_client_work}/${_file}" COPYONLY)
   # Git applies the LF patches to a normalized build-local copy.
@@ -31,6 +33,7 @@ function(_vscp_apply_client_patch _patch)
 endfunction()
 
 _vscp_apply_client_patch(vscp-authenticated-binary.patch)
+_vscp_apply_client_patch(vscp-windows-getopt.patch)
 
 set(_vscp_logging_source "${vscp_SOURCE_DIR}/src/vscp/common/vscphelperlogging.cpp")
 set(_vscp_logging_header "${vscp_SOURCE_DIR}/src/vscp/common/vscphelperlogging.h")
@@ -80,7 +83,8 @@ else()
   message(FATAL_ERROR "VSCP must provide both vscphelperlogging.cpp and vscphelperlogging.h")
 endif()
 
-foreach(_file vscpremotetcpif.h vscpremotetcpif.cpp vscphelper.cpp)
+foreach(_file vscpremotetcpif.h vscpremotetcpif.cpp vscphelper.cpp
+              vscp-client-udp.cpp vscp-client-multicast.cpp)
   configure_file("${_vscp_client_work}/${_file}"
                  "${VSCP_HELPER_CLIENT_DIR}/${_file}" COPYONLY)
 endforeach()
