@@ -481,6 +481,7 @@ if (WIN32)
         OpenSSL::Crypto
         expat::expat
         ws2_32
+        iphlpapi
     )
         
 else()
