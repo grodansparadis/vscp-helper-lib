@@ -8,6 +8,7 @@ target_sources(unittest_tcp_transport PRIVATE ${vscp_SOURCE_DIR}/src/common/crc.
 target_link_libraries(unittest_tcp_transport PRIVATE libvscphelper GTest::gtest_main)
 
 add_executable(unittest_datagram_clients datagram_clients.cpp)
+target_sources(unittest_datagram_clients PRIVATE ${vscp_SOURCE_DIR}/src/common/crc.c)
 target_link_libraries(unittest_datagram_clients PRIVATE libvscphelper GTest::gtest_main)
 if(WIN32)
   target_link_libraries(unittest_datagram_clients PRIVATE ws2_32)

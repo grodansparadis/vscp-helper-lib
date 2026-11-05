@@ -54,7 +54,7 @@ print(value)
 
 #### JavaScript availability
 
-The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
+See the [Node.js binding](bindings.md#nodejs) for C API access and native library availability.
 
 ### See Also
 [vscphlp_writeGuidToString4RowsEx](vscphlp_writeguidtostring4rowsex.md)

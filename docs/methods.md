@@ -10,8 +10,8 @@ Each reference describes its return convention and possible error codes; see
   [first C++ project](classes_first_project.md).
 * For Python, see the [Python guide](python_using.md) and the Python examples
   in the C helper references.
-* The official Node.js binding does not currently expose the helper methods;
-  see [language bindings](bindings.md#nodejs).
+* For Node.js, see [language bindings](bindings.md#nodejs) for convenience
+  methods and low-level C API access.
 
 For C, Python, and C++ TLS connection guidance, see [TLS connections](tls.md).
 

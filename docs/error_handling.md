@@ -19,8 +19,8 @@ The method pages list the codes returned by this library and the pinned
 `VscpRemoteTcpIf` implementation. A server's nonzero binary event-confirmation
 status can also be returned by binary event receive operations. Code values
 and aliases are defined in the pinned
-[VSCP header](https://github.com/grodansparadis/vscp/blob/3ef246288b8c81c873397ecc22faaa1192653e8c/src/vscp/common/vscp.h)
-and [CANAL header](https://github.com/grodansparadis/vscp/blob/3ef246288b8c81c873397ecc22faaa1192653e8c/src/vscp/common/canal.h).
+[VSCP header](https://github.com/grodansparadis/vscp/blob/f76ac50a67213749819a2014ff99f1a46bf3ea04/src/vscp/common/vscp.h)
+and [CANAL header](https://github.com/grodansparadis/vscp/blob/f76ac50a67213749819a2014ff99f1a46bf3ea04/src/vscp/common/canal.h).
 
 ## Common codes
 

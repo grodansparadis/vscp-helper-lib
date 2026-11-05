@@ -63,7 +63,7 @@ command-line arguments are for development only; avoid exposing production
 credentials in command lines or logs.
 
 For C and Python examples of the same command, see
-[vscphlp_noop](vscphlp_noop.md). The official Node.js binding does not yet
-expose it; see [language bindings](bindings.md#nodejs).
+[vscphlp_noop](vscphlp_noop.md). The updated Node.js binding exposes it as
+`api.raw.vscphlp_noop`; see [language bindings](bindings.md#nodejs).
 
 [filename](./bottom_copyright.md ':include')

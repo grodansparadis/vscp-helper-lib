@@ -200,30 +200,11 @@ This helper expects an open, negotiated binary session. To send from a
 
 ## Python example
 
-The Python wrapper does not yet expose these functions. This `ctypes`
-example expects an open session created using the same C library, as in the
-[TLS ctypes example](tls.md#python-example). Set `VSCPHELPER_LIB` to the full
-library path and do not mix these sessions with the Python wrapper's sessions.
+The updated Python wrapper exposes these operations directly. This example
+expects an open session created by `vscphelper.newSession()`:
 
 ```python
-import ctypes
-import os
-
-library = ctypes.CDLL(os.environ["VSCPHELPER_LIB"])
-byte_pointer = ctypes.POINTER(ctypes.c_ubyte)
-library.vscphlp_doCmdBinary.argtypes = [ctypes.c_long]
-library.vscphlp_doCmdBinary.restype = ctypes.c_int
-library.vscphlp_sendBinaryFrame.argtypes = [
-    ctypes.c_long, byte_pointer, ctypes.c_size_t,
-]
-library.vscphlp_sendBinaryFrame.restype = ctypes.c_int
-library.vscphlp_receiveBinaryFrame.argtypes = [
-    ctypes.c_long, ctypes.POINTER(byte_pointer),
-    ctypes.POINTER(ctypes.c_size_t), ctypes.c_uint32,
-]
-library.vscphlp_receiveBinaryFrame.restype = ctypes.c_int
-library.vscphlp_freeBinaryFrame.argtypes = [byte_pointer]
-library.vscphlp_freeBinaryFrame.restype = None
+import vscphelper
 
 
 def check_result(result):
@@ -232,18 +213,11 @@ def check_result(result):
 
 
 def exchange_binary_frame(session, request):
-    check_result(library.vscphlp_doCmdBinary(session))
-    data = (ctypes.c_ubyte * len(request)).from_buffer_copy(request)
-    check_result(library.vscphlp_sendBinaryFrame(session, data, len(request)))
-    response = byte_pointer()
-    size = ctypes.c_size_t()
-    try:
-        check_result(library.vscphlp_receiveBinaryFrame(
-            session, ctypes.byref(response), ctypes.byref(size), 1000,
-        ))
-        return ctypes.string_at(response, size.value)
-    finally:
-        library.vscphlp_freeBinaryFrame(response)
+    check_result(vscphelper.doCmdBinary(session))
+    check_result(vscphelper.sendBinaryFrame(session, request))
+    result, response = vscphelper.receiveBinaryFrame(session, 1000)
+    check_result(result)
+    return response
 ```
 
 Call `exchange_binary_frame(session, request_bytes)` with a complete prepared
@@ -272,7 +246,9 @@ frame types rather than preserving them for a later raw receive.
 
 ## JavaScript availability
 
-The official [Node.js binding](bindings.md#nodejs) does not currently expose
-the connection or binary-frame functions.
+The updated [Node.js binding](bindings.md#nodejs) exposes `doCmdBinary`,
+`sendBinaryFrame`, and `receiveBinaryFrame`. Received buffers are copied and
+the native allocation is freed by the convenience method. See the
+[authenticated binary example](frame_security.md#javascript-example).
 
 [filename](./bottom_copyright.md ':include')

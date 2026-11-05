@@ -118,11 +118,10 @@ if (result != VSCP_ERROR_SUCCESS) {
 
 Once configured, `vscphlp_sendEventEx`, event receives, confirmations, and raw
 binary I/O use authenticated encryption automatically. Continue to provide
-ordinary plaintext events; do not encrypt them yourself. The Python wrapper
-does not yet expose the binary-security setter, so Python applications needing
-this option must use `ctypes` and a session created by that same shared
-library. See [HMAC and frame encryption](frame_security.md) for key lengths,
-transport constraints, security considerations, and C/C++/Python examples.
+ordinary plaintext events; do not encrypt them yourself. The updated Python
+and Node.js wrappers expose the binary-security setter directly. See
+[HMAC and frame encryption](frame_security.md) for key lengths, transport
+constraints, security considerations, and language examples.
 
 ## Raw frames and language bindings
 
@@ -132,7 +131,7 @@ and event receives consume the same stream, so choose one receive strategy or
 implement a dispatcher rather than alternating calls blindly.
 
 The official Python wrapper exposes the event methods shown in the individual
-API references. The official Node.js binding does not currently expose the
-connection or event helper APIs; see [language bindings](bindings.md).
+API references. The updated Node.js wrapper provides event-ex convenience
+methods and low-level C bindings; see [language bindings](bindings.md).
 
 [filename](./bottom_copyright.md ':include')

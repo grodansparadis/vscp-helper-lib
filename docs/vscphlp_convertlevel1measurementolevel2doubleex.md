@@ -24,7 +24,7 @@ Convert Level I measurement to a Level II float measurement event [CLASS2.MEASUR
 
 #### JavaScript availability
 
-The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
+See the [Node.js binding](bindings.md#nodejs) for C API access and native library availability.
 
 ### See Also
 [vscphlp_convertLevel1MeasuremenToLevel2Double](vscphlp_convertlevel1measurementolevel2double.md)

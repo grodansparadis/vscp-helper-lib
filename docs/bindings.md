@@ -38,20 +38,25 @@ yet wrapped by this Python package. See the [TLS ctypes example](tls.md#python-e
 for programmatic CA and client-certificate configuration without changing
 the Python wrapper.
 
-The [binary link API](binary_link.md#python-example) is likewise available
-through `ctypes`; it is not yet exposed by the Python wrapper.
-
-The [frame security examples](frame_security.md) likewise use the exported C
-API for AES/HMAC session configuration and standalone authenticated frames.
+The development version of `pyvscphelper` exposes
+[binary link frames](binary_link.md#python-example),
+[AES/HMAC security](frame_security.md#python-example), and
+[UDP/multicast clients](datagram_clients.md#python-example) directly.
+These changes require a corresponding wrapper release and a shared library
+that exports the new functions. TCP event-ex and datagram event-ex operations
+convert both the older `pyvscp` 0.3.14 layout and the current layout. Other
+event helpers still pass the `pyvscp` structures directly and require a
+version compatible with the native library; the published 0.3.14 layout
+predates the current ABI. A newer `pyvscp` source or release is needed for
+those other helpers.
 
 For an event allocated by `newVSCPevent`, call `deleteVSCPevent_v2` to release
 both its helper-owned data and the event structure. The older
 `deleteVSCPevent` releases only the data. Do not pass a Python-owned event or
 data buffer to the full-event deleter.
 
-The current Python wrapper unloads the shared library when `closeSession` is
-called. Call it only after all work with the wrapper is finished; do not make
-further wrapper calls or keep other sessions active afterward.
+The updated `closeSession` releases only that session; other sessions remain
+usable and the module keeps the shared library loaded.
 
 The source is available in [pyvscp](https://github.com/grodansparadis/pyvscp)
 and [pyvscphelper](https://github.com/grodansparadis/pyvscphelper).
@@ -89,11 +94,27 @@ Code written by Salvo Musumeci is also available at (https://github.com/nos86/VS
 <a id="nodejs"></a>
 ## Node.js
 
-The [node-vscp-helper](https://github.com/grodansparadis/node-vscp-helper)
-package exists, but its current native addon exports only the `hello`
-function. It does not yet expose the helper-library or `VscpRemoteTcpIf`
-methods. For a Node.js example that calls the C API through a third-party FFI,
-see [Using with JavaScript](using.md#using-with-javascript).
+The development version of
+[node-vscp-helper](https://github.com/grodansparadis/node-vscp-helper)
+provides a Node.js wrapper around the C helper library. It retains the
+existing `hello()` addon function and adds synchronous session, event,
+binary-frame, AES/HMAC, UDP, and multicast helpers. It does not expose the
+`VscpRemoteTcpIf` C++ class directly.
+
+`loadHelper()` loads the native library, using `VSCPHELPER_LIB` or an explicit
+path when needed. `api.raw` provides lazily bound declarations from the C
+header and `api.bind()` accepts explicit Koffi declarations. A declared
+function is callable only if the installed library actually exports it: the
+current build is missing some legacy declared functions, including
+`vscphlp_encryptVscpUdpFrame` and `vscphlp_decryptVscpUdpFrame`. Missing
+symbols raise a lookup error. The raw API requires the caller to supply
+correct native buffers, struct layouts, and ownership handling.
+
+Native calls are synchronous and can block the Node.js event loop; use a
+worker thread for blocking network operations. See
+[Using with JavaScript](using.md#using-with-javascript) and the security and
+datagram examples. The wrapper changes require a separate package release;
+an existing published package may not contain them yet.
 
 <a id="others"></a>
 ## Others 

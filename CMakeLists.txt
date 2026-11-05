@@ -581,7 +581,7 @@ if(BUILD_RAW_TRANSPORT_SAMPLES)
 endif()
 
 if(BUILD_DATAGRAM_SAMPLES)
-  foreach(sample IN ITEMS datagram_udp datagram_multicast)
+  foreach(sample IN ITEMS datagram_udp datagram_multicast datagram_hmac)
     add_executable("${sample}" "linux/samples/${sample}.c")
     target_link_libraries("${sample}" PRIVATE libvscphelper)
     set_target_properties("${sample}" PROPERTIES LINKER_LANGUAGE CXX)

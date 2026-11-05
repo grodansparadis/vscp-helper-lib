@@ -86,10 +86,9 @@ examples.
 
 * Proofread and expanded the documentation, including TLS, event handling,
   binary frames, frame security, versioning, and C/C++ and Python examples.
-* The Python wrapper does not yet expose the new TLS, binary-frame, or frame
-  security functions directly; the guides show how to call the C API with
-  `ctypes`. The current Node.js binding does not expose these helper APIs.
-  See [language bindings](docs/bindings.md).
+* At the comparison endpoint, the Python wrapper did not expose the new TLS,
+  binary-frame, or frame-security functions directly, and the Node.js addon
+  did not expose the C helper API. See the additional wrapper work below.
 * The project remains under the MIT license; the copyright notice was updated.
 
 ## Upgrade notes
@@ -111,6 +110,15 @@ examples.
   supports creating/configuring clients, connecting, sending and receiving
   events, filtering, and queue inspection. Added optional UDP and multicast
   samples; see [UDP and multicast clients](docs/datagram_clients.md).
+* Added opt-in HMAC authentication for UDP and multicast clients by updating
+  the pinned VSCP sources to
+  [`f76ac50`](https://github.com/grodansparadis/vscp/commit/f76ac50a67213749819a2014ff99f1a46bf3ea04).
+  A nonempty `hmac-key` JSON option, together with AES `encryption` and an
+  explicit `key`, sends and requires version-1 AES-CBC + HMAC-SHA-256
+  datagrams. Plaintext, legacy-encrypted, forged, and tampered datagrams are
+  discarded before delivery. Legacy datagram framing remains the default. HMAC
+  does not provide replay protection. Added the `datagram_hmac` sample; see
+  [authenticated UDP and multicast](docs/datagram_clients.md#authenticated-udp-and-multicast-hmac).
 * Exposed `vscphlp_setSingleChannelReceiveLoop` and
   `vscphlp_isSingleChannelReceiveLoopEnabled` to enable and query the
   single-channel text receive loop from the C API. A dedicated reader
@@ -128,3 +136,20 @@ examples.
   spdlog logger does not change the application's logger. Existing stderr
   diagnostics remain the default; failed configuration retains the previous
   logger. See [logging](docs/logging.md) for examples and safety limits.
+* Updated the separate Python wrapper with binary negotiation and frame I/O,
+  AES/HMAC session and standalone frame helpers, and UDP/multicast client
+  operations. TCP and datagram event-ex operations translate both the older
+  and current `pyvscp` layouts. Other event helpers still require a matching
+  `pyvscp` ABI. `closeSession` no longer unloads the shared library or
+  invalidates other sessions. TLS configuration setters still require `ctypes`.
+* Added a Node.js wrapper with synchronous session, event, AES/HMAC, binary,
+  UDP, and multicast helpers. It includes lazy C API bindings and retains
+  the existing `hello()` addon function. Raw calls require native buffer and
+  ownership handling. Some functions declared in the C header are not
+  exported by the current library; attempting to bind one reports an error.
+* Added Python and Node.js authenticated transport examples and integration
+  tests. These wrapper changes are in separate repositories and require
+  corresponding releases; installing an older published package will not
+  provide the new APIs. See [language bindings](docs/bindings.md),
+  [frame security](docs/frame_security.md), and
+  [UDP/multicast clients](docs/datagram_clients.md).

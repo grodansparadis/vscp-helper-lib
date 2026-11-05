@@ -93,8 +93,8 @@ The query reports the configured option, not whether the session is currently
 connected or in its receive loop. It returns `VSCP_ERROR_INVALID_HANDLE` for
 an invalid session or `VSCP_ERROR_PARAMETER` if `pEnabled` is null.
 
-The official Python and Node.js bindings do not expose these new functions.
-Python can call them through `ctypes`; Node.js applications can use a native
-FFI such as Koffi. See [language bindings](bindings.md).
+The Python wrapper can call these functions through `ctypes`. The updated
+Node.js wrapper exposes their C declarations through `api.raw`. See
+[language bindings](bindings.md).
 
 [filename](./bottom_copyright.md ':include')

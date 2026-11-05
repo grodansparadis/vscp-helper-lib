@@ -18,6 +18,35 @@ credentials remain unencrypted on a plain TCP connection; TLS protects that
 login too. There is no key exchange: provision matching algorithms and keys
 on both peers through a separate secure mechanism.
 
+## Transport coverage and limits
+
+AES with HMAC-SHA-256 is available on these paths, but it is opt-in and does
+not cover every kind of communication:
+
+| Communication path | AES + HMAC | Notes |
+| --- | --- | --- |
+| TCP or TLS in binary mode | Yes | Configure with `vscphlp_setBinarySecurity` before binary negotiation. TLS remains separately responsible for protecting the connection and verifying server identity. |
+| TCP or TLS in text mode | No | Frame security is not applied to text commands, events, or login. Use TLS to protect the connection; plain TCP does not protect credentials. |
+| UDP and multicast clients | Yes | Configure `encryption`, `key`, and `hmac-key` in the client JSON. Without `hmac-key`, the existing datagram formats remain unauthenticated. See [UDP and multicast security](datagram_clients.md#authenticated-udp-and-multicast-hmac). |
+| Application-managed frames | Yes | `vscphlp_encryptFrameV1` and `vscphlp_decryptFrameV1` provide standalone helpers; the application is responsible for transporting and validating the records. |
+| Legacy UDP frame helpers | No | The header declares legacy AES-only helpers, but the current library does not export them. |
+
+Security is not enabled by default, and keys are not exchanged by these APIs.
+Peers must be provisioned with matching AES and HMAC keys through a separate
+secure mechanism. HMAC detects modification and authenticates possession of
+the shared key, but it does not prevent replay of a previously valid frame or
+datagram. Add application-level sequence numbers or timestamps where replay
+protection is required.
+
+The updated Python and Node.js wrappers expose session security, standalone
+frame helpers, and UDP/multicast configuration. They are maintained in
+separate repositories and must be released or installed from source before
+these APIs are available.
+
+UDP and multicast clients use the same version-1 records, with the 3-byte
+prefix sent in every datagram, when configured with an `hmac-key`. See
+[authenticated UDP and multicast](datagram_clients.md#authenticated-udp-and-multicast-hmac).
+
 ## Automatic per-session security
 
 ```c
@@ -124,42 +153,49 @@ The caller owns the session and checks all subsequent send/receive errors.
 
 ### Python example
 
-The Python wrapper does not yet expose these functions; use `ctypes` with an
-open session as in the [TLS example](tls.md#python-example). Set
-`VSCPHELPER_LIB` to the full shared-library path. Do not mix these sessions
-with Python-wrapper-owned sessions.
+With a session already opened and authenticated, use independent keys from
+your application's secrets store:
 
 ```python
-import ctypes
-import os
-
-library = ctypes.CDLL(os.environ["VSCPHELPER_LIB"])
-byte_pointer = ctypes.POINTER(ctypes.c_ubyte)
-library.vscphlp_setBinarySecurity.argtypes = [
-    ctypes.c_long, ctypes.c_int,
-    byte_pointer, ctypes.c_size_t, byte_pointer, ctypes.c_size_t,
-]
-library.vscphlp_setBinarySecurity.restype = ctypes.c_int
-library.vscphlp_doCmdBinary.argtypes = [ctypes.c_long]
-library.vscphlp_doCmdBinary.restype = ctypes.c_int
+import vscphelper
 
 
 def enable_authenticated_binary(session, aes_key, hmac_key):
-    if len(aes_key) != 32 or len(hmac_key) != 32:
-        raise ValueError("AES-256 and HMAC keys must each be 32 bytes")
-    aes = (ctypes.c_ubyte * 32).from_buffer_copy(aes_key)
-    mac = (ctypes.c_ubyte * 32).from_buffer_copy(hmac_key)
-    result = library.vscphlp_setBinarySecurity(session, 3, aes, 32, mac, 32)
+    result = vscphelper.setBinarySecurity(session, 3, aes_key, hmac_key)
     if result != 0:
         raise RuntimeError("Binary security configuration failed (error {})".format(result))
-    result = library.vscphlp_doCmdBinary(session)
+    result = vscphelper.doCmdBinary(session)
     if result != 0:
         raise RuntimeError("Binary negotiation failed (error {})".format(result))
 ```
 
-Pass keys obtained securely from your application, not the public test vectors.
-Use the [binary ctypes functions](binary_link.md#python-example) afterward:
-they now operate on plaintext frames while the transport handles AES/HMAC.
+Use the [binary frame functions](binary_link.md#python-example) or event APIs
+afterward: they operate on plaintext while the transport handles AES/HMAC.
+The wrapper returns native status codes and copies received buffers before
+freeing native memory.
+
+### JavaScript example
+
+The Node.js calls are synchronous. Configure an open session with independent
+32-byte `Buffer` keys, then negotiate binary mode:
+
+```javascript
+const { loadHelper, ENCRYPTION } = require('node-vscp-helper');
+const api = loadHelper();
+
+function enableAuthenticatedBinary(session, aesKey, hmacKey) {
+    let status = api.setBinarySecurity(session, ENCRYPTION.AES256, aesKey, hmacKey);
+    if (status !== 0) throw new Error(`Security configuration failed: ${status}`);
+    status = api.doCmdBinary(session);
+    if (status !== 0) throw new Error(`Binary negotiation failed: ${status}`);
+}
+```
+
+`api.sendBinaryFrame` and `api.receiveBinaryFrame` then operate on plaintext
+inner frames. Receive returns `[status, Buffer | null]` and frees its native
+allocation after copying. `api.sendEventEx` and `api.blockingReceiveEventEx`
+also use the session's configured policy. Use a worker thread for blocking
+calls when the event loop must remain responsive.
 
 ## Standalone authenticated frame helpers
 
@@ -257,67 +293,39 @@ For decryption, allocate a vector up to the encrypted length, call
 
 ### Standalone Python example
 
-These AES-256 helpers return Python-owned copies. Keep `crypto_library` loaded
-while calling them. A failed authentication raises an exception instead of
-returning plaintext.
+The Python wrapper returns `(status, bytes)` and returns `None` instead of
+plaintext on failure. Given a valid `plain` inner frame and independent
+32-byte keys:
 
 ```python
-import ctypes
-import os
+import vscphelper
 
-crypto_library = ctypes.CDLL(os.environ["VSCPHELPER_LIB"])
-crypto_byte_pointer = ctypes.POINTER(ctypes.c_ubyte)
-crypto_library.vscphlp_encryptFrameV1.argtypes = [
-    crypto_byte_pointer, ctypes.c_size_t, ctypes.POINTER(ctypes.c_size_t),
-    crypto_byte_pointer, ctypes.c_size_t,
-    crypto_byte_pointer, ctypes.c_size_t, crypto_byte_pointer, ctypes.c_size_t,
-    crypto_byte_pointer, ctypes.c_size_t, ctypes.c_int,
-]
-crypto_library.vscphlp_encryptFrameV1.restype = ctypes.c_int
-crypto_library.vscphlp_decryptFrameV1.argtypes = [
-    crypto_byte_pointer, ctypes.c_size_t, ctypes.POINTER(ctypes.c_size_t),
-    crypto_byte_pointer, ctypes.c_size_t,
-    crypto_byte_pointer, ctypes.c_size_t, crypto_byte_pointer, ctypes.c_size_t,
-]
-crypto_library.vscphlp_decryptFrameV1.restype = ctypes.c_int
-
-
-def frame_crypto_keys(aes_key, hmac_key):
-    if len(aes_key) != 32 or len(hmac_key) != 32:
-        raise ValueError("AES-256 and HMAC keys must each be 32 bytes")
-    return ((ctypes.c_ubyte * 32).from_buffer_copy(aes_key),
-            (ctypes.c_ubyte * 32).from_buffer_copy(hmac_key))
-
-
-def encrypt_frame_v1(plain, aes_key, hmac_key):
-    aes, mac = frame_crypto_keys(aes_key, hmac_key)
-    source = (ctypes.c_ubyte * len(plain)).from_buffer_copy(plain)
-    output = (ctypes.c_ubyte * (len(plain) + 48))()
-    length = ctypes.c_size_t()
-    result = crypto_library.vscphlp_encryptFrameV1(
-        output, len(output), ctypes.byref(length), source, len(plain),
-        aes, 32, mac, 32, None, 0, 3,
-    )
-    if result != 0:
-        raise RuntimeError("Authenticated encryption failed (error {})".format(result))
-    return bytes(output[:length.value])
-
-
-def decrypt_frame_v1(encrypted, aes_key, hmac_key):
-    aes, mac = frame_crypto_keys(aes_key, hmac_key)
-    source = (ctypes.c_ubyte * len(encrypted)).from_buffer_copy(encrypted)
-    output = (ctypes.c_ubyte * len(encrypted))()
-    length = ctypes.c_size_t()
-    result = crypto_library.vscphlp_decryptFrameV1(
-        output, len(output), ctypes.byref(length), source, len(encrypted),
-        aes, 32, mac, 32,
-    )
-    if result != 0:
-        raise RuntimeError("Authentication/decryption failed (error {})".format(result))
-    return bytes(output[:length.value])
+status, encrypted = vscphelper.encryptFrameV1(plain, aes_key, hmac_key, 3)
+if status != 0:
+    raise RuntimeError("Encryption failed (error {})".format(status))
+status, decrypted = vscphelper.decryptFrameV1(encrypted, aes_key, hmac_key)
+if status != 0:
+    raise RuntimeError("Authentication/decryption failed (error {})".format(status))
 ```
 
-`decrypt_frame_v1` retains the encryption nibble just like the C helper.
+`decryptFrameV1` retains the encryption nibble just like the C helper.
+Omit the optional IV to generate a fresh random IV.
+
+### Standalone JavaScript example
+
+Given a valid `plain` `Buffer` and independent AES-256 and HMAC keys:
+
+```javascript
+const { loadHelper, ENCRYPTION } = require('node-vscp-helper');
+const api = loadHelper();
+const [encryptStatus, encrypted] = api.encryptFrameV1(
+    plain, aesKey, hmacKey, ENCRYPTION.AES256);
+if (encryptStatus !== 0) throw new Error(`Encryption failed: ${encryptStatus}`);
+const [decryptStatus, decrypted] = api.decryptFrameV1(encrypted, aesKey, hmacKey);
+if (decryptStatus !== 0) throw new Error(`Authentication failed: ${decryptStatus}`);
+```
+
+The values are Node-owned buffers; failures return `null` for the output.
 
 ## Wire format and interoperability
 
@@ -355,8 +363,8 @@ and attempts to reconfigure a connected binary session. Decryption reports
 Always check the return value before using an output length or plaintext. See
 [error handling](error_handling.md) for code values.
 
-The official [Node.js binding](bindings.md#nodejs) does not currently expose
-these APIs.
+The updated wrappers return these native status codes. Invalid wrapper argument
+types and out-of-range timeouts additionally raise language exceptions.
 
 The build applies a repository-owned transport patch to a **build-local copy**
 of the pinned VSCP client. It requires Git and leaves downloaded/local

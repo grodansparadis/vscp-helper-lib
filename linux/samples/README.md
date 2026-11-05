@@ -39,12 +39,18 @@ Build the helper-library datagram examples from the repository root:
 
 ```sh
 cmake -S . -B build -DBUILD_DATAGRAM_SAMPLES=ON
-cmake --build build --target datagram_udp datagram_multicast
+cmake --build build --target datagram_udp datagram_multicast datagram_hmac
 ```
 
 `build/datagram_udp` sends to the VSCP UDP broadcast endpoint by default;
 `build/datagram_multicast` joins the VSCP multicast group. Both examples wait
 for an event from a peer, so they time out if no compatible peer is active.
+`build/datagram_hmac [udp|multicast] [udp://host:port]` sends and receives
+AES-256 + HMAC-SHA-256 authenticated datagrams. Set `VSCP_DATAGRAM_AES_KEY`
+and `VSCP_DATAGRAM_HMAC_KEY` to independent keys from `openssl rand -hex 32`.
+In UDP mode it defaults to `udp://127.0.0.1:9598` and receives its own event.
+For multicast, use a peer configured with the same group and keys; local
+loopback behavior varies by interface and operating system.
 See [the datagram client guide](../../docs/datagram_clients.md) for
 configuration details and network requirements.
 

@@ -163,7 +163,9 @@ explicit argument types and supports both server verification and mutual TLS.
 
 ## JavaScript availability
 
-The official [Node.js binding](bindings.md#nodejs) does not currently expose
-these functions. Do not assume methods with the C++ names exist in that addon.
+The updated [Node.js binding](bindings.md#nodejs) exposes these C functions
+through `api.raw`, for example `api.raw.vscphlp_setTLSOptions(...)`. Follow the
+C parameter and ownership rules. The C++ class methods are not exposed
+directly.
 
 [filename](./bottom_copyright.md ':include')

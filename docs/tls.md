@@ -247,9 +247,11 @@ use an appropriate secrets-management mechanism in production.
 
 ## JavaScript
 
-The official [Node.js helper binding](bindings.md#nodejs) does not currently
-expose the connection functions, so it cannot provide an equivalent TLS
-example yet.
+The updated [Node.js helper binding](bindings.md#nodejs) can open an
+`stcp://` endpoint using `api.open()`. Configure a per-session CA or client
+certificate through `api.raw.vscphlp_setTLSOptions()` before opening, and
+check each native status code. These calls are synchronous; use a worker when
+they must not block the event loop.
 
 ## Client certificates
 

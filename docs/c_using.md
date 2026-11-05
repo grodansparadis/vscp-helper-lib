@@ -7,7 +7,6 @@ Install the library either by building it yourself or by installing the deb pack
 [Binary downloads](https://github.com/grodansparadis/vscp-helper-lib/releases) are available in the repository's releases section.
 
 For C, C++, and Python connection examples, see [TLS connections](tls.md).
-The official Node.js binding does not yet expose the helper functions; see
-[language bindings](bindings.md#nodejs).
+For the Node.js wrapper, see [language bindings](bindings.md#nodejs).
 
 [filename](./bottom_copyright.md ':include')

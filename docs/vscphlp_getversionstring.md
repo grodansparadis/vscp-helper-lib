@@ -56,8 +56,8 @@ print("Helper library version: {}".format(get_version().decode("ascii")))
 
 ## JavaScript availability
 
-The official [Node.js binding](bindings.md#nodejs) does not currently expose
-this function. A Node.js FFI example is available in
+The [Node.js binding](bindings.md#nodejs) exposes this function through
+`api.raw.vscphlp_getVersionString()`. An example is available in
 [Using with JavaScript](using.md#using-with-javascript).
 
 [filename](./bottom_copyright.md ':include')

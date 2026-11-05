@@ -86,7 +86,11 @@ vscphlp_newSession(void);
 HELPERLIB_API void 
 vscphlp_closeSession(long handle);
 
-/* UDP and multicast clients use a separate handle family from TCP sessions. */
+/* UDP and multicast clients use a separate handle family from TCP sessions.
+ * A JSON "hmac-key" (64 hex digits) with "encryption" 1-3 and an explicit "key"
+ * enables authenticated AES/HMAC-SHA-256 datagrams for sending and receiving;
+ * unauthenticated datagrams are then discarded. "hmac-key":"" disables it.
+ */
 HELPERLIB_API long
 vscphlp_newUdpClient(void);
 HELPERLIB_API long

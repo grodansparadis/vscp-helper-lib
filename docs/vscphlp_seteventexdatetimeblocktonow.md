@@ -39,7 +39,7 @@ print("{:04d}-{:02d}-{:02d}".format(event.year, event.month, event.day))
 
 #### JavaScript availability
 
-The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
+See the [Node.js binding](bindings.md#nodejs) for C API access and native library availability.
 
 ### See Also
 [vscphlp_setEventDateTimeBlockToNow](vscphlp_seteventdatetimeblocktonow.md)

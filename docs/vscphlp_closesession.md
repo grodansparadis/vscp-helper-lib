@@ -45,14 +45,14 @@ finally:
     vscphelper.closeSession(handle)
 ```
 
-The current Python wrapper unloads the shared library in `closeSession`; call
-it only after all wrapper work is complete. See [bindings](bindings.md#python).
+The updated Python wrapper keeps the shared library loaded, so closing this
+session does not invalidate other sessions. See [bindings](bindings.md#python).
 
 <!-- tabs:end -->
 
 #### JavaScript availability
 
-The official [Node.js binding](bindings.md#nodejs) does not currently expose this helper API, so there is no equivalent JavaScript example.
+The [Node.js binding](bindings.md#nodejs) provides `api.closeSession(handle)`.
 
 ### See Also
 [vscphlp_newSession](vscphlp_newsession.md)
