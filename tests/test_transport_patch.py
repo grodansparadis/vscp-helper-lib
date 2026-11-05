@@ -24,7 +24,8 @@ class TransportPatchTests(unittest.TestCase):
             root = Path(directory)
             for name in ("vscp-client-udp.cpp", "vscp-client-multicast.cpp"):
                 (root / name).write_text(
-                    "#include <stdbool.h>\n"
+                    "\n" * 46
+                    + "#include <stdbool.h>\n"
                     "#include <getopt.h>\n"
                     "#include <vscp.h>\n",
                     encoding="utf-8",
