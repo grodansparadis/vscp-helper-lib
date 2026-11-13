@@ -36,11 +36,16 @@ def main():
     def with_crc(frame):
         return frame + binascii.crc_hqx(frame[1:], 0xffff).to_bytes(2, "big")
 
+    def authenticated_prefix(inner_length):
+        return b"\x55" + (0x2000 | inner_length).to_bytes(2, "big")
+
     def encode(frame, algorithm):
         iv = os.urandom(16)
         body = bytes(((frame[0] & 0xf0) | algorithm,)) + cipher(frame[1:], algorithm, iv) + iv
-        prefix = b"\x55" + (0x2000 | (len(body) + 16)).to_bytes(2, "big")
-        return prefix + body + hmac.new(mac_key, prefix + body, hashlib.sha256).digest()[:16]
+        inner_length = len(body) + 16
+        prefix = authenticated_prefix(inner_length)
+        tag = hmac.new(mac_key, prefix + body, hashlib.sha256).digest()[:16]
+        return inner_length.to_bytes(2, "big") + body + tag
 
     class AuthenticatedHandler(fixtures.Handler):
         def binary(self, connection, pending, scenario):
@@ -54,28 +59,25 @@ def main():
             if fault:
                 plain = sample[:-1] + bytes((sample[-1] ^ 1,)) if fault == "crc" else sample
                 record = bytearray(encode(plain, algorithm))
-                if fault == "prefix":
-                    record[0] ^= 1
-                elif fault == "version":
-                    record[1] &= 0x1f
-                elif fault == "length":
-                    record[2] += 16
-                    record += bytes(16)
+                if fault == "length":
+                    record[:2] = b"\x00\x00"
                 elif fault == "type":
-                    record[3] ^= 0x10
+                    record[2] ^= 0x10
                 elif fault == "algorithm":
-                    record[3] = (record[3] & 0xf0) | (1 if algorithm != 1 else 2)
+                    record[2] = (record[2] & 0xf0) | (1 if algorithm != 1 else 2)
                 elif fault == "unencrypted":
-                    record[3] &= 0xf0
+                    record[2] &= 0xf0
                 elif fault == "ciphertext":
-                    record[4] ^= 1
+                    record[3] ^= 1
                 elif fault == "iv":
                     record[-17] ^= 1
                 elif fault == "tag":
                     record[-1] ^= 1
                 elif fault == "padding":
                     record[-17] ^= 1
-                    record[-16:] = hmac.new(mac_key, record[:-16], hashlib.sha256).digest()[:16]
+                    body = record[2:-16]
+                    prefix = authenticated_prefix(len(body) + 16)
+                    record[-16:] = hmac.new(mac_key, prefix + body, hashlib.sha256).digest()[:16]
                 elif fault == "legacy":
                     record = bytearray(self.packet(sample))
                 elif fault not in ("crc", "coalesced", "partial", "partial-body"):
@@ -92,28 +94,29 @@ def main():
                     return True
 
             while True:
-                while len(pending) < 3:
+                while len(pending) < 2:
                     data = connection.recv(8192)
                     if not data:
                         return True
                     pending += data
-                word = int.from_bytes(pending[1:3], "big")
-                length = word & 0x1fff
-                if pending[0] != 0x55 or word >> 13 != 1 or not 49 <= length <= 4096:
-                    raise ValueError("Invalid authenticated prefix from client")
-                while len(pending) < length + 3:
+                length = int.from_bytes(pending[:2], "big")
+                if not 49 <= length <= 8191 or (length - 33) % 16:
+                    raise ValueError("Invalid authenticated record length from client")
+                while len(pending) < length + 2:
                     data = connection.recv(8192)
                     if not data:
                         return True
                     pending += data
-                record, pending = pending[:length + 3], pending[length + 3:]
-                if record[3] & 0x0f != algorithm:
+                record, pending = pending[:length + 2], pending[length + 2:]
+                body = record[2:]
+                if body[0] & 0x0f != algorithm:
                     raise ValueError("Unexpected client encryption algorithm")
-                expected = hmac.new(mac_key, record[:-16], hashlib.sha256).digest()[:16]
-                if not hmac.compare_digest(expected, record[-16:]):
+                prefix = authenticated_prefix(length)
+                expected = hmac.new(mac_key, prefix + body[:-16], hashlib.sha256).digest()[:16]
+                if not hmac.compare_digest(expected, body[-16:]):
                     raise ValueError("Invalid client HMAC")
-                frame = bytes((record[3] & 0xf0,)) + cipher(
-                    record[4:-32], algorithm, record[-32:-16], decrypt=True)
+                frame = bytes((body[0] & 0xf0,)) + cipher(
+                    body[1:-32], algorithm, body[-32:-16], decrypt=True)
                 if len(frame) < 5 or binascii.crc_hqx(frame[1:], 0xffff):
                     raise ValueError("Invalid authenticated client frame CRC")
                 if frame[0] >> 4 in (0, 1):

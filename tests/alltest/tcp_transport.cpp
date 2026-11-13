@@ -855,7 +855,7 @@ TEST(FrameSecurity, AutomaticEncryptedRoundtripOverTcpAndTls)
             Session session;
             openSecureSession(session, endpoint, algorithm);
             EXPECT_EQ(VSCP_ERROR_PARAMETER, vscphlp_setBinarySecurity(session.handle, 0, nullptr, 0, nullptr, 0));
-            for (size_t size : {size_t(5), size_t(17), size_t(4048)}) {
+            for (size_t size : {size_t(5), size_t(17), size_t(4048), size_t(8144)}) {
                 const auto sent = plainCommand(size);
                 ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_sendBinaryFrame(session.handle, sent.data(), sent.size()));
                 ReceivedFrame received;
@@ -863,7 +863,7 @@ TEST(FrameSecurity, AutomaticEncryptedRoundtripOverTcpAndTls)
                 ASSERT_NE(nullptr, received.data);
                 EXPECT_EQ(sent, std::vector<unsigned char>(received.data, received.data + received.size));
             }
-            auto oversized = plainCommand(4049);
+            auto oversized = plainCommand(8145);
             EXPECT_EQ(VSCP_ERROR_PARAMETER, vscphlp_sendBinaryFrame(session.handle, oversized.data(), oversized.size()));
             auto corrupted = plainCommand();
             corrupted.back() ^= 1;
@@ -892,7 +892,7 @@ TEST(FrameSecurity, AutomaticEncryptedRoundtripOverTcpAndTls)
 
 TEST(FrameSecurity, RejectsTamperingAndDowngradeWithoutPlaintext)
 {
-    for (const char* fault : {"prefix", "version", "length", "type", "algorithm", "unencrypted",
+    for (const char* fault : {"length", "type", "algorithm", "unencrypted",
                               "ciphertext", "iv", "tag", "padding", "crc", "legacy"}) {
         SCOPED_TRACE(fault);
         Session session;

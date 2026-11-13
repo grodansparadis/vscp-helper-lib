@@ -65,18 +65,17 @@ if(DEFINED original_logging_forward_hash)
   endif()
 endif()
 file(READ "${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.h" patched_client_header)
-string(FIND "${patched_client_header}" "setBinarySecurity" security_method_position)
+string(FIND "${patched_client_header}" "getBinaryAuthenticationAlgorithm" security_method_position)
 if(security_method_position EQUAL -1)
-  message(FATAL_ERROR "The build-local client does not include authenticated framing")
+  message(FATAL_ERROR "The build-local client does not expose its authentication algorithm")
 endif()
 file(READ "${VSCP_HELPER_CLIENT_DIR}/vscpremotetcpif.cpp" patched_client_source)
-foreach(_security_code "VscpRemoteTcpIf::setBinarySecurity"
-                       "vscp_encryptFrameV1" "vscp_decryptFrameV1"
-                       "OPENSSL_cleanse(m_binaryKey.data(), m_binaryKey.size())"
-                       "OPENSSL_cleanse(m_binaryHmacKey.data(), m_binaryHmacKey.size())")
+foreach(_security_code "VscpRemoteTcpIf::setBinaryAuthentication"
+                       "VscpRemoteTcpIf::clearBinaryAuthentication"
+                       "vscp_encryptFrameV1" "vscp_decryptFrameV1")
   string(FIND "${patched_client_source}" "${_security_code}" security_code_position)
   if(security_code_position EQUAL -1)
-    message(FATAL_ERROR "The build-local client is missing authenticated framing code: ${_security_code}")
+    message(FATAL_ERROR "The pinned client is missing authenticated framing code: ${_security_code}")
   endif()
 endforeach()
 string(FIND "${patched_client_source}" "vscphelper_logTransportError(format, arguments)"

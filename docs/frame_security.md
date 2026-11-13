@@ -43,8 +43,9 @@ frame helpers, and UDP/multicast configuration. They are maintained in
 separate repositories and must be released or installed from source before
 these APIs are available.
 
-UDP and multicast clients use the same version-1 records, with the 3-byte
-prefix sent in every datagram, when configured with an `hmac-key`. See
+UDP and multicast clients send the three-byte version-1 prefix in every
+authenticated datagram. TCP uses the upstream binary length prefix instead;
+both include the canonical prefix when computing the HMAC. See
 [authenticated UDP and multicast](datagram_clients.md#authenticated-udp-and-multicast-hmac).
 
 ## Automatic per-session security
@@ -93,14 +94,14 @@ random IV, encrypts and authenticates each record, and authenticates/decrypts
 received records. Returned plaintext has its encryption nibble cleared.
 The existing event APIs and their confirmations use the same security policy.
 
-The peer must implement the version-1 wire format described below. An
-authenticated connection rejects legacy records, version 0, unencrypted
-frames, a different AES algorithm, invalid tags, padding, or CRCs, and closes
-the connection. Receive returns `VSCP_ERROR_INVALID_FRAME`, with no frame
+The peer must implement the upstream version-1 TCP format described below. An
+authenticated connection rejects legacy records, unencrypted frames, a
+different AES algorithm, invalid tags, padding, or CRCs, and closes the
+connection. Receive returns `VSCP_ERROR_INVALID_FRAME`, with no frame
 allocation returned. Timeouts still retain partial input for a later receive.
 
-Automatic mode permits plaintext frames of **5 through 4,048 bytes**.
-The complete encrypted inner frame is limited to 4,096 bytes. Legacy raw
+Automatic mode permits plaintext frames of **5 through 8,144 bytes**.
+The largest encrypted inner frame is 8,177 bytes. Legacy raw
 mode's 65,535-byte transport limit is unchanged.
 
 ### C example
@@ -244,9 +245,9 @@ byte. Input and output may alias. Failed calls leave output bytes unchanged
 and set `*outputLength` to zero when that pointer is valid.
 
 The inner length must fit 13 bits, including padding, IV, and tag. This helper
-limit is separate from the automatic transport's stricter 4,096-byte limit.
-With CBC padding, the largest supported plaintext is 8,144 bytes, producing
-an 8,177-byte encrypted inner frame.
+limit is shared by the automatic transport. With CBC padding, the largest
+supported plaintext is 8,144 bytes, producing an 8,177-byte encrypted inner
+frame.
 
 For example, with application-supplied keys and a valid `plain` frame
 (include `<stdio.h>` and `<vscphelperlib.h>`):
@@ -265,9 +266,10 @@ if (result != VSCP_ERROR_SUCCESS) {
 
 Supply a capacity large enough for your frame; this example's 1,024-byte
 buffer is not a universal maximum. On success, use exactly `encryptedSize`
-bytes and add the version-1 prefix if your application owns the stream.
-Do **not** pass this result to automatic encrypted send (which expects
-plaintext), or use legacy two-byte framing for it.
+bytes. Do **not** pass this result to automatic encrypted send (which expects
+plaintext). A caller that owns the transport must add its required framing:
+the upstream TCP binary protocol uses a two-byte length before this record,
+while authenticated UDP and multicast use the canonical three-byte prefix.
 
 ### Standalone C++ example
 
@@ -329,7 +331,7 @@ The values are Node-owned buffers; failures return `null` for the output.
 
 ## Wire format and interoperability
 
-The authenticated record is:
+The canonical authenticated record is:
 
 ```text
 [0x55][version:3 | innerLength:13, big-endian]
@@ -337,14 +339,16 @@ The authenticated record is:
 ```
 
 Version is `1`. `innerLength` includes type, ciphertext, IV, and tag, not the
-three-byte prefix. HMAC-SHA-256 authenticates
-`prefix || type/encryption || ciphertext || IV`. The first 16 digest bytes
+three-byte prefix. TCP sends the inner record behind its normal two-byte
+big-endian length; UDP and multicast send the full three-byte prefix followed
+by the inner record. HMAC-SHA-256 authenticates
+`prefix || type/encryption || ciphertext || IV`; the first 16 digest bytes
 form the tag. Encryption covers the body and CRC, not the type byte.
 
 Standalone helpers reconstruct the canonical prefix for HMAC, but do not
 read/write it. A caller implementing its own transport must validate the
-received marker, version, length, and expected algorithm before decrypting.
-Automatic transport performs these checks and never silently falls back.
+transport length and expected algorithm before decrypting. Automatic
+transports perform these checks and never silently fall back.
 
 ## Errors and availability
 

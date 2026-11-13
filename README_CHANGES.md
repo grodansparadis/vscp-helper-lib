@@ -7,6 +7,7 @@ tagged, rename **Unreleased** to the version and date, and start a new
 
 ## Unreleased
 
+- Pin VSCP to fc71470 and use its native authenticated TCP binary mode
 - Add scripts/download-artifacts.sh to download and verify the newest CI build artifacts
 - Python wrapper and node.js wrapper (e5dd40f)
 - Fix Windows datagram IP Helper linkage (c9fea0d)

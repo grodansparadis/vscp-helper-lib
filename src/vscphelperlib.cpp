@@ -43,6 +43,7 @@
 
 #include <canal.h>
 #include <canaldlldef.h>
+#include <crc.h>
 #include <vscp.h>
 #include <vscpcanaldeviceif.h>
 #include <vscpdatetime.h>
@@ -481,6 +482,17 @@ vscphlp_sendBinaryFrame(long handle, const unsigned char* frame, size_t frameSiz
     if (NULL == frame || !frameSize || frameSize > UINT16_MAX) {
         return VSCP_ERROR_PARAMETER;
     }
+    if (pvscpif->getBinaryAuthenticationAlgorithm() != VSCP_ENCRYPTION_NONE) {
+        if (frameSize < 5 || frameSize > 8144 || (frame[0] & 0x0f) ||
+            ((frame[0] >> 4) > 1 && (frame[0] >> 4) < 14)) {
+            return VSCP_ERROR_PARAMETER;
+        }
+        const uint16_t expectedCrc = (static_cast<uint16_t>(frame[frameSize - 2]) << 8) |
+                                     frame[frameSize - 1];
+        if (crcSlow(frame + 1, static_cast<int>(frameSize - 3)) != expectedCrc) {
+            return VSCP_ERROR_INVALID_FRAME;
+        }
+    }
 
     try {
         return pvscpif->sendBinaryFrame(std::vector<uint8_t>(frame, frame + frameSize));
@@ -537,6 +549,10 @@ vscphlp_freeBinaryFrame(unsigned char* frame)
     delete[] frame;
 }
 
+static bool
+validFrameKeys(int algorithm, const unsigned char* key, size_t keyLength,
+               const unsigned char* hmacKey, size_t hmacKeyLength);
+
 extern "C" DllExport int
 vscphlp_setBinarySecurity(long handle, int algorithm, const unsigned char* key,
                          size_t keyLength, const unsigned char* hmacKey, size_t hmacKeyLength)
@@ -548,7 +564,21 @@ vscphlp_setBinarySecurity(long handle, int algorithm, const unsigned char* key,
     if (algorithm < VSCP_ENCRYPTION_NONE || algorithm > VSCP_ENCRYPTION_AES256) {
         return VSCP_ERROR_PARAMETER;
     }
-    return pvscpif->setBinarySecurity(static_cast<uint8_t>(algorithm), key, keyLength, hmacKey, hmacKeyLength);
+    if (pvscpif->isConnected() && pvscpif->isBinaryMode()) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    if (algorithm == VSCP_ENCRYPTION_NONE) {
+        if (keyLength || hmacKeyLength) {
+            return VSCP_ERROR_PARAMETER;
+        }
+        pvscpif->clearBinaryAuthentication();
+        return VSCP_ERROR_SUCCESS;
+    }
+    if (!validFrameKeys(algorithm, key, keyLength, hmacKey, hmacKeyLength)) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    return pvscpif->setBinaryAuthentication(static_cast<uint8_t>(algorithm), key,
+                                            keyLength, hmacKey);
 }
 
 extern "C" DllExport int
@@ -561,7 +591,7 @@ vscphlp_getBinarySecurity(long handle, int* pAlgorithm)
     if (NULL == pAlgorithm) {
         return VSCP_ERROR_PARAMETER;
     }
-    *pAlgorithm = pvscpif->getBinarySecurity();
+    *pAlgorithm = pvscpif->getBinaryAuthenticationAlgorithm();
     return VSCP_ERROR_SUCCESS;
 }
 

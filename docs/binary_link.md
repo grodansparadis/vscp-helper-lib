@@ -67,9 +67,9 @@ the two-byte big-endian length. This raw API does not calculate or validate
 the CRC, encrypt/decrypt frames, or interpret commands and replies in legacy mode.
 
 With [automatic frame security](frame_security.md), instead supply a plaintext
-frame of 5 through 4,048 bytes, including valid CRC and a clear encryption
-nibble. The transport adds version-1 framing, encryption, random IV, and HMAC.
-Do not pre-encrypt these frames.
+frame of 5 through 8,144 bytes, including valid CRC and a clear encryption
+nibble. The transport encrypts and authenticates the frame, then adds the
+two-byte TCP length prefix. Do not pre-encrypt these frames.
 
 Success means the transport accepted the write, not that the server accepted
 the command or event. Receive and process any protocol confirmations yourself.
@@ -102,7 +102,7 @@ by separate calls. The returned bytes are opaque: encrypted frames, command
 replies, and confirmations are not converted into events or acknowledged.
 
 That describes legacy mode. With automatic frame security, the transport
-validates the version-1 prefix and HMAC, decrypts, and validates padding/CRC
+validates the record length and HMAC, decrypts, and validates padding/CRC
 before returning plaintext. The plaintext encryption nibble is cleared.
 Authentication or framing failure closes the connection and returns no frame.
 
