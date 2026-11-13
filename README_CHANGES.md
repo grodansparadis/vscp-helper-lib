@@ -78,6 +78,11 @@ examples.
 
 - Removed the unused legacy `test/simple` example; active test suites remain
   in `tests/`.
+- Removed the obsolete package-build script, incomplete Python extension
+  skeleton, unused Windows session-manager sources and static resource file,
+  and legacy `tests/oldtest` program. Removed tracked Python bytecode and
+  added ignore rules for generated Python caches.
+- Consolidated the historical changelog into this file.
 - CMake now requires version 3.14 or newer and a C++17 compiler.
 - Git submodules were removed. CMake fetches pinned VSCP, spdlog, and
   nlohmann-json sources, with local source overrides available for offline
@@ -212,3 +217,17 @@ The sections above also include subsequent unreleased work.
 - Cleaning up (3df3ece)
 - Test CI run on older code (932b483)
 - Added small logo (37c422c)
+
+## Historical changes
+
+Imported from the legacy changelog, retaining its original date codes.
+
+- 260820 AKHE Adopted CalVer versioning: 26-08-6.
+- 211015 AKHE Fixed bug in session handler.
+- 211015 AKHE Fixed bug in doCmdReceiveEx which cause VSCP_ERROR_PARAMETER to be returned also on OK received event.
+- 211014 AKHE doCmdDataAvailable did not handle error return correctly.
+- 211011 AKHE Windows port now adopts to new setup.
+- 210701 AKHE Protected stod conversions in helper lib that could throw exceptions for invalid strings
+- 210630 AKHE Fixed bug in vscp_hexStr2ByteArray
+- 210629 AKHE Path for install of man-pages was wrong. Fixed
+- 210628 AKHE Version 15.0.0
