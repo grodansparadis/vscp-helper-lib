@@ -62,6 +62,8 @@ examples.
 
 ### Versioning and compatibility
 
+- Updated the base library version to 16.0.0, retaining the automatic
+  Git-derived fourth component.
 - The library version now has four components:
   `major.minor.revision.patch`. The revision is set manually from 0 to 255;
   the patch is derived from the Git first-parent commit count and can exceed
