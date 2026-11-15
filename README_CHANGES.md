@@ -7,6 +7,7 @@ tagged, rename **Unreleased** to the version and date, and start a new
 
 ## Unreleased
 
+- Build against the latest vscp master (d75d4f5c6)
 ### TLS configuration
 
 - Added per-session C APIs: `vscphlp_enableTLS`,
