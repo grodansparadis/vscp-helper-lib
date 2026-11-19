@@ -15,7 +15,7 @@ jobs:
 
     steps:
     # https://github.com/actions/checkout  
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Read library version
       shell: bash
@@ -64,7 +64,7 @@ jobs:
           sha256sum "$artifact" > "$artifact.sha256"
         done
     # Save artifact    
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: libvscphelper_linux_x64_${{ env.LIB_VERSION }}${{ matrix.os == 'ubuntu-latest' && '_latest' || '' }}_deb
         path: |

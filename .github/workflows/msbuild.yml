@@ -30,7 +30,7 @@ jobs:
         arch: x64
 
     - name: Clone
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Read library version
       shell: powershell
@@ -44,7 +44,7 @@ jobs:
 
 
     - name: Checkout vcpkg repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v7
       with:
         repository: microsoft/vcpkg
         path: vcpkg
@@ -53,7 +53,7 @@ jobs:
       uses: negrutiu/nsis-install@v2
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v2
+      uses: microsoft/setup-msbuild@v3
       with:
         msbuild-architecture: x64
 
@@ -87,7 +87,7 @@ jobs:
           }
 
       # Save artifacts    
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: libvscphelper_windows_x64_${{ env.LIB_VERSION }}_zip
         path: |
@@ -95,7 +95,7 @@ jobs:
           ${{ github.workspace }}/build/*.zip.sha256
         retention-days: 30
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: libvscphelper_windows_x64_${{ env.LIB_VERSION }}_exe
         path: |

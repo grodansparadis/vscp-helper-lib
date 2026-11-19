@@ -17,18 +17,18 @@ jobs:
 
       - name: Install git
         run: sudo apt-get update && sudo apt-get install -y git
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Read library version
         shell: bash
         run: echo "LIB_VERSION=$(sed -n 's/^#define VSCP_HELPER_LIB_VERSION \"\(.*\)\"$/\1/p' src/libversion.h)" >> "$GITHUB_ENV"
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
         with:
           platforms: arm
 
-      - uses: uraimo/run-on-arch-action@v2
+      - uses: uraimo/run-on-arch-action@v3
         name: Build and test on armv7l
         id: build
         with:
@@ -66,7 +66,7 @@ jobs:
               sha256sum "$artifact" > "$artifact.sha256"
             done
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: libvscphelper_raspberrypi_armhf_${{ env.LIB_VERSION }}_deb
           path: |

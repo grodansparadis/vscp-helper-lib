@@ -16,7 +16,7 @@ jobs:
         os: [macos-latest]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Read library version
         shell: bash
@@ -63,7 +63,7 @@ jobs:
             shasum -a 256 "$artifact" > "$artifact.sha256"
           done
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: libvscphelper_macos_${{ env.PACKAGE_ARCH }}_${{ env.LIB_VERSION }}_tgz
           path: |
