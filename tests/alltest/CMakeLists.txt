@@ -12,6 +12,13 @@ add_custom_target(test_units
   DEPENDS unittest_units
   USES_TERMINAL)
 
+add_executable(unittest_api api.cpp)
+target_link_libraries(unittest_api PRIVATE libvscphelper GTest::gtest_main)
+add_custom_target(test_api
+  COMMAND $<TARGET_FILE:unittest_api>
+  DEPENDS unittest_api
+  USES_TERMINAL)
+
 add_executable(unittest_tcp_transport tcp_transport.cpp)
 target_sources(unittest_tcp_transport PRIVATE ${vscp_SOURCE_DIR}/src/common/crc.c)
 target_link_libraries(unittest_tcp_transport PRIVATE libvscphelper GTest::gtest_main)

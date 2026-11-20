@@ -1985,6 +1985,205 @@ vscphlp_setVscpDataArrayFromString(unsigned char* pData,
              : VSCP_ERROR_ERROR;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// vscphlp_getVscpDataFromString
+//
+// Same as vscphlp_setVscpDataFromString (the name the header has used).
+//
+
+extern "C" int
+vscphlp_getVscpDataFromString(vscpEvent* pEvent, const char* pstr)
+{
+    if ((NULL == pEvent) || (NULL == pstr)) {
+        return VSCP_ERROR_INVALID_POINTER;
+    }
+    return vscp_setEventDataFromString(pEvent, std::string(pstr)) ? VSCP_ERROR_SUCCESS
+                                                                 : VSCP_ERROR_ERROR;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// vscphlp_getVscpDataArrayFromString
+//
+// Same as vscphlp_setVscpDataArrayFromString. pData must hold 512 bytes.
+//
+
+extern "C" int
+vscphlp_getVscpDataArrayFromString(unsigned char* pData,
+                                   unsigned short* psizeData,
+                                   const char* pstr)
+{
+    if ((NULL == pData) || (NULL == psizeData) || (NULL == pstr)) {
+        return VSCP_ERROR_INVALID_POINTER;
+    }
+    return vscp_setDataArrayFromString(pData, psizeData, std::string(pstr)) ? VSCP_ERROR_SUCCESS
+                                                                           : VSCP_ERROR_ERROR;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// vscphlp_setEventToNow / vscphlp_setEventExToNow
+//
+// Set the date/time block of an event to now (UTC) and the timestamp.
+//
+
+extern "C" int
+vscphlp_setEventToNow(vscpEvent* pEvent)
+{
+    if (NULL == pEvent) {
+        return VSCP_ERROR_INVALID_POINTER;
+    }
+    return vscp_setEventToNow(pEvent) ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
+}
+
+extern "C" int
+vscphlp_setEventExToNow(vscpEventEx* pEventEx)
+{
+    if (NULL == pEventEx) {
+        return VSCP_ERROR_INVALID_POINTER;
+    }
+    return vscp_setEventExToNow(pEventEx) ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// vscphlp_getEncryptionCodeFromToken
+//
+// "" is no encryption (0); "AES128", "AES192", "AES256" (any case) are 1-3.
+// Other tokens give VSCP_ERROR_PARAMETER.
+//
+
+extern "C" int
+vscphlp_getEncryptionCodeFromToken(const char* pToken, int* pEncryptionCode)
+{
+    if ((NULL == pToken) || (NULL == pEncryptionCode)) {
+        return VSCP_ERROR_INVALID_POINTER;
+    }
+    std::string token(pToken);
+    vscp_trim(token);
+    int code = vscp_getEncryptionCodeFromToken(token);
+    if ((VSCP_ENCRYPTION_NONE == code) && !token.empty()) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    *pEncryptionCode = code;
+    return VSCP_ERROR_SUCCESS;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// vscphlp_getEncryptionTokenFromCode
+//
+
+extern "C" int
+vscphlp_getEncryptionTokenFromCode(int nEncryptionCode, char* pEncryptionToken, size_t len)
+{
+    if (NULL == pEncryptionToken) {
+        return VSCP_ERROR_INVALID_POINTER;
+    }
+    if ((nEncryptionCode < VSCP_ENCRYPTION_NONE) || (nEncryptionCode > VSCP_ENCRYPTION_AES256)) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    std::string token;
+    vscp_getEncryptionTokenFromCode(static_cast<uint8_t>(nEncryptionCode), token);
+    if (token.length() >= len) {
+        if (len) {
+            pEncryptionToken[0] = '\0';
+        }
+        return VSCP_ERROR_BUFFER_TO_SMALL;
+    }
+    memcpy(pEncryptionToken, token.c_str(), token.length() + 1);
+    return VSCP_ERROR_SUCCESS;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// vscphlp_encryptVscpUdpFrame / vscphlp_decryptVscpUdpFrame
+//
+// Legacy (version 0) frame encryption: the first byte (packet type) is kept
+// with the algorithm in its low nibble, the rest is AES-CBC encrypted with
+// PKCS#7 padding and the 16-byte IV is appended. output must hold len + 32
+// bytes. The encrypted frame is 1 + 16 * ((len - 1) / 16 + 1) + 16 bytes.
+//
+
+extern "C" int
+vscphlp_encryptVscpUdpFrame(unsigned char* output,
+                            unsigned char* input,
+                            size_t len,
+                            const unsigned char* key,
+                            const unsigned char* iv,
+                            unsigned char nAlgorithm)
+{
+    if ((NULL == output) || (NULL == input) || (NULL == key)) {
+        return VSCP_ERROR_INVALID_POINTER;
+    }
+    if (len < 1) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    return (0 != vscp_encryptFrame(output, input, len, key, iv, nAlgorithm)) ? VSCP_ERROR_SUCCESS
+                                                                            : VSCP_ERROR_ERROR;
+}
+
+extern "C" int
+vscphlp_decryptVscpUdpFrame(unsigned char* output,
+                            unsigned char* input,
+                            size_t len,
+                            const unsigned char* key,
+                            const unsigned char* iv,
+                            unsigned char nAlgorithm)
+{
+    if ((NULL == output) || (NULL == input) || (NULL == key)) {
+        return VSCP_ERROR_INVALID_POINTER;
+    }
+    if (len < 1) {
+        return VSCP_ERROR_PARAMETER;
+    }
+    return vscp_decryptFrame(output, input, len, key, iv, nAlgorithm) ? VSCP_ERROR_SUCCESS
+                                                                     : VSCP_ERROR_ERROR;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// vscphlp_getUDpFrameSizeFromEvent / Ex
+//
+// Size of the (unencrypted) frame for an event; 0 for an invalid event.
+//
+
+extern "C" size_t
+vscphlp_getUDpFrameSizeFromEvent(vscpEvent* pEvent)
+{
+    return (NULL == pEvent) ? 0 : vscp_getFrameSizeFromEvent(pEvent);
+}
+
+extern "C" size_t
+vscphlp_getUDpFrameSizeFromEventEx(vscpEventEx* pEventEx)
+{
+    return (NULL == pEventEx) ? 0 : vscp_getFrameSizeFromEventEx(pEventEx);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// vscphlp_writeEventToUdpFrame / Ex
+//
+// Write an event to a frame buffer of at least
+// vscphlp_getUDpFrameSizeFromEvent() bytes. The low nibble of pkttype is the
+// encryption (0 = none); the high nibble of the first byte is set to the
+// event frame type.
+//
+
+extern "C" int
+vscphlp_writeEventToUdpFrame(unsigned char* frame, size_t len, unsigned char pkttype, const vscpEvent* pEvent)
+{
+    if ((NULL == frame) || (NULL == pEvent)) {
+        return VSCP_ERROR_INVALID_POINTER;
+    }
+    return vscp_writeEventToFrame(frame, len, pkttype, pEvent) ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
+}
+
+extern "C" int
+vscphlp_writeEventExToUdpFrame(unsigned char* frame,
+                               size_t len,
+                               unsigned char pkttype,
+                               const vscpEventEx* pEventEx)
+{
+    if ((NULL == frame) || (NULL == pEventEx)) {
+        return VSCP_ERROR_INVALID_POINTER;
+    }
+    return vscp_writeEventExToFrame(frame, len, pkttype, pEventEx) ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
+}
+
 /*!
     \fn int vscphlp_writeVscpEventToString( vscpEvent *pEvent,
                                             char *p )

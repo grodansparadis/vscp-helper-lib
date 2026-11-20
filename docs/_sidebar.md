@@ -115,6 +115,8 @@
       * [vscphlp_writeVscpDataToString](vscphlp_writevscpdatatostring.md)
       * [vscphlp_writeVscpDataWithSizeToString](vscphlp_writevscpdatawithsizetostring.md)
       * [vscphlp_setVscpDataFromString](vscphlp_setvscpdatafromstring.md)
+      * [vscphlp_getVscpDataFromString](vscphlp_getvscpdatafromstring.md)
+      * [vscphlp_getVscpDataArrayFromString](vscphlp_getvscpdataarrayfromstring.md)
     * <small>**CANAL conversions**</small>
       * [vscphlp_convertCanalToEvent](vscphlp_convertcanaltoevent.md)
       * [vscphlp_convertCanalToEventEx](vscphlp_convertcanaltoeventex.md)
@@ -123,6 +125,8 @@
    * <small>**Date/Time**</small> 
      * [vscphlp_setEventDateTimeBlockToNow](vscphlp_seteventdatetimeblocktonow.md)
      * [vscphlp_setEventExDateTimeBlockToNow](vscphlp_seteventexdatetimeblocktonow.md)
+     * [vscphlp_setEventToNow](vscphlp_seteventtonow.md)
+     * [vscphlp_setEventExToNow](vscphlp_seteventextonow.md)
    * <small>**String**</small>
 
      * [vscphlp_convertEventToString](vscphlp_converteventtostring.md)
@@ -216,15 +220,14 @@
 
   * Encryption and Password handling
   
+    * [vscphlp_getEncryptionCodeFromToken](vscphlp_getencryptioncodefromtoken.md)
     * [vscphlp_getEncryptionTokenFromCode](vscphlp_getEncryptionTokenFromCode.md)
-    * [vscphlp_getEncryptionFrameSizeFromEvent](vscphlp_getEncryptionFrameSizeFromEvent.md)
-    * [vscphlp_getEncryptionFrameSizeFromEventEx](vscphlp_getEncryptionFrameSizeFromEventEx.md)
-    * [vscphlp_writeEventToEncryptionFrame](vscphlp_writeEventToEncryptionFrame.md)
-    * [vscphlp_writeEventExToEncryptionFrame](vscphlp_writeEventExToEncryptionFrame.md)
-    * [vscphlp_getEventFromEncryptionFrame](vscphlp_getEventFromEncryptionFrame.md)
-    * [vscphlp_getEventExFromEncryptionFrame](vscphlp_getEventExFromEncryptionFrame.md)
-    * [vscphlp_encryptFrame](vscphlp_encryptFrame.md)
-    * [vscphlp_decryptFrame](vscphlp_decryptFrame.md)
+    * [vscphlp_getUDpFrameSizeFromEvent](vscphlp_getudpframesizefromevent.md)
+    * [vscphlp_getUDpFrameSizeFromEventEx](vscphlp_getudpframesizefromeventex.md)
+    * [vscphlp_writeEventToUdpFrame](vscphlp_writeeventtoudpframe.md)
+    * [vscphlp_writeEventExToUdpFrame](vscphlp_writeeventextoudpframe.md)
+    * [vscphlp_encryptVscpUdpFrame](vscphlp_encryptvscpudpframe.md)
+    * [vscphlp_decryptVscpUdpFrame](vscphlp_decryptvscpudpframe.md)
     * [vscphlp_md5](vscphlphlp_md5.md)
     * [vscphlp_byteArray2HexStr](vscphlp_byteArray2HexStr.md)
     * [vscphlp_hexStr2ByteArray](vscphlp_hexStr2ByteArray.md)

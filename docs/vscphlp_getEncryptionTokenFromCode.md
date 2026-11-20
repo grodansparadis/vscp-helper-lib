@@ -1,12 +1,35 @@
 # vscphlp_getEncryptionTokenFromCode
 
-The public header declares `vscphlp_getEncryptionTokenFromCode`, but the current helper library does not define or export it. This page previously contained placeholder text rather than an API reference.
+```clike
+int vscphlp_getEncryptionTokenFromCode( int nEncryptionCode, char *pEncryptionToken, size_t len )
+```
 
-The Python wrapper has a method with this name, but it calls this missing native symbol and cannot be used with the current library.
+### Parameters
 
-No verified C/C++, Python, or JavaScript example is available for this function in the current build. See [bindings](bindings.md) for the available language interfaces.
+#### nEncryptionCode
+0 none, 1 AES-128, 2 AES-192, 3 AES-256.
+
+#### pEncryptionToken
+Buffer for the token (`""`, `AES128`, `AES192` or `AES256`).
+
+#### len
+Size of the buffer.
 
 ### Return Value
-This function is not implemented or exported by the current helper library, so no return codes are available for this build.
+`VSCP_ERROR_SUCCESS`, `VSCP_ERROR_INVALID_POINTER`, `VSCP_ERROR_PARAMETER` for a code that is not 0-3, `VSCP_ERROR_BUFFER_TO_SMALL`.
+
+### Description
+Gets the encryption token for an encryption code; the opposite of [vscphlp_getEncryptionCodeFromToken](vscphlp_getencryptioncodefromtoken.md).
+
+#### C example
+
+```clike
+char token[16];
+vscphlp_getEncryptionTokenFromCode(1, token, sizeof(token));   // "AES128"
+```
+
+#### Python
+
+The [Python binding](bindings.md#python) (pyvscphelper) has `vscphelper.getEncryptionTokenFromCode`.
 
 [filename](./bottom_copyright.md ':include')

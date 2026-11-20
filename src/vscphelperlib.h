@@ -702,7 +702,7 @@ vscphlp_decryptVscpUdpFrame( unsigned char *output,
 HELPERLIB_API size_t 
 vscphlp_getUDpFrameSizeFromEvent( vscpEvent *pEvent );
 HELPERLIB_API size_t 
-vscphlp_getUDpFrameSizeFromEventEx( vscpEvent *pEventEx );
+vscphlp_getUDpFrameSizeFromEventEx( vscpEventEx *pEventEx );
 
 HELPERLIB_API int 
 vscphlp_writeEventToUdpFrame( unsigned char *frame,
