@@ -449,7 +449,7 @@ TEST(BinaryLink, RawFrameRoundtripOverTcpAndTls)
             ASSERT_NE(nullptr, received.data);
             EXPECT_EQ(sent, std::vector<unsigned char>(received.data, received.data + received.size));
         }
-        for (size_t size : {size_t(1), size_t(65535)}) {
+        for (size_t size : {size_t(1), size_t(8191)}) { // Largest 13-bit record
             std::vector<unsigned char> sent(size, 0xa5);
             sent[0] = 0xe0;
             ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_sendBinaryFrame(session.handle, sent.data(), sent.size()));

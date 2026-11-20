@@ -45,7 +45,8 @@ def main():
         inner_length = len(body) + 16
         prefix = authenticated_prefix(inner_length)
         tag = hmac.new(mac_key, prefix + body, hashlib.sha256).digest()[:16]
-        return inner_length.to_bytes(2, "big") + body + tag
+        # [0x55][version 1:3 | length:13][body][tag], as vscp sends it
+        return prefix + body + tag
 
     class AuthenticatedHandler(fixtures.Handler):
         def binary(self, connection, pending, scenario):
@@ -59,23 +60,24 @@ def main():
             if fault:
                 plain = sample[:-1] + bytes((sample[-1] ^ 1,)) if fault == "crc" else sample
                 record = bytearray(encode(plain, algorithm))
+                # record = 3-byte prefix, then the body (its first byte is the type)
                 if fault == "length":
-                    record[:2] = b"\x00\x00"
+                    record[1:3] = b"\x20\x00"
                 elif fault == "type":
-                    record[2] ^= 0x10
+                    record[3] ^= 0x10
                 elif fault == "algorithm":
-                    record[2] = (record[2] & 0xf0) | (1 if algorithm != 1 else 2)
+                    record[3] = (record[3] & 0xf0) | (1 if algorithm != 1 else 2)
                 elif fault == "unencrypted":
-                    record[2] &= 0xf0
+                    record[3] &= 0xf0
                 elif fault == "ciphertext":
-                    record[3] ^= 1
+                    record[4] ^= 1
                 elif fault == "iv":
                     record[-17] ^= 1
                 elif fault == "tag":
                     record[-1] ^= 1
                 elif fault == "padding":
                     record[-17] ^= 1
-                    body = record[2:-16]
+                    body = record[3:-16]
                     prefix = authenticated_prefix(len(body) + 16)
                     record[-16:] = hmac.new(mac_key, prefix + body, hashlib.sha256).digest()[:16]
                 elif fault == "legacy":
@@ -94,21 +96,24 @@ def main():
                     return True
 
             while True:
-                while len(pending) < 2:
+                while len(pending) < 3:
                     data = connection.recv(8192)
                     if not data:
                         return True
                     pending += data
-                length = int.from_bytes(pending[:2], "big")
+                word = int.from_bytes(pending[1:3], "big")
+                if pending[0] != 0x55 or word >> 13 != 1:
+                    raise ValueError("Invalid authenticated record prefix from client")
+                length = word & 0x1fff
                 if not 49 <= length <= 8191 or (length - 33) % 16:
                     raise ValueError("Invalid authenticated record length from client")
-                while len(pending) < length + 2:
+                while len(pending) < length + 3:
                     data = connection.recv(8192)
                     if not data:
                         return True
                     pending += data
-                record, pending = pending[:length + 2], pending[length + 2:]
-                body = record[2:]
+                record, pending = pending[:length + 3], pending[length + 3:]
+                body = record[3:]
                 if body[0] & 0x0f != algorithm:
                     raise ValueError("Unexpected client encryption algorithm")
                 prefix = authenticated_prefix(length)
