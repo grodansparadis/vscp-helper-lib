@@ -1,7 +1,7 @@
 
 
 ```clike
-int vscphlp_serverShutDown( long handle )
+int vscphlp_shutDownServer( long handle )
 ```
 
 
@@ -14,18 +14,20 @@ Handle for the communication channel obtained from a call to [vscphlp_newsession
 `VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes:
 `VSCP_ERROR_INVALID_HANDLE`, `VSCP_ERROR_CONNECTION`, `VSCP_ERROR_ERROR`.
 
-These are the results of the exported `vscphlp_shutDownServer` spelling.
-
 ### Description
 Shut down the daemon. This is a privileged command on the server side.
 
 #### C availability
 
-The current public header declares `vscphlp_serverShutDown`, but the current
-implementation exports `vscphlp_shutDownServer` instead. A call using the
-header declaration cannot link against that implementation, so no C example
-is provided until the names are aligned. The Python wrapper handles either
-exported name.
+The older name `vscphlp_serverShutDown` is still exported as an alias for
+older code; use `vscphlp_shutDownServer`.
+
+```clike
+int rv = vscphlp_shutDownServer(handle);
+if (VSCP_ERROR_SUCCESS != rv) {
+    fprintf(stderr, "shutDownServer failed (error %d)\n", rv);
+}
+```
 
 #### Python example
 

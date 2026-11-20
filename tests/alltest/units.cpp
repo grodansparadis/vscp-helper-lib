@@ -133,3 +133,48 @@ TEST(UnitExpressions, EvaluateAndConvert)
   EXPECT_EQ(8, r);
   EXPECT_EQ(VSCP_ERROR_UNKNOWN_ITEM, vscphlp_convertMeasurementUnitExpr(TEMPERATURE, 1, 0, 0, &r));
 }
+
+TEST(MeasurementHelpers, CorrectAndOldNamesAreExported)
+{
+  // CLASS1.MEASUREMENT, temperature: data coding byte with sensor index 3,
+  // normalized integer coding, unit 1, then the value
+  unsigned char data[] = { 0x80 | (1 << 3) | 3, 0x02, 0x09, 0x2a }; // 23.46
+  vscpEvent ev;
+  memset(&ev, 0, sizeof(ev));
+  ev.vscp_class = 10;
+  ev.vscp_type  = TEMPERATURE;
+  ev.sizeData   = sizeof(data);
+  ev.pdata      = data;
+  EXPECT_EQ(3, vscphlp_getMeasurementSensorIndex(&ev));
+  EXPECT_EQ(3, vscphlp_getMeasuremenSensorIndex(&ev)); // Old name
+  // The old names of these are aliases; only that they link is checked here
+  int (*aliases[])(vscpEvent *) = { vscphlp_convertLevel1MeasurementToLevel2Double,
+                                    vscphlp_convertLevel1MeasuremenToLevel2Double,
+                                    vscphlp_convertLevel1MeasurementToLevel2String,
+                                    vscphlp_convertLevel1MeasuremenToLevel2String };
+  for (auto f : aliases) {
+    EXPECT_NE(nullptr, (void *) f);
+  }
+  int (*shutdown[])(long) = { vscphlp_shutDownServer, vscphlp_serverShutDown };
+  EXPECT_NE(nullptr, (void *) shutdown[1]);
+}
+
+TEST(MeasurementHelpers, Level1ToLevel2DoubleKeepsTheValue)
+{
+  // 3.14 as a string measurement, unit 1 (Celsius), sensor index 0
+  vscpEvent ev;
+  memset(&ev, 0, sizeof(ev));
+  ev.vscp_class = 10;
+  ev.vscp_type  = TEMPERATURE;
+  ev.sizeData   = 5;
+  ev.pdata      = new unsigned char[5] { 0x40 | (1 << 3), '3', '.', '1', '4' };
+  ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_convertLevel1MeasurementToLevel2Double(&ev));
+  EXPECT_EQ(1060, ev.vscp_class);
+  double v = 0;
+  ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_getVSCPMeasurementAsDouble(&ev, &v));
+  EXPECT_TRUE(near(3.14, v)) << v;
+  double r = 0;
+  ASSERT_EQ(VSCP_ERROR_SUCCESS, vscphlp_convertMeasurement(&ev, 0, &r)); // Celsius -> Kelvin
+  EXPECT_TRUE(near(276.29, r)) << r;
+  delete[] ev.pdata;
+}

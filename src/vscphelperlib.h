@@ -295,6 +295,9 @@ vscphlp_getGUID( long handle, unsigned char *pGUID );
 HELPERLIB_API int 
 vscphlp_setGUID( long handle, const unsigned char *pGUID );
 HELPERLIB_API int 
+vscphlp_shutDownServer( long handle );
+/* Old name of vscphlp_shutDownServer, kept for old callers */
+HELPERLIB_API int 
 vscphlp_serverShutDown( long handle );
 
 
@@ -554,6 +557,9 @@ vscphlp_getMeasurementAsFloat(const unsigned char *pNorm,
 HELPERLIB_API int 
 vscphlp_getMeasurementUnit( const vscpEvent *pEvent );
 HELPERLIB_API int 
+vscphlp_getMeasurementSensorIndex( const vscpEvent *pEvent );
+/* Misspelled name of vscphlp_getMeasurementSensorIndex, kept for old callers */
+HELPERLIB_API int 
 vscphlp_getMeasuremenSensorIndex( const vscpEvent *pEvent );
 HELPERLIB_API int 
 vscphlp_getMeasurementZone( const vscpEvent *pEvent );
@@ -562,11 +568,23 @@ vscphlp_getMeasurementSubZone( const vscpEvent *pEvent );
 HELPERLIB_API int 
 vscphlp_isMeasurement( const vscpEvent *pEvent );
 HELPERLIB_API int 
+vscphlp_convertLevel1MeasurementToLevel2Double( vscpEvent *pEventLevel1 );
+/* Misspelled name, kept for old callers */
+HELPERLIB_API int 
 vscphlp_convertLevel1MeasuremenToLevel2Double( vscpEvent *pEventLevel1 );
+HELPERLIB_API int 
+vscphlp_convertLevel1MeasurementToLevel2DoubleEx( vscpEventEx *pEventEx );
+/* Misspelled name, kept for old callers */
 HELPERLIB_API int 
 vscphlp_convertLevel1MeasuremenToLevel2DoubleEx( vscpEventEx *pEventEx );
 HELPERLIB_API int 
+vscphlp_convertLevel1MeasurementToLevel2String( vscpEvent *pEventLevel1 );
+/* Misspelled name, kept for old callers */
+HELPERLIB_API int 
 vscphlp_convertLevel1MeasuremenToLevel2String( vscpEvent *pEventLevel1 );
+HELPERLIB_API int 
+vscphlp_convertLevel1MeasurementToLevel2StringEx( vscpEventEx *pEventEx );
+/* Misspelled name, kept for old callers */
 HELPERLIB_API int 
 vscphlp_convertLevel1MeasuremenToLevel2StringEx( vscpEventEx *pEventEx );
 HELPERLIB_API int 

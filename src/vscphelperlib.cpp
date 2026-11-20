@@ -1123,6 +1123,13 @@ vscphlp_shutDownServer(long handle)
     return pvscpif->doCmdShutDown();
 }
 
+// Old name, kept for old callers
+extern "C" int
+vscphlp_serverShutDown(long handle)
+{
+    return vscphlp_shutDownServer(handle);
+}
+
 /*!
     This command sets an open interface in the receive loop (RCVLOOP).
     It does nothing other then putting the interface in the loop mode and
@@ -2591,6 +2598,13 @@ vscphlp_getMeasurementSensorIndex(const vscpEvent* pEvent)
     return vscp_getMeasurementSensorIndex(pEvent);
 }
 
+// Misspelled name, kept for old callers
+extern "C" int
+vscphlp_getMeasuremenSensorIndex(const vscpEvent* pEvent)
+{
+    return vscp_getMeasurementSensorIndex(pEvent);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // vscp_getMeasurementZone
 //
@@ -2794,6 +2808,13 @@ vscphlp_convertLevel1MeasurementToLevel2Double(vscpEvent* pEventLevel1)
               : VSCP_ERROR_ERROR);
 }
 
+// Misspelled name, kept for old callers
+extern "C" int
+vscphlp_convertLevel1MeasuremenToLevel2Double(vscpEvent* pEventLevel1)
+{
+    return vscphlp_convertLevel1MeasurementToLevel2Double(pEventLevel1);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // vscphlp_convertLevel1MeasurementToLevel2DoubleEx
 //
@@ -2804,6 +2825,13 @@ vscphlp_convertLevel1MeasurementToLevel2DoubleEx(vscpEventEx* pEventEx)
     return (vscp_convertLevel1MeasurementToLevel2DoubleEx(pEventEx)
               ? VSCP_ERROR_SUCCESS
               : VSCP_ERROR_ERROR);
+}
+
+// Misspelled name, kept for old callers
+extern "C" int
+vscphlp_convertLevel1MeasuremenToLevel2DoubleEx(vscpEventEx* pEventEx)
+{
+    return vscphlp_convertLevel1MeasurementToLevel2DoubleEx(pEventEx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2818,6 +2846,13 @@ vscphlp_convertLevel1MeasurementToLevel2String(vscpEvent* pEventLevel1)
               : VSCP_ERROR_ERROR);
 }
 
+// Misspelled name, kept for old callers
+extern "C" int
+vscphlp_convertLevel1MeasuremenToLevel2String(vscpEvent* pEventLevel1)
+{
+    return vscphlp_convertLevel1MeasurementToLevel2String(pEventLevel1);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // vscphlp_convertLevel1MeasurementToLevel2StringEx
 //
@@ -2828,6 +2863,13 @@ vscphlp_convertLevel1MeasurementToLevel2StringEx(vscpEventEx* pEventEx)
     return (vscp_convertLevel1MeasurementToLevel2StringEx(pEventEx)
               ? VSCP_ERROR_SUCCESS
               : VSCP_ERROR_ERROR);
+}
+
+// Misspelled name, kept for old callers
+extern "C" int
+vscphlp_convertLevel1MeasuremenToLevel2StringEx(vscpEventEx* pEventEx)
+{
+    return vscphlp_convertLevel1MeasurementToLevel2StringEx(pEventEx);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

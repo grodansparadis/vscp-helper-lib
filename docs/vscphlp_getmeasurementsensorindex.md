@@ -17,7 +17,7 @@ Level II indices are `0` to `255`.
 The pinned implementation can also return `-1` for valid Level I
 `MEASUREZONE` and `SETVALUEZONE` events with three or more data bytes.
 
-> **C API limitation:** The public header declares `vscphlp_getMeasuremenSensorIndex`, while the library exports `vscphlp_getMeasurementSensorIndex`. The Python wrapper resolves the exported name.
+> The misspelled `vscphlp_getMeasuremenSensorIndex` is still exported as an alias for older code; use `vscphlp_getMeasurementSensorIndex`.
 
 ### Description
 Get the sensor index for a measurement event. Supported measurement types

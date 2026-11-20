@@ -1,7 +1,7 @@
 
 
 ```clike
-int vscphlp_convertLevel1MeasuremenToLevel2StringEx( vscpEventEx *pEventEx )
+int vscphlp_convertLevel1MeasurementToLevel2StringEx( vscpEventEx *pEventEx )
 ```
 
 ### Parameters
@@ -12,7 +12,7 @@ Pointer to a VSCP event ex.
 ### Return Value
 `VSCP_ERROR_SUCCESS` (`0`) indicates success. Possible error codes: `VSCP_ERROR_ERROR`.
 
-> **C API limitation:** The header declares this name with `Measuremen`, but the library exports it with `Measurement`. The Python wrapper resolves the exported name.
+> The misspelled `vscphlp_convertLevel1MeasuremenToLevel2StringEx` is still exported as an alias for older code; use `vscphlp_convertLevel1MeasurementToLevel2StringEx`.
 
 ### Description
 Convert Level I measurement to a Level II string measurement event [CLASS2.MEASUREMENT_STRING). 
@@ -41,9 +41,9 @@ print(event.vscpclass, bytes(event.data[4:event.sizedata]).decode('ascii'))
 See the [Node.js binding](bindings.md#nodejs) for C API access and native library availability.
 
 ### See Also
-[vscphlp_convertLevel1MeasuremenToLevel2String](vscphlp_convertlevel1measurementolevel2string.md)
-[vscphlp_convertLevel1MeasuremenToLevel2Double](vscphlp_convertlevel1measurementolevel2double.md)
-[vscphlp_convertLevel1MeasuremenToLevel2DoubleEx](vscphlp_convertlevel1measurementolevel2doubleex.md)
+[vscphlp_convertLevel1MeasurementToLevel2String](vscphlp_convertlevel1measurementolevel2string.md)
+[vscphlp_convertLevel1MeasurementToLevel2Double](vscphlp_convertlevel1measurementolevel2double.md)
+[vscphlp_convertLevel1MeasurementToLevel2DoubleEx](vscphlp_convertlevel1measurementolevel2doubleex.md)
 
 
 
