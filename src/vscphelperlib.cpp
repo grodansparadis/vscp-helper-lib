@@ -34,6 +34,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <algorithm>
+#include <cstring>
+#include <memory>
+#include <functional>
+#include <mutex>
 #include <new>
 #include <vector>
 #include <openssl/crypto.h>
@@ -50,6 +54,7 @@
 #include <guid.h>
 #include <vscp-guid-parser.h>
 #include <vscphelper.h>
+#include <vscpunitexpr.h>
 #include <vscphelperlogging.h>
 #include <vscpremotetcpif.h>
 
@@ -2261,6 +2266,147 @@ vscphlp_getVSCPMeasurementFloat64AsString(const vscpEvent* pEvent,
     strncpy(pStrResult, str.c_str(), std::min(strlen(str.c_str()), len));
 #endif
     return rv ? VSCP_ERROR_SUCCESS : VSCP_ERROR_ERROR;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Measurement unit conversion (compiled unit table)
+//
+
+extern "C" int
+vscphlp_convertMeasurementUnit(unsigned short vscp_type,
+                               unsigned char from_unit,
+                               unsigned char to_unit,
+                               double value,
+                               double* presult)
+{
+    return vscp_convertMeasurementUnit(presult, vscp_type, from_unit, to_unit, value);
+}
+
+// Copy a string to a caller buffer (NULL buffer: not wanted)
+static int
+copyUnitString(const std::string& str, char* buf, size_t len)
+{
+    if (NULL == buf) {
+        return VSCP_ERROR_SUCCESS;
+    }
+    if ((0 == len) || (str.length() >= len)) {
+        if (len) {
+            buf[0] = '\0';
+        }
+        return VSCP_ERROR_BUFFER_TO_SMALL;
+    }
+    memcpy(buf, str.c_str(), str.length() + 1);
+    return VSCP_ERROR_SUCCESS;
+}
+
+extern "C" int
+vscphlp_getMeasurementUnitInfo(unsigned short vscp_type,
+                               unsigned char unit,
+                               char* name,
+                               size_t len_name,
+                               char* symbol_ascii,
+                               size_t len_symbol_ascii,
+                               char* symbol_utf8,
+                               size_t len_symbol_utf8,
+                               int* pconvertible)
+{
+    std::string strName, strAscii, strUtf8;
+    bool convertible = false;
+    int rv = vscp_getMeasurementUnitInfo(vscp_type, unit, strName, strAscii, strUtf8, &convertible);
+    if (VSCP_ERROR_SUCCESS != rv) {
+        return rv;
+    }
+    if (NULL != pconvertible) {
+        *pconvertible = convertible ? 1 : 0;
+    }
+    int rv1 = copyUnitString(strName, name, len_name);
+    int rv2 = copyUnitString(strAscii, symbol_ascii, len_symbol_ascii);
+    int rv3 = copyUnitString(strUtf8, symbol_utf8, len_symbol_utf8);
+    if (VSCP_ERROR_SUCCESS != rv1) return rv1;
+    if (VSCP_ERROR_SUCCESS != rv2) return rv2;
+    return rv3;
+}
+
+extern "C" int
+vscphlp_convertMeasurement(const vscpEvent* pEvent, unsigned char to_unit, double* presult)
+{
+    return vscp_convertMeasurement(presult, pEvent, to_unit);
+}
+
+extern "C" int
+vscphlp_convertMeasurementEx(const vscpEventEx* pEventEx, unsigned char to_unit, double* presult)
+{
+    return vscp_convertMeasurementEx(presult, pEventEx, to_unit);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Measurement unit conversion (expressions loaded at runtime)
+//
+// One set of units for the library. A load replaces it as a whole, so a
+// conversion running at the same time uses either the old or the new set.
+//
+
+static std::mutex g_unitExpressionsMutex;
+static std::shared_ptr<const CVscpUnitExpressions> g_unitExpressions;
+
+extern "C" int
+vscphlp_evalUnitExpression(const char* expr, double value, double* presult)
+{
+    if (NULL == expr) {
+        return VSCP_ERROR_INVALID_POINTER;
+    }
+    return vscp_evalUnitExpression(presult, expr, value);
+}
+
+static int
+installUnitExpressions(const std::function<int(CVscpUnitExpressions&)>& load)
+{
+    auto units = std::make_shared<CVscpUnitExpressions>();
+    int rv     = load(*units);
+    if (VSCP_ERROR_SUCCESS != rv) {
+        return rv;
+    }
+    std::lock_guard<std::mutex> lock(g_unitExpressionsMutex);
+    g_unitExpressions = units;
+    return VSCP_ERROR_SUCCESS;
+}
+
+extern "C" int
+vscphlp_loadUnitExpressions(const char* path)
+{
+    if (NULL == path) {
+        return VSCP_ERROR_INVALID_POINTER;
+    }
+    std::string strPath(path);
+    return installUnitExpressions([&](CVscpUnitExpressions& u) { return u.loadFile(strPath); });
+}
+
+extern "C" int
+vscphlp_loadUnitExpressionsFromString(const char* json)
+{
+    if (NULL == json) {
+        return VSCP_ERROR_INVALID_POINTER;
+    }
+    std::string strJson(json);
+    return installUnitExpressions([&](CVscpUnitExpressions& u) { return u.loadString(strJson); });
+}
+
+extern "C" int
+vscphlp_convertMeasurementUnitExpr(unsigned short vscp_type,
+                                   unsigned char from_unit,
+                                   unsigned char to_unit,
+                                   double value,
+                                   double* presult)
+{
+    std::shared_ptr<const CVscpUnitExpressions> units;
+    {
+        std::lock_guard<std::mutex> lock(g_unitExpressionsMutex);
+        units = g_unitExpressions;
+    }
+    if (!units) {
+        return VSCP_ERROR_INIT_MISSING; // vscphlp_loadUnitExpressions() first
+    }
+    return units->convert(presult, vscp_type, from_unit, to_unit, value);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

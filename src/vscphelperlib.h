@@ -473,6 +473,48 @@ HELPERLIB_API int
 vscphlp_getVSCPMeasurementFloat64AsString(const vscpEvent *pEvent,
                                             char *pStrResult,
                                             size_t len );
+
+/*
+  Measurement unit conversion (compiled unit table). All measurement
+  classes use the types and units of CLASS1.MEASUREMENT.
+*/
+HELPERLIB_API int
+vscphlp_convertMeasurementUnit(unsigned short vscp_type,
+                               unsigned char from_unit,
+                               unsigned char to_unit,
+                               double value,
+                               double *presult);
+HELPERLIB_API int
+vscphlp_getMeasurementUnitInfo(unsigned short vscp_type,
+                               unsigned char unit,
+                               char *name,
+                               size_t len_name,
+                               char *symbol_ascii,
+                               size_t len_symbol_ascii,
+                               char *symbol_utf8,
+                               size_t len_symbol_utf8,
+                               int *pconvertible);
+HELPERLIB_API int
+vscphlp_convertMeasurement(const vscpEvent *pEvent, unsigned char to_unit, double *presult);
+HELPERLIB_API int
+vscphlp_convertMeasurementEx(const vscpEventEx *pEventEx, unsigned char to_unit, double *presult);
+
+/*
+  Measurement unit conversion (expressions loaded at runtime from
+  vscp-units.json or vscp-hashtypeevents.json).
+*/
+HELPERLIB_API int
+vscphlp_evalUnitExpression(const char *expr, double value, double *presult);
+HELPERLIB_API int
+vscphlp_loadUnitExpressions(const char *path);
+HELPERLIB_API int
+vscphlp_loadUnitExpressionsFromString(const char *json);
+HELPERLIB_API int
+vscphlp_convertMeasurementUnitExpr(unsigned short vscp_type,
+                                   unsigned char from_unit,
+                                   unsigned char to_unit,
+                                   double value,
+                                   double *presult);
 HELPERLIB_API int 
 vscphlp_convertFloatToNormalizedEventData( unsigned char *pdata,
                                             unsigned short *psize,

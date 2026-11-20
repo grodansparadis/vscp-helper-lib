@@ -347,6 +347,8 @@ add_library(libvscphelper SHARED
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp-guid-parser.c
     ${vscp_SOURCE_DIR}/src/vscp/common/vscphelper.h
     ${VSCP_HELPER_CLIENT_DIR}/vscphelper.cpp
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscpunitexpr.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscpunitexpr.cpp
     ${vscp_SOURCE_DIR}/src/common/vscphelper-common.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/canal.h
     ${vscp_SOURCE_DIR}/src/common/vscpbase64.h
@@ -385,6 +387,8 @@ else()
     ${vscp_SOURCE_DIR}/src/vscp/common/vscp-guid-parser.c
     ${vscp_SOURCE_DIR}/src/vscp/common/vscphelper.h
     ${VSCP_HELPER_CLIENT_DIR}/vscphelper.cpp
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscpunitexpr.h
+    ${vscp_SOURCE_DIR}/src/vscp/common/vscpunitexpr.cpp
     ${vscp_SOURCE_DIR}/src/common/vscphelper-common.cpp
     ${vscp_SOURCE_DIR}/src/vscp/common/canal.h
     ${vscp_SOURCE_DIR}/src/common/vscpbase64.h

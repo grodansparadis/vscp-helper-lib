@@ -3,6 +3,15 @@ find_package(GTest CONFIG REQUIRED)
 add_executable(unittest unittest.cpp)
 target_link_libraries(unittest PRIVATE libvscphelper GTest::gtest)
 
+add_executable(unittest_units units.cpp)
+target_link_libraries(unittest_units PRIVATE libvscphelper GTest::gtest_main)
+target_compile_definitions(unittest_units PRIVATE
+  VSCP_UNITS_JSON="${vscp_SOURCE_DIR}/src/vscp/common/vscp-units.json")
+add_custom_target(test_units
+  COMMAND $<TARGET_FILE:unittest_units>
+  DEPENDS unittest_units
+  USES_TERMINAL)
+
 add_executable(unittest_tcp_transport tcp_transport.cpp)
 target_sources(unittest_tcp_transport PRIVATE ${vscp_SOURCE_DIR}/src/common/crc.c)
 target_link_libraries(unittest_tcp_transport PRIVATE libvscphelper GTest::gtest_main)

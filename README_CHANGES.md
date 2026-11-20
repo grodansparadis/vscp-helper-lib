@@ -7,6 +7,9 @@ tagged, rename **Unreleased** to the version and date, and start a new
 
 ## Unreleased
 
+- Measurement unit conversion for all measurement classes: `vscphlp_convertMeasurementUnit()`, `vscphlp_getMeasurementUnitInfo()`, `vscphlp_convertMeasurement()` and `vscphlp_convertMeasurementEx()` use the unit table compiled into the library. The alternative `vscphlp_loadUnitExpressions()`/`vscphlp_loadUnitExpressionsFromString()` and `vscphlp_convertMeasurementUnitExpr()` evaluate the conversion expressions of `vscp-units.json` at runtime; `vscphlp_evalUnitExpression()` evaluates one expression. Tests in `tests/alltest/units.cpp` (`test_units` target)
+- Floating point measurement values are read and written MSB first, as the specification says (from vscp: `vscphlp_convertFloatToFloatEventData()`/`vscphlp_makeFloatMeasurementEvent()` wrote them in host byte order, and MEASUREMENT32/64 values were read in host byte order)
+- Build against vscp master 50a5337c3 (measurement unit conversion)
 - Build against the latest vscp master (d75d4f5c6)
 ### TLS configuration
 
